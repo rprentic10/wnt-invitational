@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -367,6 +368,63 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 /* Avatar upload toast */
 #av-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#162e16;border:1px solid rgba(245,214,110,.3);border-radius:8px;padding:8px 16px;font-family:'DM Mono',monospace;font-size:11px;color:var(--my);opacity:0;pointer-events:none;transition:opacity .25s;z-index:300;white-space:nowrap;}
 #av-toast.show{opacity:1;}
+
+/* ── NOTICE TITLE ────────────────────────────────── */
+.notice{font-size:12px;line-height:1.8;}
+.notice-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--my);font-weight:500;margin-bottom:7px;}
+
+/* ── LIVE LEADERBOARD (Day 2 all-teams) ─────────── */
+.live-lb-wrap{margin-bottom:14px;}
+.live-lb-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,214,110,.5);margin-bottom:8px;}
+.live-lb{display:flex;gap:7px;flex-wrap:wrap;}
+.llb-card{flex:1;min-width:120px;background:rgba(16,36,16,.9);border:1px solid rgba(245,214,110,.15);border-radius:8px;padding:10px 12px;position:relative;}
+.llb-card.llb-lead{border-color:rgba(245,214,110,.5);background:rgba(245,214,110,.07);}
+.llb-pos{font-family:'DM Mono',monospace;font-size:9px;color:rgba(253,252,247,.25);letter-spacing:.08em;}
+.llb-team{font-family:'Lora',serif;font-size:13px;font-weight:600;color:var(--mw);margin:2px 0 5px;line-height:1.2;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.llb-edit-btn{background:none;border:none;color:rgba(245,214,110,.35);cursor:pointer;font-size:12px;padding:0;line-height:1;touch-action:manipulation;flex-shrink:0;}
+.llb-edit-btn:hover{color:var(--my);}
+.llb-score{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;line-height:1;color:var(--my);}
+.llb-score.dn{color:#6ab46a;}.llb-score.up{color:#e05a4a;}.llb-score.ev{color:var(--mw);}
+.llb-thru{font-family:'DM Mono',monospace;font-size:9px;color:rgba(253,252,247,.3);margin-top:3px;letter-spacing:.08em;text-transform:uppercase;}
+
+/* ── MATCH SCORES (Day 3) ────────────────────────── */
+.match-scores{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
+.ms-card{flex:1;min-width:145px;background:rgba(16,36,16,.9);border:1px solid rgba(245,214,110,.15);border-radius:8px;padding:10px 12px;}
+.ms-label{font-family:'DM Mono',monospace;font-size:8.5px;text-transform:uppercase;letter-spacing:.14em;color:rgba(253,252,247,.3);margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;}
+.ms-teams{font-family:'Lora',serif;font-size:11.5px;color:var(--mw);margin-bottom:5px;line-height:1.35;}
+.ms-vs{color:rgba(253,252,247,.3);font-size:10px;font-style:italic;margin:0 3px;}
+.ms-score-row{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;}
+.ms-score{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;line-height:1;}
+.ms-score.mA{color:var(--blue-lt);}.ms-score.mB{color:#e05a4a;}.ms-score.ev{color:var(--mw);}
+.ms-thru{font-family:'DM Mono',monospace;font-size:9px;color:rgba(253,252,247,.3);letter-spacing:.08em;text-transform:uppercase;}
+.ms-lead-label{font-family:'DM Mono',monospace;font-size:9px;color:rgba(253,252,247,.4);letter-spacing:.06em;}
+
+/* ── MOBILE NAV SHORT LABELS ─────────────────────── */
+.tab-short{display:none;}
+@media(max-width:500px){
+  .tab-full{display:none;}.tab-short{display:inline;}
+  .day-tab{font-size:9.5px;min-width:0;padding:10px 3px 11px;letter-spacing:.05em;}
+}
+
+/* ── CHAT PHOTO ──────────────────────────────────── */
+.chat-photo-btn{width:38px;height:38px;border-radius:50%;background:rgba(245,214,110,.09);border:1px solid rgba(245,214,110,.22);color:var(--my);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .15s;}
+.chat-photo-btn:active{background:rgba(245,214,110,.2);}
+.chat-img{max-width:230px;max-height:230px;border-radius:10px;display:block;margin-top:6px;cursor:pointer;border:1px solid rgba(245,214,110,.15);}
+.chat-dl-btn{font-family:'DM Mono',monospace;font-size:9px;color:rgba(245,214,110,.55);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;margin-top:4px;display:inline-flex;align-items:center;gap:4px;transition:color .15s;}
+.chat-dl-btn:hover{color:var(--my);}
+
+/* ── TEXT SIZE BUMPS ─────────────────────────────── */
+table.sc thead tr th{font-size:10px;}
+table.sc td.tl{font-size:13px;}
+table.lb-tbl td{font-size:13px;}
+table.lb-tbl th{font-size:10px;}
+.result-chip{background:rgba(20,42,20,.85);}
+.rc-val{font-size:20px;font-family:'Playfair Display',serif;font-weight:900;}
+.rc-val.dn{color:#6ab46a;}.rc-val.up{color:#e05a4a;}.rc-val.ev{color:var(--mw);}
+.rc-sub{font-size:10px;}
+.course-title{font-size:clamp(22px,4vw,34px);}
+.chat-bubble:has(.chat-img){background:transparent;padding:0;border:none;}
+.chat-msg.mine .chat-bubble:has(.chat-img){background:transparent;}
 </style>
 </head>
 <body>
@@ -392,11 +450,11 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   </div>
   <div class="offline-banner" id="offline-banner">⚠ Offline mode — scores saved locally only</div>
   <div class="day-tabs">
-    <button class="day-tab active" onclick="show('d1')">Thu · Shamble</button>
-    <button class="day-tab" onclick="show('d2')">Fri · Best Ball</button>
-    <button class="day-tab" onclick="show('d3')">Sat · Match Play</button>
-    <button class="day-tab" onclick="show('lb')">🏆 Board</button>
-    <button class="day-tab" onclick="show('chat')" id="chat-tab">💬 Chat<span class="tab-badge" id="chat-badge"></span></button>
+    <button class="day-tab active" onclick="show('d1')"><span class="tab-full">Thu · Shamble</span><span class="tab-short">Thu 9</span></button>
+    <button class="day-tab" onclick="show('d2')"><span class="tab-full">Fri · Best Ball</span><span class="tab-short">Fri 10</span></button>
+    <button class="day-tab" onclick="show('d3')"><span class="tab-full">Sat · Match Play</span><span class="tab-short">Sat 11</span></button>
+    <button class="day-tab" onclick="show('lb')"><span class="tab-full">🏆 Board</span><span class="tab-short">🏆</span></button>
+    <button class="day-tab" onclick="show('chat')" id="chat-tab"><span class="tab-full">💬 Chat</span><span class="tab-short">💬</span><span class="tab-badge" id="chat-badge"></span></button>
   </div>
 </div>
 
@@ -409,7 +467,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-badge"><div class="cb-label">Result</div><div class="cb-val" id="d1-badge">—</div></div>
   </div>
   <div class="result-row" id="d1-res"></div>
-  <div class="notice"><strong>3:00 PM — Group 1:</strong> Prentice (7) · Cromer (14) · Buzz (16) · Reese (12) &nbsp;|&nbsp; <strong>3:20 PM — Group 2:</strong> Otero (6) · Ryder (9) · Simon (17) · Pat (18)<br>Enter gross scores. Best gross per hole shown in the summary row. No handicap strokes — teams play straight up.</div>
+  <div class="notice"><div class="notice-title">4-Man Shamble</div>Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.</div>
   <div class="nine-toggle"><button class="nine-btn active" onclick="setNine('d1',false,this)">Front 9</button><button class="nine-btn" onclick="setNine('d1',true,this)">Back 9</button></div>
   <div class="sc-wrap" id="wrap-d1"><table class="sc" id="sc-d1"></table></div>
 </div>
@@ -420,8 +478,8 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div><div class="course-title">Troon North Pinnacle</div><div class="course-sub">Friday April 10, 2026 · 2-Man Best Ball · Net · Par 71 · Gold Tees</div></div>
     <div class="course-badge"><div class="cb-label">Result</div><div class="cb-val" id="d2-badge">—</div></div>
   </div>
-  <div class="result-row" id="d2-res"></div>
-  <div class="notice"><strong>8:55 AM — Match 1:</strong> Otero (0) + Simon (11) vs Pat (12) + Prentice (1) &nbsp;|&nbsp; <strong>9:35 AM — Match 2:</strong> Ryder (3) + Buzz (10) vs Reese (6) + Cromer (8)<br>Best net per hole counts for each pair. Lowest total net wins the match.</div>
+  <div class="live-lb-wrap"><div class="live-lb-title">Live Standings</div><div class="live-lb" id="d2-live-lb"></div></div>
+  <div class="notice"><div class="notice-title">2-Man Best Ball Stroke Play</div>Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.</div>
   <div class="nine-toggle"><button class="nine-btn active" onclick="setNine('d2',false,this)">Front 9</button><button class="nine-btn" onclick="setNine('d2',true,this)">Back 9</button></div>
   <div class="sc-wrap" id="wrap-d2"><table class="sc" id="sc-d2"></table></div>
 </div>
@@ -437,7 +495,8 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 pending</div></div>
     <div class="mb-side mB"><div class="mb-label mB">Side B</div><div class="mb-pairs">Ryder + Prentice<br>Buzz + Simon</div><div class="mb-pts mB" id="d3-pts-b">0</div></div>
   </div>
-  <div class="notice"><strong>9:12 AM:</strong> Otero (0) + Cromer (8) vs Ryder (3) + Prentice (1) &nbsp;|&nbsp; <strong>9:21 AM:</strong> Reese (6) + Pat (12) vs Buzz (10) + Simon (11)<br>Each hole won = 1 point. Halved = ½ each.</div>
+  <div class="match-scores" id="d3-matches"></div>
+  <div class="notice"><div class="notice-title">2-Man Best Ball Match Play</div>Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.</div>
   <div class="nine-toggle"><button class="nine-btn active" onclick="setNine('d3',false,this)">Front 9</button><button class="nine-btn" onclick="setNine('d3',true,this)">Back 9</button></div>
   <div class="sc-wrap" id="wrap-d3"><table class="sc" id="sc-d3"></table></div>
 </div>
@@ -477,12 +536,15 @@ pending</div></div>
       <option>Otero</option><option>Ryder</option><option>Simon</option><option>Pat</option>
     </select>
     <textarea class="chat-input" id="chat-input" placeholder="Say something…" rows="1" maxlength="500" onkeydown="onChatKey(event)" oninput="autoResize(this)"></textarea>
+    <button class="chat-photo-btn" onclick="triggerPhotoUpload()" title="Send a photo">📷</button>
     <button class="chat-send" onclick="sendMessage()" title="Send">➤</button>
   </div>
 </div>
 
 <!-- AVATAR UPLOAD (hidden) -->
 <input type="file" id="avatar-input" accept="image/*" style="display:none">
+<!-- CHAT PHOTO UPLOAD (hidden) -->
+<input type="file" id="chat-photo-input" accept="image/*" style="display:none">
 <div id="av-toast">📸 Photo updated!</div>
 
 <!-- NAME PICKER -->
@@ -503,7 +565,15 @@ const PLAYER_COLORS={
   prentice:'#b8860b',cromer:'#2471a3',buzz:'#1e8449',reese:'#c0392b',
   otero:'#7d3c98',ryder:'#148f77',simon:'#d35400',pat:'#5d6d7e'
 };
+const TEAM_DEFAULTS={
+  d1_g1:'Group 1',d1_g2:'Group 2',
+  d2_m1a:'Otero & Simon',d2_m1b:'Pat & Prentice',
+  d2_m2a:'Ryder & Buzz',d2_m2b:'Reese & Cromer',
+  d3_m1a:'Otero & Cromer',d3_m1b:'Ryder & Prentice',
+  d3_m2a:'Reese & Pat',d3_m2b:'Buzz & Simon'
+};
 let playerAvatars={};
+let teamNames={};
 
 const P = {
   prentice:{name:'Prentice',d1:7, d2:1, d3:1, d1g:1},
@@ -557,7 +627,7 @@ let offlineMode=false;
 let saveTimer=null;
 
 function getState(){
-  return{scores:JSON.parse(JSON.stringify(SC)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},v:1};
+  return{scores:JSON.parse(JSON.stringify(SC)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},teamNames:{...teamNames},v:1};
 }
 
 function applyRemoteState(state){
@@ -587,6 +657,9 @@ function applyRemoteState(state){
       if(state.avatars[k]&&state.avatars[k]!==playerAvatars[k]){playerAvatars[k]=state.avatars[k];avChanged=true;}
     });
     if(avChanged)renderChat();
+  }
+  if(state.teamNames&&typeof state.teamNames==='object'){
+    Object.keys(state.teamNames).forEach(k=>{if(state.teamNames[k])teamNames[k]=state.teamNames[k];});
   }
 }
 
@@ -854,8 +927,15 @@ function buildD1(){
   updateD1Res();
 }
 function buildD2(){
+  const pairKeys=[['d2_m1a','d2_m1b'],['d2_m2a','d2_m2b']];
   let html=theadHtml('d2')+'<tbody>'+ydsRow('d2')+hcpRow('d2')+parRow('d2');
-  D2.forEach(pair=>{const aN=pair.sA.map(k=>P[k].name).join('+'),bN=pair.sB.map(k=>P[k].name).join('+');html+=`<tr class="sec"><td colspan="100">${pair.label} · ${aN} vs ${bN}</td></tr>`;pair.sA.forEach(k=>html+=playerRow(k,'d2','a'));html+=bestRow(pair.sA,'d2',`★ Best Net · ${aN}`);pair.sB.forEach(k=>html+=playerRow(k,'d2','b'));html+=bestRow(pair.sB,'d2',`★ Best Net · ${bN}`);});
+  D2.forEach((pair,pi)=>{
+    html+=`<tr class="sec"><td colspan="100">${pair.label}</td></tr>`;
+    pair.sA.forEach(k=>html+=playerRow(k,'d2','a'));
+    html+=bestRow(pair.sA,'d2',`★ ${teamName(pairKeys[pi][0])}`);
+    pair.sB.forEach(k=>html+=playerRow(k,'d2','b'));
+    html+=bestRow(pair.sB,'d2',`★ ${teamName(pairKeys[pi][1])}`);
+  });
   document.getElementById('sc-d2').innerHTML=html+'</tbody>';
   updateD2Res();
 }
@@ -868,19 +948,53 @@ function buildD3(){
 
 // ── Result updates ───────────────────────────────
 function updateD1Res(){
-  const g1=bbNet(D1[0].keys,'d1'),g2=bbNet(D1[1].keys,'d1'),pt=cTot('d1'),chips=[];
-  if(g1.holes>0){const d=g1.tot-pt;chips.push({label:'Group 1 Best Gross',val:d===0?'E':d<0?String(d):'+'+d,sub:`${g1.holes}/18 holes`});}
-  if(g2.holes>0){const d=g2.tot-pt;chips.push({label:'Group 2 Best Gross',val:d===0?'E':d<0?String(d):'+'+d,sub:`${g2.holes}/18 holes`});}
+  const g1=bbLive(D1[0].keys,'d1'),g2=bbLive(D1[1].keys,'d1'),chips=[];
+  const tn1=teamName('d1_g1'),tn2=teamName('d1_g2');
+  if(g1.thru>0){const d=g1.tot-g1.par;chips.push({label:tn1,val:d===0?'E':d<0?String(d):'+'+d,sub:`THRU ${g1.thru}`,cls:d<0?'dn':d>0?'up':'ev',key:'d1_g1'});}
+  if(g2.thru>0){const d=g2.tot-g2.par;chips.push({label:tn2,val:d===0?'E':d<0?String(d):'+'+d,sub:`THRU ${g2.thru}`,cls:d<0?'dn':d>0?'up':'ev',key:'d1_g2'});}
   let badge='—';
-  if(g1.holes===18&&g2.holes===18){const d=g1.tot-g2.tot;const res=d<0?'Group 1 Wins':d>0?'Group 2 Wins':'All Square';chips.push({label:'Match Result',val:res,sub:d!==0?`by ${Math.abs(d)} strokes`:'Tied'});badge=res;}
+  if(g1.holes===18&&g2.holes===18){
+    const d1tot=g1.tot-cTot('d1'),d2tot=g2.tot-cTot('d1'),d=d1tot-d2tot;
+    badge=d<0?`${tn1}`:d>0?`${tn2}`:'Tie';
+    chips.push({label:'Final',val:d<0?`${tn1} Wins`:d>0?`${tn2} Wins`:'All Square',sub:d!==0?`by ${Math.abs(d)} strokes`:'Tied',cls:''});
+  }
   document.getElementById('d1-badge').textContent=badge;
-  document.getElementById('d1-res').innerHTML=chips.map(c=>`<div class="result-chip"><div class="rc-label">${c.label}</div><div class="rc-val">${c.val}</div><div class="rc-sub">${c.sub||''}</div></div>`).join('');
+  document.getElementById('d1-res').innerHTML=chips.map(c=>`<div class="result-chip"><div class="rc-label">${c.label}${c.key?` <button class="llb-edit-btn" onclick="editTeamName('${c.key}')" title="Rename">✏️</button>`:''}</div><div class="rc-val ${c.cls||''}">${c.val}</div><div class="rc-sub">${c.sub||''}</div></div>`).join('');
 }
 function updateD2Res(){
-  const chips=[];let badge='—';
-  D2.forEach((pair,pi)=>{const a=bbNet(pair.sA,'d2'),b=bbNet(pair.sB,'d2'),aN=pair.sA.map(k=>P[k].name).join('+'),bN=pair.sB.map(k=>P[k].name).join('+');if(a.holes===18&&b.holes===18){const d=a.tot-b.tot;chips.push({label:`Match ${pi+1} · ${pair.label}`,val:d<0?`${aN} Win`:d>0?`${bN} Win`:'Tie',sub:d!==0?`by ${Math.abs(d)} strokes`:'All square'});if(pi===0)badge=d<0?`${aN} Win`:d>0?`${bN} Win`:'Tie';}else if(a.holes+b.holes>0)chips.push({label:`Match ${pi+1} · ${pair.label}`,val:'In Progress',sub:`${Math.max(a.holes,b.holes)}/18`});});
-  document.getElementById('d2-badge').textContent=badge;
-  document.getElementById('d2-res').innerHTML=chips.map(c=>`<div class="result-chip"><div class="rc-label">${c.label}</div><div class="rc-val">${c.val}</div><div class="rc-sub">${c.sub||''}</div></div>`).join('');
+  const teams=[
+    {key:'d2_m1a',keys:D2[0].sA},
+    {key:'d2_m1b',keys:D2[0].sB},
+    {key:'d2_m2a',keys:D2[1].sA},
+    {key:'d2_m2b',keys:D2[1].sB}
+  ];
+  const liveData=teams.map(t=>{
+    const live=bbLive(t.keys,'d2');
+    const d=live.thru>0?live.tot-live.par:null;
+    return{...t,live,d};
+  });
+  liveData.sort((a,b)=>{
+    if(a.d===null&&b.d===null)return 0;
+    if(a.d===null)return 1;
+    if(b.d===null)return -1;
+    if(a.d!==b.d)return a.d-b.d;
+    return b.live.thru-a.live.thru;
+  });
+  const minD=liveData.filter(t=>t.d!==null).reduce((m,t)=>Math.min(m,t.d),Infinity);
+  let rank=0;
+  const html=liveData.map(t=>{
+    const isLead=t.d!==null&&t.d===minD;
+    if(t.d!==null)rank++;
+    const cls=t.d===null?'':(t.d<0?' dn':t.d>0?' up':' ev');
+    const scoreStr=t.d===null?'—':(t.d===0?'E':t.d<0?String(t.d):'+'+t.d);
+    const thruStr=t.live.holes===18?'FINAL':t.live.thru>0?`THRU ${t.live.thru}`:'No scores yet';
+    const rankLabel=t.d!==null?`${rank}.`:'';
+    return`<div class="llb-card${isLead?' llb-lead':''}"><div class="llb-pos">${rankLabel}</div><div class="llb-team">${teamName(t.key)}<button class="llb-edit-btn" onclick="editTeamName('${t.key}')" title="Rename">✏️</button></div><div class="llb-score${cls}">${scoreStr}</div><div class="llb-thru">${thruStr}</div></div>`;
+  }).join('');
+  document.getElementById('d2-live-lb').innerHTML=html;
+  const anyData=liveData.some(t=>t.d!==null);
+  const allDone=liveData.every(t=>t.live.holes===18);
+  document.getElementById('d2-badge').textContent=allDone&&anyData?teamName(liveData[0].key):anyData?'Live':'—';
 }
 function updateD3Board(){
   let tA=0,tB=0;
@@ -889,6 +1003,25 @@ function updateD3Board(){
   document.getElementById('d3-pts-b').textContent=fmt(tB);
   const d=tA-tB;
   document.getElementById('d3-status').textContent=(tA+tB===0)?'Scores\npending':d>0?`Side A\nleads +${fmt(d)}`:d<0?`Side B\nleads +${fmt(Math.abs(d))}`:'All\nSquare';
+  // Per-match live cards
+  const html=D3.map((pair,pi)=>{
+    let aP=0,bP=0,thru=0;
+    for(let h=0;h<18;h++){
+      const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);
+      if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}thru=h+1;}
+    }
+    const aN=pair.sA.map(k=>P[k].name).join(' + ');
+    const bN=pair.sB.map(k=>P[k].name).join(' + ');
+    const diff=aP-bP;
+    let scoreStr,scoreClass,leadTxt;
+    if(!thru){scoreStr='—';scoreClass='ev';leadTxt='No scores yet';}
+    else if(diff===0){scoreStr='AS';scoreClass='ev';leadTxt='All Square';}
+    else if(diff>0){scoreStr=`+${fmt(diff)}`;scoreClass='mA';leadTxt=`${aN}`;}
+    else{scoreStr=`+${fmt(Math.abs(diff))}`;scoreClass='mB';leadTxt=`${bN}`;}
+    const thruStr=!thru?'—':thru===18?'Final':`Thru ${thru}`;
+    return`<div class="ms-card"><div class="ms-label">Match ${pi+1}<span>${thruStr}</span></div><div class="ms-teams">${aN}<span class="ms-vs">vs</span>${bN}</div><div class="ms-score-row"><span class="ms-score ${scoreClass}">${scoreStr}</span><span class="ms-lead-label">${leadTxt}</span></div></div>`;
+  }).join('');
+  document.getElementById('d3-matches').innerHTML=html;
 }
 
 function updateLB(){
@@ -911,6 +1044,48 @@ function updateLB(){
 }
 
 function pulse(){const d=document.getElementById('sync-dot');if(!d)return;d.classList.add('pulse');setTimeout(()=>d.classList.remove('pulse'),1400);}
+
+// ═══════════════════════════════════════════════════
+// TEAM NAMES
+// ═══════════════════════════════════════════════════
+function teamName(key){return teamNames[key]||TEAM_DEFAULTS[key]||key;}
+
+function editTeamName(key){
+  const cur=teamName(key);
+  const newName=prompt('Team name:',cur);
+  if(newName===null)return;
+  teamNames[key]=newName.trim()||TEAM_DEFAULTS[key];
+  buildD1();buildD2();buildD3();updateLB();
+  pushRemote(getState(),false);
+}
+
+// ═══════════════════════════════════════════════════
+// SCORING HELPERS
+// ═══════════════════════════════════════════════════
+// Highest hole (1-indexed) where any player in keys has a score
+function groupThru(keys,day){
+  for(let h=17;h>=0;h--){
+    if(keys.some(k=>SC[day][k][h]!=null))return h+1;
+  }
+  return 0;
+}
+
+// bbNet that also returns par for holes played, and thru
+function bbLive(keys,day){
+  const isGross=day==='d1';
+  const par=cPar(day);
+  let tot=0,holes=0,parTot=0,thru=0;
+  for(let h=0;h<18;h++){
+    let best=null;
+    keys.forEach(k=>{
+      const g=SC[day][k][h];
+      const s=isGross?(g!=null?parseInt(g):null):net(g,phcp(k,day),h,day);
+      if(s!=null&&(best==null||s<best))best=s;
+    });
+    if(best!=null){tot+=best;holes++;parTot+=par[h];thru=h+1;}
+  }
+  return{tot,holes,par:parTot,thru};
+}
 
 // ═══════════════════════════════════════════════════
 // AVATARS
@@ -1015,7 +1190,6 @@ function renderChat(){
     const dl=fmtDateLabel(msg.ts);
     if(dl!==lastLabel){html+=`<div class="chat-day-div"><span>${dl}</span></div>`;lastLabel=dl;}
     const mine=msg.author===chatAuthor;
-    const txt=msg.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
     const aKey=Object.keys(P).find(k=>P[k].name===msg.author)||null;
     const avBg=aKey&&playerAvatars[aKey]?'background:#111':`background:${aKey?PLAYER_COLORS[aKey]||'#555':'#555'}`;
     const avInner=aKey&&playerAvatars[aKey]?`<img src="${playerAvatars[aKey]}" alt="${msg.author}">`:(msg.author[0]||'?').toUpperCase();
@@ -1023,7 +1197,14 @@ function renderChat(){
     const metaRow=mine
       ?`<div class="chat-av-row mine-row">${miniAv}<div class="chat-meta">${fmtTime(msg.ts)}</div></div>`
       :`<div class="chat-av-row">${miniAv}<div class="chat-meta">${msg.author} · ${fmtTime(msg.ts)}</div></div>`;
-    html+=`<div class="chat-msg ${mine?'mine':'theirs'}">${metaRow}<div class="chat-bubble">${txt}</div></div>`;
+    let bubbleContent;
+    if(msg.type==='image'&&msg.data){
+      bubbleContent=`<img class="chat-img" src="${msg.data}" alt="photo"><a class="chat-dl-btn" href="${msg.data}" download="wnt-photo-${msg.id||Date.now()}.jpg">⬇ Save photo</a>`;
+    }else{
+      const txt=(msg.text||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+      bubbleContent=txt;
+    }
+    html+=`<div class="chat-msg ${mine?'mine':'theirs'}">${metaRow}<div class="chat-bubble">${bubbleContent}</div></div>`;
   });
   container.querySelectorAll('.chat-msg,.chat-day-div').forEach(e=>e.remove());
   const tmp=document.createElement('div');tmp.innerHTML=html;
@@ -1044,6 +1225,34 @@ async function sendMessage(){
 
 function onChatKey(e){if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>600){e.preventDefault();sendMessage();}}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
+
+function triggerPhotoUpload(){
+  if(!chatAuthor){showNameOverlay();return;}
+  document.getElementById('chat-photo-input').click();
+}
+
+document.getElementById('chat-photo-input').addEventListener('change',function(e){
+  const file=e.target.files[0];
+  if(!file||!chatAuthor)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    const img=new Image();
+    img.onload=function(){
+      const MAX=480;let w=img.width,h=img.height;
+      if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
+      const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      const data=canvas.toDataURL('image/jpeg',0.45);
+      const msg={id:Date.now()+'-'+Math.random().toString(36).slice(2,7),author:chatAuthor,type:'image',text:'📷 Photo',data,ts:Date.now()};
+      chatMessages=dedupeMessages([...chatMessages,msg]);
+      renderChat();scrollBottom(true);
+      pushRemote(getState(),true);
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+  this.value='';
+});
 
 // ═══════════════════════════════════════════════════
 // NOTIFICATIONS
@@ -1070,7 +1279,8 @@ async function requestNotifPerm(){
 function notifyMsg(msg){
   playChime();
   if('Notification'in window&&Notification.permission==='granted'&&document.visibilityState==='hidden'){
-    new Notification(`${msg.author} · WNT Invitational`,{body:msg.text,icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⛳</text></svg>'});
+    const body=msg.type==='image'?'📷 Sent a photo':(msg.text||'');
+    new Notification(`${msg.author} · WNT Invitational`,{body,icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⛳</text></svg>'});
   }
 }
 
