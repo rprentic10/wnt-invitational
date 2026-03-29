@@ -258,6 +258,26 @@ table.sc tr.best-row td.nc{color:rgba(218,240,218,.85);}
 .bA{background:rgba(0,90,48,.18);color:#004a28;border:1px solid rgba(0,90,48,.45);}
 .bB{background:rgba(160,40,28,.15);color:#e87060;border:1px solid rgba(160,40,28,.28);}
 
+/* Drive tracking row */
+tr.drive-row td{background:#003820;padding:3px 2px;border:none;text-align:center;vertical-align:middle;}
+tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#39a865;}
+.drive-chip{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.04em;padding:2px 5px;border-radius:10px;cursor:pointer;transition:background .15s;white-space:nowrap;color:rgba(218,240,218,.45);background:transparent;border:1px solid rgba(218,240,218,.12);}
+.drive-chip.set{background:rgba(254,254,86,.18);color:#fefe56;border-color:rgba(254,254,86,.4);}
+.drive-chip:active{opacity:.7;}
+/* Drive popover */
+#drive-popover{position:fixed;z-index:400;background:#002a18;border:1px solid rgba(254,254,86,.25);border-radius:10px;padding:6px 4px;box-shadow:0 8px 32px rgba(0,0,0,.7);min-width:130px;}
+#drive-popover.hidden{display:none;}
+.dp-label{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);padding:2px 8px 6px;}
+.dp-btn{display:block;width:100%;text-align:left;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mw);padding:7px 12px;border-radius:6px;cursor:pointer;}
+.dp-btn:hover,.dp-btn:active{background:rgba(218,240,218,.1);}
+.dp-btn.active{color:#fefe56;font-weight:600;}
+.dp-clear{color:rgba(218,240,218,.35);font-size:11px;}
+/* Drive tally */
+.drive-tally{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px 4px;margin-top:2px;}
+.dt-chip{font-family:'DM Sans',sans-serif;font-size:11px;background:rgba(218,240,218,.07);border-radius:6px;padding:4px 9px;color:rgba(218,240,218,.6);}
+.dt-chip strong{color:var(--mw);font-weight:700;}
+.dt-chip .dt-count{color:#fefe56;font-weight:700;margin-left:4px;}
+
 /* Mobile: front/back 9 */
 @media(max-width:680px){
   .sc-wrap .h-back,.sc-wrap .col-in,.sc-wrap .col-grs,.sc-wrap .col-net{display:none;}
@@ -374,6 +394,8 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 /* ── NAME PICKER ─────────────────────────────────── */
 .name-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:flex;align-items:flex-end;justify-content:center;}
 .name-overlay.hidden{display:none;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:300;display:flex;align-items:flex-end;justify-content:center;}
+.overlay.hidden{display:none;}
 .name-sheet{background:#162e16;border-top:2px solid var(--my3);border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:20px 18px calc(20px + env(safe-area-inset-bottom));}
 .name-sheet-title{font-family:'Old Standard TT',serif;font-size:19px;font-style:italic;font-weight:700;color:var(--my);text-align:center;margin-bottom:3px;}
 .name-sheet-sub{font-family:'DM Sans',sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.38);text-align:center;margin-bottom:16px;}
@@ -438,10 +460,23 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .wc-trend.tr-even{background:rgba(218,240,218,.07);color:rgba(218,240,218,.45);}
 .wc-accept-btn{display:block;width:100%;padding:10px;border-radius:8px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;transition:background .15s;-webkit-tap-highlight-color:transparent;}
 .wc-accept-btn:active{background:rgba(254,254,86,.2);}
+.wc-cancel-btn{display:block;width:100%;padding:8px;border-radius:8px;border:1px solid rgba(218,240,218,.15);background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.wc-cancel-btn:active{background:rgba(218,90,74,.15);color:#e87060;border-color:rgba(218,90,74,.3);}
 .wc-result{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;display:inline-block;text-transform:uppercase;letter-spacing:.05em;}
 .wc-result.res-win{background:rgba(100,200,120,.2);color:#6dc884;}
 .wc-result.res-loss{background:rgba(218,240,218,.06);color:rgba(218,240,218,.32);}
 .wc-result.res-push{background:rgba(218,240,218,.07);color:rgba(218,240,218,.4);}
+/* Nassau legs */
+.nassau-legs{margin:10px 0 8px;border-radius:8px;overflow:hidden;border:1px solid rgba(218,240,218,.1);}
+.nassau-leg{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.18);border-bottom:1px solid rgba(218,240,218,.07);}
+.nassau-leg:last-child{border-bottom:none;}
+.nassau-leg-label{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.5);min-width:52px;}
+.nassau-leg-status{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);flex:1;text-align:center;}
+.nassau-leg-status.nl-prop{color:#6dc884;font-weight:700;}
+.nassau-leg-status.nl-acc{color:#e87060;font-weight:700;}
+.nassau-leg-status.nl-push{color:rgba(218,240,218,.4);}
+.nassau-leg-amt{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:rgba(218,240,218,.35);min-width:32px;text-align:right;}
+.nassau-note{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.35);margin:6px 0 10px;letter-spacing:.04em;}
 .wager-empty{text-align:center;padding:22px 16px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.22);background:rgba(16,36,16,.6);border-radius:8px;}
 .wager-standing-tbl{width:100%;border-collapse:collapse;}
 .wager-standing-tbl td{padding:8px 4px;border-bottom:1px solid rgba(218,240,218,.05);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mw);}
@@ -552,7 +587,8 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <table class="lb-tbl"><thead><tr><th>Player</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Shamble</span></th><th>Day 2<br><span style="font-weight:400;opacity:.5">Best Ball</span></th><th>Day 3<br><span style="font-weight:400;opacity:.5">Match Play</span></th><th>Total</th></tr></thead><tbody id="lb-wins"></tbody></table>
   </div>
   <div class="sec-block"><div class="lb-sec-title">Individual Scores</div>
-    <table class="lb-tbl"><thead><tr><th>Player</th><th>Hcp</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Gross</span></th><th>Day 2<br><span style="font-weight:400;opacity:.5">Net</span></th><th>Day 3<br><span style="font-weight:400;opacity:.5">Net</span></th></tr></thead><tbody id="lb-ind"></tbody></table>
+    <table class="lb-tbl"><thead><tr><th>Player</th><th>Hcp</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Gross*</span></th><th>Day 2<br><span style="font-weight:400;opacity:.5">Gross</span></th><th>Day 3<br><span style="font-weight:400;opacity:.5">Gross</span></th><th>Total</th></tr></thead><tbody id="lb-ind"></tbody></table>
+    <div style="margin-top:8px;font-size:10px;color:rgba(218,240,218,.3);letter-spacing:.06em;padding:0 2px">* Shamble format — best drive selected, all play from there</div>
   </div>
 </div>
 
@@ -683,6 +719,7 @@ function yTot(d){return yOut(d)+yIn(d);}
 // ═══════════════════════════════════════════════════
 const SC={d1:{},d2:{},d3:{}};
 let bets=[];
+let drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
 let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null};
 let acceptBetId=null;
 Object.keys(P).forEach(k=>{SC.d1[k]={};SC.d2[k]={};SC.d3[k]={};});
@@ -705,7 +742,7 @@ let offlineMode=false;
 let saveTimer=null;
 
 function getState(){
-  return{scores:JSON.parse(JSON.stringify(SC)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},teamNames:{...teamNames},bets:bets.slice(),v:1};
+  return{scores:JSON.parse(JSON.stringify(SC)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},teamNames:{...teamNames},bets:bets.slice(),drives:{g1:drives.g1.slice(),g2:drives.g2.slice()},v:1};
 }
 
 function applyRemoteState(state){
@@ -750,6 +787,19 @@ function applyRemoteState(state){
     updateBetsBadge();
   }
   delete teamNames['d2_m1a']; // always use default "Otero & Simon"
+  if(state.drives){
+    ['g1','g2'].forEach((g,gi)=>{
+      if(!Array.isArray(state.drives[g]))return;
+      const keys=D1[gi].keys;
+      state.drives[g].forEach((v,i)=>{
+        if(!v)return;
+        // Only restore a drive if at least one player in the group has a score for that hole
+        const hasScore=keys.some(k=>SC.d1[k][i]!=null);
+        if(hasScore)drives[g][i]=v;
+      });
+    });
+    if(currentTab==='d1')buildD1();
+  }
 }
 
 function dedupeMessages(msgs){
@@ -893,6 +943,7 @@ window.addEventListener('resize',()=>{
   const cp=document.getElementById('panel-chat');
   if(cp.classList.contains('active'))cp.style.top=document.getElementById('app-header').offsetHeight+'px';
 });
+document.addEventListener('click',closeDrivePopIfOutside,true);
 
 // ═══════════════════════════════════════════════════
 // F9/B9 TOGGLE
@@ -944,7 +995,9 @@ function playerRow(key,day,side){
   const par=cPar(day);
   const isGross=day==='d1';
   const badge=day==='d3'?(side==='a2'||side==='b2'?`<span class="badge bB">G2</span>`:`<span class="badge bA">G1</span>`):'';
-  let cells=`<td class="tl"><div class="player-cell">${getAvatarHtml(key)}<div class="player-info"><span>${P[key].name}${badge}</span><span class="player-hcp-mono">hcp ${P[key].d1}</span></div></div></td>`;
+  let driveCountHtml='';
+  if(day==='d1'){const grp=side==='a'?'g1':'g2';const dc=drives[grp].filter(k=>k===key).length;driveCountHtml=`<span style="margin-left:6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:${dc>0?'#39a865':'rgba(57,168,101,.4)'};">${dc}D</span>`;}
+  let cells=`<td class="tl"><div class="player-cell">${getAvatarHtml(key)}<div class="player-info"><span>${P[key].name}${badge}${driveCountHtml}</span><span class="player-hcp-mono">hcp ${P[key].d1}</span></div></div></td>`;
   let oG=0,iG=0,oN=0,iN=0,parPlayedG=0,parPlayedN=0;
   for(let h=0;h<18;h++){
     const g=sc[h];
@@ -1012,10 +1065,80 @@ function bbNet(keys,day){
   return{tot,holes};
 }
 
+// ── Drive tracking ───────────────────────────────
+let _drivePopCtx=null; // {grp, hole, keys, chipEl}
+
+function driveRow(keys,grp){
+  let cells=`<td class="tl">Drive Used</td>`;
+  for(let h=0;h<18;h++){
+    const sel=drives[grp][h];
+    const name=sel?P[sel].name.substring(0,5):'·';
+    const cls=sel?'drive-chip set':'drive-chip';
+    const hClass=h<9?'h-front':'h-back';
+    cells+=`<td class="${hClass}"><span class="${cls}" onclick="openDrivePop(event,'${grp}',${h})">${name}</span></td>`;
+    if(h===8)cells+=`<td class="col-out"></td>`;
+  }
+  cells+=`<td class="col-in"></td><td class="col-grs"></td><td class="col-net"></td>`;
+  return`<tr class="drive-row">${cells}</tr>`;
+}
+
+function driveTallyHtml(keys,grp){
+  const tally={};keys.forEach(k=>{tally[k]=0;});
+  drives[grp].forEach(k=>{if(k&&tally[k]!==undefined)tally[k]++;});
+  const total=drives[grp].filter(Boolean).length;
+  if(total===0)return'';
+  const chips=keys.map(k=>`<span class="dt-chip"><strong>${P[k].name}</strong><span class="dt-count">${tally[k]}</span></span>`).join('');
+  return`<div class="drive-tally">${chips}</div>`;
+}
+
+function openDrivePop(e,grp,hole){
+  e.stopPropagation();
+  const pop=document.getElementById('drive-popover');
+  const grpIdx=grp==='g1'?0:1;
+  const keys=D1[grpIdx].keys;
+  const cur=drives[grp][hole];
+  let html=`<div class="dp-label">Hole ${hole+1} drive</div>`;
+  keys.forEach(k=>{
+    html+=`<button class="dp-btn${cur===k?' active':''}" onclick="setDrive('${grp}',${hole},'${k}')">${P[k].name}${cur===k?' ✓':''}</button>`;
+  });
+  if(cur)html+=`<button class="dp-btn dp-clear" onclick="setDrive('${grp}',${hole},null)">Clear</button>`;
+  pop.innerHTML=html;
+  pop.classList.remove('hidden');
+  // Position near the chip
+  const rect=e.currentTarget.getBoundingClientRect();
+  const popW=140,popH=keys.length*36+40;
+  let left=rect.left+rect.width/2-popW/2;
+  let top=rect.bottom+6;
+  if(left+popW>window.innerWidth-8)left=window.innerWidth-popW-8;
+  if(left<8)left=8;
+  if(top+popH>window.innerHeight-8)top=rect.top-popH-6;
+  pop.style.left=left+'px';pop.style.top=top+'px';
+  _drivePopCtx={grp,hole};
+}
+
+function setDrive(grp,hole,playerKey){
+  drives[grp][hole]=playerKey;
+  document.getElementById('drive-popover').classList.add('hidden');
+  _drivePopCtx=null;
+  buildD1();
+  scheduleSave();
+}
+
+function closeDrivePopIfOutside(e){
+  const pop=document.getElementById('drive-popover');
+  if(!pop.classList.contains('hidden')&&!pop.contains(e.target))pop.classList.add('hidden');
+}
+
 // ── Build day scorecards ─────────────────────────
 function buildD1(){
   let html=theadHtml('d1')+'<tbody>'+ydsRow('d1')+parRow('d1');
-  D1.forEach(g=>{html+=`<tr class="sec"><td colspan="100">${g.label}</td></tr>`;g.keys.forEach(k=>html+=playerRow(k,'d1',g.side));html+=bestRow(g.keys,'d1',`★ Best Gross · ${g.label.split('·')[0].trim()}`);});
+  D1.forEach((g,gi)=>{
+    const grp=gi===0?'g1':'g2';
+    html+=`<tr class="sec"><td colspan="100">${g.label}</td></tr>`;
+    g.keys.forEach(k=>html+=playerRow(k,'d1',g.side));
+    html+=bestRow(g.keys,'d1',`★ Best Gross · ${g.label.split('·')[0].trim()}`);
+    html+=driveRow(g.keys,grp);
+  });
   document.getElementById('sc-d1').innerHTML=html+'</tbody>';
   updateD1Res();
 }
@@ -1136,10 +1259,10 @@ function updateLB(){
   const maxW=winRows[0]?.total||0;
   function wc(w){if(w===0)return`<td style="color:rgba(218,240,218,.22)">—</td>`;if(w===.5)return`<td style="color:var(--my3)">½</td>`;return`<td style="color:#6ab46a;font-weight:600">W</td>`;}
   document.getElementById('lb-wins').innerHTML=winRows.map((r,i)=>{const ic=r.total===maxW&&maxW>0,tr=ic?' 🏆':'',ts=ic?'color:var(--my);font-weight:700;font-size:15px':r.total>0?'color:rgba(218,240,218,.8)':'color:rgba(218,240,218,.28)';return`<tr><td><span class="pos ${ic?'g':''}">${i+1}</span>${r.name}${tr}</td>${wc(r.d1)}${wc(r.d2)}${wc(r.d3)}<td style="${ts}">${r.total>0?fmt(r.total):'—'}</td></tr>`;}).join('');
-  const scoreRows=Object.keys(P).map(k=>{const p=P[k];let d1G=0,d1H=0,d2N=0,d2H=0,d3N=0,d3H=0;for(let h=0;h<18;h++){const g=SC.d1[k][h];if(g!=null){d1G+=parseInt(g);d1H++;}}['d2','d3'].forEach(day=>{for(let h=0;h<18;h++){const n=net(SC[day][k][h],phcp(k,day),h,day);if(n!=null){if(day==='d2'){d2N+=n;d2H++;}else{d3N+=n;d3H++;}}}});return{name:p.name,hcp:p.d1,d1:{s:d1G,h:d1H},d2:{s:d2N,h:d2H},d3:{s:d3N,h:d3H},any:d1H+d2H+d3H>0};}).sort((a,b)=>{if(b.any!==a.any)return b.any-a.any;return(a.d1.s+a.d2.s+a.d3.s)-(b.d1.s+b.d2.s+b.d3.s);});
+  const scoreRows=Object.keys(P).map(k=>{const p=P[k];let d1G=0,d1H=0,d2N=0,d2H=0,d3N=0,d3H=0;for(let h=0;h<18;h++){const g=SC.d1[k][h];if(g!=null){d1G+=parseInt(g);d1H++;}}['d2','d3'].forEach(day=>{for(let h=0;h<18;h++){const g=SC[day][k][h];if(g!=null){if(day==='d2'){d2N+=parseInt(g);d2H++;}else{d3N+=parseInt(g);d3H++;}}}});return{name:p.name,hcp:p.d1,d1:{s:d1G,h:d1H},d2:{s:d2N,h:d2H},d3:{s:d3N,h:d3H},any:d1H+d2H+d3H>0};}).sort((a,b)=>{if(b.any!==a.any)return b.any-a.any;return(a.d1.s+a.d2.s+a.d3.s)-(b.d1.s+b.d2.s+b.d3.s);});
   function fG(x){if(x.h===0)return'—';return String(x.s);}
   function fN(x,day){if(x.h===0)return'—';return String(x.s);}
-  document.getElementById('lb-ind').innerHTML=scoreRows.map((r,i)=>`<tr><td><span class="pos">${i+1}</span>${r.name}</td><td style="color:rgba(218,240,218,.38)">${r.hcp}</td><td>${fG(r.d1)}</td><td>${fN(r.d2,'d2')}</td><td>${fN(r.d3,'d3')}</td></tr>`).join('');
+  document.getElementById('lb-ind').innerHTML=scoreRows.map((r,i)=>{const tot=(r.d1.h>0?r.d1.s:0)+(r.d2.h>0?r.d2.s:0)+(r.d3.h>0?r.d3.s:0);const totStr=r.any?String(tot):'—';return`<tr><td><span class="pos">${i+1}</span>${r.name}</td><td style="color:rgba(218,240,218,.38)">${r.hcp}</td><td>${fG(r.d1)}</td><td>${fN(r.d2,'d2')}</td><td>${fN(r.d3,'d3')}</td><td style="color:var(--my);font-weight:700">${totStr}</td></tr>`;}).join('');
 }
 
 function pulse(){const d=document.getElementById('sync-dot');if(!d)return;d.classList.add('pulse');setTimeout(()=>d.classList.remove('pulse'),1400);}
@@ -1444,6 +1567,23 @@ function settleBets(){
     } else if(b.type==='match'){
       const fn=b.day==='d2'?d2MatchWinner:d3MatchWinner;
       outcome=fn(b.matchIdx);
+    } else if(b.type==='nassau'){
+      const pair=D3[b.matchIdx]||{sA:[],sB:[]};
+      let aFront=0,bFront=0,aBack=0,bBack=0,frontDone=true,backDone=true;
+      for(let h=0;h<18;h++){
+        const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);
+        if(h<9){if(nA==null||nB==null)frontDone=false;else if(nA<nB)aFront++;else if(nB<nA)bFront++;else{aFront+=.5;bFront+=.5;}}
+        else{if(nA==null||nB==null)backDone=false;else if(nA<nB)aBack++;else if(nB<nA)bBack++;else{aBack+=.5;bBack+=.5;}}
+      }
+      function nassauLeg(aH,bH){return aH>bH?(b.propSide==='a'?'prop':'acc'):bH>aH?(b.propSide==='b'?'prop':'acc'):'push';}
+      if(!b.frontResult&&frontDone){b.frontResult=nassauLeg(aFront,bFront);changed=true;}
+      if(!b.backResult&&backDone){b.backResult=nassauLeg(aBack,bBack);changed=true;}
+      if(frontDone&&backDone&&!b.overallResult){
+        const allA=aFront+aBack,allB=bFront+bBack;
+        b.overallResult=nassauLeg(allA,allB);
+        b.status='settled';b.result='nassau';changed=true;
+      }
+      return; // skip the generic outcome block below
     }
     if(outcome){
       b.status='settled';
@@ -1471,6 +1611,16 @@ function netLedger(){
   const net={};
   Object.values(P).forEach(p=>{net[p.name]=0;});
   bets.forEach(b=>{
+    if(b.type==='nassau'){
+      ['frontResult','backResult','overallResult'].forEach(leg=>{
+        const r=b[leg];if(!r||r==='push')return;
+        const winner=r==='prop'?b.propName:b.accName;
+        const loser=r==='prop'?b.accName:b.propName;
+        if(winner&&net[winner]!==undefined)net[winner]+=b.amount;
+        if(loser&&net[loser]!==undefined)net[loser]-=b.amount;
+      });
+      return;
+    }
     if(b.status!=='settled')return;
     const amt=b.amount;
     if(b.result==='push')return;
@@ -1545,7 +1695,9 @@ function wagerCardHTML(bet,myName){
   }
 
   const canAccept=isOpen&&bet.propName!==myName&&!bet.accName;
+  const canCancel=isOpen&&bet.propName===myName;
   const acceptBtn=canAccept?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Take the Other Side →</button>`:'';
+  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel Bet</button>`:'';
 
   return `<div class="wager-card ${cardCls}">
   <div class="wc-day">${betDayLabel(bet.day)}</div>
@@ -1560,6 +1712,55 @@ function wagerCardHTML(bet,myName){
   </div>
   ${resultHtml}
   ${acceptBtn}
+  ${cancelBtn}
+</div>`;
+}
+
+// ── Nassau card ──────────────────────────────────
+function nassauCardHTML(bet,myName){
+  const isOpen=bet.status==='open';
+  const isSettled=bet.status==='settled';
+  const cardCls=isOpen?'wc-open':isSettled?'wc-settled-win':'';
+  const pair=D3[bet.matchIdx]||{sA:[],sB:[]};
+  const aN=pair.sA.map(k=>P[k].name).join(' & ');
+  const bN=pair.sB.map(k=>P[k].name).join(' & ');
+  const propTeam=bet.propSide==='a'?aN:bN;
+  const accTeam=bet.propSide==='a'?bN:aN;
+
+  // Leg status helpers
+  function legStatus(result,propTeam,accTeam){
+    if(!result)return{txt:'Pending',cls:''};
+    if(result==='push')return{txt:'Halved',cls:'nl-push'};
+    return result==='prop'?{txt:`${propTeam} win`,cls:'nl-prop'}:{txt:`${accTeam} win`,cls:'nl-acc'};
+  }
+  const fS=legStatus(bet.frontResult,propTeam,accTeam);
+  const bS=legStatus(bet.backResult,propTeam,accTeam);
+  const oS=legStatus(bet.overallResult,propTeam,accTeam);
+
+  const legsHtml=`<div class="nassau-legs">
+    <div class="nassau-leg"><span class="nassau-leg-label">Front 9</span><span class="nassau-leg-status ${fS.cls}">${fS.txt}</span><span class="nassau-leg-amt">$${bet.amount}</span></div>
+    <div class="nassau-leg"><span class="nassau-leg-label">Back 9</span><span class="nassau-leg-status ${bS.cls}">${bS.txt}</span><span class="nassau-leg-amt">$${bet.amount}</span></div>
+    <div class="nassau-leg"><span class="nassau-leg-label">Overall</span><span class="nassau-leg-status ${oS.cls}">${oS.txt}</span><span class="nassau-leg-amt">$${bet.amount}</span></div>
+  </div>`;
+
+  const canAccept=isOpen&&bet.propName!==myName&&!bet.accName;
+  const canCancel=isOpen&&bet.propName===myName;
+  const acceptBtn=canAccept?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Take the Other Side →</button>`:'';
+  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel Bet</button>`:'';
+
+  return`<div class="wager-card ${cardCls}">
+  <div class="wc-day">Sat · Day 3 · Grayhawk</div>
+  <div class="wc-desc">Nassau · Match ${bet.matchIdx+1}</div>
+  <div class="wc-line">${aN} vs ${bN}</div>
+  <div class="nassau-note">$${bet.amount} per leg · up to $${bet.amount*3} total</div>
+  <div class="wc-row">
+    <div class="wc-chip prop">${bet.propName} · ${propTeam}</div>
+    <div class="wc-vs">vs</div>
+    ${isOpen?`<div class="wc-chip slot">Open slot · ${accTeam}</div>`:`<div class="wc-chip acc">${bet.accName} · ${accTeam}</div>`}
+  </div>
+  ${legsHtml}
+  ${acceptBtn}
+  ${cancelBtn}
 </div>`;
 }
 
@@ -1571,15 +1772,16 @@ function buildWagers(){
   const activeBets=bets.filter(b=>b.status==='active');
   const settledBets=bets.filter(b=>b.status==='settled').slice().reverse();
 
+  function renderBet(b){return b.type==='nassau'?nassauCardHTML(b,myName):wagerCardHTML(b,myName);}
   document.getElementById('wager-open').innerHTML=
-    openBets.length?openBets.map(b=>wagerCardHTML(b,myName)).join(''):'<div class="wager-empty">No open bets yet</div>';
+    openBets.length?openBets.map(renderBet).join(''):'<div class="wager-empty">No open bets yet</div>';
 
   const ab=document.getElementById('wager-active-block');
-  if(activeBets.length){ab.style.display='';document.getElementById('wager-active').innerHTML=activeBets.map(b=>wagerCardHTML(b,myName)).join('');}
+  if(activeBets.length){ab.style.display='';document.getElementById('wager-active').innerHTML=activeBets.map(renderBet).join('');}
   else ab.style.display='none';
 
   const sb=document.getElementById('wager-settled-block');
-  if(settledBets.length){sb.style.display='';document.getElementById('wager-settled').innerHTML=settledBets.map(b=>wagerCardHTML(b,myName)).join('');}
+  if(settledBets.length){sb.style.display='';document.getElementById('wager-settled').innerHTML=settledBets.map(renderBet).join('');}
   else sb.style.display='none';
 
   // Net standing
@@ -1614,7 +1816,8 @@ function openProposeSheet(){
 function closeProposeSheet(){document.getElementById('propose-overlay').classList.add('hidden');}
 
 function setPropType(t){propSt.type=t;propSt.player=null;propSt.matchIdx=null;propSt.side=null;
-  ['ou','match'].forEach(x=>document.getElementById('ps-type-'+x).classList.toggle('sel',x===t));
+  if(t==='nassau'){propSt.day='d3';['d1','d2','d3'].forEach(x=>document.getElementById('ps-day-'+x).classList.toggle('sel',x==='d3'));}
+  ['ou','match','nassau'].forEach(x=>{const el=document.getElementById('ps-type-'+x);if(el)el.classList.toggle('sel',x===t);});
   renderPropPlayers();renderPropMatches();updateProposeUI();}
 function setPropDay(d){propSt.day=d;propSt.player=null;propSt.matchIdx=null;propSt.side=null;
   ['d1','d2','d3'].forEach(x=>document.getElementById('ps-day-'+x).classList.toggle('sel',x===d));
@@ -1638,10 +1841,10 @@ function renderPropPlayers(){
 function renderPropMatches(){
   const ouStep=document.getElementById('ps-player-step');
   const mStep=document.getElementById('ps-match-step');
-  const isMatch=propSt.type==='match';
+  const isMatch=propSt.type==='match'||propSt.type==='nassau';
   ouStep.style.display=isMatch?'none':'';mStep.style.display=isMatch?'':'none';
   if(!isMatch)return;
-  const pairs=propSt.day==='d2'?D2:D3;
+  const pairs=propSt.type==='nassau'?D3:(propSt.day==='d2'?D2:D3);
   const el=document.getElementById('ps-matches');
   el.innerHTML=pairs.map((pair,mi)=>{
     const aN=pair.sA.map(k=>P[k].name).join(' & ');
@@ -1650,23 +1853,27 @@ function renderPropMatches(){
   }).join('');
 }
 function updateProposeUI(){
+  const isNassau=propSt.type==='nassau';
   const isMatch=propSt.type==='match';
+  const isOU=propSt.type==='ou';
   const lineBox=document.getElementById('ps-line-box');
   const sideStep=document.getElementById('ps-side-step');
   const amtStep=document.getElementById('ps-amount-step');
   const sides=document.getElementById('ps-sides');
+  const dayStep=document.getElementById('ps-day-step');
+  if(dayStep)dayStep.style.display=isNassau?'none':'';
 
-  const subjectSet=isMatch?propSt.matchIdx!=null:propSt.player!=null;
+  const subjectSet=(isMatch||isNassau)?propSt.matchIdx!=null:propSt.player!=null;
   if(subjectSet){
-    lineBox.style.display='';
-    if(!isMatch){
+    lineBox.style.display=isNassau?'none':'';
+    if(isOU){
       const line=calcLine(propSt.player,propSt.day);
       const p=P[propSt.player];
       const cHcp=line-cTot(propSt.day);
       document.getElementById('ps-line-num').textContent=line;
       document.getElementById('ps-line-info').textContent=`${p.name} · Hcp ${P[propSt.player][propSt.day]} → Course hcp ${cHcp} · Par ${cTot(propSt.day)}`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div><div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div>`;
-    } else {
+    } else if(isMatch){
       const pairs=propSt.day==='d2'?D2:D3;
       const pair=pairs[propSt.matchIdx];
       const aN=pair.sA.map(k=>P[k].name).join(' & ');
@@ -1674,10 +1881,17 @@ function updateProposeUI(){
       document.getElementById('ps-line-num').textContent='Match';
       document.getElementById('ps-line-info').textContent=`${aN} vs ${bN} · Who wins?`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='a'?' sel':''}" data-side="a" onclick="setPropSide('a')">${aN}</div><div class="ps-opt${propSt.side==='b'?' sel':''}" data-side="b" onclick="setPropSide('b')">${bN}</div>`;
+    } else if(isNassau){
+      const pair=D3[propSt.matchIdx];
+      const aN=pair.sA.map(k=>P[k].name).join(' & ');
+      const bN=pair.sB.map(k=>P[k].name).join(' & ');
+      sides.innerHTML=`<div class="ps-opt${propSt.side==='a'?' sel':''}" data-side="a" onclick="setPropSide('a')">${aN}</div><div class="ps-opt${propSt.side==='b'?' sel':''}" data-side="b" onclick="setPropSide('b')">${bN}</div>`;
     }
     sideStep.style.display='';
   } else {lineBox.style.display='none';sideStep.style.display='none';}
 
+  const amtLabel=amtStep.querySelector('.ps-label');
+  if(amtLabel)amtLabel.textContent=isNassau?'Amount Per Leg ($)':'Amount ($)';
   amtStep.style.display=propSt.side?'':'none';
   const name=document.getElementById('ps-name').value;
   const amt=parseFloat(document.getElementById('ps-amount').value)||0;
@@ -1687,14 +1901,17 @@ function submitPropose(){
   const name=document.getElementById('ps-name').value;
   const amt=parseFloat(document.getElementById('ps-amount').value);
   if(!name||!amt)return;
+  const isNassau=propSt.type==='nassau';
   const bet={
     id:'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),
-    type:propSt.type,day:propSt.day,
+    type:propSt.type,day:isNassau?'d3':propSt.day,
     player:propSt.type==='ou'?propSt.player:undefined,
     line:propSt.type==='ou'?calcLine(propSt.player,propSt.day):undefined,
-    matchIdx:propSt.type==='match'?propSt.matchIdx:undefined,
+    matchIdx:(propSt.type==='match'||isNassau)?propSt.matchIdx:undefined,
     propSide:propSt.side,propName:name,amount:amt,
-    accName:null,status:'open',result:null,ts:Date.now()
+    accName:null,status:'open',result:null,
+    ...(isNassau?{frontResult:null,backResult:null,overallResult:null}:{}),
+    ts:Date.now()
   };
   bets.push(bet);
   pushRemote(getState(),true);
@@ -1712,6 +1929,11 @@ function openAcceptSheet(betId){
   if(bet.type==='ou'){
     const os=oppSide(bet.propSide);
     you=`You take <strong>${os.toUpperCase()} ${bet.line}</strong> on ${P[bet.player].name} · $${bet.amount}`;
+  } else if(bet.type==='nassau'){
+    const pair=D3[bet.matchIdx];
+    const accSide=oppSide(bet.propSide);
+    const teamName=accSide==='a'?pair.sA.map(k=>P[k].name).join(' & '):pair.sB.map(k=>P[k].name).join(' & ');
+    you=`You back <strong>${teamName}</strong> in a Nassau on Match ${bet.matchIdx+1}<br><span style="font-size:11px;color:rgba(218,240,218,.5)">$${bet.amount} per leg (Front 9, Back 9, Overall) · up to $${bet.amount*3} total</span>`;
   } else {
     const pairs=bet.day==='d2'?D2:D3;
     const pair=pairs[bet.matchIdx];
@@ -1720,10 +1942,18 @@ function openAcceptSheet(betId){
     you=`You back <strong>${teamName}</strong> to win Match ${bet.matchIdx+1} · $${bet.amount}`;
   }
   document.getElementById('ac-detail').innerHTML=`<div style="margin-bottom:6px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.38)">${betDayLabel(bet.day)}</div>${you}<div style="margin-top:8px;font-size:11px;color:rgba(218,240,218,.4)">${bet.propName} is on the other side</div>`;
-  document.getElementById('ac-name').value='';
+  const _allNames=['Prentice','Cromer','Buzz','Reese','Otero','Ryder','Simon','Pat'];
+  document.getElementById('ac-name').innerHTML='<option value="">Select…</option>'+_allNames.filter(n=>n!==bet.propName).map(n=>`<option>${n}</option>`).join('');
   document.getElementById('accept-overlay').classList.remove('hidden');
 }
 function closeAcceptSheet(){document.getElementById('accept-overlay').classList.add('hidden');acceptBetId=null;}
+function cancelBet(betId){
+  const bet=bets.find(b=>b.id===betId);
+  if(!bet||bet.status!=='open')return;
+  bet.status='void';
+  pushRemote(getState(),true);
+  buildWagers();
+}
 function submitAccept(){
   const name=document.getElementById('ac-name').value;
   if(!name||!acceptBetId)return;
@@ -1754,9 +1984,10 @@ function submitAccept(){
       <div class="ps-opts">
         <div class="ps-opt sel" id="ps-type-ou" onclick="setPropType('ou')">Over / Under</div>
         <div class="ps-opt" id="ps-type-match" onclick="setPropType('match')">Match Winner</div>
+        <div class="ps-opt" id="ps-type-nassau" onclick="setPropType('nassau')">Nassau <span style="font-size:10px;opacity:.6;font-weight:400">Day 3</span></div>
       </div>
     </div>
-    <div class="ps-step">
+    <div class="ps-step" id="ps-day-step">
       <div class="ps-label">Round</div>
       <div class="ps-opts">
         <div class="ps-opt sel" id="ps-day-d1" onclick="setPropDay('d1')">Thu · Day 1</div>
@@ -1789,6 +2020,11 @@ function submitAccept(){
     <button class="ps-submit" id="ps-submit" onclick="submitPropose()" disabled>Propose Bet</button>
     <button class="ps-cancel" onclick="closeProposeSheet()">Cancel</button>
   </div>
+</div>
+
+<!-- DRIVE POPOVER -->
+<div id="drive-popover" class="hidden">
+  <div class="dp-label">Select driver</div>
 </div>
 
 <!-- ACCEPT OVERLAY -->
