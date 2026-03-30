@@ -995,6 +995,7 @@ async function fetchRemote(){
 }
 
 async function pushRemote(state,immediate){
+  if(simActive)return;
   clearTimeout(saveTimer);
   saveLocal(state);
   const doIt=async()=>{
@@ -1088,7 +1089,7 @@ function runSim(){
   buildD1();buildD2();buildD3();updateLB();settleGameWagers();updateGWWidgets();buildLedger();buildWagers();updateBetsBadge();
   document.getElementById('sim-banner').style.display='flex';
 }
-function clearSim(){location.href=location.pathname;}
+function clearSim(){try{localStorage.removeItem(LS_DATA);}catch(e){}location.href=location.pathname;}
 
 // ═══════════════════════════════════════════════════
 // INIT
