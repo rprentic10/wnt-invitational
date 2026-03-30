@@ -808,7 +808,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">We-Ko-Pa Cholla</div>
     <div class="course-sub">Par 72 · Purple Tees · 6,740 Yards</div>
   </div>
-  <div class="game-block open" id="gb-d1">
+  <div class="game-block" id="gb-d1">
     <div class="game-block-hdr" onclick="toggleGameBlock('d1')"><span class="game-block-name">4-Man Shamble · Wagers</span><span class="game-block-chev">▾</span></div>
     <div class="game-block-body"><div class="game-block-inner">Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.
       <div style="margin-top:14px"><div class="gw-area" id="gw-area-d1"></div></div>
@@ -830,7 +830,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">Troon North Pinnacle</div>
     <div class="course-sub">Par 71 · Gold Tees · 6,635 Yards</div>
   </div>
-  <div class="game-block open" id="gb-d2">
+  <div class="game-block" id="gb-d2">
     <div class="game-block-hdr" onclick="toggleGameBlock('d2')"><span class="game-block-name">2-Man Best Ball · Wagers</span><span class="game-block-chev">▾</span></div>
     <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.
       <div style="margin-top:14px">
@@ -853,7 +853,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <div class="course-header">
     <div class="course-title">Grayhawk Talon</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
   </div>
-  <div class="game-block open" id="gb-d3">
+  <div class="game-block" id="gb-d3">
     <div class="game-block-hdr" onclick="toggleGameBlock('d3')"><span class="game-block-name">2-Man Match Play · Wagers</span><span class="game-block-chev">▾</span></div>
     <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.
       <div style="margin-top:14px">
@@ -1181,7 +1181,7 @@ function applyRemoteState(state){
     chatMessages=dedupeMessages(state.chat.messages);
     renderChat();
     const newCount=chatMessages.length;
-    if(newCount>oldCount&&currentTab!=='chat'){
+    if(newCount>oldCount&&currentTab!=='chat'&&appReady){
       chatUnread+=newCount-oldCount;
       updateBadge();
       const last=chatMessages[chatMessages.length-1];
@@ -1296,14 +1296,16 @@ function loadLocal(){
 // ═══════════════════════════════════════════════════
 function showApp(){
   // Hide loader first — prevents getting stuck if build calls throw
+  appReady=true;
   document.getElementById('loading-overlay').classList.add('hidden');
   document.getElementById('app-header').style.display='';
   document.getElementById('app-main').style.display='';
   document.getElementById('bottom-nav').classList.add('show');
   try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){console.error('showApp build error',e);}
   // One-shot: clear cached game wagers and push clean state
-  try{if(!localStorage.getItem('wnt_gw_reset_apr25')){gameWagers={};pushRemote(getState(),true);localStorage.setItem('wnt_gw_reset_apr25','1');settleGameWagers();updateGWWidgets();buildLedger();}}catch(e){}
+  try{if(!localStorage.getItem('wnt_gw_reset_apr25b')){gameWagers={};pushRemote(getState(),true);localStorage.setItem('wnt_gw_reset_apr25b','1');settleGameWagers();updateGWWidgets();buildLedger();}}catch(e){}
   initGameBlocks();
+  show('me');
   // Show onboarding for first-time users; else handle notif prompt normally
   const showingOnboard=maybeShowOnboarding();
   if(!showingOnboard){
@@ -1453,18 +1455,9 @@ let currentTab='d1';
 // ── Collapsible game + wager blocks ───────────────
 function toggleGameBlock(day){
   const el=document.getElementById('gb-'+day);
-  const opening=!el.classList.contains('open');
-  el.classList.toggle('open',opening);
-  try{localStorage.setItem('wnt_gb_'+day,opening?'1':'0');}catch(e){}
+  el.classList.toggle('open',!el.classList.contains('open'));
 }
-function initGameBlocks(){
-  ['d1','d2','d3'].forEach(day=>{
-    try{
-      const v=localStorage.getItem('wnt_gb_'+day);
-      if(v!==null)document.getElementById('gb-'+day).classList.toggle('open',v==='1');
-    }catch(e){}
-  });
-}
+function initGameBlocks(){}
 
 let currentScoresDay='d1';
 let currentWagersTab='bets';
@@ -2000,7 +1993,7 @@ document.getElementById('avatar-input').addEventListener('change',function(e){
 // ═══════════════════════════════════════════════════
 let chatMessages=[];
 let chatAuthor=null;
-let chatUnread=0;
+let chatUnread=0,appReady=false;
 
 function showNameOverlay(){document.getElementById('name-overlay').classList.remove('hidden');}
 function onNameChange(v){if(!v)return;chatAuthor=v;try{localStorage.setItem('wni-author',v);}catch(e){}document.getElementById('name-overlay').classList.add('hidden');updateBottomNavAvatar();buildD1();buildD2();buildD3();if(currentTab==='me')showMeTab(currentMeTab);}
