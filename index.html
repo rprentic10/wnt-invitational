@@ -128,6 +128,8 @@ body{
 .share-dismiss{background:none;border:none;color:rgba(218,240,218,.4);font-size:16px;cursor:pointer;flex-shrink:0;line-height:1;touch-action:manipulation;padding:2px 4px;}
 .offline-banner{background:rgba(224,90,74,.08);border-bottom:1px solid rgba(224,90,74,.2);padding:7px 14px;font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(224,90,74,.8);letter-spacing:.08em;text-align:center;display:none;}
 .offline-banner.show{display:block;}
+#sim-banner{display:none;background:#b85a00;border-bottom:2px solid rgba(255,200,80,.4);padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;align-items:center;justify-content:center;gap:14px;text-align:center;}
+#sim-banner button{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);color:#fff;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;padding:4px 11px;border-radius:6px;cursor:pointer;text-transform:uppercase;}
 
 /* ── MAIN / PANELS ───────────────────────────────── */
 .main{max-width:680px;margin:0 auto;padding:18px 14px 80px;}
@@ -257,8 +259,8 @@ table.sc tr.best-row td.nc{color:rgba(218,240,218,.85);}
 
 /* Drive tracking row */
 tr.drive-row td{background:#003820;padding:3px 2px;border:none;text-align:center;vertical-align:middle;}
-tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#39a865;}
-.drive-chip{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.04em;padding:2px 5px;border-radius:10px;cursor:pointer;transition:background .15s;white-space:nowrap;color:rgba(218,240,218,.45);background:transparent;border:1px solid rgba(218,240,218,.12);}
+tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#39a865;}
+.drive-chip{display:inline-block;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.04em;padding:2px 5px;border-radius:10px;cursor:pointer;transition:background .15s;white-space:nowrap;color:rgba(218,240,218,.45);background:transparent;border:1px solid rgba(218,240,218,.12);}
 .drive-chip.set{background:rgba(254,254,86,.18);color:#fefe56;border-color:rgba(254,254,86,.4);}
 .drive-chip:active{opacity:.7;}
 /* Drive popover */
@@ -330,7 +332,7 @@ tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-
 .ms-side.ms-b{color:#e87060;text-align:right;}
 .ms-middle{width:54px;flex-shrink:0;display:flex;justify-content:center;align-items:center;overflow:visible;}
 .ms-score{font-family:'DM Sans',sans-serif;font-size:24px;font-weight:900;line-height:1;display:inline-block;transition:transform .35s ease;}
-.ms-score.mA{color:#7ddba4;}.ms-score.mB{color:#e87060;}.ms-score.ev{color:var(--mw);}
+.ms-score.mA{color:#7ddba4;transform:translateX(-14px);}.ms-score.mB{color:#e87060;transform:translateX(14px);}.ms-score.ev{color:var(--mw);}
 .ms-thru{font-family:'DM Sans',sans-serif;font-size:9px;color:rgba(218,240,218,.3);letter-spacing:.08em;text-transform:uppercase;}
 
 /* ── LEADERBOARD ─────────────────────────────────── */
@@ -342,6 +344,12 @@ tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-
 .lc-label{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:rgba(218,240,218,.4);margin-bottom:5px;}
 .lc-val{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:900;color:var(--mw);text-transform:uppercase;letter-spacing:.03em;}
 .lc-course{font-family:'DM Sans',sans-serif;font-size:9px;color:rgba(218,240,218,.3);margin-top:3px;letter-spacing:.07em;text-transform:uppercase;}
+.lc-standings{margin-top:8px;display:flex;flex-direction:column;gap:5px;}
+.lc-st-row{display:flex;align-items:center;gap:6px;font-family:'DM Sans',sans-serif;}
+.lc-st-pos{font-size:9px;color:rgba(218,240,218,.35);width:24px;text-align:left;letter-spacing:.05em;flex-shrink:0;}
+.lc-st-name{flex:1;font-size:12px;font-weight:700;color:var(--mw);text-align:left;}
+.lc-st-thru{font-size:9px;color:rgba(218,240,218,.3);letter-spacing:.04em;flex-shrink:0;}
+.lc-st-score{font-size:13px;font-weight:900;width:44px;text-align:right;flex-shrink:0;}
 .lb-sec-title{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);margin-bottom:10px;text-align:center;}
 table.lb-tbl{width:100%;border-collapse:collapse;background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;overflow:hidden;}
 table.lb-tbl thead tr{border-bottom:1px solid rgba(254,254,86,.18);}
@@ -407,12 +415,16 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .tut-dismiss:active{opacity:.88;}
 .tut-skip{margin-top:10px;width:100%;padding:10px;border-radius:12px;background:transparent;border:1px solid rgba(218,240,218,.15);color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;touch-action:manipulation;}
 
-/* ── NOTICE (collapsible) ──────────────────────────── */
-.notice-title{cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;user-select:none;}
-.notice-chevron{font-size:11px;color:rgba(218,240,218,.45);transition:transform .22s;display:inline-block;}
-.notice.collapsed .notice-chevron{transform:rotate(-90deg);}
-.notice-body{overflow:hidden;transition:max-height .28s ease,opacity .2s;max-height:300px;opacity:1;}
-.notice.collapsed .notice-body{max-height:0;opacity:0;pointer-events:none;}
+/* ── GAME BLOCK (collapsible notice + wagers) ─────── */
+.game-block{margin-bottom:16px;}
+.game-block-hdr{display:flex;align-items:center;justify-content:space-between;background:rgba(218,240,218,.1);border:1px solid rgba(218,240,218,.18);border-radius:10px;padding:12px 16px;cursor:pointer;user-select:none;transition:border-radius .22s;}
+.game-block.open .game-block-hdr{border-radius:10px 10px 0 0;border-bottom-color:transparent;}
+.game-block-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mw);}
+.game-block-chev{font-size:20px;color:rgba(218,240,218,.45);transition:transform .22s;line-height:1;}
+.game-block.open .game-block-chev{transform:rotate(180deg);}
+.game-block-body{overflow:hidden;max-height:0;transition:max-height .32s ease;}
+.game-block.open .game-block-body{max-height:1200px;}
+.game-block-inner{background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.18);border-top:none;border-radius:0 0 10px 10px;padding:14px 14px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:rgba(218,240,218,.75);line-height:1.75;text-align:center;}
 
 /* ── NAME PICKER ─────────────────────────────────── */
 .name-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:flex;align-items:flex-end;justify-content:center;}
@@ -565,7 +577,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .wsv.zero{color:rgba(218,240,218,.3);}
 /* Propose/Accept sheet */
 .propose-sheet{background:#0f2810;border-top:2px solid rgba(254,254,86,.3);border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:20px 18px calc(24px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;}
-.propose-title{font-family:'Masters',serif;font-size:18px;font-weight:normal;color:var(--mw);margin-bottom:18px;}
+.propose-title{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:var(--mw);margin-bottom:18px;}
 .ps-step{margin-bottom:16px;}
 .ps-label{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(218,240,218,.38);margin-bottom:8px;}
 .ps-opts{display:flex;gap:7px;flex-wrap:wrap;}
@@ -604,6 +616,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
       <span class="sync-label">Live</span>
     </div>
   </div>
+  <div id="sim-banner">🎲 Simulation Mode — no data is being saved <button onclick="clearSim()">✕ Clear Sim</button></div>
   <div class="offline-banner" id="offline-banner">⚠ Offline mode — scores saved locally only</div>
   <div class="day-tabs">
     <button class="day-tab active" onclick="show('d1')">Thu</button>
@@ -624,9 +637,12 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">We-Ko-Pa Cholla</div>
     <div class="course-sub">Par 72 · Purple Tees · 6,740 Yards</div>
   </div>
-  <div class="notice" id="notice-d1"><div class="notice-title" onclick="toggleNotice('notice-d1')">4-Man Shamble<span class="notice-chevron">▾</span></div><div class="notice-body">Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.</div></div>
-  <div class="live-lb-title">Wagers</div>
-  <div class="gw-area" id="gw-area-d1"></div>
+  <div class="game-block open" id="gb-d1">
+    <div class="game-block-hdr" onclick="toggleGameBlock('d1')"><span class="game-block-name">4-Man Shamble · Wagers</span><span class="game-block-chev">▾</span></div>
+    <div class="game-block-body"><div class="game-block-inner">Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.
+      <div style="margin-top:14px"><div class="gw-area" id="gw-area-d1"></div></div>
+    </div></div>
+  </div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
     <div class="mb-side mA"><div class="mb-label mA" id="d1-label-a">Group 1</div><div class="mb-pairs">Prentice &amp; Cromer<br>Buzz &amp; Reese</div><div class="mb-pts mA" id="d1-score-a">—</div><div id="d1-thru-a" style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:4px">No scores yet</div></div>
@@ -643,12 +659,17 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">Troon North Pinnacle</div>
     <div class="course-sub">Par 71 · Gold Tees · 6,635 Yards</div>
   </div>
-  <div class="notice" id="notice-d2"><div class="notice-title" onclick="toggleNotice('notice-d2')">2-Man Best Ball Stroke Play<span class="notice-chevron">▾</span></div><div class="notice-body">Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.</div></div>
-  <div class="live-lb-title">Wagers</div>
-  <div class="gw-row">
-    <div class="gw-area" id="gw-area-d2-pot"></div>
-    <div class="gw-area" id="gw-area-d2-skins-0"></div>
-    <div class="gw-area" id="gw-area-d2-skins-1"></div>
+  <div class="game-block open" id="gb-d2">
+    <div class="game-block-hdr" onclick="toggleGameBlock('d2')"><span class="game-block-name">2-Man Best Ball · Wagers</span><span class="game-block-chev">▾</span></div>
+    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.
+      <div style="margin-top:14px">
+        <div class="gw-area" id="gw-area-d2-pot"></div>
+        <div class="gw-row" style="margin-top:8px">
+          <div class="gw-area" id="gw-area-d2-skins-0"></div>
+          <div class="gw-area" id="gw-area-d2-skins-1"></div>
+        </div>
+      </div>
+    </div></div>
   </div>
   <div class="live-lb-wrap" style="margin-top:20px"><div class="live-lb-title">Live Standings</div><table class="live-lb-tbl"><thead><tr><th>Place</th><th>Team</th><th class="r">Score</th><th class="r">Thru</th></tr></thead><tbody id="d2-live-lb"></tbody></table></div>
   <div class="live-lb-title" style="margin-top:20px">Scorecard</div>
@@ -661,17 +682,22 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <div class="course-header">
     <div class="course-title">Grayhawk Talon</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
   </div>
-  <div class="notice" id="notice-d3"><div class="notice-title" onclick="toggleNotice('notice-d3')">2-Man Best Ball Match Play<span class="notice-chevron">▾</span></div><div class="notice-body">Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.</div></div>
-  <div class="live-lb-title">Wagers</div>
-  <div class="gw-row">
-    <div class="gw-area" id="gw-area-d3-m0"></div>
-    <div class="gw-area" id="gw-area-d3-m1"></div>
-    <div class="gw-area" id="gw-area-d3-side"></div>
+  <div class="game-block open" id="gb-d3">
+    <div class="game-block-hdr" onclick="toggleGameBlock('d3')"><span class="game-block-name">2-Man Match Play · Wagers</span><span class="game-block-chev">▾</span></div>
+    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.
+      <div style="margin-top:14px">
+        <div class="gw-row">
+          <div class="gw-area" id="gw-area-d3-m0"></div>
+          <div class="gw-area" id="gw-area-d3-m1"></div>
+        </div>
+        <div class="gw-area" style="margin-top:8px" id="gw-area-d3-side"></div>
+      </div>
+    </div></div>
   </div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
-    <div class="mb-side mA"><div class="mb-label mA" id="d3-label-a">Side A</div><div class="mb-pairs">Otero / Cromer<br>Reese / Pat</div><div class="mb-pts mA" id="d3-pts-a">0</div></div>
-    <div class="mb-side mB"><div class="mb-label mB" id="d3-label-b">Side B</div><div class="mb-pairs">Ryder / Prentice<br>Buzz / Simon</div><div class="mb-pts mB" id="d3-pts-b">0</div></div>
+    <div class="mb-side mA"><div class="mb-label mA" id="d3-label-a">Team 1</div><div class="mb-pairs">Otero / Cromer<br>Reese / Pat</div><div class="mb-pts mA" id="d3-pts-a">0</div></div>
+    <div class="mb-side mB"><div class="mb-label mB" id="d3-label-b">Team 2</div><div class="mb-pairs">Ryder / Prentice<br>Buzz / Simon</div><div class="mb-pts mB" id="d3-pts-b">0</div></div>
   </div>
   <div class="match-scores" id="d3-matches"></div>
   <div class="live-lb-title" style="margin-top:20px">Scorecard</div>
@@ -688,7 +714,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <table class="lb-tbl"><thead><tr><th>Player</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Shamble</span></th><th>Day 2<br><span style="font-weight:400;opacity:.5">Best Ball</span></th><th>Day 3<br><span style="font-weight:400;opacity:.5">Match Play</span></th><th>Total</th></tr></thead><tbody id="lb-wins"></tbody></table>
   </div>
   <div class="sec-block"><div class="lb-sec-title">Individual Scores</div>
-    <table class="lb-tbl"><thead><tr><th>Player</th><th>Hcp</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Grs*</span></th><th colspan="2">Day 2<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th><th colspan="2">Day 3<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th><th colspan="2">Total<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th></tr></thead><tbody id="lb-ind"></tbody></table>
+    <table class="lb-tbl"><thead><tr><th>Player</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Grs*</span></th><th colspan="2">Day 2<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th><th colspan="2">Day 3<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th><th colspan="2">Total<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th></tr></thead><tbody id="lb-ind"></tbody></table>
     <div style="margin-top:8px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:11px;color:rgba(218,240,218,.4);font-style:italic;padding:0 2px">* What you could shoot if you hit the fairway on every tee shot...</div>
   </div>
 </div>
@@ -821,7 +847,7 @@ const TEAM_DEFAULTS={
   d2_m2a:'Ryder / Buzz',d2_m2b:'Reese / Cromer',
   d3_m1a:'Otero / Cromer',d3_m1b:'Ryder / Prentice',
   d3_m2a:'Reese / Pat',d3_m2b:'Buzz / Simon',
-  d3_sA:'Side A',d3_sB:'Side B'
+  d3_sA:'Team 1',d3_sB:'Team 2'
 };
 let playerAvatars={};
 let teamNames={};
@@ -929,6 +955,8 @@ function applyRemoteState(state){
     updateBetsBadge();
   }
   delete teamNames['d2_m1a']; // always use default "Otero & Simon"
+  if(teamNames['d3_sA']==='Side A')delete teamNames['d3_sA']; // migrate old default → "Team 1"
+  if(teamNames['d3_sB']==='Side B')delete teamNames['d3_sB']; // migrate old default → "Team 2"
   if(state.gameWagers&&typeof state.gameWagers==='object'){
     Object.keys(state.gameWagers).forEach(k=>{
       const r=state.gameWagers[k];if(!r)return;
@@ -1002,12 +1030,65 @@ function showApp(){
   document.getElementById('loading-overlay').classList.add('hidden');
   document.getElementById('app-header').style.display='';
   document.getElementById('app-main').style.display='';
+  initGameBlocks();
   setTimeout(maybeShowTutorial,400);
   if(offlineMode)document.getElementById('offline-banner').classList.add('show');
   if('Notification'in window&&Notification.permission==='default')
     document.getElementById('notif-prompt').classList.remove('hidden');
   else document.getElementById('notif-prompt').classList.add('hidden');
+  if(new URLSearchParams(location.search).get('sim')==='1')setTimeout(runSim,200);
 }
+
+// ═══════════════════════════════════════════════════
+// SIMULATION MODE
+// ═══════════════════════════════════════════════════
+let simActive=false;
+function _simRng(seed){let s=seed|0;return()=>{s=Math.imul(s^(s>>16),0x45d9f3b);s=Math.imul(s^(s>>16),0x45d9f3b);return((s^(s>>16))>>>0)/0x100000000;};}
+function runSim(){
+  simActive=true;
+  // Generate deterministic per-hole scores for every player on all 3 days
+  Object.keys(P).forEach(k=>{
+    const seed=k.split('').reduce((a,c)=>Math.imul(a,31)+c.charCodeAt(0),0);
+    ['d1','d2','d3'].forEach((day,di)=>{
+      const hcp=P[k][day],par=cPar(day);
+      const rng=_simRng(seed+(di+1)*99991);
+      SC[day][k]=par.map(p=>{
+        const r=rng();
+        const birdie=Math.max(0.02,0.11-hcp*0.004);
+        const even=Math.max(0.10,0.36-hcp*0.010);
+        const bogey=0.32,dbl=0.17;
+        if(r<birdie)return p-1;
+        if(r<birdie+even)return p;
+        if(r<birdie+even+bogey)return p+1;
+        if(r<birdie+even+bogey+dbl)return p+2;
+        return p+3;
+      });
+    });
+  });
+  // Fill D1 drives weighted toward lower-handicap players
+  ['g1','g2'].forEach((grp,gi)=>{
+    const keys=D1[gi].keys;
+    const weights=keys.map(k=>Math.max(1,22-P[k].d1));
+    const total=weights.reduce((a,b)=>a+b,0);
+    const rng=_simRng(gi*77777+12345);
+    drives[grp]=Array.from({length:18},()=>{const r=rng();let c=0;for(let i=0;i<keys.length;i++){c+=weights[i]/total;if(r<c)return keys[i];}return keys[keys.length-1];});
+  });
+  // Sample game wagers for all formats
+  const t=Date.now();
+  gameWagers={
+    d1:{status:'active',propName:'Prentice',accName:'Ryder',propSide:'a',amount:20,ts:t-6e4},
+    d2_pot:{status:'active',propName:'Otero',accName:'Buzz',propSide:'a',amount:50,ts:t-5e4},
+    d2_skins_0:{status:'active',propName:'Simon',accName:'Prentice',propSide:'a',amount:5,ts:t-4e4},
+    d2_skins_1:{status:'active',propName:'Ryder',accName:'Cromer',propSide:'a',amount:5,ts:t-3e4},
+    d3_m0:{status:'active',propName:'Otero',accName:'Ryder',propSide:'a',amount:25,ts:t-2e4},
+    d3_m1:{status:'active',propName:'Reese',accName:'Buzz',propSide:'a',amount:25,ts:t-1e4},
+    d3_side:{status:'active',propName:'Prentice',accName:'Simon',propSide:'b',amount:30,ts:t},
+  };
+  // Rebuild all views (no pushRemote — sim is local only)
+  buildD1();buildD2();buildD3();updateLB();settleGameWagers();updateGWWidgets();buildLedger();buildWagers();updateBetsBadge();
+  document.getElementById('sim-banner').style.display='flex';
+}
+function clearSim(){location.reload();}
 
 // ═══════════════════════════════════════════════════
 // INIT
@@ -1082,8 +1163,21 @@ function maybeShowTutorial(){
   document.getElementById('tutorial-overlay').classList.remove('hidden');
 }
 
-// ── Collapsible notice ────────────────────────────
-function toggleNotice(id){document.getElementById(id).classList.toggle('collapsed');}
+// ── Collapsible game + wager blocks ───────────────
+function toggleGameBlock(day){
+  const el=document.getElementById('gb-'+day);
+  const opening=!el.classList.contains('open');
+  el.classList.toggle('open',opening);
+  try{localStorage.setItem('wnt_gb_'+day,opening?'1':'0');}catch(e){}
+}
+function initGameBlocks(){
+  ['d1','d2','d3'].forEach(day=>{
+    try{
+      const v=localStorage.getItem('wnt_gb_'+day);
+      if(v!==null)document.getElementById('gb-'+day).classList.toggle('open',v==='1');
+    }catch(e){}
+  });
+}
 
 function show(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -1164,7 +1258,10 @@ function playerRow(key,day,side){
   const hp=phcp(key,day),sc=SC[day][key];
   const par=cPar(day);
   const isGross=day==='d1';
-  const badge=day==='d3'?(side==='a2'||side==='b2'?`<span class="badge bB">G2</span>`:`<span class="badge bA">G1</span>`):'';
+  let badge='';
+  if(day==='d3'){badge=side==='b2'?`<span class="badge bB">T2</span>`:`<span class="badge bA">T1</span>`;}
+  else if(day==='d2'){badge=side==='d2g2'?`<span class="badge bB">G2</span>`:`<span class="badge bA">G1</span>`;}
+
   let driveCountHtml='';
   if(day==='d1'){const grp=side==='a'?'g1':'g2';const dc=drives[grp].filter(k=>k===key).length;driveCountHtml=`<span style="margin-left:6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:${dc>0?'#39a865':'rgba(57,168,101,.4)'};">${dc}D</span>`;}
   let cells=`<td class="tl"><div class="player-cell">${getAvatarHtml(key)}<div class="player-info"><span>${P[key].name}${badge}${driveCountHtml}</span><span class="player-hcp-mono">hcp ${P[key].d1}</span></div></div></td>`;
@@ -1242,7 +1339,7 @@ function driveRow(keys,grp){
   let cells=`<td class="tl">Drive Used</td>`;
   for(let h=0;h<18;h++){
     const sel=drives[grp][h];
-    const name=sel?P[sel].name.substring(0,5):'·';
+    const name=sel?P[sel].name.slice(0,3):'·';
     const cls=sel?'drive-chip set':'drive-chip';
     const hClass=h<9?'h-front':'h-back';
     cells+=`<td class="${hClass}"><span class="${cls}" onclick="openDrivePop(event,'${grp}',${h})">${name}</span></td>`;
@@ -1317,10 +1414,11 @@ function buildD2(){
   const pairKeys=[['d2_m1a','d2_m1b'],['d2_m2a','d2_m2b']];
   let html=theadHtml('d2')+'<tbody>'+ydsRow('d2')+hcpRow('d2')+parRow('d2');
   D2.forEach((pair,pi)=>{
+    const grpSide=pi===0?'d2g1':'d2g2';
     html+=`<tr class="sec"><td colspan="100">${pair.label}</td></tr>`;
-    pair.sA.forEach(k=>html+=playerRow(k,'d2','a'));
+    pair.sA.forEach(k=>html+=playerRow(k,'d2',grpSide));
     html+=bestRow(pair.sA,'d2',teamName(pairKeys[pi][0]));
-    pair.sB.forEach(k=>html+=playerRow(k,'d2','b'));
+    pair.sB.forEach(k=>html+=playerRow(k,'d2',grpSide));
     html+=bestRow(pair.sB,'d2',teamName(pairKeys[pi][1]));
   });
   document.getElementById('sc-d2').innerHTML=html+'</tbody>';
@@ -1386,7 +1484,8 @@ function updateD2Res(){
     const thruStr=t.live.holes===18?'FINAL':t.live.thru>0?`THRU ${t.live.thru}`:'No scores yet';
     const rankLabel=t.d!==null?`${rank}.`:'';
     const editBtn=`<button class="llb-edit-btn" onclick="editTeamName('${t.key}')" title="Rename">✏️</button>`;
-    const shortName=gwLabel(teamName(t.key),14);
+    const _d2short={'d2_m1a':D2[0].sA,'d2_m1b':D2[0].sB,'d2_m2a':D2[1].sA,'d2_m2b':D2[1].sB};
+    const shortName=_d2short[t.key]?_d2short[t.key].map(k=>P[k].name.slice(0,3)).join('/'):gwLabel(teamName(t.key),12);
     return`<tr${isLead?' class="llb-lead"':''}><td class="llb-pos">${rankLabel}</td><td class="llb-team"><span class="llb-edit-wrap">${shortName} ${editBtn}</span></td><td class="llb-score${cls}">${scoreStr}</td><td class="llb-thru">${thruStr}</td></tr>`;
   }).join('');
   document.getElementById('d2-live-lb').innerHTML=html;
@@ -1412,10 +1511,10 @@ function updateD3Board(){
       const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);
       if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}thru=h+1;}
     }
-    const aN=pair.sA.map(k=>P[k].name).join('<br>');
-    const bN=pair.sB.map(k=>P[k].name).join('<br>');
-    const aNtxt=pair.sA.map(k=>P[k].name).join(' & ');
-    const bNtxt=pair.sB.map(k=>P[k].name).join(' & ');
+    const aN=pair.sA.map(k=>P[k].name.slice(0,3)).join('<br>');
+    const bN=pair.sB.map(k=>P[k].name.slice(0,3)).join('<br>');
+    const aNtxt=pair.sA.map(k=>P[k].name.slice(0,3)).join('/');
+    const bNtxt=pair.sB.map(k=>P[k].name.slice(0,3)).join('/');
     const diff=aP-bP;
     let scoreStr,scoreClass,leadTxt;
     if(!thru){scoreStr='—';scoreClass='ev';leadTxt='No scores yet';}
@@ -1431,12 +1530,10 @@ function updateD3Board(){
 function updateLB(){
   const chips=[],wins={};
   Object.keys(P).forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
-  const d1g1=bbNet(D1[0].keys,'d1'),d1g2=bbNet(D1[1].keys,'d1');
-  if(d1g1.holes===18&&d1g2.holes===18){const d=d1g1.tot-d1g2.tot;const res=d<0?'Group 1 Wins':d>0?'Group 2 Wins':'All Square';chips.push({label:'Day 1 · Shamble',course:'We-Ko-Pa Cholla',val:res,full:true});const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}
-  else chips.push({label:'Day 1 · Shamble',course:'We-Ko-Pa Cholla',val:d1g1.holes+d1g2.holes>0?'In Progress':'Pending',full:true});
-  D2.forEach((pair,pi)=>{const a=bbNet(pair.sA,'d2'),b=bbNet(pair.sB,'d2'),aN=pair.sA.map(k=>P[k].name).join(' + '),bN=pair.sB.map(k=>P[k].name).join(' + ');if(a.holes===18&&b.holes===18){const d=a.tot-b.tot;chips.push({label:`Day 2 · Match ${pi+1}`,course:`Troon North · ${pair.label}`,val:d<0?`${aN} Win`:d>0?`${bN} Win`:'Tie'});if(d<0)pair.sA.forEach(k=>wins[k].d2+=1);else if(d>0)pair.sB.forEach(k=>wins[k].d2+=1);else[...pair.sA,...pair.sB].forEach(k=>wins[k].d2+=.5);}else chips.push({label:`Day 2 · Match ${pi+1}`,course:`Troon North · ${pair.label}`,val:a.holes+b.holes>0?'In Progress':'Pending'});});
-  D3.forEach((pair,pi)=>{let aP=0,bP=0;for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}}}const aN=pair.sA.map(k=>P[k].name).join(' + '),bN=pair.sB.map(k=>P[k].name).join(' + ');if(aP+bP>0){const d=aP-bP;chips.push({label:`Day 3 · Match ${pi+1}`,course:`Grayhawk · ${pair.label}`,val:d>0?`${aN} lead +${fmt(d)}`:d<0?`${bN} lead +${fmt(Math.abs(d))}`:'All Square'});const hp=[...pair.sA,...pair.sB].reduce((mx,k)=>{let c=0;for(let h=0;h<18;h++)if(SC.d3[k][h]!=null)c++;return Math.max(mx,c);},0);if(hp===18){if(d>0)pair.sA.forEach(k=>wins[k].d3+=1);else if(d<0)pair.sB.forEach(k=>wins[k].d3+=1);else[...pair.sA,...pair.sB].forEach(k=>wins[k].d3+=.5);}}else chips.push({label:`Day 3 · Match ${pi+1}`,course:`Grayhawk · ${pair.label}`,val:'Pending'});});
-  document.getElementById('lb-chips').innerHTML=chips.map(c=>`<div class="lb-chip${c.full?' lb-chip-full':''}"><div class="lc-label">${c.label}</div><div class="lc-val">${c.val}</div><div class="lc-course">${c.course}</div></div>`).join('');
+  {const d1g1=bbNet(D1[0].keys,'d1'),d1g2=bbNet(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chips.push({label:'Day 1 · 4-Man Shamble',course:'We-Ko-Pa Cholla',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const leader=sorted[0];const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const behind=t.bb.tot-leader.bb.tot;const scoreStr=i===0?(allDoneD1?'WINS':'LEADS'):`+${behind}`;const scoreColor=i===0?(allDoneD1?'var(--my)':'#7ddba4'):'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;return`<div class="lc-st-row"><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${scoreColor}">${scoreStr}</span></div>`;}).join('');chips.push({label:'Day 1 · 4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa Cholla</div>`});}}
+  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbNet(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));if(allDone){const minTot=sorted[0].bb.tot;const winners=sorted.filter(t=>t.bb.tot===minTot);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chips.push({label:'Day 2 · 2-Man Best Ball',course:'Troon North Pinnacle',val:'Pending',full:true});}else{const leader=sorted[0];const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const behind=t.bb.tot-leader.bb.tot;const scoreStr=i===0?(allDone?'WINS':'LEADS'):`+${behind}`;const scoreColor=i===0?(allDone?'var(--my)':'#7ddba4'):'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;return`<div class="lc-st-row"><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${scoreColor}">${scoreStr}</span></div>`;}).join('');chips.push({label:'Day 2 · 2-Man Best Ball',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North Pinnacle</div>`});}}
+  D3.forEach((pair,pi)=>{let aP=0,bP=0;for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}}}const aN=pair.sA.map(k=>P[k].name).join(' + '),bN=pair.sB.map(k=>P[k].name).join(' + ');if(aP+bP>0){const d=aP-bP;chips.push({label:`Day 3 · Match ${pi+1}`,course:'Grayhawk Talon',val:d>0?`${aN} lead +${fmt(d)}`:d<0?`${bN} lead +${fmt(Math.abs(d))}`:'All Square'});const hp=[...pair.sA,...pair.sB].reduce((mx,k)=>{let c=0;for(let h=0;h<18;h++)if(SC.d3[k][h]!=null)c++;return Math.max(mx,c);},0);if(hp===18){if(d>0)pair.sA.forEach(k=>wins[k].d3+=1);else if(d<0)pair.sB.forEach(k=>wins[k].d3+=1);else[...pair.sA,...pair.sB].forEach(k=>wins[k].d3+=.5);}}else chips.push({label:`Day 3 · Match ${pi+1}`,course:'Grayhawk Talon',val:'Pending'});});
+  document.getElementById('lb-chips').innerHTML=chips.map(c=>`<div class="lb-chip${c.full?' lb-chip-full':''}"><div class="lc-label">${c.label}</div>${c.body||`<div class="lc-val">${c.val}</div><div class="lc-course">${c.course}</div>`}</div>`).join('');
   const winRows=Object.keys(P).map(k=>{const t=wins[k].d1+wins[k].d2+wins[k].d3;return{key:k,name:P[k].name,d1:wins[k].d1,d2:wins[k].d2,d3:wins[k].d3,total:t};}).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
   const maxW=winRows[0]?.total||0;
   function wc(w){if(w===0)return`<td style="color:rgba(218,240,218,.22)">—</td>`;if(w===.5)return`<td style="color:var(--my3)">½</td>`;return`<td style="color:#6ab46a;font-weight:600">W</td>`;}
@@ -1449,7 +1546,7 @@ function updateLB(){
     const totN=(r.d1.h>0?r.d1.s:0)+(r.d2.h>0?r.d2.n:0)+(r.d3.h>0?r.d3.n:0);
     const totGStr=r.any?String(totG):'—';
     const totNStr=r.any?String(totN):'—';
-    return`<tr><td><span class="pos">${i+1}</span>${r.name}</td><td style="color:rgba(218,240,218,.38)">${r.hcp}</td><td>${fG(r.d1)}</td>${fGN(r.d2)}${fGN(r.d3)}<td style="color:var(--my);font-weight:700">${totGStr}</td><td style="color:rgba(254,254,86,.55);font-weight:700">${totNStr}</td></tr>`;
+    return`<tr><td><span class="pos">${i+1}</span>${r.name}</td><td>${fG(r.d1)}</td>${fGN(r.d2)}${fGN(r.d3)}<td style="color:var(--my);font-weight:700">${totGStr}</td><td style="color:rgba(254,254,86,.55);font-weight:700">${totNStr}</td></tr>`;
   }).join('');
 }
 
@@ -1747,12 +1844,12 @@ function gwLabel(name,maxLen=10){return name.length>maxLen?name.slice(0,maxLen-1
 function gwInfo(key){
   const m={
     d1:{label:'Shamble Match Wager',type:'match',aLabel:gwLabel(teamName('d1_g1'),14),bLabel:gwLabel(teamName('d1_g2'),14),aKeys:D1[0].keys,bKeys:D1[1].keys},
-    d2_pot:{label:'Best Ball Ante',type:'pot'},
-    d2_skins_0:{label:'Group 1 Skins',type:'skins',gi:0,keys:[...D2[0].sA,...D2[0].sB]},
-    d2_skins_1:{label:'Group 2 Skins',type:'skins',gi:1,keys:[...D2[1].sA,...D2[1].sB]},
+    d2_pot:{label:'Best Ball Wager',type:'pot'},
+    d2_skins_0:{label:'Group 1 Skins Wager',type:'skins',gi:0,keys:[...D2[0].sA,...D2[0].sB]},
+    d2_skins_1:{label:'Group 2 Skins Wager',type:'skins',gi:1,keys:[...D2[1].sA,...D2[1].sB]},
     d3_m0:{label:'Match 1 Wager',type:'match',compact:true,aLabel:D3[0].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[0].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[0].sA,bKeys:D3[0].sB},
     d3_m1:{label:'Match 2 Wager',type:'match',compact:true,aLabel:D3[1].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[1].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[1].sA,bKeys:D3[1].sB},
-    d3_side:{label:'Team Wager',type:'match',compact:true,aLabel:gwLabel(teamName('d3_sA')),bLabel:gwLabel(teamName('d3_sB')),aKeys:[...D3[0].sA,...D3[1].sA],bKeys:[...D3[0].sB,...D3[1].sB]},
+    d3_side:{label:'Team Match Wager',type:'match',compact:true,aLabel:gwLabel(teamName('d3_sA')),bLabel:gwLabel(teamName('d3_sB')),aKeys:[...D3[0].sA,...D3[1].sA],bKeys:[...D3[0].sB,...D3[1].sB]},
   };
   return m[key]||null;
 }
@@ -1883,7 +1980,7 @@ function gameWagerWidget(key){
           <button class="gw-cancel-form-btn" onclick="hideGWPropose('${key}')">Cancel</button>
         </div>`;
       } else {
-        body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Player Ante</button>`;
+        body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Wager</button>`;
       }
     } else if(gw.status==='open'){
       const isProposer=gw.propName===myName;
@@ -1968,7 +2065,7 @@ function gameWagerWidget(key){
           <button class="gw-cancel-form-btn" onclick="hideGWPropose('${key}')">Cancel</button>
         </div>`;
       } else {
-        body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Skins Wager</button>`;
+        body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Wager</button>`;
       }
     } else if(gw.status==='open'){
       const isProposer=gw.propName===myName;
@@ -2444,12 +2541,12 @@ function buildLedger(){
   // ── 2. Breakdown ──
   const gwMap={
     d1:{day:'Day 1',name:'Shamble Match'},
-    d2_pot:{day:'Day 2',name:'Best Ball Ante'},
+    d2_pot:{day:'Day 2',name:'Best Ball'},
     d2_skins_0:{day:'Day 2',name:'Group 1 Skins'},
     d2_skins_1:{day:'Day 2',name:'Group 2 Skins'},
     d3_m0:{day:'Day 3',name:'Match 1'},
     d3_m1:{day:'Day 3',name:'Match 2'},
-    d3_side:{day:'Day 3',name:'Side A vs B'},
+    d3_side:{day:'Day 3',name:'Team 1 vs Team 2'},
   };
   let bkHtml='<div style="background:rgba(16,36,16,.9);border:1px solid rgba(218,240,218,.1);border-radius:10px;overflow:hidden;margin-bottom:14px;">';
   bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Game Wagers</div>';
