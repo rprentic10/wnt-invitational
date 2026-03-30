@@ -309,7 +309,7 @@ tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-
 /* table leaderboard */
 .live-lb-tbl{width:100%;border-collapse:collapse;background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;overflow:hidden;}
 .live-lb-tbl thead tr{border-bottom:1px solid rgba(254,254,86,.18);}
-.live-lb-tbl thead th{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.4);padding:8px 12px;text-align:left;}
+.live-lb-tbl thead th{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.5);padding:8px 12px;text-align:left;}
 .live-lb-tbl thead th.r{text-align:right;}
 .live-lb-tbl tbody tr{border-bottom:1px solid rgba(255,255,255,.05);}
 .live-lb-tbl tbody tr:last-child{border-bottom:none;}
@@ -341,7 +341,7 @@ tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-
 .lb-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
 .lb-chip{flex:1;min-width:calc(50% - 4px);background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:8px;padding:11px 13px;text-align:center;}
 .lb-chip-full{width:100%;flex:none;min-width:0;}
-.lc-label{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:rgba(218,240,218,.4);margin-bottom:5px;}
+.lc-label{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(218,240,218,.5);margin-bottom:5px;}
 .lc-val{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:900;color:var(--mw);text-transform:uppercase;letter-spacing:.03em;}
 .lc-course{font-family:'DM Sans',sans-serif;font-size:9px;color:rgba(218,240,218,.3);margin-top:3px;letter-spacing:.07em;text-transform:uppercase;}
 .lc-standings{margin-top:8px;display:flex;flex-direction:column;gap:5px;}
@@ -353,7 +353,7 @@ tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-
 .lb-sec-title{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);margin-bottom:10px;text-align:center;}
 table.lb-tbl{width:100%;border-collapse:collapse;background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;overflow:hidden;}
 table.lb-tbl thead tr{border-bottom:1px solid rgba(254,254,86,.18);}
-table.lb-tbl th{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.4);padding:8px 12px;text-align:right;}
+table.lb-tbl th{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.5);padding:8px 12px;text-align:right;}
 table.lb-tbl th:first-child{text-align:left;}
 table.lb-tbl td{padding:10px 12px;text-align:right;font-family:'DM Sans',sans-serif;font-size:12px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--mw);vertical-align:middle;}
 table.lb-tbl td:first-child{text-align:left;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;}
@@ -432,18 +432,18 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:300;display:flex;align-items:flex-end;justify-content:center;}
 .overlay.hidden{display:none;}
 .name-sheet{background:#162e16;border-top:2px solid var(--my3);border-radius:16px 16px 0 0;width:100%;max-width:480px;padding:20px 18px calc(20px + env(safe-area-inset-bottom));}
-.name-sheet-title{font-family:'Old Standard TT',serif;font-size:19px;font-style:italic;font-weight:700;color:var(--my);text-align:center;margin-bottom:3px;}
+.name-sheet-title{font-family:'Forum',serif;font-size:19px;font-weight:normal;color:var(--my);text-align:center;margin-bottom:3px;}
 .name-sheet-sub{font-family:'DM Sans',sans-serif;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.38);text-align:center;margin-bottom:16px;}
 .name-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.name-btn{background:rgba(254,254,86,.07);border:1px solid rgba(254,254,86,.18);border-radius:8px;color:var(--mw);font-family:'Old Standard TT',serif;font-size:15px;font-weight:600;padding:13px 10px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .14s;text-align:center;}
+.name-btn{background:rgba(254,254,86,.07);border:1px solid rgba(254,254,86,.18);border-radius:8px;color:var(--mw);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;padding:13px 10px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .14s;text-align:center;}
 .name-btn:active{background:rgba(254,254,86,.2);color:var(--my);}
 
 /* ── NOTIF PROMPT ────────────────────────────────── */
 .notif-prompt{background:rgba(26,82,118,.15);border:1px solid rgba(93,173,226,.2);border-radius:6px;padding:10px 13px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
 .notif-prompt.hidden{display:none;}
-.notif-prompt-text{flex:1;font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.6);line-height:1.6;}
+.notif-prompt-text{flex:1;font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(218,240,218,.6);line-height:1.5;}
 .notif-prompt-text strong{color:var(--blue-lt);}
-.notif-allow-btn{background:rgba(93,173,226,.18);border:1px solid rgba(93,173,226,.3);border-radius:4px;color:var(--blue-lt);font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;cursor:pointer;flex-shrink:0;touch-action:manipulation;}
+.notif-allow-btn{background:rgba(93,173,226,.18);border:1px solid rgba(93,173,226,.3);border-radius:4px;color:var(--blue-lt);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;cursor:pointer;flex-shrink:0;touch-action:manipulation;}
 
 @media(max-width:600px){.main{padding:14px 12px 80px;}.course-header{margin-bottom:14px;padding-top:24px;}}
 
@@ -527,14 +527,14 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .ledger-bk-row{display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(218,240,218,.06);gap:10px;}
 .ledger-bk-row:last-child{border-bottom:none;}
 .lbr-left{flex:1;min-width:0;}
-.lbr-day{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);margin-bottom:2px;}
-.lbr-name{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--mw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.lbr-status{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;}
+.lbr-day{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);margin-bottom:2px;}
+.lbr-name{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--mw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lbr-status{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;}
 .lbr-settled{background:rgba(109,200,132,.15);color:#6dc884;}
 .lbr-active{background:rgba(254,254,86,.12);color:#fefe56;}
 .lbr-open{background:rgba(218,240,218,.07);color:rgba(218,240,218,.4);}
 .lbr-none{background:transparent;color:rgba(218,240,218,.2);}
-.lbr-amt{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:rgba(218,240,218,.45);white-space:nowrap;}
+.lbr-amt{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:rgba(218,240,218,.45);white-space:nowrap;}
 .ledger-settle-sub{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.35);margin-bottom:10px;}
 .settle-row{display:flex;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid rgba(218,240,218,.06);font-family:'DM Sans',sans-serif;font-size:13px;}
 .settle-row:last-child{border-bottom:none;}
@@ -546,7 +546,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .gw-widget.gw-open-state{border-color:rgba(254,254,86,.4);animation:wcPulse 2.5s ease-in-out infinite;}
 .gw-widget.gw-settled-state{border-color:rgba(100,200,120,.3);}
 .gw-header{margin-bottom:8px;}
-.gw-title{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.38);display:block;margin-bottom:3px;}
+.gw-title{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.5);display:block;margin-bottom:3px;}
 .gw-matchup-line{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(218,240,218,.7);}
 .gw-matchup-line .gw-vs{color:rgba(218,240,218,.3);margin:0 5px;font-weight:400;}
 .gw-set-btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(254,254,86,.7);background:transparent;border:1px dashed rgba(254,254,86,.3);border-radius:8px;padding:8px 14px;cursor:pointer;width:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
@@ -568,6 +568,16 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .gw-settled-result{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#6dc884;}
 .gw-settled-push{color:rgba(218,240,218,.45);}
 .wager-empty{text-align:center;padding:22px 16px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.22);background:rgba(16,36,16,.6);border-radius:8px;}
+.suggest-section{margin-bottom:18px;}
+.suggest-header{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(254,254,86,.55);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+.suggest-header::after{content:'';flex:1;height:1px;background:rgba(254,254,86,.12);}
+.suggest-card{background:rgba(16,36,16,.8);border:1px solid rgba(254,254,86,.12);border-radius:9px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.suggest-card-body{flex:1;min-width:0;}
+.suggest-type{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:3px;}
+.suggest-label{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;color:var(--mw);line-height:1.25;margin-bottom:3px;}
+.suggest-rationale{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.42);font-style:italic;}
+.suggest-btn{flex-shrink:0;background:rgba(254,254,86,.1);border:1px solid rgba(254,254,86,.3);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:7px 11px;border-radius:7px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;white-space:nowrap;}
+.suggest-btn:active{background:rgba(254,254,86,.22);}
 .wager-standing-tbl{width:100%;border-collapse:collapse;}
 .wager-standing-tbl td{padding:8px 4px;border-bottom:1px solid rgba(218,240,218,.05);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mw);}
 .wager-standing-tbl td.wsn{font-weight:600;}
@@ -584,6 +594,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .ps-opt{padding:8px 13px;border-radius:8px;border:1px solid rgba(218,240,218,.18);background:rgba(218,240,218,.04);color:rgba(218,240,218,.55);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;white-space:nowrap;}
 .ps-opt.sel{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.45);color:#fefe56;}
 .ps-opt:active{transform:scale(.96);}
+.ps-opt.ps-na{opacity:.25;pointer-events:none;}
 .ps-line-box{background:rgba(0,90,48,.2);border:1px solid rgba(100,200,120,.25);border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:14px;}
 .ps-line-num{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:900;color:var(--mw);}
 .ps-line-info{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.45);line-height:1.5;}
@@ -711,10 +722,10 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <div class="lb-sec-title">Game Results</div>
   <div class="lb-chips" id="lb-chips"></div>
   <div class="sec-block" style="margin-top:28px"><div class="lb-sec-title">Win Tally</div>
-    <table class="lb-tbl"><thead><tr><th>Player</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Shamble</span></th><th>Day 2<br><span style="font-weight:400;opacity:.5">Best Ball</span></th><th>Day 3<br><span style="font-weight:400;opacity:.5">Match Play</span></th><th>Total</th></tr></thead><tbody id="lb-wins"></tbody></table>
+    <table class="lb-tbl"><thead><tr><th>Player</th><th>THU<br><span style="font-weight:400;opacity:.5">Shamble</span></th><th>FRI<br><span style="font-weight:400;opacity:.5">Best Ball</span></th><th>SAT<br><span style="font-weight:400;opacity:.5">Match Play</span></th><th>TTL</th></tr></thead><tbody id="lb-wins"></tbody></table>
   </div>
   <div class="sec-block"><div class="lb-sec-title">Individual Scores</div>
-    <table class="lb-tbl"><thead><tr><th>Player</th><th>Day 1<br><span style="font-weight:400;opacity:.5">Grs*</span></th><th colspan="2">Day 2<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th><th colspan="2">Day 3<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th><th colspan="2">Total<br><span style="font-weight:400;opacity:.5">Grs / Net</span></th></tr></thead><tbody id="lb-ind"></tbody></table>
+    <table class="lb-tbl"><thead><tr><th>Player</th><th>THU<br><span style="font-weight:400;opacity:.5">G*</span></th><th colspan="2">FRI<br><span style="font-weight:400;opacity:.5">G / N</span></th><th colspan="2">SAT<br><span style="font-weight:400;opacity:.5">G / N</span></th><th colspan="2">TTL<br><span style="font-weight:400;opacity:.5">G / N</span></th></tr></thead><tbody id="lb-ind"></tbody></table>
     <div style="margin-top:8px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:11px;color:rgba(218,240,218,.4);font-style:italic;padding:0 2px">* What you could shoot if you hit the fairway on every tee shot...</div>
   </div>
 </div>
@@ -727,6 +738,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
       <div class="course-title">Gentlemen Wagers</div>
     </div>
     <button class="wager-propose-btn" onclick="openProposeSheet()">+ Propose a Bet</button>
+    <div id="wager-suggest"></div>
     <div class="sec-block" id="wager-standing-block" style="display:none">
       <div class="lb-sec-title">Net Standing</div>
       <table class="wager-standing-tbl" id="wager-standing"></table>
@@ -747,7 +759,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-header">
       <div class="course-title">Money Ledger</div>
     </div>
-    <div class="lb-sec-title">Real-Time Player Balances</div>
+    <div class="lb-sec-title">Player Balances</div>
     <div id="ledger-cards" class="ledger-grid"></div>
     <div class="sec-block" id="ledger-breakdown-block" style="margin-top:28px">
       <div class="lb-sec-title">Wager Breakdown</div>
@@ -1089,7 +1101,17 @@ function runSim(){
   buildD1();buildD2();buildD3();updateLB();settleGameWagers();updateGWWidgets();buildLedger();buildWagers();updateBetsBadge();
   document.getElementById('sim-banner').style.display='flex';
 }
-function clearSim(){try{localStorage.removeItem(LS_DATA);}catch(e){}location.href=location.pathname;}
+async function clearSim(){
+  // Reset all in-memory state to empty
+  Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);});});
+  drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
+  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};
+  // Allow push, write clean state to JSONbin, then clear local cache
+  simActive=false;
+  await pushRemote(getState(),true);
+  try{localStorage.removeItem(LS_DATA);}catch(e){}
+  location.href=location.pathname;
+}
 
 // ═══════════════════════════════════════════════════
 // INIT
@@ -1531,9 +1553,9 @@ function updateD3Board(){
 function updateLB(){
   const chips=[],wins={};
   Object.keys(P).forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
-  {const d1g1=bbNet(D1[0].keys,'d1'),d1g2=bbNet(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chips.push({label:'Day 1 · 4-Man Shamble',course:'We-Ko-Pa Cholla',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const leader=sorted[0];const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const behind=t.bb.tot-leader.bb.tot;const scoreStr=i===0?(allDoneD1?'WINS':'LEADS'):`+${behind}`;const scoreColor=i===0?(allDoneD1?'var(--my)':'#7ddba4'):'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;return`<div class="lc-st-row"><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${scoreColor}">${scoreStr}</span></div>`;}).join('');chips.push({label:'Day 1 · 4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa Cholla</div>`});}}
-  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbNet(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));if(allDone){const minTot=sorted[0].bb.tot;const winners=sorted.filter(t=>t.bb.tot===minTot);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chips.push({label:'Day 2 · 2-Man Best Ball',course:'Troon North Pinnacle',val:'Pending',full:true});}else{const leader=sorted[0];const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const behind=t.bb.tot-leader.bb.tot;const scoreStr=i===0?(allDone?'WINS':'LEADS'):`+${behind}`;const scoreColor=i===0?(allDone?'var(--my)':'#7ddba4'):'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;return`<div class="lc-st-row"><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${scoreColor}">${scoreStr}</span></div>`;}).join('');chips.push({label:'Day 2 · 2-Man Best Ball',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North Pinnacle</div>`});}}
-  D3.forEach((pair,pi)=>{let aP=0,bP=0;for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}}}const aN=pair.sA.map(k=>P[k].name).join(' + '),bN=pair.sB.map(k=>P[k].name).join(' + ');if(aP+bP>0){const d=aP-bP;chips.push({label:`Day 3 · Match ${pi+1}`,course:'Grayhawk Talon',val:d>0?`${aN} lead +${fmt(d)}`:d<0?`${bN} lead +${fmt(Math.abs(d))}`:'All Square'});const hp=[...pair.sA,...pair.sB].reduce((mx,k)=>{let c=0;for(let h=0;h<18;h++)if(SC.d3[k][h]!=null)c++;return Math.max(mx,c);},0);if(hp===18){if(d>0)pair.sA.forEach(k=>wins[k].d3+=1);else if(d<0)pair.sB.forEach(k=>wins[k].d3+=1);else[...pair.sA,...pair.sB].forEach(k=>wins[k].d3+=.5);}}else chips.push({label:`Day 3 · Match ${pi+1}`,course:'Grayhawk Talon',val:'Pending'});});
+  {const d1g1=bbNet(D1[0].keys,'d1'),d1g2=bbNet(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chips.push({label:'Thu · 4-Man Shamble',course:'We-Ko-Pa Cholla',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const leader=sorted[0];const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const behind=t.bb.tot-leader.bb.tot;const scoreStr=i===0?(allDoneD1?'WINS':'LEADS'):`+${behind}`;const scoreColor=i===0?(allDoneD1?'var(--my)':'#7ddba4'):'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;return`<div class="lc-st-row"><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${scoreColor}">${scoreStr}</span></div>`;}).join('');chips.push({label:'Thu · 4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa Cholla</div>`});}}
+  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbNet(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));if(allDone){const minTot=sorted[0].bb.tot;const winners=sorted.filter(t=>t.bb.tot===minTot);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chips.push({label:'Fri · 2-Man Best Ball',course:'Troon North Pinnacle',val:'Pending',full:true});}else{const leader=sorted[0];const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const behind=t.bb.tot-leader.bb.tot;const scoreStr=i===0?(allDone?'WINS':'LEADS'):`+${behind}`;const scoreColor=i===0?(allDone?'var(--my)':'#7ddba4'):'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;return`<div class="lc-st-row"><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${scoreColor}">${scoreStr}</span></div>`;}).join('');chips.push({label:'Fri · 2-Man Best Ball',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North Pinnacle</div>`});}}
+  D3.forEach((pair,pi)=>{let aP=0,bP=0;for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}}}const aN=pair.sA.map(k=>P[k].name).join(' + '),bN=pair.sB.map(k=>P[k].name).join(' + ');if(aP+bP>0){const d=aP-bP;const hp=[...pair.sA,...pair.sB].reduce((mx,k)=>{let c=0;for(let h=0;h<18;h++)if(SC.d3[k][h]!=null)c++;return Math.max(mx,c);},0);const done=hp===18;chips.push({label:`Sat · Match ${pi+1}`,course:'Grayhawk Talon',val:d>0?`${aN} ${done?'win':'lead'} +${fmt(d)}`:d<0?`${bN} ${done?'win':'lead'} +${fmt(Math.abs(d))}`:'All Square'});if(done){if(d>0)pair.sA.forEach(k=>wins[k].d3+=1);else if(d<0)pair.sB.forEach(k=>wins[k].d3+=1);else[...pair.sA,...pair.sB].forEach(k=>wins[k].d3+=.5);}}else chips.push({label:`Sat · Match ${pi+1}`,course:'Grayhawk Talon',val:'Pending'});});
   document.getElementById('lb-chips').innerHTML=chips.map(c=>`<div class="lb-chip${c.full?' lb-chip-full':''}"><div class="lc-label">${c.label}</div>${c.body||`<div class="lc-val">${c.val}</div><div class="lc-course">${c.course}</div>`}</div>`).join('');
   const winRows=Object.keys(P).map(k=>{const t=wins[k].d1+wins[k].d2+wins[k].d3;return{key:k,name:P[k].name,d1:wins[k].d1,d2:wins[k].d2,d3:wins[k].d3,total:t};}).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
   const maxW=winRows[0]?.total||0;
@@ -1827,6 +1849,53 @@ function betTrend(bet){
   return{diff:actual-expected,holes,actual};
 }
 
+// ── New bet type helpers ─────────────────────────
+function calcBirdiesLine(k,day){return P[k][day]<=8?2:1;}
+function getGroupKeys(k,day){
+  if(day==='d1')return Object.keys(P);
+  if(day==='d2'){const g=D2.find(p=>[...p.sA,...p.sB].includes(k));return g?[...g.sA,...g.sB]:Object.keys(P);}
+  if(day==='d3'){const m=D3.find(p=>[...p.sA,...p.sB].includes(k));return m?[...m.sA,...m.sB]:Object.keys(P);}
+  return Object.keys(P);
+}
+function buildSuggestedBets(){
+  // Compute per-player per-day stats (only full rounds)
+  const stats=Object.keys(P).map(k=>{
+    const s={key:k};
+    ['d1','d2','d3'].forEach(day=>{
+      let g=0,n=0,h=0,bi=0;const par=cPar(day);
+      for(let i=0;i<18;i++){const sc=SC[day][k][i];if(sc!=null){const gr=parseInt(sc);g+=gr;n+=net(gr,phcp(k,day),i,day);h++;if(gr<par[i])bi++;}}
+      s[day]=h===18?{g,n,h,bi}:null;
+    });
+    return s;
+  });
+  // Determine which day to suggest bets FOR (next unplayed day)
+  const d1Done=stats.every(s=>s.d1);const d2Done=stats.every(s=>s.d2);const d3Done=stats.every(s=>s.d3);
+  let targetDay=null,prevDay=null;
+  if(!d1Done&&!d2Done&&!d3Done){return[];}
+  else if(d1Done&&!d2Done){targetDay='d2';prevDay='d1';}
+  else if(d2Done&&!d3Done){targetDay='d3';prevDay='d2';}
+  else{return[];}// all done or no prev day data
+  const dayName={d1:'Thursday',d2:'Friday',d3:'Saturday'};
+  const targetName=dayName[targetDay];
+  const prevName=dayName[prevDay];
+  const sorted=[...stats].filter(s=>s[prevDay]).sort((a,b)=>a[prevDay].g-b[prevDay].g);
+  const sortedNet=[...stats].filter(s=>s[prevDay]).sort((a,b)=>a[prevDay].n-b[prevDay].n);
+  if(!sorted.length)return[];
+  const hot=sorted[0];const cold=sorted[sorted.length-1];
+  const bestNet=sortedNet[0];const worstNet=sortedNet[sortedNet.length-1];
+  const sugg=[];
+  // 1 — Birdie over for the hot hand
+  const bl=calcBirdiesLine(hot.key,targetDay);
+  sugg.push({type:'birdie-ou',label:`${P[hot.key].name} ${bl}+ Birdies on ${targetName}`,rationale:`Lowest gross ${prevName} — hot hand`,player:hot.key,day:targetDay,side:'over'});
+  // 2 — Clean card for the cold player (bounce-back)
+  sugg.push({type:'cleancard',label:`${P[cold.key].name} Clean Card ${targetName}`,rationale:`Highest gross ${prevName} — due for a bounce-back`,player:cold.key,day:targetDay,side:'clean'});
+  // 3 — H2H net between best and worst net players
+  if(bestNet.key!==worstNet.key){sugg.push({type:'h2h',label:`${P[bestNet.key].name} beats ${P[worstNet.key].name} net`,rationale:`Best vs worst net from ${prevName}`,player:bestNet.key,playerB:worstNet.key,day:targetDay,side:'a'});}
+  // 4 — Last place for the coldest scorer
+  sugg.push({type:'lastplace',label:`${P[cold.key].name} finishes last net in group`,rationale:`Worst net ${prevName} — trend bet`,player:cold.key,day:targetDay,side:'last'});
+  return sugg;
+}
+
 // ── d3 Side winner (total holes across both matches) ─
 function d3SideWinner(){
   let aH=0,bH=0;
@@ -1844,13 +1913,13 @@ function d3SideWinner(){
 function gwLabel(name,maxLen=10){return name.length>maxLen?name.slice(0,maxLen-1)+'…':name;}
 function gwInfo(key){
   const m={
-    d1:{label:'Shamble Match Wager',type:'match',aLabel:gwLabel(teamName('d1_g1'),14),bLabel:gwLabel(teamName('d1_g2'),14),aKeys:D1[0].keys,bKeys:D1[1].keys},
-    d2_pot:{label:'Best Ball Wager',type:'pot'},
-    d2_skins_0:{label:'Group 1 Skins Wager',type:'skins',gi:0,keys:[...D2[0].sA,...D2[0].sB]},
-    d2_skins_1:{label:'Group 2 Skins Wager',type:'skins',gi:1,keys:[...D2[1].sA,...D2[1].sB]},
-    d3_m0:{label:'Match 1 Wager',type:'match',compact:true,aLabel:D3[0].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[0].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[0].sA,bKeys:D3[0].sB},
-    d3_m1:{label:'Match 2 Wager',type:'match',compact:true,aLabel:D3[1].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[1].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[1].sA,bKeys:D3[1].sB},
-    d3_side:{label:'Team Match Wager',type:'match',compact:true,aLabel:gwLabel(teamName('d3_sA')),bLabel:gwLabel(teamName('d3_sB')),aKeys:[...D3[0].sA,...D3[1].sA],bKeys:[...D3[0].sB,...D3[1].sB]},
+    d1:{label:'4-Man Shamble Match',type:'match',aLabel:gwLabel(teamName('d1_g1'),14),bLabel:gwLabel(teamName('d1_g2'),14),aKeys:D1[0].keys,bKeys:D1[1].keys},
+    d2_pot:{label:'2-Man Best Ball',type:'pot'},
+    d2_skins_0:{label:'Group 1 Skins',type:'skins',gi:0,keys:[...D2[0].sA,...D2[0].sB]},
+    d2_skins_1:{label:'Group 2 Skins',type:'skins',gi:1,keys:[...D2[1].sA,...D2[1].sB]},
+    d3_m0:{label:'Match Play 1',type:'match',compact:true,aLabel:D3[0].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[0].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[0].sA,bKeys:D3[0].sB},
+    d3_m1:{label:'Match Play 2',type:'match',compact:true,aLabel:D3[1].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[1].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[1].sA,bKeys:D3[1].sB},
+    d3_side:{label:'Team Match Play',type:'match',compact:true,aLabel:gwLabel(teamName('d3_sA')),bLabel:gwLabel(teamName('d3_sB')),aKeys:[...D3[0].sA,...D3[1].sA],bKeys:[...D3[0].sB,...D3[1].sB]},
   };
   return m[key]||null;
 }
@@ -2248,6 +2317,26 @@ function settleBets(){
       if(subN==null)return;
       const tied=totals.filter(t=>t.n===minN).length>1;
       outcome=tied&&subN===minN?'push':subN===minN?'low':'notlow';
+    } else if(b.type==='birdie-ou'){
+      const par=cPar(b.day);let bi=0,holes=0;
+      for(let h=0;h<18;h++){const s=SC[b.day][b.player][h];if(s!=null){holes++;if(parseInt(s)<par[h])bi++;}}
+      if(holes===18)outcome=bi>b.line?'over':bi<b.line?'under':'push';
+    } else if(b.type==='h2h'){
+      let nA=0,hA=0,nB=0,hB=0;
+      for(let h=0;h<18;h++){const sA=SC[b.day][b.player][h];if(sA!=null){nA+=net(parseInt(sA),phcp(b.player,b.day),h,b.day);hA++;}const sB=SC[b.day][b.playerB][h];if(sB!=null){nB+=net(parseInt(sB),phcp(b.playerB,b.day),h,b.day);hB++;}}
+      if(hA===18&&hB===18)outcome=nA<nB?'a':nA>nB?'b':'push';
+    } else if(b.type==='cleancard'){
+      const par=cPar(b.day);let dirty=false,holes=0;
+      for(let h=0;h<18;h++){const s=SC[b.day][b.player][h];if(s!=null){holes++;if(parseInt(s)>par[h]+1)dirty=true;}}
+      if(holes===18)outcome=dirty?'dirty':'clean';
+    } else if(b.type==='lastplace'){
+      const gks=Object.keys(P);
+      const tots=gks.map(k=>{let n=0,h=0;for(let i=0;i<18;i++){const v=net(SC[b.day][k][i],phcp(k,b.day),i,b.day);if(v!=null){n+=v;h++;}}return{key:k,n:h===18?n:null};});
+      if(tots.some(t=>t.n===null))return;
+      const maxN=Math.max(...tots.map(t=>t.n));const sub=tots.find(t=>t.key===b.player)?.n;
+      if(sub==null)return;
+      const tiedLast=tots.filter(t=>t.n===maxN).length>1;
+      outcome=tiedLast&&sub===maxN?'push':sub===maxN?'last':'notlast';
     } else if(b.type==='match'){
       const fn=b.day==='d1'?d1MatchWinner:b.day==='d2'?d2MatchWinner:d3MatchWinner;
       outcome=b.day==='d1'?fn():fn(b.matchIdx);
@@ -2272,7 +2361,14 @@ function settleBets(){
     if(outcome){
       b.status='settled';
       const isLowType=b.type==='lowgross'||b.type==='lownet';
-      b.result=outcome==='push'?'push':isLowType?(outcome==='low'?'prop':'acc'):(outcome===b.propSide?'prop':'acc');
+      const isClean=b.type==='cleancard';const isLast=b.type==='lastplace';
+      const isBirdie=b.type==='birdie-ou';
+      b.result=outcome==='push'?'push':
+        isLowType?(outcome==='low'?'prop':'acc'):
+        isClean?(outcome==='clean'?'prop':'acc'):
+        isLast?(outcome==='last'?'prop':'acc'):
+        isBirdie?(outcome===b.propSide?'prop':'acc'):
+        (outcome===b.propSide?'prop':'acc');
       changed=true;
     }
   });
@@ -2365,6 +2461,22 @@ function wagerCardHTML(bet,myName){
     const dayLbl={d1:'Thu · Day 1',d2:'Fri · Day 2',d3:'Sat · Day 3'}[bet.day]||bet.day;
     desc=`${p.name} Low ${bet.type==='lowgross'?'Gross':'Net'}`;
     lineInfo=`Lowest ${bet.type==='lowgross'?'gross':'net'} score · ${dayLbl} · vs all 8 players`;
+  } else if(bet.type==='birdie-ou'){
+    const p=P[bet.player];
+    desc=`${p.name} · Birdies ${bet.propSide==='over'?'Over':'Under'} ${bet.line}`;
+    lineInfo=`${bet.line} birdie${bet.line===1?'':'s'} · ${betDayLabel(bet.day)}`;
+  } else if(bet.type==='h2h'){
+    const pA=P[bet.player],pB=P[bet.playerB];
+    desc=`${pA.name} vs ${pB.name} · Net H2H`;
+    lineInfo=`Head-to-head net score · ${betDayLabel(bet.day)}`;
+  } else if(bet.type==='cleancard'){
+    const p=P[bet.player];
+    desc=`${p.name} · Clean Card`;
+    lineInfo=`No double bogeys or worse · ${betDayLabel(bet.day)}`;
+  } else if(bet.type==='lastplace'){
+    const p=P[bet.player];
+    desc=`${p.name} · Last Place Net`;
+    lineInfo=`Highest net score across all 8 players · ${betDayLabel(bet.day)}`;
   } else {
     let aN,bN;
     if(bet.day==='d1'){aN=D1[0].keys.map(k=>P[k].name).join(' & ');bN=D1[1].keys.map(k=>P[k].name).join(' & ');desc='Shamble Winner';lineInfo=`${aN} vs ${bN}`;}
@@ -2372,8 +2484,20 @@ function wagerCardHTML(bet,myName){
   }
 
   const isLowType=bet.type==='lowgross'||bet.type==='lownet';
-  const propLabel=bet.type==='ou'?(bet.propSide==='under'?`↓ UNDER ${bet.line}`:`↑ OVER ${bet.line}`):isLowType?`Goes Low`:(bet.propSide==='a'?betDescMatch(bet,true)+'  ✓':'✓ '+betDescMatch(bet,true));
-  const accLabel=bet.type==='ou'?(bet.propSide==='under'?`↑ OVER ${bet.line}`:`↓ UNDER ${bet.line}`):isLowType?`Doesn't Go Low`:(bet.propSide==='a'?betDescMatch(bet,false)+'  ✓':'✓ '+betDescMatch(bet,false));
+  const isBirdieOU=bet.type==='birdie-ou';const isH2H=bet.type==='h2h';
+  const isClean=bet.type==='cleancard';const isLast=bet.type==='lastplace';
+  const propLabel=bet.type==='ou'?(bet.propSide==='under'?`↓ UNDER ${bet.line}`:`↑ OVER ${bet.line}`):
+    isLowType?`Goes Low`:
+    isBirdieOU?(bet.propSide==='over'?`↑ Over ${bet.line}`:`↓ Under ${bet.line}`):
+    isH2H?(bet.propSide==='a'?`${P[bet.player].name} wins`:`${P[bet.playerB].name} wins`):
+    isClean?`Clean card ✓`:isLast?`Finishes last`:
+    (bet.propSide==='a'?betDescMatch(bet,true)+'  ✓':'✓ '+betDescMatch(bet,true));
+  const accLabel=bet.type==='ou'?(bet.propSide==='under'?`↑ OVER ${bet.line}`:`↓ UNDER ${bet.line}`):
+    isLowType?`Doesn't Go Low`:
+    isBirdieOU?(bet.propSide==='over'?`↓ Under ${bet.line}`:`↑ Over ${bet.line}`):
+    isH2H?(bet.propSide==='a'?`${P[bet.playerB].name} wins`:`${P[bet.player].name} wins`):
+    isClean?`Gets a double+ ✗`:isLast?`Doesn't finish last`:
+    (bet.propSide==='a'?betDescMatch(bet,false)+'  ✓':'✓ '+betDescMatch(bet,false));
 
   let trendHtml='';
   if(isActive&&bet.type==='ou'){
@@ -2491,6 +2615,16 @@ function buildWagers(){
   const activeBets=bets.filter(b=>b.status==='active');
   const settledBets=bets.filter(b=>b.status==='settled').slice().reverse();
 
+  // Suggested bets
+  const sugg=buildSuggestedBets();
+  const suggEl=document.getElementById('wager-suggest');
+  if(suggEl){
+    if(sugg.length){
+      const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place Net','h2h':'Net H2H'};
+      suggEl.innerHTML=`<div class="suggest-section"><div class="suggest-header">💡 Hot Takes</div>`+sugg.map((s,i)=>`<div class="suggest-card"><div class="suggest-card-body"><div class="suggest-type">${typeLabels[s.type]||s.type}</div><div class="suggest-label">${s.label}</div><div class="suggest-rationale">${s.rationale}</div></div><button class="suggest-btn" onclick="proposeSuggested(${i})">Bet This</button></div>`).join('')+`</div>`;
+    } else {suggEl.innerHTML='';}
+  }
+
   function renderBet(b){return b.type==='nassau'?nassauCardHTML(b,myName):wagerCardHTML(b,myName);}
   document.getElementById('wager-open').innerHTML=
     openBets.length?openBets.map(renderBet).join(''):'<div class="wager-empty">No open bets yet</div>';
@@ -2541,16 +2675,16 @@ function buildLedger(){
   document.getElementById('ledger-cards').innerHTML=cards;
   // ── 2. Breakdown ──
   const gwMap={
-    d1:{day:'Day 1',name:'Shamble Match'},
-    d2_pot:{day:'Day 2',name:'Best Ball'},
-    d2_skins_0:{day:'Day 2',name:'Group 1 Skins'},
-    d2_skins_1:{day:'Day 2',name:'Group 2 Skins'},
-    d3_m0:{day:'Day 3',name:'Match 1'},
-    d3_m1:{day:'Day 3',name:'Match 2'},
-    d3_side:{day:'Day 3',name:'Team 1 vs Team 2'},
+    d1:{day:'THU',name:'4-Man Shamble Match'},
+    d2_pot:{day:'FRI',name:'2-Man Best Ball'},
+    d2_skins_0:{day:'FRI',name:'Group 1 Skins'},
+    d2_skins_1:{day:'FRI',name:'Group 2 Skins'},
+    d3_m0:{day:'SAT',name:'Match Play 1'},
+    d3_m1:{day:'SAT',name:'Match Play 2'},
+    d3_side:{day:'SAT',name:'Team Match Play'},
   };
   let bkHtml='<div style="background:rgba(16,36,16,.9);border:1px solid rgba(218,240,218,.1);border-radius:10px;overflow:hidden;margin-bottom:14px;">';
-  bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Game Wagers</div>';
+  bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Game Wagers</div>';
   Object.entries(gwMap).forEach(([key,meta])=>{
     const gw=gameWagers[key];
     let statusCls='lbr-none',statusTxt='Not set',amtTxt='—';
@@ -2568,15 +2702,19 @@ function buildLedger(){
   const relevantBets=bets.filter(b=>b.status!=='void');
   if(relevantBets.length){
     bkHtml+='<div style="background:rgba(16,36,16,.9);border:1px solid rgba(218,240,218,.1);border-radius:10px;overflow:hidden;margin-bottom:14px;">';
-    bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Side Props</div>';
+    bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Side Props</div>';
     relevantBets.forEach(b=>{
       let statusCls='lbr-open',statusTxt='Open',desc='';
       if(b.status==='active'){statusCls='lbr-active';statusTxt='Active';}
       if(b.status==='settled'){statusCls='lbr-settled';statusTxt='Settled';}
-      const dayLbl={d1:'Day 1',d2:'Day 2',d3:'Day 3'}[b.day]||b.day;
+      const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[b.day]||b.day;
       if(b.type==='ou'){const p=P[b.player];desc=`${p.name} ${b.propSide==='under'?'↓ Under':'↑ Over'} ${b.line}`;}
       else if(b.type==='lowgross'||b.type==='lownet'){const p=P[b.player];desc=`${p.name} Low ${b.type==='lowgross'?'Gross':'Net'}`;}
       else if(b.type==='nassau'){desc=`Nassau Match ${(b.matchIdx||0)+1}`;}
+      else if(b.type==='birdie-ou'){desc=`${P[b.player].name} Birdies ${b.propSide==='over'?'Over':'Under'} ${b.line}`;}
+      else if(b.type==='h2h'){desc=`${P[b.player].name} vs ${P[b.playerB].name} Net`;}
+      else if(b.type==='cleancard'){desc=`${P[b.player].name} Clean Card`;}
+      else if(b.type==='lastplace'){desc=`${P[b.player].name} Last Place Net`;}
       else{desc=b.type;}
       bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-day">${dayLbl}</div><div class="lbr-name">${desc}</div></div><span class="lbr-status ${statusCls}">${statusTxt}</span><div class="lbr-amt">$${b.amount}</div></div>`;
     });
@@ -2604,27 +2742,53 @@ function updateBetsBadge(){
 }
 
 // ── Propose sheet ────────────────────────────────
+let _suggCache=[];
+function proposeSuggested(i){
+  const sugg=buildSuggestedBets();_suggCache=sugg;
+  const s=sugg[i];if(!s)return;
+  openProposeSheet();
+  setPropType(s.type);
+  if(s.day)setPropDay(s.day);
+  if(s.player){propSt.player=s.player;document.querySelectorAll('#ps-players .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===s.player));}
+  if(s.playerB){propSt.playerB=s.playerB;document.querySelectorAll('#ps-players-b .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===s.playerB));}
+  if(s.side){propSt.side=s.side;document.querySelectorAll('#ps-sides .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.side===s.side));}
+  updateProposeUI();
+}
 function openProposeSheet(){
-  propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null};
+  propSt={type:'ou',day:'d1',player:null,playerB:null,matchIdx:null,side:null};
   const sel=document.getElementById('ps-name');
   if(chatAuthor)sel.value=chatAuthor;
-  ['ou','lowgross','lownet'].forEach(t=>document.getElementById('ps-type-'+t).classList.toggle('sel',t===propSt.type));
+  const allTypes=['ou','lowgross','lownet','birdie-ou','h2h','cleancard','lastplace'];
+  allTypes.forEach(t=>{const el=document.getElementById('ps-type-'+t);if(el)el.classList.toggle('sel',t===propSt.type);});
   ['d1','d2','d3'].forEach(d=>document.getElementById('ps-day-'+d).classList.toggle('sel',d===propSt.day));
-  renderPropPlayers();renderPropMatches();updateProposeUI();
+  renderPropPlayers();renderPropPlayerB();renderPropMatches();updateProposeUI();
+  const descEl=document.getElementById('ps-type-desc');if(descEl)descEl.textContent=PS_TYPE_DESC[propSt.type]||'';
   document.getElementById('ps-amount').value='';
   document.getElementById('propose-overlay').classList.remove('hidden');
 }
 function closeProposeSheet(){document.getElementById('propose-overlay').classList.add('hidden');}
 
-function setPropType(t){propSt.type=t;propSt.player=null;propSt.matchIdx=null;propSt.side=null;
-  ['ou','lowgross','lownet'].forEach(x=>{const el=document.getElementById('ps-type-'+x);if(el)el.classList.toggle('sel',x===t);});
-  renderPropPlayers();renderPropMatches();updateProposeUI();}
+const PS_TYPE_DESC={
+  'ou':'Will a player beat (or miss) their expected gross based on handicap?',
+  'birdie-ou':'Over or under on how many birdies a player makes this round.',
+  'h2h':'Two players go head-to-head — lower net score wins the bet.',
+  'lowgross':'Will this player shoot the lowest gross of all 8?',
+  'lownet':'Will this player post the lowest net score of all 8?',
+  'cleancard':'Will this player avoid any double bogeys or worse all round?',
+  'lastplace':'Will this player post the worst net score across all 8 players? (Day 2 & 3 only)',
+  'match':'Pick a side — who wins the match play or shamble matchup?',
+  'nassau':'Three separate bets: front 9, back 9, and overall.',
+};
+function setPropType(t){propSt.type=t;propSt.player=null;propSt.playerB=null;propSt.matchIdx=null;propSt.side=null;
+  ['ou','lowgross','lownet','birdie-ou','h2h','cleancard','lastplace'].forEach(x=>{const el=document.getElementById('ps-type-'+x);if(el)el.classList.toggle('sel',x===t);});
+  const descEl=document.getElementById('ps-type-desc');if(descEl)descEl.textContent=PS_TYPE_DESC[t]||'';
+  renderPropPlayers();renderPropPlayerB();renderPropMatches();updateProposeUI();}
 function setPropDay(d){propSt.day=d;propSt.player=null;propSt.matchIdx=null;propSt.side=null;
   ['d1','d2','d3'].forEach(x=>document.getElementById('ps-day-'+x).classList.toggle('sel',x===d));
   renderPropPlayers();renderPropMatches();updateProposeUI();}
-function setPropPlayer(k){propSt.player=k;propSt.side=null;
+function setPropPlayer(k){propSt.player=k;propSt.side=null;if(propSt.playerB===k)propSt.playerB=null;
   document.querySelectorAll('#ps-players .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===k));
-  updateProposeUI();}
+  renderPropPlayerB();updateProposeUI();}
 function setPropMatch(mi){propSt.matchIdx=mi;propSt.side=null;
   document.querySelectorAll('#ps-matches .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.mi===String(mi)));
   updateProposeUI();}
@@ -2637,6 +2801,16 @@ function renderPropPlayers(){
   el.innerHTML=Object.entries(P).map(([k,p])=>
     `<div class="ps-opt${propSt.player===k?' sel':''}" data-key="${k}" onclick="setPropPlayer('${k}')">${p.name}</div>`
   ).join('');
+}
+function renderPropPlayerB(){
+  const el=document.getElementById('ps-players-b');if(!el)return;
+  el.innerHTML=Object.entries(P).filter(([k])=>k!==propSt.player).map(([k,p])=>
+    `<div class="ps-opt${propSt.playerB===k?' sel':''}" data-key="${k}" onclick="setPropPlayerB('${k}')">${p.name}</div>`
+  ).join('');
+}
+function setPropPlayerB(k){propSt.playerB=k;propSt.side=null;
+  document.querySelectorAll('#ps-players-b .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===k));
+  updateProposeUI();
 }
 function renderPropMatches(){
   const ouStep=document.getElementById('ps-player-step');
@@ -2657,27 +2831,41 @@ function renderPropMatches(){
   }
 }
 function updateProposeUI(){
-  const isNassau=false;
-  const isMatch=propSt.type==='match';
-  const isOU=propSt.type==='ou';
-  const isLow=propSt.type==='lowgross'||propSt.type==='lownet';
+  const t=propSt.type;
+  const isMatch=t==='match';const isOU=t==='ou';const isLow=t==='lowgross'||t==='lownet';
+  const isBirdieOU=t==='birdie-ou';const isH2H=t==='h2h';const isClean=t==='cleancard';const isLast=t==='lastplace';
+  const isPlayerType=isOU||isLow||isBirdieOU||isClean||isLast||isH2H;
   const lineBox=document.getElementById('ps-line-box');
   const sideStep=document.getElementById('ps-side-step');
   const amtStep=document.getElementById('ps-amount-step');
   const sides=document.getElementById('ps-sides');
   const dayStep=document.getElementById('ps-day-step');
+  const playerBStep=document.getElementById('ps-player-b-step');
   if(dayStep)dayStep.style.display='';
+  if(playerBStep)playerBStep.style.display=isH2H?'':'none';
+  // Last Place Net not available on D1 (shamble — no individual net scoring)
+  const d1Btn=document.getElementById('ps-day-d1');
+  if(d1Btn){d1Btn.classList.toggle('ps-na',isLast);if(isLast&&propSt.day==='d1'){setPropDay('d2');return;}}
 
-  const subjectSet=isMatch?propSt.matchIdx!=null:propSt.player!=null;
-  if(subjectSet){
-    lineBox.style.display=isLow?'none':'';
+  const playerSet=propSt.player!=null;
+  const playerBSet=!isH2H||(propSt.playerB!=null);
+  const subjectSet=isMatch?propSt.matchIdx!=null:playerSet;
+  const fullSubject=subjectSet&&playerBSet;
+
+  if(fullSubject){
+    lineBox.style.display=(isLow||isClean||isLast||isH2H)?'none':'';
     if(isOU){
       const line=calcLine(propSt.player,propSt.day);
-      const p=P[propSt.player];
-      const cHcp=line-cTot(propSt.day);
+      const p=P[propSt.player];const cHcp=line-cTot(propSt.day);
       document.getElementById('ps-line-num').textContent=line;
       document.getElementById('ps-line-info').textContent=`${p.name} · Hcp ${P[propSt.player][propSt.day]} → Course hcp ${cHcp} · Par ${cTot(propSt.day)}`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div><div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div>`;
+      sideStep.style.display='';
+    } else if(isBirdieOU){
+      const line=calcBirdiesLine(propSt.player,propSt.day);
+      document.getElementById('ps-line-num').textContent=line+' birdies';
+      document.getElementById('ps-line-info').textContent=`${P[propSt.player].name} · Hcp ${P[propSt.player][propSt.day]} · Expected ${line}`;
+      sides.innerHTML=`<div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div><div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div>`;
       sideStep.style.display='';
     } else if(isMatch){
       let aN,bN;
@@ -2687,33 +2875,40 @@ function updateProposeUI(){
       document.getElementById('ps-line-info').textContent=`${aN} vs ${bN} · Who wins?`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='a'?' sel':''}" data-side="a" onclick="setPropSide('a')">${aN}</div><div class="ps-opt${propSt.side==='b'?' sel':''}" data-side="b" onclick="setPropSide('b')">${bN}</div>`;
       sideStep.style.display='';
-    } else if(isLow){
-      // No side picker — proposer always backs the player to go low
-      propSt.side='low';
-      sideStep.style.display='none';
-    }
+    } else if(isH2H&&propSt.playerB){
+      const pA=P[propSt.player].name,pB=P[propSt.playerB].name;
+      sides.innerHTML=`<div class="ps-opt${propSt.side==='a'?' sel':''}" data-side="a" onclick="setPropSide('a')">${pA} wins</div><div class="ps-opt${propSt.side==='b'?' sel':''}" data-side="b" onclick="setPropSide('b')">${pB} wins</div>`;
+      sideStep.style.display='';
+    } else if(isLow){propSt.side='low';sideStep.style.display='none';}
+    else if(isClean){propSt.side='clean';sideStep.style.display='none';}
+    else if(isLast){propSt.side='last';sideStep.style.display='none';}
+    else{sideStep.style.display='none';}
   } else {lineBox.style.display='none';sideStep.style.display='none';}
 
-  const amtLabel=amtStep.querySelector('.ps-label');
-  if(amtLabel)amtLabel.textContent='Amount ($)';
-  amtStep.style.display=(isLow?subjectSet:propSt.side)?'':'none';
+  const noSidePick=isLow||isClean||isLast;
+  amtStep.style.display=(noSidePick?fullSubject:propSt.side)?'':'none';
   const name=document.getElementById('ps-name').value;
   const amt=parseFloat(document.getElementById('ps-amount').value)||0;
-  const readyToSubmit=isLow?(name&&subjectSet&&amt>0):(name&&subjectSet&&propSt.side&&amt>0);
+  const readyToSubmit=noSidePick?(name&&fullSubject&&amt>0):(name&&fullSubject&&propSt.side&&amt>0);
   document.getElementById('ps-submit').disabled=!readyToSubmit;
 }
 function submitPropose(){
   const name=document.getElementById('ps-name').value;
   const amt=parseFloat(document.getElementById('ps-amount').value);
   if(!name||!amt)return;
-  const isLow=propSt.type==='lowgross'||propSt.type==='lownet';
+  const t=propSt.type;
+  const isLow=t==='lowgross'||t==='lownet';const isBirdieOU=t==='birdie-ou';const isH2H=t==='h2h';
+  const isClean=t==='cleancard';const isLast=t==='lastplace';
+  const needsPlayer=t==='ou'||isLow||isBirdieOU||isClean||isLast||isH2H;
+  const propSide=isLow?'low':isClean?'clean':isLast?'last':propSt.side;
   const bet={
     id:'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),
-    type:propSt.type,day:propSt.day,
-    player:(propSt.type==='ou'||isLow)?propSt.player:undefined,
-    line:propSt.type==='ou'?calcLine(propSt.player,propSt.day):undefined,
-    matchIdx:propSt.type==='match'?propSt.matchIdx:undefined,
-    propSide:isLow?'low':propSt.side,propName:name,amount:amt,
+    type:t,day:propSt.day,
+    player:needsPlayer?propSt.player:undefined,
+    playerB:isH2H?propSt.playerB:undefined,
+    line:t==='ou'?calcLine(propSt.player,propSt.day):isBirdieOU?calcBirdiesLine(propSt.player,propSt.day):undefined,
+    matchIdx:t==='match'?propSt.matchIdx:undefined,
+    propSide,propName:name,amount:amt,
     accName:null,status:'open',result:null,
     ts:Date.now()
   };
@@ -2733,6 +2928,16 @@ function openAcceptSheet(betId){
   if(bet.type==='ou'){
     const os=oppSide(bet.propSide);
     you=`You take <strong>${os.toUpperCase()} ${bet.line}</strong> on ${P[bet.player].name} · $${bet.amount}`;
+  } else if(bet.type==='birdie-ou'){
+    const os=oppSide(bet.propSide);
+    you=`You take <strong>Birdies ${os.toUpperCase()} ${bet.line}</strong> for ${P[bet.player].name} · $${bet.amount}`;
+  } else if(bet.type==='h2h'){
+    const accSide=oppSide(bet.propSide);const winner=accSide==='a'?P[bet.player].name:P[bet.playerB].name;
+    you=`You back <strong>${winner}</strong> to win net H2H · $${bet.amount}`;
+  } else if(bet.type==='cleancard'){
+    you=`You think <strong>${P[bet.player].name} makes a double bogey+</strong> · $${bet.amount}`;
+  } else if(bet.type==='lastplace'){
+    you=`You think <strong>${P[bet.player].name} does NOT finish last net</strong> · $${bet.amount}`;
   } else if(bet.type==='nassau'){
     const pair=D3[bet.matchIdx];
     const accSide=oppSide(bet.propSide);
@@ -2786,10 +2991,15 @@ function submitAccept(){
     <div class="ps-step">
       <div class="ps-label">Bet Type</div>
       <div class="ps-opts">
-        <div class="ps-opt sel" id="ps-type-ou" onclick="setPropType('ou')">Over / Under</div>
+        <div class="ps-opt sel" id="ps-type-ou" onclick="setPropType('ou')">Score O/U</div>
+        <div class="ps-opt" id="ps-type-birdie-ou" onclick="setPropType('birdie-ou')">Birdies O/U</div>
+        <div class="ps-opt" id="ps-type-h2h" onclick="setPropType('h2h')">Net H2H</div>
         <div class="ps-opt" id="ps-type-lowgross" onclick="setPropType('lowgross')">Low Gross</div>
         <div class="ps-opt" id="ps-type-lownet" onclick="setPropType('lownet')">Low Net</div>
+        <div class="ps-opt" id="ps-type-cleancard" onclick="setPropType('cleancard')">Clean Card</div>
+        <div class="ps-opt" id="ps-type-lastplace" onclick="setPropType('lastplace')">Last Place Net</div>
       </div>
+      <div id="ps-type-desc" style="margin-top:8px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.42);font-style:italic;min-height:1em;"></div>
     </div>
     <div class="ps-step" id="ps-day-step">
       <div class="ps-label">Round</div>
@@ -2802,6 +3012,10 @@ function submitAccept(){
     <div class="ps-step" id="ps-player-step">
       <div class="ps-label">Player</div>
       <div class="ps-opts" id="ps-players"></div>
+    </div>
+    <div class="ps-step" id="ps-player-b-step" style="display:none">
+      <div class="ps-label">vs. Player</div>
+      <div class="ps-opts" id="ps-players-b"></div>
     </div>
     <div class="ps-step" id="ps-match-step" style="display:none">
       <div class="ps-label">Match</div>
