@@ -996,14 +996,13 @@ function loadLocal(){
 // APP DISPLAY
 // ═══════════════════════════════════════════════════
 function showApp(){
-  const _show=()=>{document.getElementById('loading-overlay').classList.add('hidden');document.getElementById('app-header').style.display='';document.getElementById('app-main').style.display='';};
-  _show();
-  document.getElementById('app-header').style.display='none';
-  document.getElementById('app-main').style.display='none';
   buildD1();buildD2();buildD3();updateLB();updateBetsBadge();
   // One-shot: clear cached game wagers and push clean state
   try{if(!localStorage.getItem('wnt_gw_reset_apr25')){gameWagers={};pushRemote(getState(),true);localStorage.setItem('wnt_gw_reset_apr25','1');settleGameWagers();updateGWWidgets();buildLedger();}}catch(e){}
-  setTimeout(maybeShowTutorial,1600);
+  document.getElementById('loading-overlay').classList.add('hidden');
+  document.getElementById('app-header').style.display='';
+  document.getElementById('app-main').style.display='';
+  setTimeout(maybeShowTutorial,400);
   if(offlineMode)document.getElementById('offline-banner').classList.add('show');
   if('Notification'in window&&Notification.permission==='default')
     document.getElementById('notif-prompt').classList.remove('hidden');
