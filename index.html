@@ -551,8 +551,12 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .av img{width:100%;height:100%;object-fit:cover;display:block;}
 .av.mine-av{box-shadow:0 0 0 2px #39a865,0 0 0 4px #fff,0 0 0 5px #39a865;}
 .av-wrap{position:relative;display:inline-flex;flex-shrink:0;}
-.presence-dot{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#7a9a7a;border:none;display:block;z-index:2;pointer-events:none;}
+.presence-dot{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#b8cdb8;border:none;box-shadow:0 0 0 2px #ffffff;display:block;z-index:2;pointer-events:none;}
 .presence-dot.active{background:#fefe56;}
+table.sc tr.rA td.tl .presence-dot{box-shadow:0 0 0 2px #e8f7ee;}
+table.sc tr.rB td.tl .presence-dot{box-shadow:0 0 0 2px #dff2e8;}
+table.sc tr.rA2 td.tl .presence-dot{box-shadow:0 0 0 2px #fce0d8;}
+table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .chat-av-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
 .chat-av-row.mine-row{justify-content:flex-end;}
 .chat-mini-av{width:20px;height:20px;min-width:20px;border-radius:50%;background:#39a865;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;}
@@ -946,7 +950,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="lb-sec-title">Wager Breakdown</div>
     <div id="ledger-breakdown"></div>
   </div>
-  <div class="sec-block" id="ledger-settle-block" style="display:none">
+  <div class="sec-block" id="ledger-settle-block">
     <div class="lb-sec-title">Settle Up</div>
     <div class="ledger-settle-sub">Minimum cash transactions to zero everyone out</div>
     <div id="ledger-settle"></div>
@@ -3919,7 +3923,8 @@ function buildLedger(){
       txns.map(t=>`<div class="settle-row"><span class="settle-from">${t.from}</span><span class="settle-arrow">→</span><span class="settle-to">${t.to}</span><span class="settle-amt">$${t.amt}</span></div>`).join('')+
       '</div>';
   }else{
-    sb.style.display='none';
+    sb.style.display='';
+    document.getElementById('ledger-settle').innerHTML='<div class="suggest-empty">💸 Transactions will appear here once bets are settled.</div>';
   }
 }
 
