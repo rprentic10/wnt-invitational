@@ -704,8 +704,14 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .ps-submit:disabled{opacity:.3;cursor:default;}
 .ps-cancel{display:block;width:100%;padding:11px;background:transparent;border:none;color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;}
 /* ── Wager section headers ─────────────────────── */
-.wager-section-hdr{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(218,240,218,.4);padding:10px 0 8px;display:flex;align-items:center;gap:7px;}
+.wager-section-hdr{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.5);padding:10px 0 8px;display:flex;align-items:center;gap:7px;}
 .wager-section-hdr::after{content:'';flex:1;height:1px;background:rgba(218,240,218,.1);}
+/* ── Main game cards (Wagers tab) ───────────────── */
+.main-game-card{margin-bottom:18px;}
+.main-game-card:last-child{margin-bottom:0;}
+.main-game-day{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(254,254,86,.6);margin-bottom:4px;}
+.main-game-title{font-family:'Forum',serif;font-size:16px;color:var(--mw);margin-bottom:5px;}
+.main-game-desc{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.45);line-height:1.55;margin-bottom:10px;}
 /* ── House prop card ────────────────────────────── */
 .hp-stat-row{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
 .hp-stat-val{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:900;color:var(--mw);line-height:1;}
@@ -811,11 +817,9 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">We-Ko-Pa Cholla</div>
     <div class="course-sub">Par 72 · Purple Tees · 6,740 Yards</div>
   </div>
-  <div class="game-block open" id="gb-d1">
-    <div class="game-block-hdr" onclick="toggleGameBlock('d1')"><span class="game-block-name">4-Man Shamble · Wagers</span><span class="game-block-chev">▾</span></div>
-    <div class="game-block-body"><div class="game-block-inner">Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.
-      <div style="margin-top:14px"><div class="gw-area" id="gw-area-d1"></div></div>
-    </div></div>
+  <div class="game-block" id="gb-d1">
+    <div class="game-block-hdr" onclick="toggleGameBlock('d1')"><span class="game-block-name">4-Man Shamble</span><span class="game-block-chev">▾</span></div>
+    <div class="game-block-body"><div class="game-block-inner">Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.</div></div>
   </div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
@@ -833,17 +837,9 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">Troon North Pinnacle</div>
     <div class="course-sub">Par 71 · Gold Tees · 6,635 Yards</div>
   </div>
-  <div class="game-block open" id="gb-d2">
-    <div class="game-block-hdr" onclick="toggleGameBlock('d2')"><span class="game-block-name">2-Man Best Ball · Wagers</span><span class="game-block-chev">▾</span></div>
-    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.
-      <div style="margin-top:14px">
-        <div class="gw-area" id="gw-area-d2-pot"></div>
-        <div class="gw-row" style="margin-top:8px">
-          <div class="gw-area" id="gw-area-d2-skins-0"></div>
-          <div class="gw-area" id="gw-area-d2-skins-1"></div>
-        </div>
-      </div>
-    </div></div>
+  <div class="game-block" id="gb-d2">
+    <div class="game-block-hdr" onclick="toggleGameBlock('d2')"><span class="game-block-name">2-Man Best Ball Stroke Play</span><span class="game-block-chev">▾</span></div>
+    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.</div></div>
   </div>
   <div class="live-lb-wrap" style="margin-top:20px"><div class="live-lb-title">Live Standings</div><table class="live-lb-tbl"><thead><tr><th>Place</th><th>Team</th><th class="r">Score</th><th class="r">Thru</th></tr></thead><tbody id="d2-live-lb"></tbody></table></div>
   <div class="live-lb-title" style="margin-top:20px">Live Scorecard</div>
@@ -856,17 +852,9 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <div class="course-header">
     <div class="course-title">Grayhawk Talon</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
   </div>
-  <div class="game-block open" id="gb-d3">
-    <div class="game-block-hdr" onclick="toggleGameBlock('d3')"><span class="game-block-name">2-Man Match Play · Wagers</span><span class="game-block-chev">▾</span></div>
-    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.
-      <div style="margin-top:14px">
-        <div class="gw-row">
-          <div class="gw-area" id="gw-area-d3-m0"></div>
-          <div class="gw-area" id="gw-area-d3-m1"></div>
-        </div>
-        <div class="gw-area" style="margin-top:8px" id="gw-area-d3-side"></div>
-      </div>
-    </div></div>
+  <div class="game-block" id="gb-d3">
+    <div class="game-block-hdr" onclick="toggleGameBlock('d3')"><span class="game-block-name">2-Man Match Play</span><span class="game-block-chev">▾</span></div>
+    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.</div></div>
   </div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
@@ -911,6 +899,34 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <button class="wager-propose-btn" onclick="openProposeSheet()">+ Propose a Bet</button>
   <div style="text-align:center;margin:-10px 0 18px;">
     <a href="https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf" onclick="window.open('https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf','_blank');return false;" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.45);text-decoration:none;border-bottom:1px solid rgba(254,254,86,.2);padding-bottom:1px;cursor:pointer;">📖 Betting Rules</a>
+  </div>
+  <!-- MAIN GAMES -->
+  <div class="wager-section-hdr">⛳ Main Games</div>
+  <div class="main-game-card">
+    <div class="main-game-day">Thu · Day 1 · We-Ko-Pa Cholla</div>
+    <div class="main-game-title">4-Man Shamble</div>
+    <div class="main-game-desc">Everyone tees off, the best drive is selected, then all four play their own ball from that spot. Lowest score among the four counts per hole. No handicap — play straight up.</div>
+    <div class="gw-area" id="gw-area-d1"></div>
+  </div>
+  <div class="main-game-card">
+    <div class="main-game-day">Fri · Day 2 · Troon North Pinnacle</div>
+    <div class="main-game-title">2-Man Best Ball Stroke Play</div>
+    <div class="main-game-desc">Each player plays their own ball. Lower net score between partners counts per hole. Lowest total net across 18 holes wins the day.</div>
+    <div class="gw-area" id="gw-area-d2-pot"></div>
+    <div class="gw-row" style="margin-top:8px">
+      <div class="gw-area" id="gw-area-d2-skins-0"></div>
+      <div class="gw-area" id="gw-area-d2-skins-1"></div>
+    </div>
+  </div>
+  <div class="main-game-card">
+    <div class="main-game-day">Sat · Day 3 · Grayhawk Talon</div>
+    <div class="main-game-title">2-Man Match Play</div>
+    <div class="main-game-desc">Partners play net score per hole. The team winning more holes wins the match — 1 point per hole won, ½ each for a halve. Two simultaneous matches.</div>
+    <div class="gw-row">
+      <div class="gw-area" id="gw-area-d3-m0"></div>
+      <div class="gw-area" id="gw-area-d3-m1"></div>
+    </div>
+    <div class="gw-area" style="margin-top:8px" id="gw-area-d3-side"></div>
   </div>
   <div id="wager-suggest"></div>
   <div class="sec-block" id="wager-standing-block" style="display:none">
@@ -1142,7 +1158,7 @@ const SC={d1:{},d2:{},d3:{}};
 let bets=[];
 let drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
 let gameWagers={};// keys: d1, d2_pot, d2_skins_0, d2_skins_1, d3_m0, d3_m1, d3_side
-let gwInputOpen=null,gwAcceptOpen=null,gwInputState={};
+let gwInputOpen=null,gwAcceptOpen=null,gwVoteOpen=null,gwInputState={};
 let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null};
 let acceptBetId=null;
 Object.keys(P).forEach(k=>{SC.d1[k]={};SC.d2[k]={};SC.d3[k]={};});
@@ -1889,7 +1905,7 @@ function updateLB(){
   const chipsT=[],chipsF=[],chipsS=[],wins={};
   Object.keys(P).forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
   {const d1g1=bbLive(D1[0].keys,'d1'),d1g2=bbLive(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chipsT.push({label:'4-Man Shamble',course:'We-Ko-Pa Cholla',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDoneD1&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsT.push({label:'4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa Cholla</div>`});}}
-  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball',course:'Troon North Pinnacle',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North Pinnacle</div>`});}}
+  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball Stroke Play',course:'Troon North Pinnacle',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball Stroke Play',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North Pinnacle</div>`});}}
   D3.forEach((pair,pi)=>{
     let aP=0,bP=0;
     for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}}}
@@ -2856,7 +2872,7 @@ function gwLabel(name,maxLen=10){return name.length>maxLen?name.slice(0,maxLen-1
 function gwInfo(key){
   const m={
     d1:{label:'4-Man Shamble Match',type:'match',aLabel:gwLabel(teamName('d1_g1'),14),bLabel:gwLabel(teamName('d1_g2'),14),aKeys:D1[0].keys,bKeys:D1[1].keys},
-    d2_pot:{label:'2-Man Best Ball',type:'pot'},
+    d2_pot:{label:'2-Man Best Ball Stroke Play',type:'pot'},
     d2_skins_0:{label:'Group 1 Skins',type:'skins',gi:0,keys:[...D2[0].sA,...D2[0].sB]},
     d2_skins_1:{label:'Group 2 Skins',type:'skins',gi:1,keys:[...D2[1].sA,...D2[1].sB]},
     d3_m0:{label:'Match Play 1',type:'match',compact:true,aLabel:D3[0].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[0].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[0].sA,bKeys:D3[0].sB},
@@ -2865,6 +2881,7 @@ function gwInfo(key){
   };
   return m[key]||null;
 }
+function gwRequiresMajority(key){return key==='d1'||key==='d2_pot'||key==='d3_side';}
 function gwWinner(key){
   if(key==='d1')return d1MatchWinner();
   if(key==='d2_pot')return d2PotWinner();
@@ -2952,7 +2969,8 @@ function gameWagerWidget(key){
   const inputOpen=gwInputOpen===key;
   const acceptOpen=gwAcceptOpen===key;
   const ist=gwInputState[key]||{};
-  const statusCls=(!gw||gw.status==='void')?'':(gw.status==='open'?'gw-open-state':gw.status==='settled'?'gw-settled-state':'');
+  const statusCls=(!gw||gw.status==='void')?'':(gw.status==='open'||gw.status==='voting'?'gw-open-state':gw.status==='settled'?'gw-settled-state':'');
+  const voteOpen=gwVoteOpen===key;
 
   // ── POT widget ───────────────────────────────────
   if(info.type==='pot'){
@@ -2977,6 +2995,7 @@ function gameWagerWidget(key){
         </div>`;
       }).join('');
     };
+    const isMajority=gwRequiresMajority(key);
     let body='';
     if(!gw||gw.status==='void'){
       if(inputOpen){
@@ -2993,6 +3012,34 @@ function gameWagerWidget(key){
         </div>`;
       } else {
         body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Wager</button>`;
+      }
+    } else if(gw.status==='voting'){
+      const approvals=gw.approvals||[];
+      const allNames=Object.values(P).map(p=>p.name);
+      const approvedSet=new Set(approvals);
+      const iApproved=myName&&approvedSet.has(myName);
+      const canCancel=gw.propName===myName&&approvals.length<=1;
+      const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''} ${n}</div>`).join('');
+      if(voteOpen){
+        const unapprovedNames=allNames.filter(n=>!approvedSet.has(n));
+        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong> pot · ${approvals.length}/5 to lock</span></div>
+        <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
+        <div class="gw-form" style="margin-top:6px">
+          <div class="gw-form-row"><div class="ps-label">Your Name</div>
+            <select class="ps-name-sel" id="gw-gwa-name-${key}">
+              <option value="">Select…</option>${unapprovedNames.map(n=>`<option>${n}</option>`).join('')}
+            </select></div>
+          <button class="gw-propose-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>
+          <button class="gw-cancel-form-btn" onclick="hideGWVote('${key}')">Back</button>
+        </div>`;
+      } else {
+        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong> pot</span></div>
+        <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
+        <div class="pool-progress">${approvals.length}/5 approvals · 5 of 8 locks it in</div>
+        <div class="gw-pending-actions">
+          ${!iApproved?`<button class="gw-accept-btn" onclick="showGWVote('${key}')">👍 Approve</button>`:''}
+          ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
+        </div>`;
       }
     } else if(gw.status==='open'){
       const isProposer=gw.propName===myName;
@@ -3081,13 +3128,17 @@ function gameWagerWidget(key){
       }
     } else if(gw.status==='open'){
       const isProposer=gw.propName===myName;
+      // Find opposing team — proposer's team = sA or sB; acceptor must be from the other side
+      const propKey=Object.keys(P).find(k=>P[k].name===gw.propName);
+      const propIsOnSA=propKey&&D2[gi].sA.includes(propKey);
+      const oppKeys=propIsOnSA?D2[gi].sB:D2[gi].sA;
+      const oppNames=oppKeys.map(k=>P[k].name);
       if(acceptOpen){
-        const nameOpts=skinKeys.map(k=>P[k].name).filter(n=>n!==gw.propName);
         body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/skin</strong></span></div>
         <div class="gw-form">
           <div class="gw-form-row"><div class="ps-label">Your Name</div>
             <select class="ps-name-sel" id="gw-acc-name-${key}">
-              <option value="">Select…</option>${nameOpts.map(n=>`<option>${n}</option>`).join('')}
+              <option value="">Select…</option>${oppNames.map(n=>`<option>${n}</option>`).join('')}
             </select></div>
           <button class="gw-propose-btn" onclick="submitGWAccept('${key}')">Confirm — $${gw.amount}/skin</button>
           <button class="gw-cancel-form-btn" onclick="hideGWAccept('${key}')">Back</button>
@@ -3095,7 +3146,7 @@ function gameWagerWidget(key){
       } else {
         body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/skin</strong></span></div>
         <div class="gw-pending-actions">
-          <button class="gw-accept-btn" onclick="showGWAccept('${key}')">Accept</button>
+          <button class="gw-accept-btn" onclick="showGWAccept('${key}')">Accept (opposing team)</button>
           ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
         </div>`;
       }
@@ -3139,6 +3190,36 @@ function gameWagerWidget(key){
     } else {
       body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Wager</button>`;
     }
+  } else if(gw.status==='voting'){
+    // Majority approval state — for d1 (Shamble) and d3_side (Team Match Play)
+    const approvals=gw.approvals||[];
+    const allNames=Object.values(P).map(p=>p.name);
+    const approvedSet=new Set(approvals);
+    const iApproved=myName&&approvedSet.has(myName);
+    const canCancel=gw.propName===myName&&approvals.length<=1;
+    const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
+    const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''} ${n}</div>`).join('');
+    if(voteOpen){
+      const unapprovedNames=allNames.filter(n=>!approvedSet.has(n));
+      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong> · ${approvals.length}/5 to lock</span></div>
+      <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
+      <div class="gw-form" style="margin-top:6px">
+        <div class="gw-form-row"><div class="ps-label">Your Name</div>
+          <select class="ps-name-sel" id="gw-gwa-name-${key}">
+            <option value="">Select…</option>${unapprovedNames.map(n=>`<option>${n}</option>`).join('')}
+          </select></div>
+        <button class="gw-propose-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>
+        <button class="gw-cancel-form-btn" onclick="hideGWVote('${key}')">Back</button>
+      </div>`;
+    } else {
+      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
+      <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
+      <div class="pool-progress">${approvals.length}/5 approvals · 5 of 8 locks it in</div>
+      <div class="gw-pending-actions">
+        ${!iApproved?`<button class="gw-accept-btn" onclick="showGWVote('${key}')">👍 Approve</button>`:''}
+        ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
+      </div>`;
+    }
   } else if(gw.status==='open'){
     const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
     const accSideLabel=gw.propSide==='a'?info.bLabel:info.aLabel;
@@ -3173,7 +3254,7 @@ function gameWagerWidget(key){
   return`<div class="gw-widget ${statusCls}">${matchupHtml}${body}</div>`;
 }
 // ── GW action functions ──────────────────────────
-function showGWPropose(key){gwInputOpen=key;gwAcceptOpen=null;gwInputState[key]={side:null,name:'',amount:''};updateGWWidgets();}
+function showGWPropose(key){gwInputOpen=key;gwAcceptOpen=null;gwVoteOpen=null;gwInputState[key]={side:null,name:'',amount:''};updateGWWidgets();}
 function hideGWPropose(key){gwInputOpen=null;delete gwInputState[key];updateGWWidgets();}
 function setGWSide(key,side){
   const nameEl=document.getElementById('gw-name-'+key);
@@ -3191,13 +3272,35 @@ function submitGW(key){
   const info=gwInfo(key);
   const needsSide=info&&info.type==='match';
   if(!name||(needsSide&&!ist.side)||!amt||amt<=0)return;
-  gameWagers[key]={amount:amt,propName:name,propSide:needsSide?ist.side:null,accName:null,status:'open',result:null,ts:Date.now()};
+  const isMajority=gwRequiresMajority(key);
+  if(isMajority){
+    gameWagers[key]={amount:amt,propName:name,propSide:needsSide?ist.side:null,accName:null,status:'voting',approvals:[name],result:null,ts:Date.now()};
+  } else {
+    gameWagers[key]={amount:amt,propName:name,propSide:needsSide?ist.side:null,accName:null,status:'open',result:null,ts:Date.now()};
+  }
   gwInputOpen=null;delete gwInputState[key];
   pushRemote(getState(),true);
   updateGWWidgets();
 }
-function showGWAccept(key){gwAcceptOpen=key;updateGWWidgets();}
+function showGWAccept(key){gwAcceptOpen=key;gwVoteOpen=null;updateGWWidgets();}
 function hideGWAccept(key){gwAcceptOpen=null;updateGWWidgets();}
+function showGWVote(key){gwVoteOpen=key;gwAcceptOpen=null;updateGWWidgets();}
+function hideGWVote(key){gwVoteOpen=null;updateGWWidgets();}
+function submitGWApproval(key){
+  const gw=gameWagers[key];if(!gw||gw.status!=='voting')return;
+  const name=document.getElementById('gw-gwa-name-'+key)?.value;
+  if(!name)return;
+  if(!gw.approvals)gw.approvals=[];
+  if(gw.approvals.includes(name))return;
+  gw.approvals.push(name);
+  if(gw.approvals.length>=5){
+    gw.status='active';gw.accName=name;gw.ts=Date.now();
+    settleGameWagers();
+  }
+  gwVoteOpen=null;
+  pushRemote(getState(),true);
+  updateGWWidgets();
+}
 function submitGWAccept(key){
   const gw=gameWagers[key];if(!gw||gw.status!=='open')return;
   const name=document.getElementById('gw-acc-name-'+key)?.value;
@@ -3209,10 +3312,11 @@ function submitGWAccept(key){
   updateGWWidgets();
 }
 function cancelGW(key){
-  const gw=gameWagers[key];if(!gw||gw.status!=='open')return;
-  gw.status='void';gw.ts=Date.now();
-  pushRemote(getState(),true);
-  updateGWWidgets();
+  const gw=gameWagers[key];if(!gw)return;
+  if(gw.status==='open'||(gw.status==='voting'&&(gw.approvals||[]).length<=1)){
+    gw.status='void';gw.ts=Date.now();
+    pushRemote(getState(),true);updateGWWidgets();
+  }
 }
 
 // ── Auto-settle bets based on current scores ─────
@@ -3741,7 +3845,7 @@ function buildLedger(){
   // ── 2. Breakdown ──
   const gwMap={
     d1:{day:'THU',name:'4-Man Shamble Match'},
-    d2_pot:{day:'FRI',name:'2-Man Best Ball'},
+    d2_pot:{day:'FRI',name:'2-Man Best Ball Stroke Play'},
     d2_skins_0:{day:'FRI',name:'Group 1 Skins'},
     d2_skins_1:{day:'FRI',name:'Group 2 Skins'},
     d3_m0:{day:'SAT',name:'Match Play 1'},
