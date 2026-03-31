@@ -439,7 +439,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .sec-block{margin-bottom:24px;}
 
 /* ── CHAT ────────────────────────────────────────── */
-.chat-header{padding:12px 14px 10px;border-bottom:1px solid rgba(254,254,86,.15);background:#004526;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.chat-header{padding:12px 14px 10px;padding-top:calc(12px + env(safe-area-inset-top));border-bottom:1px solid rgba(254,254,86,.15);background:#004526;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .chat-title{font-family:'Forum',serif;font-size:18px;font-style:normal;font-weight:normal;color:var(--mw);}
 .chat-subtitle{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);margin-top:1px;}
 .chat-live{display:flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fefe56;}
@@ -540,7 +540,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .notif-prompt-text strong{color:var(--blue-lt);}
 .notif-allow-btn{background:rgba(93,173,226,.18);border:1px solid rgba(93,173,226,.3);border-radius:4px;color:var(--blue-lt);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;cursor:pointer;flex-shrink:0;touch-action:manipulation;}
 
-@media(max-width:600px){.main{padding:14px 12px 80px;}.course-header{margin-bottom:14px;padding-top:24px;}}
+@media(max-width:600px){.main{padding:14px 12px calc(80px + env(safe-area-inset-bottom));}.course-header{margin-bottom:14px;padding-top:24px;}}
 
 /* ── PLAYER CELL / AVATARS ───────────────────────── */
 .player-cell{display:flex;align-items:center;gap:7px;padding:2px 0;}
@@ -904,79 +904,73 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <button class="wsn-btn" data-tab="ledger" onclick="showWagersTab('ledger')">Ledger</button>
 </div>
 <div id="wc-bets">
-  <div class="main">
-    <div class="course-header">
-      <div class="course-title">Gentlemen Wagers</div>
-    </div>
-    <button class="wager-propose-btn" onclick="openProposeSheet()">+ Propose a Bet</button>
-    <div style="text-align:center;margin:-10px 0 18px;">
-      <a href="https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf" onclick="window.open('https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf','_blank');return false;" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.45);text-decoration:none;border-bottom:1px solid rgba(254,254,86,.2);padding-bottom:1px;cursor:pointer;">📖 Betting Rules</a>
-    </div>
-    <div id="wager-suggest"></div>
-    <div class="sec-block" id="wager-standing-block" style="display:none">
-      <div class="lb-sec-title">Net Standing</div>
-      <table class="wager-standing-tbl" id="wager-standing"></table>
-    </div>
-    <div id="wager-content"></div>
+  <div class="course-header">
+    <div class="course-title">Gentlemen Wagers</div>
   </div>
+  <button class="wager-propose-btn" onclick="openProposeSheet()">+ Propose a Bet</button>
+  <div style="text-align:center;margin:-10px 0 18px;">
+    <a href="https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf" onclick="window.open('https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf','_blank');return false;" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.45);text-decoration:none;border-bottom:1px solid rgba(254,254,86,.2);padding-bottom:1px;cursor:pointer;">📖 Betting Rules</a>
+  </div>
+  <div id="wager-suggest"></div>
+  <div class="sec-block" id="wager-standing-block" style="display:none">
+    <div class="lb-sec-title">Net Standing</div>
+    <table class="wager-standing-tbl" id="wager-standing"></table>
+  </div>
+  <div id="wager-content"></div>
 </div><!-- /wc-bets -->
 <div id="wc-ledger" style="display:none">
-  <div class="main">
-    <div class="course-header">
-      <div class="course-title">Money Ledger</div>
-    </div>
-    <div class="lb-sec-title">Player Balances</div>
-    <div id="ledger-cards" class="ledger-grid"></div>
-    <div class="sec-block" id="ledger-breakdown-block" style="margin-top:28px">
-      <div class="lb-sec-title">Wager Breakdown</div>
-      <div id="ledger-breakdown"></div>
-    </div>
-    <div class="sec-block" id="ledger-settle-block" style="display:none">
-      <div class="lb-sec-title">Settle Up</div>
-      <div class="ledger-settle-sub">Minimum cash transactions to zero everyone out</div>
-      <div id="ledger-settle"></div>
-    </div>
+  <div class="course-header">
+    <div class="course-title">Money Ledger</div>
+  </div>
+  <div class="lb-sec-title">Player Balances</div>
+  <div id="ledger-cards" class="ledger-grid"></div>
+  <div class="sec-block" id="ledger-breakdown-block" style="margin-top:28px">
+    <div class="lb-sec-title">Wager Breakdown</div>
+    <div id="ledger-breakdown"></div>
+  </div>
+  <div class="sec-block" id="ledger-settle-block" style="display:none">
+    <div class="lb-sec-title">Settle Up</div>
+    <div class="ledger-settle-sub">Minimum cash transactions to zero everyone out</div>
+    <div id="ledger-settle"></div>
   </div>
 </div><!-- /wc-ledger -->
 </div><!-- /panel-bets -->
 
 <!-- MY GAME PANEL -->
 <div class="panel" id="panel-me">
-  <div class="main">
-    <div class="lb-hero"><h2 id="my-game-title">My Game</h2></div>
-    <!-- Me sub-nav -->
-    <div class="me-subnav">
-      <button class="msn-btn active" data-tab="round" onclick="showMeTab('round')">Round</button>
-      <button class="msn-btn" data-tab="stats" onclick="showMeTab('stats')">Stats</button>
+  <div class="lb-hero"><h2 id="my-game-title">My Game</h2></div>
+  <!-- Me sub-nav -->
+  <div class="me-subnav">
+    <button class="msn-btn active" data-tab="round" onclick="showMeTab('round')">Round</button>
+    <button class="msn-btn" data-tab="stats" onclick="showMeTab('stats')">Stats</button>
+  </div>
+  <!-- Round sub-panel -->
+  <div id="me-round">
+    <div class="me-day-nav">
+      <button class="mdn-btn active" data-day="d1" onclick="showMeDay('d1')">Thu</button>
+      <button class="mdn-btn" data-day="d2" onclick="showMeDay('d2')">Fri</button>
+      <button class="mdn-btn" data-day="d3" onclick="showMeDay('d3')">Sat</button>
     </div>
-    <!-- Round sub-panel -->
-    <div id="me-round">
-      <div class="me-day-nav">
-        <button class="mdn-btn active" data-day="d1" onclick="showMeDay('d1')">Thu</button>
-        <button class="mdn-btn" data-day="d2" onclick="showMeDay('d2')">Fri</button>
-        <button class="mdn-btn" data-day="d3" onclick="showMeDay('d3')">Sat</button>
-      </div>
-      <div id="mr-course-hdr" class="mr-course-hdr"></div>
-      <div class="mr-nine">
-        <button class="mr-nine-btn active" id="mr-nine-front" onclick="setMeNine(false)">Front 9</button>
-        <button class="mr-nine-btn" id="mr-nine-back" onclick="setMeNine(true)">Back 9</button>
-      </div>
-      <div id="mr-hole-list"></div>
-      <div class="mr-total-row">
-        <div id="mr-total">—</div>
-      </div>
+    <div id="mr-course-hdr" class="mr-course-hdr"></div>
+    <div class="mr-nine">
+      <button class="mr-nine-btn active" id="mr-nine-front" onclick="setMeNine(false)">Front 9</button>
+      <button class="mr-nine-btn" id="mr-nine-back" onclick="setMeNine(true)">Back 9</button>
     </div>
-    <!-- Stats sub-panel -->
-    <div id="me-stats" style="display:none">
-      <div class="me-day-nav" id="stats-day-nav" style="margin-bottom:10px">
-        <button class="mdn-btn active" data-sday="all" onclick="showStatsDay('all')">Total</button>
-        <button class="mdn-btn" data-sday="d1" onclick="showStatsDay('d1')">Thu</button>
-        <button class="mdn-btn" data-sday="d2" onclick="showStatsDay('d2')">Fri</button>
-        <button class="mdn-btn" data-sday="d3" onclick="showStatsDay('d3')">Sat</button>
-      </div>
-      <div id="my-game-content">
-        <div style="text-align:center;padding:40px 20px;opacity:.4;font-family:'DM Sans',sans-serif;font-size:14px;color:rgba(218,240,218,.6);">Loading your stats...</div>
-      </div>
+    <div id="mr-hole-list"></div>
+    <div class="mr-total-row">
+      <div id="mr-total">—</div>
+    </div>
+  </div>
+  <!-- Stats sub-panel -->
+  <div id="me-stats" style="display:none">
+    <div class="me-day-nav" id="stats-day-nav" style="margin-bottom:10px">
+      <button class="mdn-btn active" data-sday="all" onclick="showStatsDay('all')">Total</button>
+      <button class="mdn-btn" data-sday="d1" onclick="showStatsDay('d1')">Thu</button>
+      <button class="mdn-btn" data-sday="d2" onclick="showStatsDay('d2')">Fri</button>
+      <button class="mdn-btn" data-sday="d3" onclick="showStatsDay('d3')">Sat</button>
+    </div>
+    <div id="my-game-content">
+      <div style="text-align:center;padding:40px 20px;opacity:.4;font-family:'DM Sans',sans-serif;font-size:14px;color:rgba(218,240,218,.6);">Loading your stats...</div>
     </div>
   </div>
 </div>
