@@ -114,6 +114,14 @@ body{
 
 /* ── MY ROUND (Me tab score entry) ───────────────── */
 .me-subnav{display:flex;gap:8px;padding:2px 0 12px;}
+.me-profile-hero{display:flex;flex-direction:column;align-items:center;padding:22px 0 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.me-profile-hero:active .me-av-large{transform:scale(.95);}
+.me-av-container{position:relative;display:inline-block;margin-bottom:10px;}
+.me-av-large{width:72px;height:72px;border-radius:50%;border:2px solid rgba(218,240,218,.22);background:#555;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:28px;font-weight:700;color:#fff;overflow:hidden;transition:transform .15s ease;}
+.me-av-large img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.me-av-edit-badge{position:absolute;bottom:1px;right:1px;width:22px;height:22px;border-radius:50%;background:rgba(16,36,16,.9);border:1.5px solid rgba(218,240,218,.25);display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1;pointer-events:none;}
+.me-profile-name{font-family:'Forum',serif;font-size:20px;font-weight:normal;color:rgba(218,240,218,.9);line-height:1.2;margin-bottom:3px;}
+.me-profile-hint{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(218,240,218,.3);}
 .msn-btn{flex:1;padding:9px 6px;border:1px solid rgba(218,240,218,.14);border-radius:9px;background:transparent;color:rgba(218,240,218,.42);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
 .msn-btn.active{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.3);color:#fefe56;}
 .me-day-nav{display:flex;gap:3px;padding:0 0 14px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;padding:3px;margin-bottom:14px;}
@@ -960,7 +968,14 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 
 <!-- MY GAME PANEL -->
 <div class="panel" id="panel-me">
-  <div class="lb-hero"><h2 id="my-game-title">My Game</h2></div>
+  <div class="me-profile-hero" id="me-profile-hero" onclick="tapMeAvatar()">
+  <div class="me-av-container">
+    <div class="me-av-large" id="me-av-large">?</div>
+    <div class="me-av-edit-badge">✏️</div>
+  </div>
+  <div class="me-profile-name" id="my-game-title">My Game</div>
+  <div class="me-profile-hint">tap to change photo</div>
+</div>
   <!-- Me sub-nav -->
   <div class="me-subnav">
     <button class="msn-btn active" data-tab="round" onclick="showMeTab('round')">Round</button>
@@ -2068,6 +2083,23 @@ let chatUnread=0,appReady=false,initSyncDone=false;
 
 function showNameOverlay(){document.getElementById('name-overlay').classList.remove('hidden');}
 function onNameChange(v){if(!v)return;chatAuthor=v;try{localStorage.setItem('wni-author',v);}catch(e){}document.getElementById('name-overlay').classList.add('hidden');updateBottomNavAvatar();buildD1();buildD2();buildD3();if(currentTab==='me')showMeTab(currentMeTab);}
+function tapMeAvatar(){
+  if(!chatAuthor){showNameOverlay();return;}
+  const aKey=Object.keys(P).find(k=>P[k].name===chatAuthor);
+  if(!aKey)return;
+  tapAvatar(aKey);
+}
+function renderMeProfileHero(){
+  const avEl=document.getElementById('me-av-large');
+  const nameEl=document.getElementById('my-game-title');
+  if(!avEl||!nameEl)return;
+  const aKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
+  if(chatAuthor&&aKey){
+    nameEl.textContent=chatAuthor;
+    if(playerAvatars[aKey]){avEl.style.background='#111';avEl.innerHTML=`<img src="${playerAvatars[aKey]}">`;}
+    else{const col=PLAYER_COLORS[aKey]||'#555';avEl.style.background=col;avEl.innerHTML='';avEl.textContent=chatAuthor[0].toUpperCase();}
+  }else{avEl.style.background='rgba(218,240,218,.08)';avEl.innerHTML='';avEl.textContent='?';nameEl.textContent='My Game';}
+}
 function updateBottomNavAvatar(){
   const av=document.getElementById('bnt-me-av');
   const lbl=document.getElementById('bnt-me-label');
@@ -2079,6 +2111,7 @@ function updateBottomNavAvatar(){
     else{const col=aKey?PLAYER_COLORS[aKey]||'#555':'#555';av.style.background=col;av.innerHTML='';av.textContent=ini;}
     lbl.textContent=chatAuthor.split(' ')[0];
   }else{av.textContent='?';lbl.textContent='Me';}
+  renderMeProfileHero();
 }
 function pickName(n){onNameChange(n);document.getElementById('chat-name-sel').value=n;}
 
@@ -2216,7 +2249,7 @@ let currentMeDay=null;
 let currentStatsDay='all';
 let meNineBack=false;
 
-function showMeTab(tab){
+function showMeTab(tab){renderMeProfileHero();
   currentMeTab=tab;
   document.querySelectorAll('.msn-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
   const rd=document.getElementById('me-round');
@@ -2548,7 +2581,7 @@ function buildMyGame(){
     }
     if(footerLine)statsHtml+=`<div class="my-stat-footer">${footerLine}</div>`;
   }
-  document.getElementById('my-game-title').textContent='My Game';
+  renderMeProfileHero();
   document.getElementById('my-game-content').innerHTML=`
     <div class="sec-block">
       <div class="lb-sec-title">Score</div>
