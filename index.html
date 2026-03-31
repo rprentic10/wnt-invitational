@@ -1169,13 +1169,19 @@ const JSONBIN='https://api.jsonbin.io/v3/b';
 const JSONBIN_ID='69c6bfa3c3097a1dd568bcda';
 const JSONBIN_KEY='$2a$10$u8H4aaQDmmwyV6A6ieyFDeUhVJBxFvFU4PeBUJxtg.1mMUkrys7e.';
 const LS_DATA='wni-data-2026';
+// ── Data epoch ────────────────────────────────────
+// Any wager / bet / chat message with ts < REQUIRED_WIPE_AT is considered
+// pre-reset simulation data and is silently dropped everywhere (local apply,
+// remote merge, push merge).  Bump this constant whenever you need a full
+// data wipe — the first device to push will clean JSONbin for everyone.
+const REQUIRED_WIPE_AT=1774925684885;
 
 let lastRemoteJson=null;
 let offlineMode=false;
 let saveTimer=null;
 
 function getState(){
-  return{scores:JSON.parse(JSON.stringify(SC)),stats:JSON.parse(JSON.stringify(STATS)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},teamNames:{...teamNames},bets:bets.slice(),drives:{g1:drives.g1.slice(),g2:drives.g2.slice()},gameWagers:{...gameWagers},presence:{...presenceData},v:1};
+  return{scores:JSON.parse(JSON.stringify(SC)),stats:JSON.parse(JSON.stringify(STATS)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},teamNames:{...teamNames},bets:bets.slice(),drives:{g1:drives.g1.slice(),g2:drives.g2.slice()},gameWagers:{...gameWagers},presence:{...presenceData},wipeAt:REQUIRED_WIPE_AT,v:1};
 }
 
 function applyRemoteState(state){
@@ -1192,7 +1198,9 @@ function applyRemoteState(state){
   }
   if(state.chat&&Array.isArray(state.chat.messages)){
     const oldCount=chatMessages.length;
-    chatMessages=dedupeMessages(state.chat.messages);
+    // Drop any messages created before the data wipe epoch (sim/test data)
+    const validMsgs=state.chat.messages.filter(m=>(m.ts||0)>=REQUIRED_WIPE_AT);
+    chatMessages=dedupeMessages(validMsgs);
     renderChat();
     const newCount=chatMessages.length;
     if(newCount>oldCount&&currentTab!=='chat'&&appReady&&initSyncDone){
@@ -1218,8 +1226,9 @@ function applyRemoteState(state){
     const rank={open:0,voting:0,active:1,settled:2,void:3};
     const merged={};
     bets.forEach(b=>merged[b.id]=b);
-    state.bets.forEach(b=>{if(!merged[b.id]||(rank[b.status]||0)>=(rank[merged[b.id].status]||0))merged[b.id]=b;});
-    bets=Object.values(merged).sort((a,b)=>a.ts-b.ts);
+    // Drop pre-wipe sim bets
+    state.bets.forEach(b=>{if((b.ts||0)<REQUIRED_WIPE_AT)return;if(!merged[b.id]||(rank[b.status]||0)>=(rank[merged[b.id].status]||0))merged[b.id]=b;});
+    bets=Object.values(merged).filter(b=>(b.ts||0)>=REQUIRED_WIPE_AT).sort((a,b)=>a.ts-b.ts);
     settleBets();
     if(currentTab==='bets')buildWagers();
     updateBetsBadge();
@@ -1230,6 +1239,8 @@ function applyRemoteState(state){
   if(state.gameWagers&&typeof state.gameWagers==='object'){
     Object.keys(state.gameWagers).forEach(k=>{
       const r=state.gameWagers[k];if(!r)return;
+      // Drop pre-wipe sim wagers — they must be newer than the data epoch
+      if((r.ts||0)<REQUIRED_WIPE_AT)return;
       if(!gameWagers[k]||r.ts>=gameWagers[k].ts)gameWagers[k]=r;
     });
     settleGameWagers();
@@ -1304,7 +1315,11 @@ async function pushRemote(state,immediate){
     try{
       let latest=await fetchRemote();
       if(latest&&latest.chat&&Array.isArray(latest.chat.messages)){
-        state.chat.messages=dedupeMessages([...latest.chat.messages,...state.chat.messages]);
+        // Only merge remote messages that are newer than the data wipe epoch.
+        // This prevents pre-reset simulation messages from being re-injected
+        // into the state every time we do a fetch-before-write push.
+        const validRemote=latest.chat.messages.filter(m=>(m.ts||0)>=REQUIRED_WIPE_AT);
+        state.chat.messages=dedupeMessages([...validRemote,...state.chat.messages]);
       }
       const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(state)});
       if(r.ok){lastRemoteJson=JSON.stringify(state);pulse();}
@@ -1334,8 +1349,6 @@ function showApp(){
   document.getElementById('app-main').style.display='';
   document.getElementById('bottom-nav').classList.add('show');
   try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){console.error('showApp build error',e);}
-  // One-shot: clear stale sim data (game wagers + chat messages) from remote
-  try{if(!localStorage.getItem('wnt_gw_reset_apr25c')){gameWagers={};chatMessages=[];renderChat();pushRemote(getState(),true);localStorage.setItem('wnt_gw_reset_apr25c','1');settleGameWagers();updateGWWidgets();buildLedger();}}catch(e){}
   initGameBlocks();
   show('me');
   // Show onboarding for first-time users; else handle notif prompt normally
