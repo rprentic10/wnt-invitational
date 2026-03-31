@@ -472,7 +472,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .chat-empty-text{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--mw);margin-bottom:5px;}
 .chat-empty-sub{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:400;letter-spacing:.12em;color:rgba(218,240,218,.45);text-transform:uppercase;}
 
-.chat-input-bar{background:#004526;border-top:1px solid rgba(254,254,86,.15);padding:9px 12px;padding-bottom:calc(9px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.chat-input-bar{background:#004526;border-top:1px solid rgba(254,254,86,.15);padding:9px 12px;display:flex;align-items:center;gap:7px;flex-shrink:0;}
 .chat-name-sel{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.25);border-radius:18px;color:#fefe56;padding:8px 10px;cursor:pointer;flex-shrink:0;touch-action:manipulation;outline:none;appearance:none;-webkit-appearance:none;max-width:90px;text-align:center;}
 .chat-name-sel option{background:#005a30;color:var(--mw);}
 .chat-input{flex:1;background:rgba(218,240,218,.07);border:1px solid rgba(218,240,218,.12);border-radius:18px;color:var(--mw);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;outline:none;resize:none;min-height:40px;max-height:100px;-webkit-appearance:none;line-height:1.4;}
@@ -668,6 +668,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .gw-settled-push{color:rgba(218,240,218,.45);}
 .wager-empty{text-align:center;padding:22px 16px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.22);background:rgba(16,36,16,.6);border-radius:8px;}
 .suggest-section{margin-bottom:18px;}
+.suggest-empty{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.35);background:rgba(16,36,16,.5);border:1px dashed rgba(254,254,86,.12);border-radius:9px;padding:14px 16px;line-height:1.5;}
 .suggest-header{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(254,254,86,.55);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
 .suggest-header::after{content:'';flex:1;height:1px;background:rgba(254,254,86,.12);}
 .suggest-card{background:rgba(16,36,16,.8);border:1px solid rgba(254,254,86,.12);border-radius:9px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
@@ -705,13 +706,19 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .ps-cancel{display:block;width:100%;padding:11px;background:transparent;border:none;color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;}
 /* ── Wager section headers ─────────────────────── */
 .wager-section-hdr{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.5);padding:10px 0 8px;display:flex;align-items:center;gap:7px;}
+.wager-section-hdr::before{content:'';flex:1;height:1px;background:rgba(218,240,218,.1);}
 .wager-section-hdr::after{content:'';flex:1;height:1px;background:rgba(218,240,218,.1);}
+/* ── Day sub-group dividers ─────────────────────── */
+.wager-day-grp{margin-bottom:16px;}
+.wager-day-grp:last-child{margin-bottom:0;}
+.wager-day-lbl{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(254,254,86,.6);display:flex;align-items:center;gap:7px;margin-bottom:8px;}
+.wager-day-lbl::after{content:'';flex:1;height:1px;background:rgba(254,254,86,.1);}
 /* ── Main game cards (Wagers tab) ───────────────── */
-.main-game-card{margin-bottom:18px;}
+.main-game-card{margin-bottom:12px;}
 .main-game-card:last-child{margin-bottom:0;}
-.main-game-day{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(254,254,86,.6);margin-bottom:4px;}
-.main-game-title{font-family:'Forum',serif;font-size:16px;color:var(--mw);margin-bottom:5px;}
-.main-game-desc{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.45);line-height:1.55;margin-bottom:10px;}
+.main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.main-game-daybadge{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;flex-shrink:0;}
+.main-game-title{font-family:'Forum',serif;font-size:15px;color:var(--mw);}
 /* ── House prop card ────────────────────────────── */
 .hp-stat-row{display:flex;align-items:baseline;gap:8px;margin-bottom:6px;}
 .hp-stat-val{font-family:'DM Sans',sans-serif;font-size:28px;font-weight:900;color:var(--mw);line-height:1;}
@@ -903,15 +910,11 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <!-- MAIN GAMES -->
   <div class="wager-section-hdr">⛳ Main Games</div>
   <div class="main-game-card">
-    <div class="main-game-day">Thu · Day 1 · We-Ko-Pa Cholla</div>
-    <div class="main-game-title">4-Man Shamble</div>
-    <div class="main-game-desc">Everyone tees off, the best drive is selected, then all four play their own ball from that spot. Lowest score among the four counts per hole. No handicap — play straight up.</div>
+    <div class="main-game-hdr"><span class="main-game-daybadge">THU</span><span class="main-game-title">4-Man Shamble</span></div>
     <div class="gw-area" id="gw-area-d1"></div>
   </div>
   <div class="main-game-card">
-    <div class="main-game-day">Fri · Day 2 · Troon North Pinnacle</div>
-    <div class="main-game-title">2-Man Best Ball Stroke Play</div>
-    <div class="main-game-desc">Each player plays their own ball. Lower net score between partners counts per hole. Lowest total net across 18 holes wins the day.</div>
+    <div class="main-game-hdr"><span class="main-game-daybadge">FRI</span><span class="main-game-title">2-Man Best Ball Stroke Play</span></div>
     <div class="gw-area" id="gw-area-d2-pot"></div>
     <div class="gw-row" style="margin-top:8px">
       <div class="gw-area" id="gw-area-d2-skins-0"></div>
@@ -919,9 +922,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     </div>
   </div>
   <div class="main-game-card">
-    <div class="main-game-day">Sat · Day 3 · Grayhawk Talon</div>
-    <div class="main-game-title">2-Man Match Play</div>
-    <div class="main-game-desc">Partners play net score per hole. The team winning more holes wins the match — 1 point per hole won, ½ each for a halve. Two simultaneous matches.</div>
+    <div class="main-game-hdr"><span class="main-game-daybadge">SAT</span><span class="main-game-title">2-Man Match Play</span></div>
     <div class="gw-row">
       <div class="gw-area" id="gw-area-d3-m0"></div>
       <div class="gw-area" id="gw-area-d3-m1"></div>
@@ -2462,7 +2463,7 @@ function buildMyGame(){
   if(holesPlayed===0){
     statsHtml='<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:rgba(218,240,218,.3);padding:8px 0">No scores entered yet</div>';
   }else{
-    const birdieVal=eagles>0?`🦅 ${eagles+birdies}`:birdies>0?`🐦 ${birdies}`:'0';
+    const birdieVal=eagles>0?`${eagles+birdies}`:birdies>0?`${birdies}`:'0';
     const birdieColor=eagles>0?'#27ae60':birdies>0?'#6ab46a':'';
     const birdieLbl=eagles>0?'Eagles + Birdies':'Birdies';
     statsHtml+=`<div class="my-stat-section">Scoring</div><div class="my-stat-grid">
@@ -3696,7 +3697,7 @@ function nassauCardHTML(bet,myName){
   const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel Bet</button>`:'';
 
   return`<div class="wager-card ${cardCls}">
-  <div class="wc-day">Sat · Day 3 · Grayhawk</div>
+  <div class="wc-day">${betDayLabel(bet.day)}</div>
   <div class="wc-desc">Nassau · Match ${bet.matchIdx+1}</div>
   <div class="wc-line">${aN} vs ${bN}</div>
   <div class="nassau-note">$${bet.amount} per leg · up to $${bet.amount*3} total</div>
@@ -3770,7 +3771,7 @@ function poolCardHTML(bet,myName){
   const canCancel=isVoting&&bet.proposerName===myName&&bet.approvals.length<=1;
   return`<div class="wager-card ${cardCls}">
   <div class="wc-day">${betDayLabel(bet.day)}</div>
-  <div class="wc-desc">🎱 ${label}</div>
+  <div class="wc-desc">${label}</div>
   <div class="pool-ante-row">$${bet.buyIn} · all-in pot</div>
   <div class="pool-prize">$${prize} to winner · ${isVoting?`${(bet.approvals||[]).length}/5 approvals to lock`:(bet.status==='active'?'In progress':'Settled')}</div>
   <div class="pool-approval-chips">${chips}</div>
@@ -3788,10 +3789,13 @@ function buildWagers(){
   const sugg=buildSuggestedBets();
   const suggEl=document.getElementById('wager-suggest');
   if(suggEl){
+    const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place Net','h2h':'Net H2H'};
+    const hdr=`<div class="suggest-section"><div class="wager-section-hdr">💡 Hot Takes</div>`;
     if(sugg.length){
-      const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place Net','h2h':'Net H2H'};
-      suggEl.innerHTML=`<div class="suggest-section"><div class="suggest-header">💡 Hot Takes</div>`+sugg.map((s,i)=>`<div class="suggest-card"><div class="suggest-card-body"><div class="suggest-type">${typeLabels[s.type]||s.type}</div><div class="suggest-label">${s.label}</div><div class="suggest-rationale">${s.rationale}</div></div><button class="suggest-btn" onclick="proposeSuggested(${i})">Bet This</button></div>`).join('')+`</div>`;
-    }else{suggEl.innerHTML='';}
+      suggEl.innerHTML=hdr+sugg.map((s,i)=>`<div class="suggest-card"><div class="suggest-card-body"><div class="suggest-type">${typeLabels[s.type]||s.type}</div><div class="suggest-label">${s.label}</div><div class="suggest-rationale">${s.rationale}</div></div><button class="suggest-btn" onclick="proposeSuggested(${i})">Bet This</button></div>`).join('')+`</div>`;
+    }else{
+      suggEl.innerHTML=hdr+`<div class="suggest-empty">🔒 Bet ideas surface once scores are entered — check back after Thursday's round.</div></div>`;
+    }
   }
   const cont=document.getElementById('wager-content');
   if(!cont)return;
@@ -3800,14 +3804,24 @@ function buildWagers(){
   const houseBets=bets.filter(b=>b.type==='house-prop'&&b.status!=='void');
   const poolBets=bets.filter(b=>b.type==='pool'&&b.status!=='void');
   function renderP2P(b){return b.type==='nassau'?nassauCardHTML(b,myName):wagerCardHTML(b,myName);}
-  function sortBets(arr){const ord={open:0,voting:0,active:1,settled:2};return arr.slice().sort((a,b)=>(ord[a.status]||0)-(ord[b.status]||0));}
+  const _ord={open:0,voting:0,active:1,settled:2};
+  function groupByDay(arr,renderFn){
+    const dayLabels={d1:'THU · Day 1',d2:'FRI · Day 2',d3:'SAT · Day 3'};
+    let out='';
+    ['d1','d2','d3'].forEach(d=>{
+      const items=arr.filter(b=>b.day===d).slice().sort((a,b)=>(_ord[a.status]||0)-(_ord[b.status]||0));
+      if(!items.length)return;
+      out+=`<div class="wager-day-grp"><div class="wager-day-lbl">${dayLabels[d]}</div>${items.map(renderFn).join('')}</div>`;
+    });
+    return out||'';
+  }
   let html='';
   html+=`<div class="wager-section-hdr">🤝 P2P Bets</div>`;
-  html+=sortBets(p2pBets).length?sortBets(p2pBets).map(renderP2P).join(''):'<div class="wager-empty">No P2P bets yet</div>';
+  html+=p2pBets.length?groupByDay(p2pBets,renderP2P):'<div class="wager-empty">No P2P bets yet</div>';
   html+=`<div class="wager-section-hdr" style="margin-top:14px">🏦 House Props</div>`;
-  html+=sortBets(houseBets).length?sortBets(houseBets).map(b=>houseCardHTML(b,myName)).join(''):'<div class="wager-empty">No house props yet</div>';
+  html+=houseBets.length?groupByDay(houseBets,b=>houseCardHTML(b,myName)):'<div class="wager-empty">No house props yet</div>';
   html+=`<div class="wager-section-hdr" style="margin-top:14px">🎱 Pools</div>`;
-  html+=sortBets(poolBets).length?sortBets(poolBets).map(b=>poolCardHTML(b,myName)).join(''):'<div class="wager-empty">No active pools yet</div>';
+  html+=poolBets.length?groupByDay(poolBets,b=>poolCardHTML(b,myName)):'<div class="wager-empty">No active pools yet</div>';
   cont.innerHTML=html;
   const nl=netLedger();
   const rows=Object.entries(nl).filter(([,v])=>v!==0).sort((a,b)=>b[1]-a[1]);
@@ -4377,7 +4391,7 @@ function submitAccept(){
       </div>
       <div id="p2p-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🤝 A direct bet between two players. Pick your type, set the terms, and challenge someone. Both sides lock in their stake and the app tracks the outcome automatically.</div>
       <div id="house-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🏦 The house sets a stat line on a player — anyone can buy in as the house and take the other side. The more people that back it, the bigger the pot. Anyone can act as the house.</div>
-      <div id="pool-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🎱 Everyone throws in the same buy-in and picks a player. Whoever's player performs best on the chosen stat wins the whole pot. The more players that join, the bigger the prize.</div>
+      <div id="pool-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🎱 Everyone throws in the same buy-in. Pick a stat — whoever performs best on it wins the whole pot. Needs 5 of 8 players to approve before it locks in.</div>
     </div>
     <!-- P2P STEPS -->
     <div id="p2p-steps">
