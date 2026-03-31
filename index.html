@@ -90,8 +90,8 @@ body{
 .bn-tab.active .bn-avatar-wrap{border-color:rgba(254,254,86,.55);background:rgba(254,254,86,.1);}
 .bn-tab .tab-badge{position:absolute;top:6px;right:calc(50% - 20px);display:none;align-items:center;justify-content:center;}
 /* Scores sub-nav */
-.ssn-btn{flex:1;padding:9px 6px;border:1px solid rgba(218,240,218,.14);border-radius:9px;background:transparent;color:rgba(218,240,218,.42);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
-.ssn-btn.active{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.3);color:#fefe56;}
+.ssn-btn{flex:1;padding:7px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
+.ssn-btn.active{background:rgba(218,240,218,.18);color:rgba(218,240,218,.9);}
 /* Wagers sub-nav — same pill style as Scores sub-nav */
 .wsn-btn{flex:1;padding:9px 6px;border:1px solid rgba(218,240,218,.14);border-radius:9px;background:transparent;color:rgba(218,240,218,.42);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
 .wsn-btn.active{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.3);color:#fefe56;}
@@ -211,7 +211,7 @@ body{
 .panel{display:none;}.panel.active{display:block;}
 #panel-chat{display:none;flex-direction:column;position:fixed;left:0;right:0;top:0;bottom:calc(60px + env(safe-area-inset-bottom));z-index:50;background:var(--mg);}
 #panel-chat.active{display:flex;}
-.scores-subnav{display:flex;gap:8px;padding:12px 14px 2px;background:var(--mg);}
+.scores-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:12px 14px 2px;}
 .wagers-subnav{display:flex;gap:8px;padding:12px 14px 2px;background:var(--mg);}
 
 /* ── COURSE HEADER ───────────────────────────────── */
@@ -808,7 +808,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">We-Ko-Pa Cholla</div>
     <div class="course-sub">Par 72 · Purple Tees · 6,740 Yards</div>
   </div>
-  <div class="game-block" id="gb-d1">
+  <div class="game-block open" id="gb-d1">
     <div class="game-block-hdr" onclick="toggleGameBlock('d1')"><span class="game-block-name">4-Man Shamble · Wagers</span><span class="game-block-chev">▾</span></div>
     <div class="game-block-body"><div class="game-block-inner">Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.
       <div style="margin-top:14px"><div class="gw-area" id="gw-area-d1"></div></div>
@@ -830,7 +830,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     <div class="course-title">Troon North Pinnacle</div>
     <div class="course-sub">Par 71 · Gold Tees · 6,635 Yards</div>
   </div>
-  <div class="game-block" id="gb-d2">
+  <div class="game-block open" id="gb-d2">
     <div class="game-block-hdr" onclick="toggleGameBlock('d2')"><span class="game-block-name">2-Man Best Ball · Wagers</span><span class="game-block-chev">▾</span></div>
     <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.
       <div style="margin-top:14px">
@@ -853,7 +853,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
   <div class="course-header">
     <div class="course-title">Grayhawk Talon</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
   </div>
-  <div class="game-block" id="gb-d3">
+  <div class="game-block open" id="gb-d3">
     <div class="game-block-hdr" onclick="toggleGameBlock('d3')"><span class="game-block-name">2-Man Match Play · Wagers</span><span class="game-block-chev">▾</span></div>
     <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.
       <div style="margin-top:14px">
@@ -963,6 +963,12 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
     </div>
     <!-- Stats sub-panel -->
     <div id="me-stats" style="display:none">
+      <div class="me-day-nav" id="stats-day-nav" style="margin-bottom:10px">
+        <button class="mdn-btn active" data-sday="all" onclick="showStatsDay('all')">Total</button>
+        <button class="mdn-btn" data-sday="d1" onclick="showStatsDay('d1')">Thu</button>
+        <button class="mdn-btn" data-sday="d2" onclick="showStatsDay('d2')">Fri</button>
+        <button class="mdn-btn" data-sday="d3" onclick="showStatsDay('d3')">Sat</button>
+      </div>
       <div id="my-game-content">
         <div style="text-align:center;padding:40px 20px;opacity:.4;font-family:'DM Sans',sans-serif;font-size:14px;color:rgba(218,240,218,.6);">Loading your stats...</div>
       </div>
@@ -1181,7 +1187,7 @@ function applyRemoteState(state){
     chatMessages=dedupeMessages(state.chat.messages);
     renderChat();
     const newCount=chatMessages.length;
-    if(newCount>oldCount&&currentTab!=='chat'&&appReady){
+    if(newCount>oldCount&&currentTab!=='chat'&&appReady&&initSyncDone){
       chatUnread+=newCount-oldCount;
       updateBadge();
       const last=chatMessages[chatMessages.length-1];
@@ -1302,8 +1308,8 @@ function showApp(){
   document.getElementById('app-main').style.display='';
   document.getElementById('bottom-nav').classList.add('show');
   try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){console.error('showApp build error',e);}
-  // One-shot: clear cached game wagers and push clean state
-  try{if(!localStorage.getItem('wnt_gw_reset_apr25b')){gameWagers={};pushRemote(getState(),true);localStorage.setItem('wnt_gw_reset_apr25b','1');settleGameWagers();updateGWWidgets();buildLedger();}}catch(e){}
+  // One-shot: clear stale sim data (game wagers + chat messages) from remote
+  try{if(!localStorage.getItem('wnt_gw_reset_apr25c')){gameWagers={};chatMessages=[];renderChat();pushRemote(getState(),true);localStorage.setItem('wnt_gw_reset_apr25c','1');settleGameWagers();updateGWWidgets();buildLedger();}}catch(e){}
   initGameBlocks();
   show('me');
   // Show onboarding for first-time users; else handle notif prompt normally
@@ -1420,6 +1426,7 @@ async function init(){
       document.getElementById('offline-banner').classList.add('show');
     }
   }catch(e){console.warn('remote sync err',e);}
+  initSyncDone=true; // only count messages as unread after this point
 
   // Poll for updates every 10 seconds
   setInterval(pollRemote,10000);
@@ -1569,7 +1576,7 @@ function playerRow(key,day,side,bestHoles=null){
   else if(day==='d2'){badge=side==='d2g2'?`<span class="badge bB">G2</span>`:`<span class="badge bA">G1</span>`;}
 
   let driveCountHtml='';
-  if(day==='d1'){const grp=side==='a'?'g1':'g2';const dc=drives[grp].filter(k=>k===key).length;driveCountHtml=`<span style="margin-left:6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:${dc>0?'#39a865':'rgba(57,168,101,.4)'};">${dc}D</span>`;}
+  if(day==='d1'){const grp=side==='a'?'g1':'g2';const dc=drives[grp].filter(k=>k===key).length;driveCountHtml=`<span style="margin-left:6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:${dc>0?'#39a865':'rgba(57,168,101,.4)'};">${dc}Dr</span>`;}
   let cells=`<td class="tl"><div class="player-cell">${getAvatarHtml(key)}<div class="player-info"><span>${P[key].name}${badge}${driveCountHtml}</span><span class="player-hcp-mono">hcp ${P[key].d1}</span></div></div></td>`;
   let oG=0,iG=0,oN=0,iN=0,parPlayedG=0,parPlayedN=0;
   for(let h=0;h<18;h++){
@@ -1993,7 +2000,7 @@ document.getElementById('avatar-input').addEventListener('change',function(e){
 // ═══════════════════════════════════════════════════
 let chatMessages=[];
 let chatAuthor=null;
-let chatUnread=0,appReady=false;
+let chatUnread=0,appReady=false,initSyncDone=false;
 
 function showNameOverlay(){document.getElementById('name-overlay').classList.remove('hidden');}
 function onNameChange(v){if(!v)return;chatAuthor=v;try{localStorage.setItem('wni-author',v);}catch(e){}document.getElementById('name-overlay').classList.add('hidden');updateBottomNavAvatar();buildD1();buildD2();buildD3();if(currentTab==='me')showMeTab(currentMeTab);}
@@ -2057,6 +2064,7 @@ function obFinish(){
   try{document.getElementById('notif-prompt').classList.add('hidden');}catch(e){}
   updateBottomNavAvatar();
   buildD1();buildD2();buildD3();renderChat();
+  if(currentTab==='me')showMeTab(currentMeDay||'d1');
 }
 function maybeShowOnboarding(){
   try{
@@ -2140,6 +2148,7 @@ function renderChat(){
 // ── My Round ───────────────────────────────────────
 let currentMeTab='round';
 let currentMeDay=null;
+let currentStatsDay='all';
 let meNineBack=false;
 
 function showMeTab(tab){
@@ -2154,6 +2163,7 @@ function showMeTab(tab){
     currentMeDay=day;
     buildMyRound(day);
   }else{
+    document.querySelectorAll('[data-sday]').forEach(b=>b.classList.toggle('active',b.dataset.sday===currentStatsDay));
     buildMyGame();
   }
 }
@@ -2163,6 +2173,11 @@ function showMeDay(day){
   openHoles.clear();
   document.querySelectorAll('.mdn-btn').forEach(b=>b.classList.toggle('active',b.dataset.day===day));
   buildMyRound(day);
+}
+function showStatsDay(day){
+  currentStatsDay=day;
+  document.querySelectorAll('[data-sday]').forEach(b=>b.classList.toggle('active',b.dataset.sday===day));
+  buildMyGame();
 }
 
 function setMeNine(back){
@@ -2297,13 +2312,10 @@ function buildMyGame(){
   const aKey=Object.keys(P).find(k=>P[k].name===chatAuthor);
   if(!aKey){document.getElementById('my-game-content').innerHTML='<div style="text-align:center;padding:40px 20px;opacity:.4;font-family:\'DM Sans\',sans-serif;font-size:14px;color:rgba(218,240,218,.6);">Pick your name to see your stats.</div>';return;}
   const p=P[aKey];
-  // Balance
-  const myBets=bets.filter(b=>b.status!=='void'&&(b.proposer===chatAuthor||b.acceptor===chatAuthor));
-  let bal=0;myBets.forEach(b=>{if(b.status!=='settled')return;const won=b.result==='prop'?b.proposer===chatAuthor:b.acceptor===chatAuthor;bal+=won?b.amount:-b.amount;});
-  const gwBal=(()=>{let g=0;Object.keys(gameWagers).forEach(key=>{const gw=gameWagers[key];if(!gw||gw.status!=='settled'||!gw.result)return;const info=gwInfo(key);if(!info)return;const amt=gw.amount||0;if(info.aKeys&&info.aKeys.includes(aKey)){g+=gw.result==='a'?amt:gw.result==='push'?0:-amt;}else if(info.bKeys&&info.bKeys.includes(aKey)){g+=gw.result==='b'?amt:gw.result==='push'?0:-amt;}});return g;})();
-  const totalBal=bal+gwBal;
-  const balColor=totalBal>0?'color:var(--my)':totalBal<0?'color:#e05a4a':'color:rgba(218,240,218,.5)';
-  // Scores
+  const isAll=currentStatsDay==='all';
+  const statDays=isAll?['d1','d2','d3']:[currentStatsDay];
+  const dayNames={all:'Total',d1:'Thursday',d2:'Friday',d3:'Saturday'};
+  // Score cards
   function scoreCard(day,label){
     let g=0,h=0,n=0,gpar=0;
     for(let i=0;i<18;i++){const v=SC[day][aKey]?.[i];if(v!=null){const gv=parseInt(v);g+=gv;gpar+=cPar(day)[i];h++;if(day!=='d1')n+=net(gv,phcp(aKey,day),i,day);}}
@@ -2318,8 +2330,24 @@ function buildMyGame(){
       return`<div class="my-score-card"><div class="my-score-day">${label}</div><div class="my-score-val">${g} <span style="${dc};font-size:0.58em">(${diffStr})</span></div><div class="my-score-net">Net ${n} · ${thru}</div></div>`;
     }
   }
-  // My bets
-  const myBetRows=myBets.length===0?'<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:rgba(218,240,218,.3);padding:8px 0">No bets yet</div>':myBets.map(b=>{
+  const scoreSectionHtml=isAll
+    ?`<div class="my-score-row">${scoreCard('d1','THU')}${scoreCard('d2','FRI')}${scoreCard('d3','SAT')}</div>`
+    :`<div class="my-score-row">${scoreCard(currentStatsDay,{d1:'THU',d2:'FRI',d3:'SAT'}[currentStatsDay])}</div>`;
+  // Balance — filtered by day
+  const allMyBets=bets.filter(b=>b.status!=='void'&&(b.proposer===chatAuthor||b.acceptor===chatAuthor));
+  const filteredBets=isAll?allMyBets:allMyBets.filter(b=>b.day===currentStatsDay);
+  let bal=0;filteredBets.forEach(b=>{if(b.status!=='settled')return;const won=b.result==='prop'?b.proposer===chatAuthor:b.acceptor===chatAuthor;bal+=won?b.amount:-b.amount;});
+  const gwBal=(()=>{let g=0;Object.keys(gameWagers).forEach(key=>{
+    if(!isAll&&!key.startsWith(currentStatsDay))return;
+    const gw=gameWagers[key];if(!gw||gw.status!=='settled'||!gw.result)return;const info=gwInfo(key);if(!info)return;const amt=gw.amount||0;
+    if(info.aKeys&&info.aKeys.includes(aKey)){g+=gw.result==='a'?amt:gw.result==='push'?0:-amt;}
+    else if(info.bKeys&&info.bKeys.includes(aKey)){g+=gw.result==='b'?amt:gw.result==='push'?0:-amt;}
+  });return g;})();
+  const totalBal=bal+gwBal;
+  const balColor=totalBal>0?'color:var(--my)':totalBal<0?'color:#e05a4a':'color:rgba(218,240,218,.5)';
+  const netLabel=`${dayNames[currentStatsDay]} Net Position`;
+  // Bets list — filtered by day
+  const myBetRows=filteredBets.length===0?'<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:rgba(218,240,218,.3);padding:8px 0">No bets yet</div>':filteredBets.map(b=>{
     const opp=b.proposer===chatAuthor?b.acceptor:b.proposer;
     const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[b.day]||b.day;
     const statusCls=b.status==='settled'?'lbr-settled':b.status==='active'?'lbr-active':'lbr-open';
@@ -2333,16 +2361,16 @@ function buildMyGame(){
     else if(b.type==='lowgross')desc='Low Gross';
     else if(b.type==='lownet')desc='Low Net';
     else desc=b.type;
-    return`<div class="my-bet-row"><div style="flex:1"><div class="my-bet-day">${dayLbl} · vs ${opp||'?'}</div><div class="my-bet-desc">${desc}</div></div><span class="lbr-status ${statusCls}" style="font-size:10px;padding:3px 7px">${statusTxt}</span><div style="font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45);margin-left:8px">$${b.amount}</div></div>`;
+    return`<div class="my-bet-row"><div style="flex:1"><div class="my-bet-day">${isAll?dayLbl+' · ':''}vs ${opp||'?'}</div><div class="my-bet-desc">${desc}</div></div><span class="lbr-status ${statusCls}" style="font-size:10px;padding:3px 7px">${statusTxt}</span><div style="font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45);margin-left:8px">$${b.amount}</div></div>`;
   }).join('');
-  // Stats — full computation
+  // Stats — filtered by currentStatsDay
   let birdies=0,pars=0,bogeys=0,doubles=0,eagles=0,holesPlayed=0;
   let fhHit=0,fhTotal=0,girHit=0,girTotal=0;
   let puttTotal=0,puttHoles=0,threePutts=0;
   let puttOnGirTotal=0,puttOnGirHoles=0;
   let scrambleUp=0,scrambleTotal=0,penaltyTotal=0;
   let totalGross=0,totalPar=0,d1h=0,d2h=0,d3h=0;
-  ['d1','d2','d3'].forEach(day=>{
+  statDays.forEach(day=>{
     const par=cPar(day);
     for(let h=0;h<18;h++){
       const v=SC[day][aKey]?.[h];if(v==null)continue;
@@ -2417,7 +2445,7 @@ function buildMyGame(){
       // GIR hole → 1.80, non-GIR → 2.08, unknown → 1.94
       const SG_GIR=1.80,SG_NOGIR=2.08,SG_UNK=1.94;
       let sgPutt=0,sgPuttHoles=0;
-      ['d1','d2','d3'].forEach(day=>{
+      statDays.forEach(day=>{
         for(let h=0;h<18;h++){
           const v=SC[day][aKey]?.[h];if(v==null)continue;
           const st=STATS[day][aKey]?.[h]||{};
@@ -2457,18 +2485,21 @@ function buildMyGame(){
   }
   document.getElementById('my-game-title').textContent='My Game';
   document.getElementById('my-game-content').innerHTML=`
-    <div class="my-balance-card">
-      <div class="my-balance-amt" style="${balColor}">${totalBal>=0?'+':''}$${Math.abs(totalBal)}</div>
-      <div class="my-balance-lbl">Net Position</div>
-    </div>
-    <div class="my-score-row">${scoreCard('d1','THU')}${scoreCard('d2','FRI')}${scoreCard('d3','SAT')}</div>
     <div class="sec-block">
-      <div class="lb-sec-title">My Bets</div>
-      ${myBetRows}
+      <div class="lb-sec-title">Score</div>
+      ${scoreSectionHtml}
     </div>
     <div class="sec-block">
       <div class="lb-sec-title">Round Stats</div>
       ${statsHtml}
+    </div>
+    <div class="sec-block">
+      <div class="lb-sec-title">My Wagers</div>
+      <div class="my-balance-card" style="margin-bottom:12px">
+        <div class="my-balance-amt" style="${balColor}">${totalBal>=0?'+':''}$${Math.abs(totalBal)}</div>
+        <div class="my-balance-lbl">${netLabel}</div>
+      </div>
+      ${myBetRows}
     </div>`;
 }
 
