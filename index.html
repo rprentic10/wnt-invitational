@@ -1189,7 +1189,7 @@ const LS_DATA='wni-data-2026';
 // pre-reset simulation data and is silently dropped everywhere (local apply,
 // remote merge, push merge).  Bump this constant whenever you need a full
 // data wipe — the first device to push will clean JSONbin for everyone.
-const REQUIRED_WIPE_AT=1774925684885;
+const REQUIRED_WIPE_AT=1774975508573;
 
 let lastRemoteJson=null;
 let offlineMode=false;
@@ -3877,10 +3877,11 @@ function buildLedger(){
   Object.entries(gwMap).forEach(([key,meta])=>{
     const gw=gameWagers[key];
     let statusCls='lbr-none',statusTxt='Not set',amtTxt='—';
-    if(gw){
+    if(gw&&gw.status!=='void'){
       if(gw.status==='settled'){statusCls='lbr-settled';statusTxt='Settled';}
       else if(gw.status==='active'){statusCls='lbr-active';statusTxt='Active';}
       else if(gw.status==='open'){statusCls='lbr-open';statusTxt='Open';}
+      else if(gw.status==='voting'){statusCls='lbr-open';statusTxt='Pending';}
       const isSkins=key.startsWith('d2_skins');
       amtTxt='$'+gw.amount+(isSkins?'/skin':'/player');
     }
