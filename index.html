@@ -552,7 +552,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .av.mine-av{box-shadow:0 0 0 2px #39a865,0 0 0 4px #fff,0 0 0 5px #39a865;}
 .av-wrap{position:relative;display:inline-flex;flex-shrink:0;}
 .presence-dot{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#b8cdb8;border:none;box-shadow:0 0 0 2px #ffffff;display:block;z-index:2;pointer-events:none;}
-.presence-dot.active{background:#fefe56;}
+.presence-dot.active{background:#39a865;}
 table.sc tr.rA td.tl .presence-dot{box-shadow:0 0 0 2px #e8f7ee;}
 table.sc tr.rB td.tl .presence-dot{box-shadow:0 0 0 2px #dff2e8;}
 table.sc tr.rA2 td.tl .presence-dot{box-shadow:0 0 0 2px #fce0d8;}
@@ -825,7 +825,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <!-- DAY 1 -->
 <div id="panel-d1">
   <div class="course-header">
-    <div class="course-title">We-Ko-Pa Cholla</div>
+    <div class="course-title">We-Ko-Pa (Cholla)</div>
     <div class="course-sub">Par 72 · Purple Tees · 6,740 Yards</div>
   </div>
   <div class="game-block" id="gb-d1">
@@ -845,7 +845,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <!-- DAY 2 -->
 <div id="panel-d2" style="display:none">
   <div class="course-header">
-    <div class="course-title">Troon North Pinnacle</div>
+    <div class="course-title">Troon North (Pinnacle)</div>
     <div class="course-sub">Par 71 · Gold Tees · 6,635 Yards</div>
   </div>
   <div class="game-block" id="gb-d2">
@@ -861,7 +861,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <!-- DAY 3 -->
 <div id="panel-d3" style="display:none">
   <div class="course-header">
-    <div class="course-title">Grayhawk Talon</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
+    <div class="course-title">Grayhawk (Talon)</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
   </div>
   <div class="game-block" id="gb-d3">
     <div class="game-block-hdr" onclick="toggleGameBlock('d3')"><span class="game-block-name">2-Man Match Play</span><span class="game-block-chev">▾</span></div>
@@ -1142,9 +1142,9 @@ const D1=[{label:'Group 1 · 3:00 PM',keys:['prentice','cromer','buzz','reese'],
 const D2=[{label:'8:55 AM',sA:['otero','simon'],sB:['pat','prentice']},{label:'9:35 AM',sA:['ryder','buzz'],sB:['reese','cromer']}];
 const D3=[{label:'9:12 AM',sA:['otero','cromer'],sB:['ryder','prentice']},{label:'9:21 AM',sA:['reese','pat'],sB:['buzz','simon']}];
 const COURSES={
-  d1:{name:'We-Ko-Pa Cholla',tees:'Purple',rating:70.7,slope:133,par:[4,5,3,4,3,4,4,5,4,4,5,3,4,4,3,4,5,4],diff:[13,3,17,9,15,7,11,1,5,4,16,10,12,18,14,6,2,8],yds:[332,574,164,419,190,371,323,587,429,538,208,361,395,159,299,433,551,407]},
-  d2:{name:'Troon North Pinnacle',tees:'Gold',rating:72.1,slope:142,par:[4,4,4,4,5,3,4,3,4,4,5,4,3,5,4,3,4,4],diff:[9,7,3,11,5,17,1,15,13,10,8,12,16,2,14,18,4,6],yds:[378,388,430,399,500,190,416,176,383,385,528,409,170,565,363,132,409,414]},
-  d3:{name:'Grayhawk Talon',tees:'Palo Verde',rating:71.4,slope:137,par:[4,4,5,4,3,4,4,3,5,4,3,4,4,5,4,4,3,5],diff:[9,13,5,7,17,1,11,15,3,4,16,2,14,10,8,12,18,6],yds:[385,309,465,402,133,422,366,189,507,422,161,405,277,519,419,383,114,552]},
+  d1:{name:'We-Ko-Pa (Cholla)',tees:'Purple',rating:70.7,slope:133,par:[4,5,3,4,3,4,4,5,4,4,5,3,4,4,3,4,5,4],diff:[13,3,17,9,15,7,11,1,5,4,16,10,12,18,14,6,2,8],yds:[332,574,164,419,190,371,323,587,429,538,208,361,395,159,299,433,551,407]},
+  d2:{name:'Troon North (Pinnacle)',tees:'Gold',rating:72.1,slope:142,par:[4,4,4,4,5,3,4,3,4,4,5,4,3,5,4,3,4,4],diff:[9,7,3,11,5,17,1,15,13,10,8,12,16,2,14,18,4,6],yds:[378,388,430,399,500,190,416,176,383,385,528,409,170,565,363,132,409,414]},
+  d3:{name:'Grayhawk (Talon)',tees:'Palo Verde',rating:71.4,slope:137,par:[4,4,5,4,3,4,4,3,5,4,3,4,4,5,4,4,3,5],diff:[9,13,5,7,17,1,11,15,3,4,16,2,14,10,8,12,18,6],yds:[385,309,465,402,133,422,366,189,507,422,161,405,277,519,419,383,114,552]},
 };
 function cPar(d){return COURSES[d].par;}
 function cYds(d){return COURSES[d].yds;}
@@ -1910,8 +1910,8 @@ function updateD3Board(){
 function updateLB(){
   const chipsT=[],chipsF=[],chipsS=[],wins={};
   Object.keys(P).forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
-  {const d1g1=bbLive(D1[0].keys,'d1'),d1g2=bbLive(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chipsT.push({label:'4-Man Shamble',course:'We-Ko-Pa Cholla',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDoneD1&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsT.push({label:'4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa Cholla</div>`});}}
-  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball Stroke Play',course:'Troon North Pinnacle',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball Stroke Play',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North Pinnacle</div>`});}}
+  {const d1g1=bbLive(D1[0].keys,'d1'),d1g2=bbLive(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chipsT.push({label:'4-Man Shamble',course:'We-Ko-Pa (Cholla)',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDoneD1&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsT.push({label:'4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa (Cholla)</div>`});}}
+  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball Stroke Play',course:'Troon North (Pinnacle)',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball Stroke Play',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
   D3.forEach((pair,pi)=>{
     let aP=0,bP=0;
     for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}}}
@@ -1919,19 +1919,19 @@ function updateLB(){
     const bN=pair.sB.map(k=>P[k].name.split(' ')[0]).join('<br>');
     const hp=[...pair.sA,...pair.sB].reduce((mx,k)=>{let c=0;for(let h=0;h<18;h++)if(SC.d3[k][h]!=null)c++;return Math.max(mx,c);},0);
     const done=hp===18;
-    if(aP+bP===0){chipsS.push({label:`Match ${pi+1}`,course:'Grayhawk Talon',val:'Pending',full:true});return;}
+    if(aP+bP===0){chipsS.push({label:`Match ${pi+1}`,course:'Grayhawk (Talon)',val:'Pending',full:true});return;}
     const d=aP-bP;
     let scoreStr,scoreClass;
     if(d===0){scoreStr='AS';scoreClass='ev';}else if(d>0){scoreStr=`+${fmt(d)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(d))}`;scoreClass='mB';}
     if(done){if(d>0)pair.sA.forEach(k=>wins[k].d3+=1);else if(d<0)pair.sB.forEach(k=>wins[k].d3+=1);else[...pair.sA,...pair.sB].forEach(k=>wins[k].d3+=.5);}
     const thruStr=done?'Final':`Thru ${hp}`;
-    const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b">${bN}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk Talon</div>`;
+    const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b">${bN}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;
     chipsS.push({label:`Match ${pi+1}`,full:true,body});
   });
   // Skins chips → Friday
-  for(let gi=0;gi<2;gi++){const sc=d2SkinsCalc(gi);const lbl=`Group ${gi+1} Skins`;if(sc.holesPlayed===0){chipsF.push({label:lbl,course:'Troon North Pinnacle',val:'Pending'});}else{const sorted=sc.keys.map(k=>({name:P[k].name.split(' ')[0],s:sc.skins[k]})).sort((a,b)=>b.s-a.s);const rows=sorted.map((p,i)=>`<div class="lc-st-row"><span class="lc-st-pos">${i+1}</span><span class="lc-st-name">${p.name}</span><span class="lc-st-thru">${i===0?sc.complete?'F':`T${sc.holesPlayed}`:''}</span><span class="lc-st-score" style="color:${i===0&&p.s>0?'var(--my)':'rgba(218,240,218,.55)'}">${p.s} sk</span></div>`).join('');chipsF.push({label:lbl,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North Pinnacle</div>`});}}
+  for(let gi=0;gi<2;gi++){const sc=d2SkinsCalc(gi);const lbl=`Group ${gi+1} Skins`;if(sc.holesPlayed===0){chipsF.push({label:lbl,course:'Troon North (Pinnacle)',val:'Pending'});}else{const sorted=sc.keys.map(k=>({name:P[k].name.split(' ')[0],s:sc.skins[k]})).sort((a,b)=>b.s-a.s);const rows=sorted.map((p,i)=>`<div class="lc-st-row"><span class="lc-st-pos">${i+1}</span><span class="lc-st-name">${p.name}</span><span class="lc-st-thru">${i===0?sc.complete?'F':`T${sc.holesPlayed}`:''}</span><span class="lc-st-score" style="color:${i===0&&p.s>0?'var(--my)':'rgba(218,240,218,.55)'}">${p.s} sk</span></div>`).join('');chipsF.push({label:lbl,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
   // Team Match Play chip → Saturday
-  {let aH=0,bH=0,holes=0;for(let mi=0;mi<D3.length;mi++){const pair=D3[mi];for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){holes++;if(nA<nB)aH++;else if(nB<nA)bH++;else{aH+=.5;bH+=.5;}}}}const tmDone=holes===36;const tmD=aH-bH;const aLbl=gwLabel(teamName('d3_sA')),bLbl=gwLabel(teamName('d3_sB'));if(holes===0){chipsS.push({label:'Team Match Play',course:'Grayhawk Talon',val:'Pending',full:true});}else{let scoreStr,scoreClass;if(tmD===0){scoreStr='AS';scoreClass='ev';}else if(tmD>0){scoreStr=`+${fmt(tmD)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(tmD))}`;scoreClass='mB';}const thruStr=tmDone?'Final':`${holes} holes played`;const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a">${aLbl}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b">${bLbl}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk Talon</div>`;chipsS.push({label:'Team Match Play',full:true,body});}}
+  {let aH=0,bH=0,holes=0;for(let mi=0;mi<D3.length;mi++){const pair=D3[mi];for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){holes++;if(nA<nB)aH++;else if(nB<nA)bH++;else{aH+=.5;bH+=.5;}}}}const tmDone=holes===36;const tmD=aH-bH;const aLbl=gwLabel(teamName('d3_sA')),bLbl=gwLabel(teamName('d3_sB'));if(holes===0){chipsS.push({label:'Team Match Play',course:'Grayhawk (Talon)',val:'Pending',full:true});}else{let scoreStr,scoreClass;if(tmD===0){scoreStr='AS';scoreClass='ev';}else if(tmD>0){scoreStr=`+${fmt(tmD)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(tmD))}`;scoreClass='mB';}const thruStr=tmDone?'Final':`${holes} holes played`;const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a">${aLbl}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b">${bLbl}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;chipsS.push({label:'Team Match Play',full:true,body});}}
   // Render day sections
   const renderChips=arr=>arr.map(c=>`<div class="lb-chip${c.full?' lb-chip-full':''}"><div class="lc-label">${c.label}</div>${c.body||`<div class="lc-val">${c.val}</div><div class="lc-course">${c.course}</div>`}</div>`).join('');
   document.getElementById('lb-chips-thu').innerHTML=renderChips(chipsT);
@@ -2839,7 +2839,7 @@ function buildSuggestedBets(){
   if(!d1Done&&!d2Done&&!d3Done){return[];}
   else if(d1Done&&!d2Done){targetDay='d2';prevDay='d1';}
   else if(d2Done&&!d3Done){targetDay='d3';prevDay='d2';}
-  else{return[];}// all done or no prev day data
+  else{return[];}
   const dayName={d1:'Thursday',d2:'Friday',d3:'Saturday'};
   const targetName=dayName[targetDay];
   const prevName=dayName[prevDay];
@@ -2849,15 +2849,41 @@ function buildSuggestedBets(){
   const hot=sorted[0];const cold=sorted[sorted.length-1];
   const bestNet=sortedNet[0];const worstNet=sortedNet[sortedNet.length-1];
   const sugg=[];
+
+  // ── P2P suggestions ─────────────────────────────
   // 1 — Birdie over for the hot hand
   const bl=calcBirdiesLine(hot.key,targetDay);
-  sugg.push({type:'birdie-ou',label:`${P[hot.key].name} ${bl}+ Birdies on ${targetName}`,rationale:`Lowest gross ${prevName} — hot hand`,player:hot.key,day:targetDay,side:'over'});
+  sugg.push({category:'p2p',type:'birdie-ou',label:`${P[hot.key].name} ${bl}+ Birdies on ${targetName}`,rationale:`Lowest gross ${prevName} — hot hand`,player:hot.key,day:targetDay,side:'over'});
   // 2 — Clean card for the cold player (bounce-back)
-  sugg.push({type:'cleancard',label:`${P[cold.key].name} Clean Card ${targetName}`,rationale:`Highest gross ${prevName} — due for a bounce-back`,player:cold.key,day:targetDay,side:'clean'});
+  sugg.push({category:'p2p',type:'cleancard',label:`${P[cold.key].name} Clean Card ${targetName}`,rationale:`Highest gross ${prevName} — due for a bounce-back`,player:cold.key,day:targetDay});
   // 3 — H2H net between best and worst net players
-  if(bestNet.key!==worstNet.key){sugg.push({type:'h2h',label:`${P[bestNet.key].name} beats ${P[worstNet.key].name} net`,rationale:`Best vs worst net from ${prevName}`,player:bestNet.key,playerB:worstNet.key,day:targetDay,side:'a'});}
+  if(bestNet.key!==worstNet.key){sugg.push({category:'p2p',type:'h2h',label:`${P[bestNet.key].name} beats ${P[worstNet.key].name} net`,rationale:`Best vs worst net from ${prevName}`,player:bestNet.key,playerB:worstNet.key,day:targetDay,side:'a'});}
   // 4 — Last place for the coldest scorer
-  sugg.push({type:'lastplace',label:`${P[cold.key].name} finishes last net in group`,rationale:`Worst net ${prevName} — trend bet`,player:cold.key,day:targetDay,side:'last'});
+  sugg.push({category:'p2p',type:'lastplace',label:`${P[cold.key].name} finishes last net on ${targetName}`,rationale:`Worst gross ${prevName} — trend bet`,player:cold.key,day:targetDay});
+  // 5 — Stroke O/U for the cold hand (due for a cleaner round)
+  const ouLine=calcLine(cold.key,targetDay);
+  sugg.push({category:'p2p',type:'ou',label:`${P[cold.key].name} Under ${ouLine} strokes`,rationale:`Worst gross ${prevName} — back the bounce-back`,player:cold.key,day:targetDay,side:'under'});
+  // 6 — Low Net for the best net player
+  if(bestNet.key!==cold.key){sugg.push({category:'p2p',type:'lownet',label:`${P[bestNet.key].name} leads the group net on ${targetName}`,rationale:`Best net ${prevName} — back the hot stick`,player:bestNet.key,day:targetDay});}
+
+  // ── House Prop suggestions (only when prior stat data exists) ──
+  // 7 — Birdies O/U house prop for the hot hand
+  if(hasStatData(hot.key,targetDay,'birdies')>0){
+    const hbl=calcStatLine(hot.key,targetDay,'birdies');
+    sugg.push({category:'house',type:'house-prop',label:`House Prop: ${P[hot.key].name} Birdies Over ${hbl}`,rationale:`Back the hot hand to keep making birdies — set your own line`,player:hot.key,day:targetDay,statType:'birdies',propSide:'over',oddsPreset:'even'});
+  }
+  // 8 — Putts house prop for the worst net player (if putting data exists)
+  if(worstNet.key!==hot.key&&hasStatData(worstNet.key,targetDay,'putts')>0){
+    const pLine=calcStatLine(worstNet.key,targetDay,'putts');
+    sugg.push({category:'house',type:'house-prop',label:`House Prop: ${P[worstNet.key].name} Putts Under ${pLine}`,rationale:`Worst net ${prevName} — prop their putting improvement`,player:worstNet.key,day:targetDay,statType:'putts',propSide:'under',oddsPreset:'even'});
+  }
+
+  // ── Pool suggestions (always relevant) ──────────
+  // 9 — Most Birdies pool
+  sugg.push({category:'pool',type:'pool',label:`Most Birdies Pool · ${targetName}`,rationale:`Group bet — birdies are unpredictable, anyone can run hot`,poolType:'birdies',day:targetDay,buyIn:10});
+  // 10 — Low Net pool
+  sugg.push({category:'pool',type:'pool',label:`Low Net Pool · ${targetName}`,rationale:`Everyone has skin in every stroke all day`,poolType:'lownet',day:targetDay,buyIn:10});
+
   return sugg;
 }
 
@@ -3793,7 +3819,7 @@ function buildWagers(){
   const sugg=buildSuggestedBets();
   const suggEl=document.getElementById('wager-suggest');
   if(suggEl){
-    const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place Net','h2h':'Net H2H'};
+    const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place','h2h':'Net H2H','ou':'Stroke O/U','lownet':'Low Net','house-prop':'House Prop','pool':'Pool'};
     const hdr=`<div class="suggest-section"><div class="wager-section-hdr">💡 Hot Takes</div>`;
     if(sugg.length){
       suggEl.innerHTML=hdr+sugg.map((s,i)=>`<div class="suggest-card"><div class="suggest-card-body"><div class="suggest-type">${typeLabels[s.type]||s.type}</div><div class="suggest-label">${s.label}</div><div class="suggest-rationale">${s.rationale}</div></div><button class="suggest-btn" onclick="proposeSuggested(${i})">Bet This</button></div>`).join('')+`</div>`;
@@ -3946,13 +3972,37 @@ function proposeSuggested(i){
   const sugg=buildSuggestedBets();_suggCache=sugg;
   const s=sugg[i];if(!s)return;
   openProposeSheet();
-  setPropCat('p2p');
-  setPropType(s.type);
-  if(s.day)setPropDay(s.day);
-  if(s.player){propSt.player=s.player;document.querySelectorAll('#ps-players .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===s.player));}
-  if(s.playerB){propSt.playerB=s.playerB;document.querySelectorAll('#ps-players-b .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===s.playerB));}
-  if(s.side){propSt.side=s.side;document.querySelectorAll('#ps-sides .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.side===s.side));}
-  updateProposeUI();
+  if(s.category==='house'){
+    // ── House Prop routing ──
+    setPropCat('house');
+    if(s.day)setHouseDay(s.day);
+    if(s.player){
+      // setHouseDay renders players; now select the player
+      houseSt.player=s.player;
+      document.querySelectorAll('#hp-players .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===s.player));
+      renderHouseStats();
+    }
+    if(s.statType)setHouseStat(s.statType);
+    if(s.propSide)setHouseSide(s.propSide);
+    if(s.oddsPreset)setHouseOdds(s.oddsPreset);
+    updateHouseUI();
+  } else if(s.category==='pool'){
+    // ── Pool routing ──
+    setPropCat('pool');
+    if(s.poolType)setPoolType(s.poolType);
+    if(s.day)setPoolDay(s.day);
+    if(s.buyIn)setPoolBuyIn(s.buyIn);
+    updatePoolUI();
+  } else {
+    // ── P2P routing (default) ──
+    setPropCat('p2p');
+    setPropType(s.type);
+    if(s.day)setPropDay(s.day);
+    if(s.player){propSt.player=s.player;document.querySelectorAll('#ps-players .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===s.player));}
+    if(s.playerB){propSt.playerB=s.playerB;document.querySelectorAll('#ps-players-b .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===s.playerB));}
+    if(s.side){propSt.side=s.side;document.querySelectorAll('#ps-sides .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.side===s.side));}
+    updateProposeUI();
+  }
 }
 
 function openProposeSheet(){
