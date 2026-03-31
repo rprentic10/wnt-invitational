@@ -93,8 +93,8 @@ body{
 .ssn-btn{flex:1;padding:7px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
 .ssn-btn.active{background:rgba(218,240,218,.18);color:rgba(218,240,218,.9);}
 /* Wagers sub-nav — same pill style as Scores sub-nav */
-.wsn-btn{flex:1;padding:9px 6px;border:1px solid rgba(218,240,218,.14);border-radius:9px;background:transparent;color:rgba(218,240,218,.42);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
-.wsn-btn.active{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.3);color:#fefe56;}
+.wsn-btn{flex:1;padding:7px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
+.wsn-btn.active{background:rgba(218,240,218,.18);color:rgba(218,240,218,.9);}
 /* My Game panel */
 .my-balance-card{background:rgba(254,254,86,.08);border:1px solid rgba(254,254,86,.22);border-radius:14px;padding:18px 20px;margin-bottom:20px;text-align:center;}
 .my-balance-amt{font-family:'Forum',serif;font-size:38px;color:var(--my);line-height:1;}
@@ -161,7 +161,7 @@ body{
 .mr-total-score{font-family:'Forum',serif;font-size:40px;line-height:1;color:var(--mw);}
 .mr-total-thru{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:5px;}
 .mr-course-hdr{text-align:center;margin-bottom:10px;}
-.mr-course-name{font-family:'Forum',serif;font-size:17px;color:rgba(254,254,86,.65);line-height:1.2;}
+.mr-course-name{font-family:'Forum',serif;font-size:24px;color:rgba(254,254,86,.65);line-height:1.2;}
 .mr-course-info{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.32);margin-top:4px;}
 .my-stat-section{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.28);margin:14px 0 8px;padding-top:10px;border-top:1px solid rgba(218,240,218,.07);}
 .my-stat-section:first-child{border-top:none;margin-top:4px;}
@@ -212,7 +212,7 @@ body{
 #panel-chat{display:none;flex-direction:column;position:fixed;left:0;right:0;top:0;bottom:calc(60px + env(safe-area-inset-bottom));z-index:50;background:var(--mg);}
 #panel-chat.active{display:flex;}
 .scores-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:12px 14px 2px;}
-.wagers-subnav{display:flex;gap:8px;padding:12px 14px 2px;background:var(--mg);}
+.wagers-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:12px 0 2px;}
 
 /* ── COURSE HEADER ───────────────────────────────── */
 .course-header{text-align:center;margin-bottom:18px;padding-top:28px;}
@@ -551,7 +551,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .av img{width:100%;height:100%;object-fit:cover;display:block;}
 .av.mine-av{box-shadow:0 0 0 2px #39a865,0 0 0 4px #fff,0 0 0 5px #39a865;}
 .av-wrap{position:relative;display:inline-flex;flex-shrink:0;}
-.presence-dot{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:rgba(218,240,218,.18);border:2px solid #003d20;display:block;z-index:2;pointer-events:none;}
+.presence-dot{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#7a9a7a;border:none;display:block;z-index:2;pointer-events:none;}
 .presence-dot.active{background:#fefe56;}
 .chat-av-row{display:flex;align-items:center;gap:5px;margin-bottom:3px;}
 .chat-av-row.mine-row{justify-content:flex-end;}
@@ -1267,8 +1267,7 @@ function updatePresenceDots(){
   const now=Date.now();
   Object.keys(P).forEach(key=>{
     const isMine=chatAuthor&&chatAuthor.toLowerCase()===key;
-    if(isMine)return;
-    const isOnline=(presenceData[key]||0)>now-90000;
+    const isOnline=isMine||((presenceData[key]||0)>now-90000);
     document.querySelectorAll('#pd-'+key).forEach(el=>el.classList.toggle('active',isOnline));
   });
 }
@@ -1990,8 +1989,7 @@ function getAvatarHtml(key){
   const titleAttr=isMine?` title="Tap to change your photo"`:` title="${P[key].name}"`;
   const onclick=`onclick="tapAvatar('${key}')"`;
   const avEl=av?`<div class="${cls}"${titleAttr} ${onclick} style="background:#111"><img src="${av}" alt="${P[key].name}"></div>`:`<div class="${cls}"${titleAttr} ${onclick} style="background:${color}">${initial}</div>`;
-  if(isMine)return`<div class="av-wrap">${avEl}</div>`;
-  const isOnline=(presenceData[key]||0)>Date.now()-90000;
+  const isOnline=isMine||((presenceData[key]||0)>Date.now()-90000);
   return`<div class="av-wrap"><span class="presence-dot${isOnline?' active':''}" id="pd-${key}"></span>${avEl}</div>`;
 }
 
@@ -3857,6 +3855,10 @@ function openProposeSheet(){
   // Pool reset
   renderPoolTypes();
   ['pool-day-step','pool-buyin-step'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  // Category explainers — P2P visible by default
+  const _p2pExp=document.getElementById('p2p-cat-explainer');if(_p2pExp)_p2pExp.style.display='';
+  const _hExp=document.getElementById('house-cat-explainer');if(_hExp)_hExp.style.display='none';
+  const _pExp=document.getElementById('pool-cat-explainer');if(_pExp)_pExp.style.display='none';
   updateProposeUI();
   document.getElementById('propose-overlay').classList.remove('hidden');
 }
@@ -3868,6 +3870,12 @@ function setPropCat(cat){
     const btn=document.getElementById('pcat-'+c);if(btn)btn.classList.toggle('sel',c===cat);
     const steps=document.getElementById(c+'-steps');if(steps)steps.style.display=c===cat?'':'none';
   });
+  const p2pExp=document.getElementById('p2p-cat-explainer');
+  if(p2pExp)p2pExp.style.display=cat==='p2p'?'':'none';
+  const hExp=document.getElementById('house-cat-explainer');
+  if(hExp)hExp.style.display=cat==='house'?'':'none';
+  const pExp=document.getElementById('pool-cat-explainer');
+  if(pExp)pExp.style.display=cat==='pool'?'':'none';
   if(cat==='p2p')updateProposeUI();
   else if(cat==='house')updateHouseUI();
   else if(cat==='pool')updatePoolUI();
@@ -4261,6 +4269,9 @@ function submitAccept(){
         <div class="prop-cat-btn" id="pcat-house" onclick="setPropCat('house')"><span class="prop-cat-icon">🏦</span><span class="prop-cat-label">House Prop</span></div>
         <div class="prop-cat-btn" id="pcat-pool" onclick="setPropCat('pool')"><span class="prop-cat-icon">🎱</span><span class="prop-cat-label">Pool</span></div>
       </div>
+      <div id="p2p-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🤝 A direct bet between two players. Pick your type, set the terms, and challenge someone. Both sides lock in their stake and the app tracks the outcome automatically.</div>
+      <div id="house-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🏦 The house sets a stat line on a player — anyone can buy in as the house and take the other side. The more people that back it, the bigger the pot. Anyone can act as the house.</div>
+      <div id="pool-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🎱 Everyone throws in the same buy-in and picks a player. Whoever's player performs best on the chosen stat wins the whole pot. The more players that join, the bigger the prize.</div>
     </div>
     <!-- P2P STEPS -->
     <div id="p2p-steps">
