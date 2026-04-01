@@ -1188,7 +1188,6 @@ const P = {
   simon:   {name:'Simon',   d1:17,d2:11,d3:11,d1g:2},
   pat:     {name:'Pat',     d1:18,d2:12,d3:12,d1g:2},
 };
-const PKEYS=Object.keys(P);
 const D1=[{label:'Group 1 · 3:00 PM',keys:['prentice','cromer','buzz','reese'],side:'a'},{label:'Group 2 · 3:20 PM',keys:['otero','ryder','simon','pat'],side:'b'}];
 const D2=[{label:'8:55 AM',sA:['otero','simon'],sB:['pat','prentice']},{label:'9:35 AM',sA:['ryder','buzz'],sB:['reese','cromer']}];
 const D3=[{label:'9:12 AM',sA:['otero','cromer'],sB:['ryder','prentice']},{label:'9:21 AM',sA:['reese','pat'],sB:['buzz','simon']}];
@@ -1217,10 +1216,10 @@ let gameWagers={};// keys: d1, d2_pot, d2_skins_0, d2_skins_1, d3_m0, d3_m1, d3_
 let gwInputOpen=null,gwAcceptOpen=null,gwVoteOpen=null,gwInputState={};
 let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null};
 let acceptBetId=null;
-PKEYS.forEach(k=>{SC.d1[k]={};SC.d2[k]={};SC.d3[k]={};});
+Object.keys(P).forEach(k=>{SC.d1[k]={};SC.d2[k]={};SC.d3[k]={};});
 // Per-hole secondary stats: fh (fairway hit), gir, putts, penalty
 const STATS={d1:{},d2:{},d3:{}};
-PKEYS.forEach(k=>{STATS.d1[k]={};STATS.d2[k]={};STATS.d3[k]={};});
+Object.keys(P).forEach(k=>{STATS.d1[k]={};STATS.d2[k]={};STATS.d3[k]={};});
 const openHoles=new Set(); // UI state: which hole detail rows are expanded
 
 function strokesOn(hcp,h,day){const df=cDiff(day)[h];return Math.floor(hcp/18)+(df<=(hcp%18)?1:0);}
@@ -1253,12 +1252,12 @@ function getState(){
 function applyRemoteState(state){
   if(!state)return;
   if(state.scores){
-    ['d1','d2','d3'].forEach(day=>PKEYS.forEach(k=>{
+    ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
       if(state.scores[day]&&state.scores[day][k])SC[day][k]=state.scores[day][k];
     }));
   }
   if(state.stats){
-    ['d1','d2','d3'].forEach(day=>PKEYS.forEach(k=>{
+    ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
       if(state.stats[day]&&state.stats[day][k])Object.assign(STATS[day][k],state.stats[day][k]);
     }));
   }
@@ -1337,7 +1336,7 @@ function applyRemoteState(state){
 
 function updatePresenceDots(){
   const now=Date.now();
-  PKEYS.forEach(key=>{
+  Object.keys(P).forEach(key=>{
     const isMine=chatAuthor&&chatAuthor.toLowerCase()===key;
     const isOnline=isMine||((presenceData[key]||0)>now-90000);
     document.querySelectorAll('#pd-'+key).forEach(el=>el.classList.toggle('active',isOnline));
@@ -1415,6 +1414,7 @@ function showApp(){
   document.getElementById('app-main').style.display='';
   document.getElementById('bottom-nav').classList.add('show');
   try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){console.error('showApp build error',e);}
+  initGameBlocks();
   show('me');
   // Show onboarding for first-time users; else handle notif prompt normally
   const showingOnboard=maybeShowOnboarding();
@@ -1437,7 +1437,7 @@ function _simRng(seed){let s=seed|0;return()=>{s=Math.imul(s^(s>>16),0x45d9f3b);
 function runSim(){
   simActive=true;
   // Generate deterministic per-hole scores for every player on all 3 days
-  PKEYS.forEach(k=>{
+  Object.keys(P).forEach(k=>{
     const seed=k.split('').reduce((a,c)=>Math.imul(a,31)+c.charCodeAt(0),0);
     ['d1','d2','d3'].forEach((day,di)=>{
       const hcp=P[k][day],par=cPar(day);
@@ -1480,7 +1480,7 @@ function runSim(){
 }
 async function clearSim(){
   // Reset all in-memory state to empty
-  PKEYS.forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);});});
+  Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);});});
   drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
   gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};
   // Allow push, write clean state to JSONbin, then clear local cache
@@ -1633,7 +1633,7 @@ const _maxDeficit={};  // key: `${day}-${playerKey}` → max strokes behind lead
 
 function _deepCopySC(){
   const out={d1:{},d2:{},d3:{}};
-  ['d1','d2','d3'].forEach(day=>{PKEYS.forEach(k=>{out[day][k]={...SC[day][k]};});});
+  ['d1','d2','d3'].forEach(day=>{Object.keys(P).forEach(k=>{out[day][k]={...SC[day][k]};});});
   return out;
 }
 
@@ -1695,7 +1695,7 @@ function _checkScoreAlerts(prev){
   ['d1','d2','d3'].forEach(day=>{
     const par=cPar(day);
     const courseName=COURSES[day].name.split(' (')[0];
-    PKEYS.forEach(key=>{
+    Object.keys(P).forEach(key=>{
       const name=P[key].name;
       for(let h=0;h<18;h++){
         const oldVal=prev[day][key][h];
@@ -1948,7 +1948,7 @@ function _checkWagerAlerts(prevWagers){
 function _deepCopyStats(){
   const out={d1:{},d2:{},d3:{}};
   ['d1','d2','d3'].forEach(day=>{
-    PKEYS.forEach(k=>{
+    Object.keys(P).forEach(k=>{
       out[day][k]={};
       Object.keys(STATS[day][k]).forEach(h=>{out[day][k][h]={...STATS[day][k][h]};});
     });
@@ -1961,7 +1961,7 @@ function _checkStatsAlerts(prevStats){
   ['d1','d2','d3'].forEach(day=>{
     const par=cPar(day);
     const courseName=COURSES[day].name.split(' (')[0];
-    PKEYS.forEach(key=>{
+    Object.keys(P).forEach(key=>{
       const name=P[key].name;
       for(let h=0;h<18;h++){
         const oldSt=prevStats[day][key][h];
@@ -2107,6 +2107,8 @@ function toggleGameBlock(day){
   const el=document.getElementById('gb-'+day);
   el.classList.toggle('open',!el.classList.contains('open'));
 }
+function initGameBlocks(){}
+
 let currentScoresDay='d1';
 let currentWagersTab='bets';
 function show(id){
@@ -2487,7 +2489,7 @@ function updateD3Board(){
 
 function updateLB(){
   const chipsT=[],chipsF=[],chipsS=[],wins={};
-  PKEYS.forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
+  Object.keys(P).forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
   {const d1g1=bbLive(D1[0].keys,'d1'),d1g2=bbLive(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chipsT.push({label:'4-Man Shamble',course:'We-Ko-Pa (Cholla)',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDoneD1&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsT.push({label:'4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa (Cholla)</div>`});}}
   {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball Stroke Play',course:'Troon North (Pinnacle)',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball Stroke Play',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
   D3.forEach((pair,pi)=>{
@@ -2515,11 +2517,11 @@ function updateLB(){
   document.getElementById('lb-chips-thu').innerHTML=renderChips(chipsT);
   document.getElementById('lb-chips-fri').innerHTML=renderChips(chipsF);
   document.getElementById('lb-chips-sat').innerHTML=renderChips(chipsS);
-  const winRows=PKEYS.map(k=>{const t=wins[k].d1+wins[k].d2+wins[k].d3;return{key:k,name:P[k].name,d1:wins[k].d1,d2:wins[k].d2,d3:wins[k].d3,total:t};}).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
+  const winRows=Object.keys(P).map(k=>{const t=wins[k].d1+wins[k].d2+wins[k].d3;return{key:k,name:P[k].name,d1:wins[k].d1,d2:wins[k].d2,d3:wins[k].d3,total:t};}).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
   const maxW=winRows[0]?.total||0;
   function wc(w){if(w===0)return`<td style="color:rgba(218,240,218,.22)">—</td>`;if(w===.5)return`<td style="color:var(--my3)">½</td>`;return`<td style="color:#6ab46a;font-weight:600">W</td>`;}
   document.getElementById('lb-wins').innerHTML=winRows.map((r,i)=>{const ic=r.total===maxW&&maxW>0,tr=ic?' 🏆':'',ts=ic?'color:var(--my);font-weight:700;font-size:15px':r.total>0?'color:rgba(218,240,218,.8)':'color:rgba(218,240,218,.28)';return`<tr><td><span class="pos ${ic?'g':''}">${i+1}</span>${r.name}${tr}</td>${wc(r.d1)}${wc(r.d2)}${wc(r.d3)}<td style="${ts}">${r.total>0?fmt(r.total):'—'}</td></tr>`;}).join('');
-  const scoreRows=PKEYS.map(k=>{const p=P[k];let d1G=0,d1H=0,d2G=0,d2Net=0,d2H=0,d3G=0,d3Net=0,d3H=0;for(let h=0;h<18;h++){const g=SC.d1[k][h];if(g!=null){d1G+=parseInt(g);d1H++;}}['d2','d3'].forEach(day=>{for(let h=0;h<18;h++){const g=SC[day][k][h];if(g!=null){const gr=parseInt(g),nt=net(gr,phcp(k,day),h,day);if(day==='d2'){d2G+=gr;d2Net+=nt;d2H++;}else{d3G+=gr;d3Net+=nt;d3H++;}}}});return{name:p.name,hcp:p.d1,d1:{s:d1G,h:d1H},d2:{g:d2G,n:d2Net,h:d2H},d3:{g:d3G,n:d3Net,h:d3H},any:d1H+d2H+d3H>0};}).sort((a,b)=>{if(b.any!==a.any)return b.any-a.any;return(a.d1.s+a.d2.g+a.d3.g)-(b.d1.s+b.d2.g+b.d3.g);});
+  const scoreRows=Object.keys(P).map(k=>{const p=P[k];let d1G=0,d1H=0,d2G=0,d2Net=0,d2H=0,d3G=0,d3Net=0,d3H=0;for(let h=0;h<18;h++){const g=SC.d1[k][h];if(g!=null){d1G+=parseInt(g);d1H++;}}['d2','d3'].forEach(day=>{for(let h=0;h<18;h++){const g=SC[day][k][h];if(g!=null){const gr=parseInt(g),nt=net(gr,phcp(k,day),h,day);if(day==='d2'){d2G+=gr;d2Net+=nt;d2H++;}else{d3G+=gr;d3Net+=nt;d3H++;}}}});return{name:p.name,hcp:p.d1,d1:{s:d1G,h:d1H},d2:{g:d2G,n:d2Net,h:d2H},d3:{g:d3G,n:d3Net,h:d3H},any:d1H+d2H+d3H>0};}).sort((a,b)=>{if(b.any!==a.any)return b.any-a.any;return(a.d1.s+a.d2.g+a.d3.g)-(b.d1.s+b.d2.g+b.d3.g);});
   function fG(x){if(x.h===0)return'—';return String(x.s);}
   function fGN(x){if(x.h===0)return'<td style="color:rgba(218,240,218,.3)">—</td><td style="color:rgba(218,240,218,.3)">—</td>';return`<td>${x.g}</td><td style="color:rgba(218,240,218,.55)">${x.n}</td>`;}
   document.getElementById('lb-ind').innerHTML=scoreRows.map((r,i)=>{
@@ -2648,7 +2650,7 @@ function showNameOverlay(){document.getElementById('name-overlay').classList.rem
 function onNameChange(v){if(!v)return;chatAuthor=v;try{localStorage.setItem('wni-author',v);}catch(e){}document.getElementById('name-overlay').classList.add('hidden');updateBottomNavAvatar();buildD1();buildD2();buildD3();if(currentTab==='me')showMeTab(currentMeTab);}
 function tapMeAvatar(){
   if(!chatAuthor){showNameOverlay();return;}
-  const aKey=PKEYS.find(k=>P[k].name===chatAuthor);
+  const aKey=Object.keys(P).find(k=>P[k].name===chatAuthor);
   if(!aKey)return;
   tapAvatar(aKey);
 }
@@ -2656,7 +2658,7 @@ function renderMeProfileHero(){
   const avEl=document.getElementById('me-av-large');
   const nameEl=document.getElementById('my-game-title');
   if(!avEl||!nameEl)return;
-  const aKey=chatAuthor?PKEYS.find(k=>P[k].name===chatAuthor):null;
+  const aKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
   if(chatAuthor&&aKey){
     nameEl.textContent=chatAuthor;
     if(playerAvatars[aKey]){avEl.style.background='#111';avEl.innerHTML=`<img src="${playerAvatars[aKey]}">`;}
@@ -2667,7 +2669,7 @@ function updateBottomNavAvatar(){
   const av=document.getElementById('bnt-me-av');
   const lbl=document.getElementById('bnt-me-label');
   if(!av||!lbl)return;
-  const aKey=chatAuthor?PKEYS.find(k=>P[k].name===chatAuthor):null;
+  const aKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
   if(chatAuthor){
     const ini=chatAuthor[0].toUpperCase();
     if(aKey&&playerAvatars[aKey]){av.style.background='';av.innerHTML=`<img src="${playerAvatars[aKey]}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
@@ -2772,7 +2774,7 @@ function renderChat(){
     const dl=fmtDateLabel(msg.ts);
     if(dl!==lastLabel){html+=`<div class="chat-day-div"><span>${dl}</span></div>`;lastLabel=dl;}
     const mine=msg.author===chatAuthor;
-    const aKey=PKEYS.find(k=>P[k].name===msg.author)||null;
+    const aKey=Object.keys(P).find(k=>P[k].name===msg.author)||null;
     const avBg=aKey&&playerAvatars[aKey]?'background:#111':`background:${aKey?PLAYER_COLORS[aKey]||'#555':'#555'}`;
     const avInner=aKey&&playerAvatars[aKey]?`<img src="${playerAvatars[aKey]}" alt="${msg.author}">`:(msg.author[0]||'?').toUpperCase();
     const miniAv=`<div class="chat-mini-av" style="${avBg}">${avInner}</div>`;
@@ -2858,7 +2860,7 @@ function buildMyRound(day){
     totEl.textContent='—';
     return;
   }
-  const aKey=PKEYS.find(k=>P[k].name===chatAuthor);
+  const aKey=Object.keys(P).find(k=>P[k].name===chatAuthor);
   if(!aKey){listEl.innerHTML='';return;}
   currentMeDay=day;
   document.querySelectorAll('.mdn-btn').forEach(b=>b.classList.toggle('active',b.dataset.day===day));
@@ -2970,7 +2972,7 @@ function setHoleStat(day,key,h,stat,val){
 // ── My Game ────────────────────────────────────────
 function buildMyGame(){
   if(!chatAuthor)return;
-  const aKey=PKEYS.find(k=>P[k].name===chatAuthor);
+  const aKey=Object.keys(P).find(k=>P[k].name===chatAuthor);
   if(!aKey){document.getElementById('my-game-content').innerHTML='<div style="text-align:center;padding:40px 20px;opacity:.4;font-family:\'DM Sans\',sans-serif;font-size:14px;color:rgba(218,240,218,.6);">Pick your name to see your stats.</div>';return;}
   const p=P[aKey];
   const isAll=currentStatsDay==='all';
@@ -3485,14 +3487,14 @@ function suggestOddsPreset(playerKey,day,statType,line,propSide){
   return'longshot';
 }
 function getGroupKeys(k,day){
-  if(day==='d1')return PKEYS;
-  if(day==='d2'){const g=D2.find(p=>[...p.sA,...p.sB].includes(k));return g?[...g.sA,...g.sB]:PKEYS;}
-  if(day==='d3'){const m=D3.find(p=>[...p.sA,...p.sB].includes(k));return m?[...m.sA,...m.sB]:PKEYS;}
-  return PKEYS;
+  if(day==='d1')return Object.keys(P);
+  if(day==='d2'){const g=D2.find(p=>[...p.sA,...p.sB].includes(k));return g?[...g.sA,...g.sB]:Object.keys(P);}
+  if(day==='d3'){const m=D3.find(p=>[...p.sA,...p.sB].includes(k));return m?[...m.sA,...m.sB]:Object.keys(P);}
+  return Object.keys(P);
 }
 function buildSuggestedBets(){
   // Compute per-player per-day stats (only full rounds)
-  const stats=PKEYS.map(k=>{
+  const stats=Object.keys(P).map(k=>{
     const s={key:k};
     ['d1','d2','d3'].forEach(day=>{
       let g=0,n=0,h=0,bi=0;const par=cPar(day);
@@ -3830,7 +3832,7 @@ function gameWagerWidget(key){
     } else if(gw.status==='open'){
       const isProposer=gw.propName===myName;
       // Find opposing team — proposer's team = sA or sB; acceptor must be from the other side
-      const propKey=PKEYS.find(k=>P[k].name===gw.propName);
+      const propKey=Object.keys(P).find(k=>P[k].name===gw.propName);
       const propIsOnSA=propKey&&D2[gi].sA.includes(propKey);
       const oppKeys=propIsOnSA?D2[gi].sB:D2[gi].sA;
       const oppNames=oppKeys.map(k=>P[k].name);
@@ -4049,7 +4051,7 @@ function settleBets(){
       for(let h=0;h<18;h++){const s=SC[b.day][b.player][h];if(s!=null){gross+=parseInt(s);holes++;}}
       if(holes===18)outcome=gross<b.line?'under':gross>b.line?'over':'push';
     } else if(b.type==='lowgross'){
-      const totals=PKEYS.map(k=>{let g=0,h=0;for(let i=0;i<18;i++){const s=SC[b.day][k][i];if(s!=null){g+=parseInt(s);h++;}}return{key:k,g:h===18?g:null};});
+      const totals=Object.keys(P).map(k=>{let g=0,h=0;for(let i=0;i<18;i++){const s=SC[b.day][k][i];if(s!=null){g+=parseInt(s);h++;}}return{key:k,g:h===18?g:null};});
       if(totals.some(t=>t.g==null))return;
       const minG=Math.min(...totals.map(t=>t.g));
       const subG=totals.find(t=>t.key===b.player)?.g;
@@ -4057,7 +4059,7 @@ function settleBets(){
       const tied=totals.filter(t=>t.g===minG).length>1;
       outcome=tied&&subG===minG?'push':subG===minG?'low':'notlow';
     } else if(b.type==='lownet'){
-      const totals=PKEYS.map(k=>{let n=0,h=0;for(let i=0;i<18;i++){const v=net(SC[b.day][k][i],phcp(k,b.day),i,b.day);if(v!=null){n+=v;h++;}}return{key:k,n:h===18?n:null};});
+      const totals=Object.keys(P).map(k=>{let n=0,h=0;for(let i=0;i<18;i++){const v=net(SC[b.day][k][i],phcp(k,b.day),i,b.day);if(v!=null){n+=v;h++;}}return{key:k,n:h===18?n:null};});
       if(totals.some(t=>t.n==null))return;
       const minN=Math.min(...totals.map(t=>t.n));
       const subN=totals.find(t=>t.key===b.player)?.n;
@@ -4077,7 +4079,7 @@ function settleBets(){
       for(let h=0;h<18;h++){const s=SC[b.day][b.player][h];if(s!=null){holes++;if(parseInt(s)>par[h]+1)dirty=true;}}
       if(holes===18)outcome=dirty?'dirty':'clean';
     } else if(b.type==='lastplace'){
-      const gks=PKEYS;
+      const gks=Object.keys(P);
       const tots=gks.map(k=>{let n=0,h=0;for(let i=0;i<18;i++){const v=net(SC[b.day][k][i],phcp(k,b.day),i,b.day);if(v!=null){n+=v;h++;}}return{key:k,n:h===18?n:null};});
       if(tots.some(t=>t.n===null))return;
       const maxN=Math.max(...tots.map(t=>t.n));const sub=tots.find(t=>t.key===b.player)?.n;
@@ -4097,7 +4099,7 @@ function settleBets(){
       return;
     } else if(b.type==='pool'){
       if(b.status!=='active')return;
-      const pkeys=PKEYS;
+      const pkeys=Object.keys(P);
       const allDone=pkeys.every(k=>{let h=0;for(let i=0;i<18;i++){if(SC[b.day]?.[k]?.[i]!=null)h++;}return h===18;});
       if(!allDone)return;
       const pscores=pkeys.map(k=>{
@@ -4197,7 +4199,7 @@ function netLedger(){
     }
     if(b.type==='pool'){
       if(b.result==='push'||!b.winnerName)return;
-      const n=PKEYS.length;
+      const n=Object.keys(P).length;
       Object.values(P).forEach(p=>{
         if(net[p.name]===undefined)return;
         if(p.name===b.winnerName)net[p.name]+=(n-1)*b.buyIn;
@@ -4454,7 +4456,7 @@ function poolCardHTML(bet,myName){
   const isVoting=bet.status==='voting';const isSettled=bet.status==='settled';
   const poolLabels={lownet:'Low Net',lastplace:'Last Place Net',birdies:'Most Birdies',cleancard:'Most Clean Holes'};
   const label=poolLabels[bet.poolType]||bet.poolType;
-  const n=PKEYS.length;
+  const n=Object.keys(P).length;
   const prize=(n-1)*bet.buyIn;
   const approvedSet=new Set(bet.approvals||[]);
   const iApproved=approvedSet.has(myName);
@@ -4546,7 +4548,7 @@ function computeSettleUp(ledger){
 function buildLedger(){
   const nl=netLedger();
   // ── 1. Balance cards ──
-  const cards=PKEYS.map(k=>{
+  const cards=Object.keys(P).map(k=>{
     const name=P[k].name;
     const v=nl[name]||0;
     const cardCls=v>0?'lc-up':v<0?'lc-dn':'';
@@ -5062,7 +5064,7 @@ function _openHouseBuyIn(bet){
 function _openPoolApprove(bet){
   acceptMode='pool-approve';
   const poolLabels={lownet:'Low Net',lastplace:'Last Place Net',birdies:'Most Birdies',cleancard:'Most Clean Holes'};
-  const n=PKEYS.length;
+  const n=Object.keys(P).length;
   document.getElementById('ac-detail').innerHTML=`
     <div style="margin-bottom:6px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.38)">${betDayLabel(bet.day)}</div>
     <div style="font-size:16px;font-weight:700;margin-bottom:6px">🎱 ${poolLabels[bet.poolType]||bet.poolType} Pool</div>
