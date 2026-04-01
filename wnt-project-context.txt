@@ -1,6 +1,6 @@
 WE NEEDED THIS INVITATIONAL — PROJECT CONTEXT FOR COWORK
 ==========================================================
-Last updated: March 2026
+Last updated: April 2026
 
 
 OVERVIEW
@@ -401,13 +401,51 @@ Team keys:
 
 "ME" TAB
 --------
-Personal hub for the logged-in player:
-- Large avatar with tap-to-change photo upload
-- Your round scores (gross/net) for each day with cell-level color coding
-- Your stats summary (FH%, GIR%, putts per hole, etc.)
-- Your open and settled bets
-- Your current position on the leaderboard
-- Sub-tabs within Me: Scores / Stats / Bets
+Personal hub for the logged-in player. Two sub-tabs: Round and Stats.
+
+ROUND sub-tab:
+- Hole-by-hole score stepper (+ / −) for the logged-in player
+- Front 9 / Back 9 toggle
+- Per-hole secondary stats entry: Fairway Hit, GIR, Putts, Penalty Strokes
+  (shown in expandable detail row per hole)
+- Score color-coded by relation to par (eagle=green, birdie=light green, etc.)
+- Net badge per hole on Days 2 & 3
+- Running 9-hole total with score vs par shown below the list
+- Day selector (Thu / Fri / Sat) at top
+
+STATS sub-tab:
+Filterable by day (Thu / Fri / Sat) or all cumulative. Sections:
+
+  Score — per-day scorecard strip showing gross, score vs par, net (Days 2-3), thru count
+
+  Scoring:
+    - Birdies (or Eagles + Birdies if any eagle exists)
+    - Pars
+    - Bogeys
+    - Doubles+
+
+  Ball Striking (shown only if stats logged):
+    - Fairways Hit % (with fraction, e.g. 9/14)
+    - Greens in Regulation % (with fraction)
+
+  Putting & Around the Green (shown only if stats logged):
+    - Avg Putts per hole
+    - 3-Putts count
+    - Putts / GIR (avg putts on holes where GIR was hit)
+    - Scrambling % (up-and-downs from missed GIR)
+
+  Discipline:
+    - Total to Par (color-coded)
+    - Penalty Strokes (color-coded orange/red if high)
+
+  Strokes Gained (shown only after 9+ holes played):
+    - SG: Putting (vs scratch baseline — GIR holes: 1.80 baseline, non-GIR: 2.08)
+    - SG: Tee-to-Green (implied: SG:Total − SG:Putting; requires 9+ putts logged)
+    - SG: Total (score vs par)
+
+  My Wagers:
+    - Net dollar position for the selected day (P2P bets + game wagers combined)
+    - List of all the player's bets for that day (type, opponent, status, amount)
 
 
 PASSWORD GATE
@@ -415,8 +453,8 @@ PASSWORD GATE
 A full-screen overlay is shown before init() is called if the user hasn't
 authenticated. Implemented client-side only:
 - Overlay shows the WNT logo, a password input with eye-toggle, and a Submit button
-- Password: amasterslovestory
-- Stored as SHA-256 hash: d12a8a5eb722f7fefa79daa448e4dd5661081cdca6f5715ed28ee8b601e1e9d1
+- Password: scottsdale
+- Stored as SHA-256 hash: 19422146f941a4a55ee5d5c634c0fcdb32f46a6c2777420e3919c5561a160d87
 - Uses crypto.subtle.digest('SHA-256') — no password ever sent over the wire
 - Correct password → fade out → init()
 - Wrong password → shake animation, error message, cleared input
@@ -466,7 +504,7 @@ KEY TECHNICAL CONSTANTS
   const JSONBIN_ID = '69c6bfa3c3097a1dd568bcda'
   const LS_DATA = 'wni-data-2026'    — localStorage key
   const REQUIRED_WIPE_AT = 1774975508573  — Data epoch; bump to force global reset
-  const _PW_HASH = 'd12a8a5...'      — SHA-256 of 'amasterslovestory'
+  const _PW_HASH = '19422146...'     — SHA-256 of 'scottsdale'
   const _PW_KEY = 'wni-auth-2026'    — localStorage auth key
 
 Key state variables (all in-memory, persisted via getState()/applyRemoteState()):

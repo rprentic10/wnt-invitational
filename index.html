@@ -569,6 +569,12 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .chat-mini-av img{width:100%;height:100%;object-fit:cover;display:block;}
 #av-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#162e16;border:1px solid rgba(254,254,86,.3);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--my);opacity:0;pointer-events:none;transition:opacity .25s;z-index:300;white-space:nowrap;}
 #av-toast.show{opacity:1;}
+/* Pull-to-refresh */
+#ptr-indicator{position:fixed;top:max(env(safe-area-inset-top,0px),0px);left:0;right:0;display:flex;align-items:center;justify-content:center;z-index:9998;pointer-events:none;transform:translateY(-52px);transition:transform .2s ease;height:44px;}
+#ptr-indicator.ptr-visible{transform:translateY(0);}
+#ptr-spinner{width:22px;height:22px;border:2.5px solid rgba(218,240,218,.18);border-top-color:rgba(126,220,160,.85);border-radius:50%;animation:none;}
+#ptr-spinner.spinning{animation:ptr-spin .7s linear infinite;}
+@keyframes ptr-spin{to{transform:rotate(360deg);}}
 
 /* ── CHAT PHOTO ──────────────────────────────────── */
 .chat-photo-btn{width:38px;height:38px;border-radius:50%;background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.22);color:var(--my);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .15s;}
@@ -835,6 +841,9 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 </style>
 </head>
 <body>
+
+<!-- Pull-to-refresh indicator -->
+<div id="ptr-indicator"><div id="ptr-spinner"></div></div>
 
 <!-- LOADING -->
 <div id="loading-overlay">
@@ -1214,7 +1223,7 @@ let bets=[];
 let drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
 let gameWagers={};// keys: d1, d2_pot, d2_skins_0, d2_skins_1, d3_m0, d3_m1, d3_side
 let gwInputOpen=null,gwAcceptOpen=null,gwVoteOpen=null,gwInputState={};
-let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null};
+let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false};
 let acceptBetId=null;
 Object.keys(P).forEach(k=>{SC.d1[k]={};SC.d2[k]={};SC.d3[k]={};});
 // Per-hole secondary stats: fh (fairway hit), gir, putts, penalty
@@ -1612,6 +1621,16 @@ function _checkTeeTimeReminders(){
       }
     }
   });
+
+  // Settlement reminder: Saturday 7pm
+  const settlementKey='settle-2026-04-12';
+  if(todayStr==='2026-04-12'&&nowMins>=19*60&&nowMins<=19*60+1&&!_teeReminderFired.has(settlementKey)){
+    _teeReminderFired.add(settlementKey);
+    queueAlert('💸','Time to settle up!','Check the Ledger — tap Bets → Ledger to see who owes what.');
+    if('Notification'in window&&Notification.permission==='granted'){
+      try{new Notification('Time to settle up!',{body:'Check the WNT Ledger — tap Bets → Ledger.',icon:'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💸</text></svg>',tag:settlementKey,renotify:false});}catch(e){}
+    }
+  }
 }
 
 function initTeeTimeReminders(){
@@ -3019,10 +3038,11 @@ function buildMyGame(){
     if(b.type==='ou')desc=`${b.propSide==='under'?'↓':'↑'} Score O/U ${b.line}`;
     else if(b.type==='birdie-ou')desc=`Birdies ${b.propSide==='over'?'Over':'Under'} ${b.line}`;
     else if(b.type==='h2h')desc=`vs ${b.playerB?P[b.playerB]?.name:'?'} Net H2H`;
-    else if(b.type==='cleancard')desc='Clean Card';
-    else if(b.type==='lastplace')desc='Last Place Net';
-    else if(b.type==='lowgross')desc='Low Gross';
-    else if(b.type==='lownet')desc='Low Net';
+    else if(b.type==='cleancard')desc=b.participants?`Clean Card Pool (${b.participants.length}p)`:'Clean Card';
+    else if(b.type==='lastplace')desc=b.participants?`Last Place Pool (${b.participants.length}p)`:'Last Place Net';
+    else if(b.type==='lowgross')desc=b.participants?`Low Gross Pool (${b.participants.length}p)`:'Low Gross';
+    else if(b.type==='lownet')desc=b.participants?`Low Net Pool (${b.participants.length}p)`:'Low Net';
+    else if(b.type==='kp')desc=`KP · Hole ${(b.hole??0)+1}`;
     else desc=b.type;
     return`<div class="my-bet-row"><div style="flex:1"><div class="my-bet-day">${isAll?dayLbl+' · ':''}vs ${opp||'?'}</div><div class="my-bet-desc">${desc}</div></div><span class="lbr-status ${statusCls}" style="font-size:10px;padding:3px 7px">${statusTxt}</span><div style="font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45);margin-left:8px">$${b.amount}</div></div>`;
   }).join('');
@@ -3282,7 +3302,7 @@ function notifyMsg(msg){
 // ═══════════════════════════════════════════════════
 // PASSWORD GATE
 // ═══════════════════════════════════════════════════
-const _PW_HASH='d12a8a5eb722f7fefa79daa448e4dd5661081cdca6f5715ed28ee8b601e1e9d1';
+const _PW_HASH='19422146f941a4a55ee5d5c634c0fcdb32f46a6c2777420e3919c5561a160d87';
 const _PW_KEY='wni-auth-2026';
 
 async function _hashPw(pw){
@@ -4045,6 +4065,44 @@ function settleBets(){
   let changed=false;
   bets.forEach(b=>{
     if(b.status!=='active')return;
+    // ── Pool-mode bets (KP + multi-player pools) ──
+    if(b.participants){
+      if(b.type==='kp'){
+        // KP: manually settled via awardKPWinner — just confirm settled state persists
+        if(b.winner){b.status='settled';b.result='winner';changed=true;}
+        return;
+      }
+      // Multi-player auto-settle types
+      const pkeys=Object.keys(P);
+      const partKeys=b.participants.map(name=>pkeys.find(k=>P[k].name===name)).filter(Boolean);
+      const allDone=partKeys.every(k=>SC[b.day]?.[k]?.filter(s=>s!=null).length===18);
+      if(!allDone)return;
+      if(b.type==='lownet'||b.type==='lowgross'){
+        const scores=partKeys.map(k=>{
+          let tot=0;
+          for(let h=0;h<18;h++){const v=b.type==='lownet'?net(SC[b.day][k][h],phcp(k,b.day),h,b.day):parseInt(SC[b.day][k][h]||0);if(v!=null)tot+=v;}
+          return{name:P[k].name,tot};
+        });
+        const best=Math.min(...scores.map(s=>s.tot));
+        const winners=scores.filter(s=>s.tot===best);
+        b.winner=winners.length===1?winners[0].name:null;
+        b.status='settled';b.result=winners.length===1?'winner':'push';changed=true;
+      }else if(b.type==='lastplace'){
+        const scores=partKeys.map(k=>{let n=0;for(let h=0;h<18;h++){const v=net(SC[b.day][k][h],phcp(k,b.day),h,b.day);if(v!=null)n+=v;}return{name:P[k].name,n};});
+        const worst=Math.max(...scores.map(s=>s.n));
+        const losers=scores.filter(s=>s.n===worst);
+        b.winner=null;b.loser=losers.length===1?losers[0].name:null; // loser pays everyone
+        b.status='settled';b.result=losers.length===1?'winner':'push';changed=true;
+      }else if(b.type==='cleancard'){
+        const par=cPar(b.day);
+        const cleanPlayers=partKeys.filter(k=>SC[b.day][k].every((s,h)=>s==null||parseInt(s)<=par[h]+1)).map(k=>P[k].name);
+        if(cleanPlayers.length===0){b.winner=null;b.result='push';}
+        else if(cleanPlayers.length===1){b.winner=cleanPlayers[0];b.result='winner';}
+        else{b.winner=null;b.cleanWinners=cleanPlayers;b.result='split';}
+        b.status='settled';changed=true;
+      }
+      return;
+    }
     let outcome=null;
     if(b.type==='ou'){
       let gross=0,holes=0;
@@ -4169,6 +4227,33 @@ function netLedger(){
   const net={};
   Object.values(P).forEach(p=>{net[p.name]=0;});
   bets.forEach(b=>{
+    // Pool-mode bets (KP + multi-player pools)
+    if(b.participants&&b.status==='settled'){
+      const n=b.participants.length;
+      if(b.result==='push'){return;}
+      if(b.result==='winner'&&b.winner){
+        b.participants.forEach(name=>{if(net[name]===undefined)return;net[name]+=(name===b.winner?(n-1):-1)*b.amount;});
+        return;
+      }
+      if(b.result==='split'&&b.cleanWinners&&b.cleanWinners.length>0){
+        // Clean card split: non-cleaners pay, cleaners split the pot
+        const losers=b.participants.filter(p=>!b.cleanWinners.includes(p));
+        const totalPot=losers.length*b.amount;
+        const winShare=Math.floor(totalPot/b.cleanWinners.length);
+        b.participants.forEach(name=>{
+          if(net[name]===undefined)return;
+          if(b.cleanWinners.includes(name))net[name]+=winShare;
+          else net[name]-=b.amount;
+        });
+        return;
+      }
+      if(b.result==='winner'&&b.loser){
+        // lastplace: loser pays (n-1)*amount, others each gain amount
+        b.participants.forEach(name=>{if(net[name]===undefined)return;net[name]+=(name===b.loser?-(n-1):1)*b.amount;});
+        return;
+      }
+      return;
+    }
     if(b.type==='nassau'){
       ['frontResult','backResult','overallResult'].forEach(leg=>{
         const r=b[leg];if(!r||r==='push')return;
@@ -4364,6 +4449,71 @@ function wagerCardHTML(bet,myName){
 </div>`;
 }
 
+// ── Pool-mode card (KP + multi-player pools) ─────
+function poolModeCardHTML(bet,myName){
+  const isOpen=bet.status==='open';
+  const isActive=bet.status==='active';
+  const isSettled=bet.status==='settled';
+  const cardCls=isOpen?'wc-open':isSettled?'wc-settled-win':'';
+  const dayLbl={d1:'THU · Day 1',d2:'FRI · Day 2',d3:'SAT · Day 3'}[bet.day]||bet.day;
+  const typeIcon={kp:'⛳',lownet:'🥇',lowgross:'🏌️',lastplace:'💀',cleancard:'✅'};
+  const typeLabel={kp:'Closest to Pin',lownet:'Low Net Pool',lowgross:'Low Gross Pool',lastplace:'Last Place Pool',cleancard:'Clean Card Pool'};
+  const holeInfo=bet.hole!=null?` · Hole ${bet.hole+1}`:'';
+  const n=(bet.participants||[]).length;
+  const pot=n*bet.amount;
+  const optedIn=bet.optedIn||[];
+  // Participant chips
+  const chips=(bet.participants||[]).map(p=>{
+    const in_=optedIn.includes(p);
+    return`<span style="display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:600;margin:2px;background:${in_?'rgba(106,180,106,.2)':'rgba(218,240,218,.06)'};border:1px solid ${in_?'rgba(106,180,106,.4)':'rgba(218,240,218,.15)'};color:${in_?'#7ddba4':'rgba(218,240,218,.45)'}">${p}${in_?' ✓':' …'}</span>`;
+  }).join('');
+  // Join button for invited players who haven't opted in
+  const canJoin=isOpen&&(bet.participants||[]).includes(myName)&&!optedIn.includes(myName);
+  const joinBtn=canJoin?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Join Pool · $${bet.amount}</button>`:'';
+  // Award winner button for KP: show when bet is active and all participants have a score for the hole
+  let awardBtn='';
+  if(bet.type==='kp'&&isActive){
+    const pkeys=Object.keys(P);
+    const allScored=(bet.participants||[]).every(pname=>{const k=pkeys.find(k=>P[k].name===pname);return k&&SC[bet.day][k][bet.hole]!=null;});
+    if(allScored)awardBtn=`<button class="wc-accept-btn" style="background:rgba(254,254,86,.15);border-color:rgba(254,254,86,.4);color:#fefe56" onclick="openAwardKP('${bet.id}')">⛳ Award Winner</button>`;
+  }
+  let resultHtml='';
+  if(isSettled){
+    if(bet.result==='push')resultHtml=`<div class="wc-result res-push">Push — all bets returned</div>`;
+    else if(bet.winner)resultHtml=`<div class="wc-result res-win">${bet.winner} wins $${(n-1)*bet.amount}</div>`;
+  }
+  const canCancel=isOpen&&bet.propName===myName;
+  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel</button>`:'';
+  return`<div class="wager-card ${cardCls}">
+  <div class="wc-day">${dayLbl}${holeInfo}</div>
+  <div class="wc-desc">${typeIcon[bet.type]||'🎱'} ${typeLabel[bet.type]||bet.type}</div>
+  <div class="wc-line">$${bet.amount}/person · $${pot} pot · ${n} players</div>
+  <div style="margin:8px 0 4px">${chips}</div>
+  ${resultHtml}${awardBtn}${joinBtn}${cancelBtn}
+</div>`;}
+
+// ── Award KP Winner sheet ─────────────────────────
+let _awardKPBetId=null;
+function openAwardKP(betId){
+  _awardKPBetId=betId;
+  const bet=bets.find(b=>b.id===betId);if(!bet)return;
+  const holeInfo=bet.hole!=null?`Hole ${bet.hole+1}`:'';
+  const dayLbl={d1:'Thursday',d2:'Friday',d3:'Saturday'}[bet.day]||bet.day;
+  const participantBtns=(bet.participants||[]).map(p=>`<button class="ps-submit" style="margin-bottom:8px;background:rgba(16,36,16,.85)" onclick="confirmAwardKP('${betId}','${p}')">${p}</button>`).join('');
+  document.getElementById('ac-detail').innerHTML=`
+    <div style="margin-bottom:6px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.38)">⛳ ${holeInfo} · ${dayLbl}</div>
+    <div style="font-size:14px;color:rgba(218,240,218,.75);margin-bottom:14px">Who stuck it closest?</div>
+    ${participantBtns}`;
+  const acId=document.getElementById('ac-identity');if(acId)acId.textContent='Acting as: '+chatAuthor;
+  const lbl=document.getElementById('ac-submit-label');if(lbl)lbl.style.display='none';
+  document.getElementById('accept-overlay').classList.remove('hidden');
+}
+function confirmAwardKP(betId,winnerName){
+  const bet=bets.find(b=>b.id===betId);if(!bet)return;
+  bet.winner=winnerName;bet.status='settled';bet.result='winner';
+  document.getElementById('ac-submit-label').style.display='';
+  pushRemote(getState(),true);closeAcceptSheet();buildWagers();updateBetsBadge();
+}
 // ── Nassau card ──────────────────────────────────
 function nassauCardHTML(bet,myName){
   const isOpen=bet.status==='open';
@@ -4499,11 +4649,14 @@ function buildWagers(){
   }
   const cont=document.getElementById('wager-content');
   if(!cont)return;
-  const p2pTypes=new Set(['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','match','nassau','lownet','lowgross']);
+  const p2pTypes=new Set(['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','match','nassau','lownet','lowgross','kp']);
   const p2pBets=bets.filter(b=>p2pTypes.has(b.type)&&b.status!=='void');
   const houseBets=bets.filter(b=>b.type==='house-prop'&&b.status!=='void');
   const poolBets=bets.filter(b=>b.type==='pool'&&b.status!=='void');
-  function renderP2P(b){return b.type==='nassau'?nassauCardHTML(b,myName):wagerCardHTML(b,myName);}
+  function renderP2P(b){
+    if(b.participants)return poolModeCardHTML(b,myName); // KP or multi-player pool
+    return b.type==='nassau'?nassauCardHTML(b,myName):wagerCardHTML(b,myName);
+  }
   const _ord={open:0,voting:0,active:1,settled:2};
   function groupByDay(arr,renderFn){
     const dayLabels={d1:'THU · Day 1',d2:'FRI · Day 2',d3:'SAT · Day 3'};
@@ -4677,7 +4830,7 @@ function proposeSuggested(i){
 
 function openProposeSheet(){
   propCategory='p2p';
-  propSt={type:'ou',day:'d1',player:null,playerB:null,matchIdx:null,side:null};
+  propSt={type:'ou',day:'d1',player:null,playerB:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false};
   houseSt={day:null,player:null,statType:null,line:null,propSide:null,oddsPreset:'even',exposureCap:0};
   poolSt={poolType:null,day:null,buyIn:null};
   // Guard: must have identity set
@@ -4739,7 +4892,7 @@ const PS_TYPE_DESC={
   'match':     "Pick a side in one of the day's scheduled match-play matchups.",
   'nassau':    'Three separate $X bets on a Day 3 match: front 9, back 9, and overall 18. Up to 3x the action.',
 };
-function setPropType(t){propSt.type=t;propSt.player=null;propSt.playerB=null;propSt.matchIdx=null;propSt.side=null;
+function setPropType(t){propSt.type=t;propSt.player=null;propSt.playerB=null;propSt.matchIdx=null;propSt.side=null;propSt.hole=null;propSt.participants=[];propSt.poolMode=(t==='kp');
   ['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','lownet','match','nassau'].forEach(x=>{const el=document.getElementById('ps-type-'+x);if(el)el.classList.toggle('sel',x===t);});
   const descEl=document.getElementById('ps-type-desc');if(descEl)descEl.textContent=PS_TYPE_DESC[t]||'';
   renderPropPlayers();renderPropPlayerB();renderPropMatches();updateProposeUI();}
@@ -4766,6 +4919,18 @@ function renderPropPlayerB(){
 function setPropPlayerB(k){propSt.playerB=k;propSt.side=null;
   document.querySelectorAll('#ps-players-b .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===k));
   updateProposeUI();}
+function setPropHole(h){propSt.hole=h;
+  document.querySelectorAll('#ps-holes .ps-opt').forEach(el=>el.classList.toggle('sel',parseInt(el.dataset.h)===h));
+  updateProposeUI();}
+function toggleParticipant(name){
+  const me=chatAuthor||'';if(name===me)return; // proposer always in
+  const idx=propSt.participants.indexOf(name);
+  if(idx>=0)propSt.participants.splice(idx,1);else propSt.participants.push(name);
+  document.querySelectorAll('#ps-participants .ps-opt').forEach(el=>el.classList.toggle('sel',propSt.participants.includes(el.dataset.name)||el.dataset.name===me));
+  updateProposeUI();}
+function togglePoolMode(){propSt.poolMode=!propSt.poolMode;propSt.participants=[];propSt.player=null;
+  const btn=document.getElementById('ps-pool-toggle');if(btn)btn.classList.toggle('sel',propSt.poolMode);
+  updateProposeUI();}
 function renderPropMatches(){
   const ouStep=document.getElementById('ps-player-step');
   const mStep=document.getElementById('ps-match-step');
@@ -4788,18 +4953,74 @@ function renderPropMatches(){
 function updateProposeUI(){
   if(propCategory!=='p2p')return;
   const t=propSt.type;
+  const isKP=t==='kp';
   const isMatch=t==='match'||t==='nassau';const isOU=t==='ou';const isLow=t==='lownet';
   const isBirdieOU=t==='birdie-ou';const isH2H=t==='h2h'||t==='h2h-gross';
   const isClean=t==='cleancard';const isLast=t==='lastplace';
-  const isPlayerType=isOU||isLow||isBirdieOU||isClean||isLast||isH2H;
+  const poolEligible=isLow||isClean||isLast||t==='lowgross';
+  const usePool=isKP||propSt.poolMode;
   const lineBox=document.getElementById('ps-line-box');
   const sideStep=document.getElementById('ps-side-step');
   const amtStep=document.getElementById('ps-amount-step');
   const sides=document.getElementById('ps-sides');
   const dayStep=document.getElementById('ps-day-step');
   const playerBStep=document.getElementById('ps-player-b-step');
+  const holeStep=document.getElementById('ps-hole-step');
+  const partStep=document.getElementById('ps-participants-step');
+  const playerStep=document.getElementById('ps-player-step');
+  const poolToggleWrap=document.getElementById('ps-pool-toggle-wrap');
   if(dayStep)dayStep.style.display='';
+  if(poolToggleWrap)poolToggleWrap.style.display=poolEligible&&!isKP?'':'none';
+  // KP flow
+  if(isKP){
+    if(playerStep)playerStep.style.display='none';
+    if(playerBStep)playerBStep.style.display='none';
+    if(document.getElementById('ps-match-step'))document.getElementById('ps-match-step').style.display='none';
+    if(lineBox)lineBox.style.display='none';
+    if(sideStep)sideStep.style.display='none';
+    // Hole picker — par 3s for the selected day
+    if(holeStep)holeStep.style.display='';
+    const holesEl=document.getElementById('ps-holes');
+    if(holesEl){const par=cPar(propSt.day);holesEl.innerHTML=par.map((p,i)=>p===3?`<div class="ps-opt${propSt.hole===i?' sel':''}" data-h="${i}" onclick="setPropHole(${i})">Hole ${i+1}</div>`:'').join('');}
+    // Participants multi-select
+    if(partStep)partStep.style.display='';
+    const partEl=document.getElementById('ps-participants');
+    const me=chatAuthor||'';
+    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('');}
+    const allPart=[me,...propSt.participants].filter(Boolean);
+    const ready=propSt.hole!=null&&allPart.length>=2;
+    const amtEl=document.getElementById('ps-amount');const amt=parseFloat(amtEl?.value)||0;
+    if(amtStep)amtStep.style.display=ready?'':'none';
+    const amtInfoEl=document.getElementById('ps-kp-amt-info');
+    if(amtInfoEl&&ready&&amt>0)amtInfoEl.textContent=`$${amt}/person · $${allPart.length*amt} total pot`;
+    else if(amtInfoEl)amtInfoEl.textContent='';
+    document.getElementById('ps-submit').disabled=!(chatAuthor&&ready&&amt>0);
+    return;
+  }
+  // Pool mode for lowgross/lownet/lastplace/cleancard
+  if(usePool){
+    if(playerStep)playerStep.style.display='none';
+    if(playerBStep)playerBStep.style.display='none';
+    if(document.getElementById('ps-match-step'))document.getElementById('ps-match-step').style.display='none';
+    if(lineBox)lineBox.style.display='none';
+    if(sideStep)sideStep.style.display='none';
+    if(holeStep)holeStep.style.display='none';
+    if(partStep)partStep.style.display='';
+    const partEl=document.getElementById('ps-participants');
+    const me=chatAuthor||'';
+    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('');}
+    const allPart=[me,...propSt.participants].filter(Boolean);
+    const ready=allPart.length>=2;
+    const amtEl=document.getElementById('ps-amount');const amt=parseFloat(amtEl?.value)||0;
+    if(amtStep)amtStep.style.display=ready?'':'none';
+    document.getElementById('ps-submit').disabled=!(chatAuthor&&ready&&amt>0);
+    return;
+  }
+  // Standard P2P flow (unchanged)
+  if(holeStep)holeStep.style.display='none';
+  if(partStep)partStep.style.display='none';
   if(playerBStep)playerBStep.style.display=isH2H?'':'none';
+  if(playerStep)playerStep.style.display=isMatch?'none':'';
   const d1Btn=document.getElementById('ps-day-d1');
   const isNassau=t==='nassau';
   if(d1Btn){d1Btn.classList.toggle('ps-na',isLast||isNassau);if((isLast||isNassau)&&propSt.day==='d1'){setPropDay('d2');return;}}
@@ -5007,18 +5228,34 @@ function submitPropose(){
   }else{
     const amt=parseFloat(document.getElementById('ps-amount')?.value);if(!amt)return;
     const t=propSt.type;
-    const isLow=t==='lownet';const isBirdieOU=t==='birdie-ou';
-    const isH2H=t==='h2h'||t==='h2h-gross';const isClean=t==='cleancard';const isLast=t==='lastplace';
-    const needsPlayer=t==='ou'||isLow||isBirdieOU||isClean||isLast||isH2H;
-    const propSide=isLow?'low':isClean?'clean':isLast?'last':propSt.side;
-    const bet={id:'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),
-      type:t,day:propSt.day,
-      player:needsPlayer?propSt.player:undefined,
-      playerB:isH2H?propSt.playerB:undefined,
-      line:t==='ou'?calcLine(propSt.player,propSt.day):isBirdieOU?calcBirdiesLine(propSt.player,propSt.day):undefined,
-      matchIdx:(t==='match'||t==='nassau')?propSt.matchIdx:undefined,
-      propSide,propName:name,amount:amt,accName:null,status:'open',result:null,ts:Date.now()};
-    bets.push(bet);
+    const isKP=t==='kp';
+    const usePool=isKP||propSt.poolMode;
+    if(usePool){
+      // Pool-mode bet: KP or multi-player lowgross/lownet/lastplace/cleancard
+      const allPart=[name,...propSt.participants].filter(Boolean);
+      const bet={id:'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),
+        type:t,day:propSt.day,
+        hole:isKP?propSt.hole:undefined,
+        propName:name,
+        participants:allPart,
+        optedIn:[name],
+        amount:amt,
+        status:'open',result:null,winner:null,ts:Date.now()};
+      bets.push(bet);
+    }else{
+      const isLow=t==='lownet';const isBirdieOU=t==='birdie-ou';
+      const isH2H=t==='h2h'||t==='h2h-gross';const isClean=t==='cleancard';const isLast=t==='lastplace';
+      const needsPlayer=t==='ou'||isLow||isBirdieOU||isClean||isLast||isH2H;
+      const propSide=isLow?'low':isClean?'clean':isLast?'last':propSt.side;
+      const bet={id:'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),
+        type:t,day:propSt.day,
+        player:needsPlayer?propSt.player:undefined,
+        playerB:isH2H?propSt.playerB:undefined,
+        line:t==='ou'?calcLine(propSt.player,propSt.day):isBirdieOU?calcBirdiesLine(propSt.player,propSt.day):undefined,
+        matchIdx:(t==='match'||t==='nassau')?propSt.matchIdx:undefined,
+        propSide,propName:name,amount:amt,accName:null,status:'open',result:null,ts:Date.now()};
+      bets.push(bet);
+    }
   }
   pushRemote(getState(),true);updateBetsBadge();closeProposeSheet();buildWagers();
 }
@@ -5029,6 +5266,7 @@ function openAcceptSheet(betId){
   const bet=bets.find(b=>b.id===betId);if(!bet)return;
   if(bet.type==='house-prop'){_openHouseBuyIn(bet);return;}
   if(bet.type==='pool'){_openPoolApprove(bet);return;}
+  if(bet.participants){_openPoolOptIn(bet);return;} // KP or multi-player pool bets
   let you='';
   if(bet.type==='ou'){const os=oppSide(bet.propSide);you=`You take <strong>${os.toUpperCase()} ${bet.line}</strong> on ${P[bet.player].name} · $${bet.amount}`;}
   else if(bet.type==='birdie-ou'){const os=oppSide(bet.propSide);you=`You take <strong>Birdies ${os.toUpperCase()} ${bet.line}</strong> for ${P[bet.player].name} · $${bet.amount}`;}
@@ -5059,6 +5297,25 @@ function _openHouseBuyIn(bet){
   if(!chatAuthor){closeAcceptSheet();showNameOverlay();return;}
   const acId2=document.getElementById('ac-identity');if(acId2)acId2.textContent='Acting as: '+chatAuthor;
   const lbl=document.getElementById('ac-submit-label');if(lbl)lbl.textContent='Buy In →';
+  document.getElementById('accept-overlay').classList.remove('hidden');
+}
+function _openPoolOptIn(bet){
+  acceptMode='pool-optin';
+  const dayLbl={d1:'THU · Day 1',d2:'FRI · Day 2',d3:'SAT · Day 3'}[bet.day]||bet.day;
+  const typeLabels={kp:'⛳ Closest to Pin',lownet:'🥇 Low Net Pool',lowgross:'🥇 Low Gross Pool',lastplace:'💀 Last Place Pool',cleancard:'✅ Clean Card Pool'};
+  const holeInfo=bet.hole!=null?` · Hole ${bet.hole+1}`:'';
+  const n=bet.participants.length;
+  const others=bet.participants.filter(p=>p!==chatAuthor);
+  const othersStr=others.join(', ')||'—';
+  document.getElementById('ac-detail').innerHTML=`
+    <div style="margin-bottom:6px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.38)">${dayLbl}${holeInfo}</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:8px">${typeLabels[bet.type]||bet.type}</div>
+    <div style="font-size:13px;color:rgba(218,240,218,.7);margin-bottom:6px">Buy-in: <strong style="color:#fefe56">$${bet.amount}</strong> · Pot: <strong style="color:#7ddba4">$${n*bet.amount}</strong></div>
+    <div style="font-size:11px;color:rgba(218,240,218,.45);margin-bottom:4px">Invited by <strong>${bet.propName}</strong></div>
+    <div style="font-size:11px;color:rgba(218,240,218,.45)">Others in pool: ${othersStr}</div>`;
+  if(!chatAuthor){closeAcceptSheet();showNameOverlay();return;}
+  const acId=document.getElementById('ac-identity');if(acId)acId.textContent='Acting as: '+chatAuthor;
+  const lbl=document.getElementById('ac-submit-label');if(lbl)lbl.textContent=`Join Pool · $${bet.amount}`;
   document.getElementById('accept-overlay').classList.remove('hidden');
 }
 function _openPoolApprove(bet){
@@ -5098,9 +5355,109 @@ function submitAccept(){
     if(bet.approvals.length>=5){bet.participants=Object.values(P).map(p=>p.name);bet.status='active';}
     pushRemote(getState(),true);updateBetsBadge();closeAcceptSheet();buildWagers();return;
   }
+  if(acceptMode==='pool-optin'){
+    if(!bet.participants.includes(name))return; // not invited
+    if(!(bet.optedIn||[]).includes(name)){if(!bet.optedIn)bet.optedIn=[];bet.optedIn.push(name);}
+    if(bet.participants.every(p=>bet.optedIn.includes(p)))bet.status='active';
+    pushRemote(getState(),true);updateBetsBadge();closeAcceptSheet();buildWagers();return;
+  }
   bet.accName=name;bet.status='active';
   pushRemote(getState(),true);updateBetsBadge();closeAcceptSheet();buildWagers();
 }
+
+// ── Keyboard-aware chat panel ─────────────────────
+(function(){
+  const vv=window.visualViewport;
+  if(!vv)return;
+  function adjustChat(){
+    const panel=document.getElementById('panel-chat');
+    if(!panel||!panel.classList.contains('active'))return;
+    // kbH = how much the keyboard is stealing from the bottom
+    const kbH=Math.max(0,window.innerHeight-vv.offsetTop-vv.height);
+    if(kbH>100){
+      // Keyboard open: push panel up to sit just above the keyboard
+      panel.style.bottom=kbH+'px';
+    }else{
+      // Keyboard closed: restore CSS default
+      panel.style.bottom='';
+    }
+  }
+  vv.addEventListener('resize',adjustChat,{passive:true});
+  vv.addEventListener('scroll',adjustChat,{passive:true});
+  // Re-adjust whenever chat tab is activated
+  const _origShow=window.show;
+  window.show=function(id){
+    _origShow(id);
+    if(id==='chat')requestAnimationFrame(adjustChat);
+    else{const p=document.getElementById('panel-chat');if(p)p.style.bottom='';}
+  };
+})();
+
+// ── Pull-to-refresh ────────────────────────────────
+(function(){
+  const THRESHOLD=62, RESIST=0.38;
+  let startY=0, pulling=false, triggered=false, refreshing=false;
+  const ind=()=>document.getElementById('ptr-indicator');
+  const spin=()=>document.getElementById('ptr-spinner');
+
+  function _isScrolledToTop(){
+    // Check active scroll container — skip if chat panel is visible
+    const chatPanel=document.getElementById('panel-chat');
+    if(chatPanel&&chatPanel.style.display!=='none'&&chatPanel.style.display!=='')return false;
+    // Check any open overlay/sheet
+    const overlays=['propose-overlay','accept-overlay','notif-log-overlay'];
+    for(const id of overlays){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&el.style.display!=='none')return false;}
+    return (window.scrollY||document.documentElement.scrollTop||document.body.scrollTop)<=2;
+  }
+
+  function _showProgress(dy){
+    const el=ind();if(!el)return;
+    const frac=Math.min(dy/THRESHOLD,1);
+    el.style.transition='none';
+    el.style.transform=`translateY(${-52+52*frac}px)`;
+  }
+
+  function _doRefresh(){
+    if(refreshing)return;
+    refreshing=true;
+    const el=ind();const sp=spin();
+    if(el){el.style.transition='transform .2s ease';el.classList.add('ptr-visible');}
+    if(sp)sp.classList.add('spinning');
+    pollRemote().finally(()=>{
+      setTimeout(()=>{
+        if(el){el.classList.remove('ptr-visible');}
+        if(sp)sp.classList.remove('spinning');
+        setTimeout(()=>{refreshing=false;pulling=false;triggered=false;},220);
+      },400);
+    });
+  }
+
+  document.addEventListener('touchstart',function(e){
+    if(refreshing)return;
+    if(!_isScrolledToTop())return;
+    startY=e.touches[0].clientY;
+    pulling=true;triggered=false;
+  },{passive:true});
+
+  document.addEventListener('touchmove',function(e){
+    if(!pulling||refreshing)return;
+    const dy=(e.touches[0].clientY-startY)*RESIST;
+    if(dy<=0){pulling=false;return;}
+    _showProgress(dy);
+    if(dy>=THRESHOLD&&!triggered){triggered=true;}
+  },{passive:true});
+
+  document.addEventListener('touchend',function(){
+    if(!pulling||refreshing)return;
+    if(triggered){
+      _doRefresh();
+    }else{
+      const el=ind();
+      if(el){el.style.transition='transform .2s ease';el.style.transform='translateY(-52px)';}
+      pulling=false;triggered=false;
+    }
+  },{passive:true});
+})();
 
 </script>
 <!-- PROPOSE OVERLAY -->
@@ -5133,6 +5490,7 @@ function submitAccept(){
           <div class="ps-opt" id="ps-type-lownet" onclick="setPropType('lownet')">Low Net</div>
           <div class="ps-opt" id="ps-type-match" onclick="setPropType('match')">Match Winner</div>
           <div class="ps-opt" id="ps-type-nassau" onclick="setPropType('nassau')">Nassau</div>
+          <div class="ps-opt" id="ps-type-kp" onclick="setPropType('kp')">⛳ KP</div>
         </div>
         <div id="ps-type-desc" style="margin-top:8px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(254,254,86,.55);font-style:italic;min-height:1em;"></div>
       </div>
@@ -5151,6 +5509,22 @@ function submitAccept(){
       <div class="ps-step" id="ps-player-b-step" style="display:none">
         <div class="ps-label">vs. Player</div>
         <div class="ps-opts" id="ps-players-b"></div>
+      </div>
+      <!-- Pool-mode toggle (for eligible P2P types) -->
+      <div id="ps-pool-toggle-wrap" style="display:none;margin-bottom:4px">
+        <div class="ps-opt" id="ps-pool-toggle" onclick="togglePoolMode()" style="display:inline-block">👥 Make it a group pool</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.4);margin-top:5px;line-height:1.45">Each person throws in the same amount. Best performance wins the pot.</div>
+      </div>
+      <!-- Par-3 hole picker (KP only) -->
+      <div class="ps-step" id="ps-hole-step" style="display:none">
+        <div class="ps-label">Par-3 Hole</div>
+        <div class="ps-opts" id="ps-holes"></div>
+      </div>
+      <!-- Participant multi-select (KP + pool mode) -->
+      <div class="ps-step" id="ps-participants-step" style="display:none">
+        <div class="ps-label">Who's in?</div>
+        <div class="ps-opts" id="ps-participants"></div>
+        <div id="ps-kp-amt-info" style="font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(254,254,86,.6);margin-top:6px;text-align:center"></div>
       </div>
       <div class="ps-step" id="ps-match-step" style="display:none">
         <div class="ps-label">Match</div>
