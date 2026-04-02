@@ -111,7 +111,7 @@ body{
 .my-score-net{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.45);margin-top:3px;}
 .my-bet-row{background:rgba(16,36,16,.8);border:1px solid rgba(218,240,218,.09);border-radius:9px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
 .my-bet-desc{flex:1;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mw);}
-.my-bet-day{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);margin-bottom:3px;}
+.my-bet-day{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(218,240,218,.55);margin-bottom:3px;}
 .my-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;}
 .my-stat-card{background:rgba(16,36,16,.8);border:1px solid rgba(218,240,218,.09);border-radius:10px;padding:13px 12px;text-align:center;}
 .my-stat-val{font-family:'Forum',serif;font-size:26px;color:var(--mw);line-height:1;margin-bottom:4px;}
@@ -128,8 +128,8 @@ body{
 .me-profile-name{font-family:'Forum',serif;font-size:min(32px,8.5vw);font-weight:normal;color:rgba(218,240,218,.9);line-height:1.2;margin-bottom:3px;}
 .msn-btn{flex:1;padding:9px 6px;border:1px solid rgba(218,240,218,.14);border-radius:9px;background:transparent;color:rgba(218,240,218,.42);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
 .msn-btn.active{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.3);color:#fefe56;}
-.me-day-nav{display:flex;gap:3px;padding:0 0 14px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;padding:3px;margin-bottom:14px;}
-.mdn-btn{flex:1;padding:7px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
+.me-day-nav{display:flex;gap:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;padding:3px;margin-bottom:10px;}
+.mdn-btn{flex:1;padding:6px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
 .mdn-btn.active{background:rgba(218,240,218,.18);color:rgba(218,240,218,.9);}
 .mr-nine{display:flex;margin-bottom:12px;border-bottom:2px solid rgba(254,254,86,.15);}
 .mr-nine-btn{flex:1;padding:9px 6px;border:none;background:transparent;color:rgba(218,240,218,.38);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:color .15s;}
@@ -172,7 +172,7 @@ body{
 .mr-total-row{text-align:center;padding:16px 2px 30px;}
 .mr-total-score{font-family:'Forum',serif;font-size:40px;line-height:1;color:var(--mw);}
 .mr-total-thru{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:5px;}
-.mr-course-hdr{text-align:center;margin-bottom:10px;}
+.mr-course-hdr{text-align:center;margin-top:18px;margin-bottom:10px;}
 .mr-course-name{font-family:'Forum',serif;font-size:24px;color:rgba(254,254,86,.65);line-height:1.2;}
 .mr-course-info{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.32);margin-top:4px;}
 .my-stat-section{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.28);margin:14px 0 8px;padding-top:10px;border-top:1px solid rgba(218,240,218,.07);}
@@ -485,8 +485,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .chat-empty-sub{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:400;letter-spacing:.12em;color:rgba(218,240,218,.45);text-transform:uppercase;}
 
 .chat-input-bar{background:#004526;border-top:1px solid rgba(254,254,86,.15);padding:9px 12px;display:flex;align-items:center;gap:7px;flex-shrink:0;}
-.chat-name-sel{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.25);border-radius:18px;color:#fefe56;padding:8px 10px;cursor:pointer;flex-shrink:0;touch-action:manipulation;outline:none;appearance:none;-webkit-appearance:none;max-width:90px;text-align:center;}
-.chat-name-sel option{background:#005a30;color:var(--mw);}
+.chat-name-tag{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.25);border-radius:18px;color:#fefe56;padding:8px 10px;flex-shrink:0;max-width:90px;text-align:center;}
 .chat-input{flex:1;background:rgba(218,240,218,.07);border:1px solid rgba(218,240,218,.12);border-radius:18px;color:var(--mw);font-family:'DM Sans',sans-serif;font-size:16px;padding:10px 14px;outline:none;resize:none;min-height:40px;max-height:100px;-webkit-appearance:none;line-height:1.4;}
 .chat-input::placeholder{color:rgba(218,240,218,.28);}
 .chat-input:focus{border-color:rgba(254,254,86,.35);background:rgba(218,240,218,.1);}
@@ -590,13 +589,14 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── WAGERS TAB ──────────────────────────────────── */
 .wager-propose-btn{display:block;width:100%;padding:14px 20px;border-radius:10px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;margin-bottom:22px;transition:all .15s;-webkit-tap-highlight-color:transparent;}
 .wager-propose-btn:active{background:rgba(254,254,86,.18);}
-.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
 .wager-card.wc-open{border-color:rgba(254,254,86,.45);animation:wcPulse 2.5s ease-in-out infinite;}
 @keyframes wcPulse{0%,100%{border-color:rgba(254,254,86,.45);}50%{border-color:rgba(254,254,86,.18);}}
 .wager-card.wc-settled-win{border-color:rgba(100,200,120,.45);}
 .wager-card.wc-settled-loss{border-color:rgba(218,240,218,.1);}
 .wager-card.wc-settled-push{border-color:rgba(218,240,218,.18);}
 .wc-day{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.38);margin-bottom:5px;}
+.main-game-card .wc-day,.wager-day-grp .wc-day{display:none;}
 .wc-desc{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;color:var(--mw);text-transform:uppercase;letter-spacing:.02em;margin-bottom:5px;line-height:1.2;}
 .wc-line{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.45);margin-bottom:10px;}
 .wc-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
@@ -645,13 +645,16 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .ledger-bk-row:last-child{border-bottom:none;}
 .lbr-left{flex:1;min-width:0;}
 .lbr-day{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);margin-bottom:2px;}
-.lbr-name{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--mw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lbr-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--mw);}
 .lbr-status{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;}
 .lbr-settled{background:rgba(109,200,132,.15);color:#6dc884;}
 .lbr-active{background:rgba(254,254,86,.12);color:#fefe56;}
 .lbr-open{background:rgba(218,240,218,.07);color:rgba(218,240,218,.4);}
 .lbr-none{background:transparent;color:rgba(218,240,218,.2);}
 .lbr-amt{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:rgba(218,240,218,.45);white-space:nowrap;}
+.lbr-parties{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.35);margin-top:2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.lbr-day-chip{font-family:'DM Sans',sans-serif;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:3px;padding:1px 4px;}
+.lbr-result{color:#6dc884;font-weight:600;}
 .ledger-settle-sub{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.35);margin-bottom:10px;}
 .settle-row{display:flex;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid rgba(218,240,218,.06);font-family:'DM Sans',sans-serif;font-size:13px;}
 .settle-row:last-child{border-bottom:none;}
@@ -723,14 +726,13 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .ps-submit:disabled{opacity:.3;cursor:default;}
 .ps-cancel{display:block;width:100%;padding:11px;background:transparent;border:none;color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;}
 /* ── Wager section headers ─────────────────────── */
-.wager-section-hdr{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.5);padding:10px 0 8px;display:flex;align-items:center;gap:7px;}
-.wager-section-hdr::before{content:'';flex:1;height:1px;background:rgba(218,240,218,.1);}
-.wager-section-hdr::after{content:'';flex:1;height:1px;background:rgba(218,240,218,.1);}
+.wager-section-hdr{font-family:'Forum',serif;font-size:18px;font-weight:normal;letter-spacing:.02em;color:rgba(254,254,86,.7);padding:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.wager-section-hdr::before{content:'';flex:1;height:1px;background:rgba(254,254,86,.15);}
+.wager-section-hdr::after{content:'';flex:1;height:1px;background:rgba(254,254,86,.15);}
 /* ── Day sub-group dividers ─────────────────────── */
 .wager-day-grp{margin-bottom:16px;}
 .wager-day-grp:last-child{margin-bottom:0;}
-.wager-day-lbl{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(254,254,86,.6);display:flex;align-items:center;gap:7px;margin-bottom:8px;}
-.wager-day-lbl::after{content:'';flex:1;height:1px;background:rgba(254,254,86,.1);}
+.wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
 /* ── Main game cards (Wagers tab) ───────────────── */
 .main-game-card{margin-bottom:12px;}
 .main-game-card:last-child{margin-bottom:0;}
@@ -949,20 +951,17 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 </div>
 <div id="wc-bets">
   <div class="course-header">
-    <div class="course-title">Gentlemen Wagers</div>
+    <div class="course-title">Gentlemen Wagers <a href="https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf" onclick="window.open('https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf','_blank');return false;" style="font-size:18px;text-decoration:none;opacity:.45;vertical-align:middle;margin-left:4px;cursor:pointer;" title="Betting Rules">📖</a></div>
   </div>
   <button class="wager-propose-btn" onclick="openProposeSheet()">+ Propose a Bet</button>
-  <div style="text-align:center;margin:-10px 0 18px;">
-    <a href="https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf" onclick="window.open('https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf','_blank');return false;" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.45);text-decoration:none;border-bottom:1px solid rgba(254,254,86,.2);padding-bottom:1px;cursor:pointer;">📖 Betting Rules</a>
-  </div>
   <!-- MAIN GAMES -->
-  <div class="wager-section-hdr">⛳ Main Games</div>
+  <div class="wager-section-hdr">Main Games</div>
   <div class="main-game-card">
-    <div class="main-game-hdr"><span class="main-game-daybadge">THU</span><span class="main-game-title">4-Man Shamble</span></div>
+    <div class="main-game-hdr"><span class="main-game-daybadge">THU</span></div>
     <div class="gw-area" id="gw-area-d1"></div>
   </div>
   <div class="main-game-card">
-    <div class="main-game-hdr"><span class="main-game-daybadge">FRI</span><span class="main-game-title">2-Man Best Ball Stroke Play</span></div>
+    <div class="main-game-hdr"><span class="main-game-daybadge">FRI</span></div>
     <div class="gw-area" id="gw-area-d2-pot"></div>
     <div class="gw-row" style="margin-top:8px">
       <div class="gw-area" id="gw-area-d2-skins-0"></div>
@@ -970,7 +969,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     </div>
   </div>
   <div class="main-game-card">
-    <div class="main-game-hdr"><span class="main-game-daybadge">SAT</span><span class="main-game-title">2-Man Match Play</span></div>
+    <div class="main-game-hdr"><span class="main-game-daybadge">SAT</span></div>
     <div class="gw-row">
       <div class="gw-area" id="gw-area-d3-m0"></div>
       <div class="gw-area" id="gw-area-d3-m1"></div>
@@ -1014,6 +1013,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <!-- Me sub-nav -->
   <div class="me-subnav">
     <button class="msn-btn active" data-tab="round" onclick="showMeTab('round')">Round</button>
+    <button class="msn-btn" data-tab="wagers" onclick="showMeTab('wagers')">Wagers</button>
     <button class="msn-btn" data-tab="stats" onclick="showMeTab('stats')">Stats</button>
   </div>
   <!-- Round sub-panel -->
@@ -1032,6 +1032,16 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="mr-total-row">
       <div id="mr-total">—</div>
     </div>
+  </div>
+  <!-- Wagers sub-panel -->
+  <div id="me-wagers" style="display:none">
+    <div class="me-day-nav" id="wagers-day-nav" style="margin-bottom:10px">
+      <button class="mdn-btn active" data-wday="all" onclick="showWagersDay('all')">All</button>
+      <button class="mdn-btn" data-wday="d1" onclick="showWagersDay('d1')">Thu</button>
+      <button class="mdn-btn" data-wday="d2" onclick="showWagersDay('d2')">Fri</button>
+      <button class="mdn-btn" data-wday="d3" onclick="showWagersDay('d3')">Sat</button>
+    </div>
+    <div id="my-wagers-content"></div>
   </div>
   <!-- Stats sub-panel -->
   <div id="me-stats" style="display:none">
@@ -1086,11 +1096,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="chat-empty" id="chat-empty"><div class="chat-empty-icon">⛳</div><div class="chat-empty-text">No messages yet</div><div class="chat-empty-sub">Be the first to say something</div></div>
   </div>
   <div class="chat-input-bar">
-    <select class="chat-name-sel" id="chat-name-sel" onchange="onNameChange(this.value)">
-      <option value="">Who?</option>
-      <option>Prentice</option><option>Cromer</option><option>Buzz</option><option>Reese</option>
-      <option>Otero</option><option>Ryder</option><option>Simon</option><option>Pat</option>
-    </select>
+    <div class="chat-name-tag" id="chat-name-tag"></div>
     <textarea class="chat-input" id="chat-input" placeholder="Say something…" rows="1" maxlength="500" onkeydown="onChatKey(event)" oninput="autoResize(this)"></textarea>
     <button class="chat-photo-btn" onclick="triggerPhotoUpload()" title="Send a photo">📷</button>
     <button class="chat-send" onclick="sendMessage()" title="Send">➤</button>
@@ -1559,7 +1565,7 @@ async function init(){
       btn.onclick=()=>pickName(n);grid.appendChild(btn);
     });
     // Restore saved name
-    try{const s=localStorage.getItem('wni-author');if(s){chatAuthor=s;try{document.getElementById('chat-name-sel').value=s;}catch(e){}updateBottomNavAvatar();}}catch(e){}
+    try{const s=localStorage.getItem('wni-author');if(s){chatAuthor=s;const tag=document.getElementById('chat-name-tag');if(tag)tag.textContent=s;updateBottomNavAvatar();}}catch(e){}
 
     // Load from local cache; hold loader for 1s minimum for a polished entry
     try{const local=loadLocal();if(local)applyRemoteState(local);}catch(e){console.warn('local restore err',e);}
@@ -2739,7 +2745,7 @@ let chatAuthor=null;
 let chatUnread=0,appReady=false,initSyncDone=false;
 
 function showNameOverlay(){document.getElementById('name-overlay').classList.remove('hidden');}
-function onNameChange(v){if(!v)return;chatAuthor=v;try{localStorage.setItem('wni-author',v);}catch(e){}document.getElementById('name-overlay').classList.add('hidden');updateBottomNavAvatar();buildD1();buildD2();buildD3();if(currentTab==='me')showMeTab(currentMeTab);}
+function onNameChange(v){if(!v)return;chatAuthor=v;try{localStorage.setItem('wni-author',v);}catch(e){}document.getElementById('name-overlay').classList.add('hidden');const tag=document.getElementById('chat-name-tag');if(tag)tag.textContent=v;updateBottomNavAvatar();buildD1();buildD2();buildD3();if(currentTab==='me')showMeTab(currentMeTab);}
 function tapMeAvatar(){
   if(!chatAuthor){showNameOverlay();return;}
   const aKey=Object.keys(P).find(k=>P[k].name===chatAuthor);
@@ -2904,19 +2910,25 @@ function renderChat(){
 let currentMeTab='round';
 let currentMeDay=null;
 let currentStatsDay='all';
+let currentMyWagersDay='all';
 let meNineBack=false;
 
 function showMeTab(tab){renderMeProfileHero();
   currentMeTab=tab;
   document.querySelectorAll('.msn-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
   const rd=document.getElementById('me-round');
+  const wg=document.getElementById('me-wagers');
   const st=document.getElementById('me-stats');
   if(rd)rd.style.display=tab==='round'?'':'none';
+  if(wg)wg.style.display=tab==='wagers'?'':'none';
   if(st)st.style.display=tab==='stats'?'':'none';
   if(tab==='round'){
     const day=currentMeDay||currentScoresDay;
     currentMeDay=day;
     buildMyRound(day);
+  }else if(tab==='wagers'){
+    document.querySelectorAll('[data-wday]').forEach(b=>b.classList.toggle('active',b.dataset.wday===currentMyWagersDay));
+    buildMyWagers();
   }else{
     document.querySelectorAll('[data-sday]').forEach(b=>b.classList.toggle('active',b.dataset.sday===currentStatsDay));
     buildMyGame();
@@ -2934,6 +2946,179 @@ function showStatsDay(day){
   currentStatsDay=day;
   document.querySelectorAll('[data-sday]').forEach(b=>b.classList.toggle('active',b.dataset.sday===day));
   buildMyGame();
+}
+
+function showWagersDay(day){
+  currentMyWagersDay=day;
+  document.querySelectorAll('[data-wday]').forEach(b=>b.classList.toggle('active',b.dataset.wday===day));
+  buildMyWagers();
+}
+
+function buildMyWagers(){
+  const cont=document.getElementById('my-wagers-content');
+  if(!cont||!chatAuthor)return;
+  const isAll=currentMyWagersDay==='all';
+  const dayNames={all:'Overall',d1:'Thursday',d2:'Friday',d3:'Saturday'};
+  // Gather all bets involving this player
+  const myName=chatAuthor;
+  const allMyBets=bets.filter(b=>b.status!=='void'&&(
+    b.propName===myName||b.accName===myName||
+    (b.participants&&b.participants.includes(myName))||
+    (b.buyins&&b.buyins.some(bi=>bi.name===myName))||
+    b.houseName===myName
+  ));
+  const filtered=isAll?allMyBets:allMyBets.filter(b=>b.day===currentMyWagersDay);
+  // Balance
+  const aKey=Object.keys(P).find(k=>P[k].name===myName);
+  let bal=0;
+  filtered.forEach(b=>{
+    if(b.status!=='settled')return;
+    if(b.result==='push')return;
+    const won=b.result==='win'?(b.propName===myName):b.result==='loss'?(b.accName===myName):(b.winner===myName);
+    if(won)bal+=b.amount;else bal-=b.amount;
+  });
+  // Game wager balance
+  let gwBal=0;
+  Object.keys(gameWagers).forEach(key=>{
+    if(!isAll){const gDay=key.startsWith('d1')?'d1':key.startsWith('d2')?'d2':key.startsWith('d3')?'d3':'';if(gDay!==currentMyWagersDay)return;}
+    const gw=gameWagers[key];if(!gw||gw.status!=='settled'||!gw.result)return;
+    const info=gwInfo(key);if(!info)return;const amt=gw.amount||0;
+    if(info.aKeys&&info.aKeys.includes(aKey)){gwBal+=gw.result==='a'?amt:gw.result==='push'?0:-amt;}
+    else if(info.bKeys&&info.bKeys.includes(aKey)){gwBal+=gw.result==='b'?amt:gw.result==='push'?0:-amt;}
+  });
+  const totalBal=bal+gwBal;
+  const balColor=totalBal>0?'color:var(--my)':totalBal<0?'color:#e05a4a':'color:rgba(218,240,218,.5)';
+  // Separate by status
+  const open=filtered.filter(b=>b.status==='open'||b.status==='voting');
+  const active=filtered.filter(b=>b.status==='active');
+  const settled=filtered.filter(b=>b.status==='settled');
+  function renderBet(b){
+    const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[b.day]||'';
+    const statusCls=b.status==='settled'?'lbr-settled':b.status==='active'?'lbr-active':'lbr-open';
+    const statusTxt=b.status==='settled'?'Settled':b.status==='active'?'Active':'Open';
+    let emoji='🤝',title='',detail='',amt='$'+(b.amount||0);
+    const isProp=b.propName===myName;
+    const opp=isProp?(b.accName||null):(b.propName||null);
+    const oppStr=opp||'awaiting opponent';
+    const playerName=k=>P[k]?.name||k;
+    if(b.type==='ou'){
+      const subj=playerName(b.player);
+      const side=b.propSide==='under'?'Under':'Over';
+      const mySide=isProp?side:(side==='Over'?'Under':'Over');
+      title=`${subj} — Score ${mySide} ${b.line}`;
+      detail=`You take the ${mySide} · vs ${oppStr}`;
+    }else if(b.type==='birdie-ou'){
+      const subj=playerName(b.player);
+      const side=b.propSide==='over'?'Over':'Under';
+      const mySide=isProp?side:(side==='Over'?'Under':'Over');
+      title=`${subj} — Birdies ${mySide} ${b.line}`;
+      detail=`You take the ${mySide} · vs ${oppStr}`;
+    }else if(b.type==='h2h'||b.type==='h2h-gross'){
+      const lbl=b.type==='h2h-gross'?'Gross':'Net';
+      const pA=playerName(b.player),pB=playerName(b.playerB);
+      const myPick=isProp?pA:pB;
+      title=`${pA} vs ${pB} — ${lbl} H2H`;
+      detail=`You picked ${myPick} · vs ${oppStr}`;
+    }else if(b.type==='cleancard'){
+      const subj=playerName(b.player);
+      const mySide=isProp?'Yes':'No';
+      title=`${subj} — Clean Card?`;
+      detail=`You say ${mySide} · vs ${oppStr}`;
+    }else if(b.type==='lastplace'){
+      const subj=playerName(b.player);
+      const mySide=isProp?'Yes':'No';
+      title=`${subj} — Last Place Net?`;
+      detail=`You say ${mySide} · vs ${oppStr}`;
+    }else if(b.type==='lownet'){
+      const subj=playerName(b.player);
+      const mySide=isProp?'Yes':'No';
+      title=`${subj} — Lowest Net?`;
+      detail=`You say ${mySide} · vs ${oppStr}`;
+    }else if(b.type==='lowgross'){
+      const subj=playerName(b.player);
+      const mySide=isProp?'Yes':'No';
+      title=`${subj} — Lowest Gross?`;
+      detail=`You say ${mySide} · vs ${oppStr}`;
+    }else if(b.type==='nassau'){
+      title='Nassau';
+      detail=`vs ${oppStr}`;
+    }else if(b.type==='house-prop'){
+      emoji='🏠';
+      const meta=STAT_META[b.statType]||{};
+      const subj=playerName(b.player);
+      const side=b.propSide==='over'?'Over':'Under';
+      title=`${subj} — ${meta.label||b.statType} ${side} ${b.line}`;
+      if(b.houseName===myName){
+        const raised=(b.buyins||[]).reduce((s,bi)=>s+(bi.amount||0),0);
+        detail=`You set the line · ${(b.buyins||[]).length} backer${(b.buyins||[]).length!==1?'s':''} · $${raised} raised`;
+        amt='$'+raised;
+      }else{
+        const myBuyin=(b.buyins||[]).find(bi=>bi.name===myName);
+        detail=`House: ${b.houseName} · You bought in${myBuyin?' $'+myBuyin.amount:''}`;
+        amt=myBuyin?'$'+myBuyin.amount:'—';
+      }
+    }else if(b.type==='pool'){
+      emoji='🎱';
+      const pl={lownet:'Low Net',lastplace:'Last Place',birdies:'Most Birdies',cleancard:'Clean Holes'};
+      const n=(b.participants||[]).length;
+      const opted=(b.optedIn||[]).length;
+      title=`${pl[b.poolType]||b.poolType} Pool`;
+      detail=`${opted}/${n} joined · $${b.amount}/person · $${opted*b.amount} pot`;
+      amt='$'+b.amount;
+    }else if(b.type==='kp'){
+      emoji='⛳';
+      const n=(b.participants||[]).length;
+      const opted=(b.optedIn||[]).length;
+      title=`Closest to Pin — Hole ${(b.hole??0)+1}`;
+      detail=`${opted}/${n} joined · $${b.amount}/person`;
+      amt='$'+b.amount;
+    }else{
+      title=b.type;detail='';
+    }
+    // Result line for settled
+    let resultLine='';
+    if(b.status==='settled'){
+      if(b.result==='push')resultLine='<div style="margin-top:4px;font-size:11px;color:rgba(218,240,218,.4);font-weight:600">Push — bets returned</div>';
+      else if(b.winner===myName||(b.result==='win'&&b.propName===myName)||(b.result==='loss'&&b.accName===myName))resultLine=`<div style="margin-top:4px;font-size:11px;color:#6dc884;font-weight:600">Won +$${b.amount}</div>`;
+      else resultLine=`<div style="margin-top:4px;font-size:11px;color:#e05a4a;font-weight:600">Lost -$${b.amount}</div>`;
+    }
+    return`<div class="my-bet-row" style="flex-wrap:wrap">
+      <div style="flex:1;min-width:0">
+        <div class="my-bet-day"><span class="lbr-day-chip">${dayLbl}</span> <span style="font-size:14px;vertical-align:middle">${emoji}</span> <strong>${title}</strong></div>
+        <div class="my-bet-desc" style="margin-top:3px;font-size:11px;color:rgba(218,240,218,.4)">${detail}</div>
+        ${resultLine}
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <span class="lbr-status ${statusCls}" style="font-size:10px;padding:3px 7px">${statusTxt}</span>
+        <div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45)">${amt}</div>
+      </div>
+    </div>`;
+  }
+  let html='';
+  // Balance card
+  html+=`<div class="my-balance-card" style="margin-bottom:16px">
+    <div class="my-balance-amt" style="${balColor}">${totalBal>=0?'+':''}$${Math.abs(totalBal)}</div>
+    <div class="my-balance-lbl">${dayNames[currentMyWagersDay]} Net Position</div>
+  </div>`;
+  // Active bets
+  if(active.length){
+    html+=`<div class="my-stat-section">Active</div>`;
+    html+=active.map(renderBet).join('');
+  }
+  // Open bets
+  if(open.length){
+    html+=`<div class="my-stat-section">Open</div>`;
+    html+=open.map(renderBet).join('');
+  }
+  // Settled bets
+  if(settled.length){
+    html+=`<div class="my-stat-section">Settled</div>`;
+    html+=settled.map(renderBet).join('');
+  }
+  if(!filtered.length){
+    html+=`<div style="font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(218,240,218,.3);padding:20px 0;text-align:center">No wagers yet</div>`;
+  }
+  cont.innerHTML=html;
 }
 
 function setMeNine(back){
@@ -3089,37 +3274,6 @@ function buildMyGame(){
   const scoreSectionHtml=isAll
     ?`<div class="my-score-row">${scoreCard('d1','THU')}${scoreCard('d2','FRI')}${scoreCard('d3','SAT')}</div>`
     :`<div class="my-score-row">${scoreCard(currentStatsDay,{d1:'THU',d2:'FRI',d3:'SAT'}[currentStatsDay])}</div>`;
-  // Balance — filtered by day
-  const allMyBets=bets.filter(b=>b.status!=='void'&&(b.proposer===chatAuthor||b.acceptor===chatAuthor));
-  const filteredBets=isAll?allMyBets:allMyBets.filter(b=>b.day===currentStatsDay);
-  let bal=0;filteredBets.forEach(b=>{if(b.status!=='settled')return;const won=b.result==='prop'?b.proposer===chatAuthor:b.acceptor===chatAuthor;bal+=won?b.amount:-b.amount;});
-  const gwBal=(()=>{let g=0;Object.keys(gameWagers).forEach(key=>{
-    if(!isAll&&!key.startsWith(currentStatsDay))return;
-    const gw=gameWagers[key];if(!gw||gw.status!=='settled'||!gw.result)return;const info=gwInfo(key);if(!info)return;const amt=gw.amount||0;
-    if(info.aKeys&&info.aKeys.includes(aKey)){g+=gw.result==='a'?amt:gw.result==='push'?0:-amt;}
-    else if(info.bKeys&&info.bKeys.includes(aKey)){g+=gw.result==='b'?amt:gw.result==='push'?0:-amt;}
-  });return g;})();
-  const totalBal=bal+gwBal;
-  const balColor=totalBal>0?'color:var(--my)':totalBal<0?'color:#e05a4a':'color:rgba(218,240,218,.5)';
-  const netLabel=`${dayNames[currentStatsDay]} Net Position`;
-  // Bets list — filtered by day
-  const myBetRows=filteredBets.length===0?'<div style="font-family:\'DM Sans\',sans-serif;font-size:13px;color:rgba(218,240,218,.3);padding:8px 0">No bets yet</div>':filteredBets.map(b=>{
-    const opp=b.proposer===chatAuthor?b.acceptor:b.proposer;
-    const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[b.day]||b.day;
-    const statusCls=b.status==='settled'?'lbr-settled':b.status==='active'?'lbr-active':'lbr-open';
-    const statusTxt=b.status==='settled'?'Settled':b.status==='active'?'Active':'Open';
-    let desc='';
-    if(b.type==='ou')desc=`${b.propSide==='under'?'↓':'↑'} Score O/U ${b.line}`;
-    else if(b.type==='birdie-ou')desc=`Birdies ${b.propSide==='over'?'Over':'Under'} ${b.line}`;
-    else if(b.type==='h2h')desc=`vs ${b.playerB?P[b.playerB]?.name:'?'} Net H2H`;
-    else if(b.type==='cleancard')desc=b.participants?`Clean Card Pool (${b.participants.length}p)`:'Clean Card';
-    else if(b.type==='lastplace')desc=b.participants?`Last Place Pool (${b.participants.length}p)`:'Last Place Net';
-    else if(b.type==='lowgross')desc=b.participants?`Low Gross Pool (${b.participants.length}p)`:'Low Gross';
-    else if(b.type==='lownet')desc=b.participants?`Low Net Pool (${b.participants.length}p)`:'Low Net';
-    else if(b.type==='kp')desc=`KP · Hole ${(b.hole??0)+1}`;
-    else desc=b.type;
-    return`<div class="my-bet-row"><div style="flex:1"><div class="my-bet-day">${isAll?dayLbl+' · ':''}vs ${opp||'?'}</div><div class="my-bet-desc">${desc}</div></div><span class="lbr-status ${statusCls}" style="font-size:10px;padding:3px 7px">${statusTxt}</span><div style="font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45);margin-left:8px">$${b.amount}</div></div>`;
-  }).join('');
   // Stats — filtered by currentStatsDay
   let birdies=0,pars=0,bogeys=0,doubles=0,eagles=0,holesPlayed=0;
   let fhHit=0,fhTotal=0,girHit=0,girTotal=0;
@@ -3249,14 +3403,6 @@ function buildMyGame(){
     <div class="sec-block">
       <div class="lb-sec-title">Round Stats</div>
       ${statsHtml}
-    </div>
-    <div class="sec-block">
-      <div class="lb-sec-title">My Wagers</div>
-      <div class="my-balance-card" style="margin-bottom:12px">
-        <div class="my-balance-amt" style="${balColor}">${totalBal>=0?'+':''}$${Math.abs(totalBal)}</div>
-        <div class="my-balance-lbl">${netLabel}</div>
-      </div>
-      ${myBetRows}
     </div>`;
 }
 
@@ -4756,7 +4902,7 @@ function houseCardHTML(bet,myName){
   <div class="wc-day">${betDayLabel(bet.day)}</div>
   <div class="wc-desc">${playerName} · ${meta.label||bet.statType}</div>
   <div class="hp-stat-row"><span class="hp-stat-val">${bet.line}</span><span class="hp-stat-dir ${dirCls}">${dirLabel}</span><span style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-left:2px">${meta.unit||''}</span></div>
-  <div class="hp-house-row">🏦 ${bet.houseName} backs ${dirLabel} · Odds <span class="hp-odds">${oddsStr}</span></div>
+  <div class="hp-house-row">🏠 ${bet.houseName} backs ${dirLabel} · Odds <span class="hp-odds">${oddsStr}</span></div>
   <div class="hp-buyins">${buyinChips}</div>
   ${bet.exposureCap>0?`<div class="hp-cap-bar-wrap"><div class="hp-cap-label">Exposure: $${houseExp} of $${bet.exposureCap} cap</div><div class="hp-cap-bar"><div class="hp-cap-fill" style="width:${capPct}%"></div></div></div>`:''}
   ${resultHtml}
@@ -4804,7 +4950,7 @@ function buildWagers(){
   const suggEl=document.getElementById('wager-suggest');
   if(suggEl){
     const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place','h2h':'Net H2H','ou':'Stroke O/U','lownet':'Low Net','house-prop':'House Prop','pool':'Pool'};
-    const hdr=`<div class="suggest-section"><div class="wager-section-hdr">💡 Hot Takes</div>`;
+    const hdr=`<div class="suggest-section"><div class="wager-section-hdr">Hot Takes</div>`;
     if(sugg.length){
       suggEl.innerHTML=hdr+sugg.map((s,i)=>`<div class="suggest-card"><div class="suggest-card-body"><div class="suggest-type">${typeLabels[s.type]||s.type}</div><div class="suggest-label">${s.label}</div><div class="suggest-rationale">${s.rationale}</div></div><button class="suggest-btn" onclick="proposeSuggested(${i})">Bet This</button></div>`).join('')+`</div>`;
     }else{
@@ -4823,7 +4969,7 @@ function buildWagers(){
   }
   const _ord={open:0,voting:0,active:1,settled:2};
   function groupByDay(arr,renderFn){
-    const dayLabels={d1:'THU · Day 1',d2:'FRI · Day 2',d3:'SAT · Day 3'};
+    const dayLabels={d1:'THU',d2:'FRI',d3:'SAT'};
     let out='';
     ['d1','d2','d3'].forEach(d=>{
       const items=arr.filter(b=>b.day===d).slice().sort((a,b)=>(_ord[a.status]||0)-(_ord[b.status]||0));
@@ -4833,11 +4979,11 @@ function buildWagers(){
     return out||'';
   }
   let html='';
-  html+=`<div class="wager-section-hdr">🤝 P2P Bets</div>`;
+  html+=`<div class="wager-section-hdr">P2P Bets</div>`;
   html+=p2pBets.length?groupByDay(p2pBets,renderP2P):'<div class="wager-empty">No P2P bets yet</div>';
-  html+=`<div class="wager-section-hdr" style="margin-top:14px">🏦 House Props</div>`;
+  html+=`<div class="wager-section-hdr" style="margin-top:14px">House Props</div>`;
   html+=houseBets.length?groupByDay(houseBets,b=>houseCardHTML(b,myName)):'<div class="wager-empty">No house props yet</div>';
-  html+=`<div class="wager-section-hdr" style="margin-top:14px">🎱 Pools</div>`;
+  html+=`<div class="wager-section-hdr" style="margin-top:14px">Pools</div>`;
   html+=poolBets.length?groupByDay(poolBets,b=>poolCardHTML(b,myName)):'<div class="wager-empty">No active pools yet</div>';
   cont.innerHTML=html;
   const nl=netLedger();
@@ -4907,22 +5053,49 @@ function buildLedger(){
     bkHtml+='<div style="background:rgba(16,36,16,.9);border:1px solid rgba(218,240,218,.1);border-radius:10px;overflow:hidden;margin-bottom:14px;">';
     bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Side Props</div>';
     relevantBets.forEach(b=>{
-      let statusCls='lbr-open',statusTxt='Open',desc='';
+      let statusCls='lbr-open',statusTxt='Open',desc='',emoji='🤝';
       if(b.status==='active'){statusCls='lbr-active';statusTxt='Active';}
       if(b.status==='settled'){statusCls='lbr-settled';statusTxt='Settled';}
       const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[b.day]||b.day;
-      if(b.type==='ou'){const p=P[b.player];desc=`${p.name} ${b.propSide==='under'?'↓ Under':'↑ Over'} ${b.line}`;}
+      // Emoji by category
+      if(b.type==='house-prop')emoji='🏠';
+      else if(b.type==='pool')emoji='🎱';
+      else if(b.type==='kp')emoji='⛳';
+      else emoji='🤝';
+      // Description
+      if(b.type==='ou'){const p=P[b.player];desc=`${p.name} ${b.propSide==='under'?'Under':'Over'} ${b.line}`;}
       else if(b.type==='lowgross'||b.type==='lownet'){const p=P[b.player];desc=`${p.name} Low ${b.type==='lowgross'?'Gross':'Net'}`;}
       else if(b.type==='nassau'){desc=`Nassau Match ${(b.matchIdx||0)+1}`;}
       else if(b.type==='birdie-ou'){desc=`${P[b.player].name} Birdies ${b.propSide==='over'?'Over':'Under'} ${b.line}`;}
       else if(b.type==='h2h'||b.type==='h2h-gross'){const lbl=b.type==='h2h-gross'?'Gross':'Net';desc=`${P[b.player].name} vs ${P[b.playerB].name} ${lbl} H2H`;}
       else if(b.type==='cleancard'){desc=`${P[b.player].name} Clean Card`;}
       else if(b.type==='lastplace'){desc=`${P[b.player].name} Last Place Net`;}
-      else if(b.type==='house-prop'){const meta=STAT_META[b.statType]||{};desc=`🏦 ${P[b.player]?.name||b.player} · ${meta.label||b.statType} ${b.propSide==='over'?'Over':'Under'} ${b.line}`;}
-      else if(b.type==='pool'){const pl={lownet:'Low Net',lastplace:'Last Place',birdies:'Most Birdies',cleancard:'Clean Holes'};desc=`🎱 Pool · ${pl[b.poolType]||b.poolType}`;}
+      else if(b.type==='house-prop'){const meta=STAT_META[b.statType]||{};desc=`${P[b.player]?.name||b.player} · ${meta.label||b.statType} ${b.propSide==='over'?'Over':'Under'} ${b.line}`;}
+      else if(b.type==='pool'){const pl={lownet:'Low Net',lastplace:'Last Place',birdies:'Most Birdies',cleancard:'Clean Holes'};desc=`${pl[b.poolType]||b.poolType}`;}
+      else if(b.type==='kp'){desc=`Hole ${(b.hole||0)+1}`;}
       else{desc=b.type;}
-      const bAmt=b.type==='house-prop'?`$${(b.buyins||[]).reduce((s,bi)=>s+bi.amount,0)} raised`:(b.type==='pool'?`$${b.buyIn}/ea`:`$${b.amount}`);
-      bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-day">${dayLbl}</div><div class="lbr-name">${desc}</div></div><span class="lbr-status ${statusCls}">${statusTxt}</span><div class="lbr-amt">${bAmt}</div></div>`;
+      // Parties line
+      let parties='';
+      if(b.type==='house-prop'){
+        const backers=(b.buyins||[]).map(bi=>bi.name).join(', ');
+        parties=`${b.houseName||b.propName} sets line`+(backers?` · ${backers} buying in`:'');
+      }else if(b.type==='pool'||b.type==='kp'){
+        const opted=b.optedIn||[];
+        const total=(b.participants||[]).length;
+        parties=`${opted.length}/${total} joined`+(b.winner?` · Winner: ${b.winner}`:'');
+      }else{
+        parties=b.propName?(b.accName?`${b.propName} vs ${b.accName}`:`${b.propName} · awaiting opponent`):'';
+      }
+      // Result line for settled
+      let resultLine='';
+      if(b.status==='settled'){
+        if(b.result==='push')resultLine='Push';
+        else if(b.winner)resultLine=`${b.winner} wins`;
+        else if(b.result==='win')resultLine=`${b.propName} wins`;
+        else if(b.result==='loss')resultLine=`${b.accName} wins`;
+      }
+      const bAmt=b.type==='house-prop'?`$${(b.buyins||[]).reduce((s,bi)=>s+bi.amount,0)}`:(b.type==='pool'||b.type==='kp'?`$${b.amount}/ea`:`$${b.amount}`);
+      bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-name">${emoji} ${desc}</div><div class="lbr-parties"><span class="lbr-day-chip">${dayLbl}</span> ${parties}${resultLine?' · <span class="lbr-result">'+resultLine+'</span>':''}</div></div><span class="lbr-status ${statusCls}">${statusTxt}</span><div class="lbr-amt">${bAmt}</div></div>`;
     });
     bkHtml+='</div>';
   }
@@ -5187,7 +5360,8 @@ function updateProposeUI(){
   if(playerStep)playerStep.style.display=isMatch?'none':'';
   const d1Btn=document.getElementById('ps-day-d1');
   const isNassau=t==='nassau';
-  if(d1Btn){d1Btn.classList.toggle('ps-na',isLast||isNassau);if((isLast||isNassau)&&propSt.day==='d1'){setPropDay('d2');return;}}
+  const netOnly=isLast||isNassau||t==='lownet'||t==='h2h';
+  if(d1Btn){d1Btn.classList.toggle('ps-na',netOnly);if(netOnly&&propSt.day==='d1'){setPropDay('d2');return;}}
   const playerSet=propSt.player!=null;
   const playerBSet=!isH2H||(propSt.playerB!=null);
   const subjectSet=isMatch?propSt.matchIdx!=null:playerSet;
@@ -5334,6 +5508,8 @@ function setPoolType(t){
   poolSt.poolType=t;poolSt.day=null;poolSt.buyIn=null;
   document.querySelectorAll('#pool-type-opts .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.ptype===t));
   const ds=document.getElementById('pool-day-step');if(ds)ds.style.display='';
+  const netOnly=t==='lownet'||t==='lastplace';
+  const d1El=document.getElementById('pool-day-d1');if(d1El)d1El.style.display=netOnly?'none':'';
   ['d1','d2','d3'].forEach(d=>{const el=document.getElementById('pool-day-'+d);if(el)el.classList.remove('sel');});
   const bs=document.getElementById('pool-buyin-step');if(bs)bs.style.display='none';
   updatePoolUI();
@@ -5650,11 +5826,11 @@ function submitAccept(){
       <div class="ps-label">Category</div>
       <div class="prop-cat-grid">
         <div class="prop-cat-btn sel" id="pcat-p2p" onclick="setPropCat('p2p')"><span class="prop-cat-icon">🤝</span><span class="prop-cat-label">P2P</span></div>
-        <div class="prop-cat-btn" id="pcat-house" onclick="setPropCat('house')"><span class="prop-cat-icon">🏦</span><span class="prop-cat-label">House Prop</span></div>
+        <div class="prop-cat-btn" id="pcat-house" onclick="setPropCat('house')"><span class="prop-cat-icon">🏠</span><span class="prop-cat-label">House Prop</span></div>
         <div class="prop-cat-btn" id="pcat-pool" onclick="setPropCat('pool')"><span class="prop-cat-icon">🎱</span><span class="prop-cat-label">Pool</span></div>
       </div>
       <div id="p2p-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🤝 A direct bet between two players. Pick your type, set the terms, and challenge someone. Both sides lock in their stake and the app tracks the outcome automatically.</div>
-      <div id="house-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🏦 The house sets a stat line on a player — anyone can buy in as the house and take the other side. The more people that back it, the bigger the pot. Anyone can act as the house.</div>
+      <div id="house-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🏠 The house sets a stat line on a player — anyone can buy in as the house and take the other side. The more people that back it, the bigger the pot. Anyone can act as the house.</div>
       <div id="pool-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🎱 Everyone throws in the same buy-in. Pick a stat — whoever performs best on it wins the whole pot. Needs 5 of 8 players to approve before it locks in.</div>
     </div>
     <!-- P2P STEPS -->
