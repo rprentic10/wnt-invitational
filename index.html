@@ -52,7 +52,7 @@ body{
 }
 .crest-flag{display:none;}
 .trip-name,.trip-year,.trip-dates{display:none;}
-.header-logo{width:min(460px,72vw);height:auto;display:block;margin:0 auto;}
+.header-logo{width:min(400px,62vw);height:auto;display:block;margin:0 auto;}
 .sync-wrap{display:none;}
 
 /* Tab bar — DARK GREEN */
@@ -217,9 +217,9 @@ body{
 /* ── MAIN / PANELS ───────────────────────────────── */
 .main{max-width:680px;margin:0 auto;padding:18px 14px calc(80px + env(safe-area-inset-bottom));}
 .panel{display:none;}.panel.active{display:block;}
-#panel-chat{display:none;flex-direction:column;position:fixed;left:0;right:0;top:0;bottom:calc(60px + env(safe-area-inset-bottom));z-index:50;background:var(--mg);}
+#panel-chat{display:none;flex-direction:column;position:fixed;left:0;right:0;top:var(--chat-top,0px);bottom:calc(60px + env(safe-area-inset-bottom));z-index:50;background:var(--mg);}
 #panel-chat.active{display:flex;}
-.scores-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:12px 14px 2px;}
+.scores-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:0 0 2px;}
 .wagers-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:12px 0 2px;}
 
 /* ── COURSE HEADER ───────────────────────────────── */
@@ -497,7 +497,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .game-format-hdr{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);display:block;margin-bottom:5px;}
 .game-format-lbl{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);}
 .game-format-type{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);}
-.game-format-val{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:rgba(218,240,218,.45);display:block;line-height:1.5;}
+.game-format-val{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:rgba(218,240,218,.45);display:block;line-height:1.5;padding:0 32px;}
 
 /* ── NAME PICKER ─────────────────────────────────── */
 /* ── Onboarding ── */
@@ -813,7 +813,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── Notification Bell ───────────────────────────── */
 .notif-bell-wrap{position:absolute;right:10px;top:env(safe-area-inset-top,0px);bottom:0;display:flex;align-items:center;}
 .notif-bell-btn{background:none;border:none;cursor:pointer;padding:8px;opacity:1;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;transition:transform .15s ease,opacity .15s ease;}
-.notif-bell-btn svg{width:28px;height:28px;stroke:#fefe56;stroke-width:1.5;fill:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));transition:filter .15s ease;}
+.notif-bell-btn svg{width:24px;height:24px;stroke:#fefe56;stroke-width:1.5;fill:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));transition:filter .15s ease;}
 .notif-bell-btn:active{transform:scale(.88);}
 .notif-bell-btn:active svg{filter:drop-shadow(0 0 5px rgba(254,254,86,.45)) drop-shadow(0 1px 2px rgba(0,0,0,.5));}
 .notif-bell-badge{position:absolute;top:6px;right:6px;min-width:14px;height:14px;border-radius:7px;background:#e05a4a;color:#fff;font-family:'DM Sans',sans-serif;font-size:8px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 3px;line-height:1;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.4);}
@@ -1075,10 +1075,6 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 
 <!-- CHAT PANEL -->
 <div id="panel-chat">
-  <div class="chat-header">
-    <div class="chat-title">Group Chat</div>
-    <div class="chat-live"><div class="chat-live-dot"></div>Live</div>
-  </div>
   <div class="notif-prompt" id="notif-prompt" style="margin:8px 12px 0;border-radius:8px;">
     <div class="notif-prompt-text"><strong>Get notified</strong> when someone sends a chat message?</div>
     <button class="notif-allow-btn" onclick="requestNotifPerm()">Allow</button>
@@ -2179,7 +2175,9 @@ function show(id){
   const main=document.getElementById('app-main');
   if(id==='chat'){
     main.style.display='none';
-    document.getElementById('app-header').style.display='none';
+    const hdr=document.getElementById('app-header');
+    const hdrH=hdr?hdr.offsetHeight:0;
+    document.documentElement.style.setProperty('--chat-top',hdrH+'px');
     const cp=document.getElementById('panel-chat');
     cp.classList.add('active');
     clearBadge();
@@ -2188,7 +2186,6 @@ function show(id){
     document.getElementById('bnt-chat')?.classList.add('active');
   }else{
     main.style.display='';
-    document.getElementById('app-header').style.display='';
     document.getElementById('panel-chat').classList.remove('active');
     document.getElementById('panel-'+id)?.classList.add('active');
     window.scrollTo(0,0);
@@ -5538,9 +5535,11 @@ function submitAccept(){
     const panel=document.getElementById('panel-chat');
     if(!panel||!panel.classList.contains('active'))return;
     const kbH=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);
+    const hdr=document.getElementById('app-header');
+    const hdrH=hdr?hdr.offsetHeight:0;
     if(kbH>100){
-      // Keyboard open: pin panel exactly to the visual viewport
-      panel.style.top=vv.offsetTop+'px';
+      // Keyboard open: pin panel below header, above keyboard
+      panel.style.top=hdrH+'px';
       panel.style.bottom=kbH+'px';
       panel.style.height='auto';
     }else{
@@ -5568,13 +5567,14 @@ function submitAccept(){
   const spin=()=>document.getElementById('ptr-spinner');
 
   function _isScrolledToTop(){
-    // Check active scroll container — skip if chat panel is visible
+    // Skip if chat panel is active
     const chatPanel=document.getElementById('panel-chat');
-    if(chatPanel&&chatPanel.style.display!=='none'&&chatPanel.style.display!=='')return false;
+    if(chatPanel&&chatPanel.classList.contains('active'))return false;
     // Check any open overlay/sheet
     const overlays=['propose-overlay','accept-overlay','notif-log-overlay'];
     for(const id of overlays){const el=document.getElementById(id);if(el&&!el.classList.contains('hidden')&&el.style.display!=='none')return false;}
-    return (window.scrollY||document.documentElement.scrollTop||document.body.scrollTop)<=2;
+    const scrollTop=window.scrollY||window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop||0;
+    return scrollTop<=5;
   }
 
   function _showProgress(dy){
