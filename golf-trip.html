@@ -91,6 +91,8 @@ body{
 /* Scores sub-nav */
 .ssn-btn{flex:1;padding:7px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
 .ssn-btn.active{background:rgba(218,240,218,.18);color:rgba(218,240,218,.9);}
+.ssn-btn.day-locked{opacity:.3;cursor:default;}
+.mdn-btn.day-locked{opacity:.3;cursor:default;}
 /* Wagers sub-nav — same pill style as Scores sub-nav */
 .wsn-btn{flex:1;padding:7px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
 .wsn-btn.active{background:rgba(218,240,218,.18);color:rgba(218,240,218,.9);}
@@ -415,7 +417,7 @@ tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-
 .ms-side.ms-b{color:#e87060;text-align:right;}
 .ms-middle{width:54px;flex-shrink:0;display:flex;justify-content:center;align-items:center;overflow:visible;}
 .ms-score{font-family:'DM Sans',sans-serif;font-size:24px;font-weight:900;line-height:1;display:inline-block;transition:transform .35s ease;}
-.ms-score.mA{color:#7ddba4;transform:translateX(-14px);}.ms-score.mB{color:#e87060;transform:translateX(14px);}.ms-score.ev{color:var(--mw);}
+.ms-score.mA{color:#7ddba4;}.ms-score.mB{color:#e87060;}.ms-score.ev{color:var(--mw);}
 .ms-thru{font-family:'DM Sans',sans-serif;font-size:9px;color:rgba(218,240,218,.3);letter-spacing:.08em;text-transform:uppercase;}
 
 /* ── LEADERBOARD ─────────────────────────────────── */
@@ -481,7 +483,7 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 .chat-input-bar{background:#004526;border-top:1px solid rgba(254,254,86,.15);padding:9px 12px;display:flex;align-items:center;gap:7px;flex-shrink:0;}
 .chat-name-sel{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.25);border-radius:18px;color:#fefe56;padding:8px 10px;cursor:pointer;flex-shrink:0;touch-action:manipulation;outline:none;appearance:none;-webkit-appearance:none;max-width:90px;text-align:center;}
 .chat-name-sel option{background:#005a30;color:var(--mw);}
-.chat-input{flex:1;background:rgba(218,240,218,.07);border:1px solid rgba(218,240,218,.12);border-radius:18px;color:var(--mw);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;outline:none;resize:none;min-height:40px;max-height:100px;-webkit-appearance:none;line-height:1.4;}
+.chat-input{flex:1;background:rgba(218,240,218,.07);border:1px solid rgba(218,240,218,.12);border-radius:18px;color:var(--mw);font-family:'DM Sans',sans-serif;font-size:16px;padding:10px 14px;outline:none;resize:none;min-height:40px;max-height:100px;-webkit-appearance:none;line-height:1.4;}
 .chat-input::placeholder{color:rgba(218,240,218,.28);}
 .chat-input:focus{border-color:rgba(254,254,86,.35);background:rgba(218,240,218,.1);}
 .chat-send{width:40px;height:40px;border-radius:50%;background:#fefe56;border:none;color:#003d20;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .15s,transform .1s;}
@@ -490,16 +492,12 @@ table.lb-tbl tr:last-child td{border-bottom:none;}
 
 /* ── TUTORIAL OVERLAY ──────────────────────────────── */
 
-/* ── GAME BLOCK (collapsible notice + wagers) ─────── */
-.game-block{margin-bottom:16px;}
-.game-block-hdr{display:flex;align-items:center;justify-content:space-between;background:rgba(218,240,218,.1);border:1px solid rgba(218,240,218,.18);border-radius:10px;padding:12px 16px;cursor:pointer;user-select:none;transition:border-radius .22s;}
-.game-block.open .game-block-hdr{border-radius:10px 10px 0 0;border-bottom-color:transparent;}
-.game-block-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--mw);}
-.game-block-chev{font-size:28px;color:rgba(218,240,218,.45);transition:transform .22s;line-height:1;}
-.game-block.open .game-block-chev{transform:rotate(180deg);}
-.game-block-body{overflow:hidden;max-height:0;transition:max-height .32s ease;}
-.game-block.open .game-block-body{max-height:1200px;}
-.game-block-inner{background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.18);border-top:none;border-radius:0 0 10px 10px;padding:14px 14px 16px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:rgba(218,240,218,.75);line-height:1.75;text-align:center;}
+/* ── GAME FORMAT label ─────────────────────────────── */
+.game-format-strip{text-align:center;margin-bottom:16px;}
+.game-format-hdr{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);display:block;margin-bottom:5px;}
+.game-format-lbl{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);}
+.game-format-type{font-family:'Forum',serif;font-size:18px;font-weight:normal;color:rgba(254,254,86,.7);}
+.game-format-val{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:rgba(218,240,218,.45);display:block;line-height:1.5;}
 
 /* ── NAME PICKER ─────────────────────────────────── */
 /* ── Onboarding ── */
@@ -881,14 +879,11 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="course-title">We-Ko-Pa (Cholla)</div>
     <div class="course-sub">Par 72 · Purple Tees · 6,740 Yards</div>
   </div>
-  <div class="game-block" id="gb-d1">
-    <div class="game-block-hdr" onclick="toggleGameBlock('d1')"><span class="game-block-name">4-Man Shamble</span><span class="game-block-chev">▾</span></div>
-    <div class="game-block-body"><div class="game-block-inner">Everyone tees off, then the best drive is selected and all four players play their own ball from that spot for the rest of the hole. The lowest score among the four on each hole is the team score. No handicap strokes — teams play straight up. Enter each player's gross score.</div></div>
-  </div>
+  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">4-Man Shamble</span></span><span class="game-format-val">Everyone tees, take the best drive and play your own ball. Best gross, no handicaps.</span></div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
-    <div class="mb-side mA"><div class="mb-label mA" id="d1-label-a">Group 1</div><div class="mb-pairs">Prentice &amp; Cromer<br>Buzz &amp; Reese</div><div class="mb-pts mA" id="d1-score-a">—</div><div id="d1-thru-a" style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:4px">No scores yet</div></div>
-    <div class="mb-side mB"><div class="mb-label mB" id="d1-label-b">Group 2</div><div class="mb-pairs">Otero &amp; Ryder<br>Simon &amp; Pat</div><div class="mb-pts mB" id="d1-score-b">—</div><div id="d1-thru-b" style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:4px">No scores yet</div></div>
+    <div class="mb-side mA"><div class="mb-label mA" id="d1-label-a">Group 1</div><div class="mb-pairs">Prentice / Cromer<br>Buzz / Reese</div><div class="mb-pts mA" id="d1-score-a">—</div><div id="d1-thru-a" style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:4px">No scores yet</div></div>
+    <div class="mb-side mB"><div class="mb-label mB" id="d1-label-b">Group 2</div><div class="mb-pairs">Otero / Ryder<br>Simon / Pat</div><div class="mb-pts mB" id="d1-score-b">—</div><div id="d1-thru-b" style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:4px">No scores yet</div></div>
   </div>
   <div class="live-lb-title" style="margin-top:20px">Live Scorecard</div>
   <div class="nine-toggle"><button class="nine-btn active" onclick="setNine('d1',false,this)">Front 9</button><button class="nine-btn" onclick="setNine('d1',true,this)">Back 9</button></div>
@@ -901,10 +896,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="course-title">Troon North (Pinnacle)</div>
     <div class="course-sub">Par 71 · Gold Tees · 6,635 Yards</div>
   </div>
-  <div class="game-block" id="gb-d2">
-    <div class="game-block-hdr" onclick="toggleGameBlock('d2')"><span class="game-block-name">2-Man Best Ball Stroke Play</span><span class="game-block-chev">▾</span></div>
-    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball throughout. On every hole, the lower <em>net</em> score between partners counts as the team score. All four teams compete against each other — lowest total net score across 18 holes wins the day.</div></div>
-  </div>
+  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Best Ball</span></span><span class="game-format-val">Play your own ball, take the best net score per hole. Lowest total net wins.</span></div>
   <div class="live-lb-wrap" style="margin-top:20px"><div class="live-lb-title">Live Standings</div><table class="live-lb-tbl"><thead><tr><th>Place</th><th>Team</th><th class="r">Score</th><th class="r">Thru</th></tr></thead><tbody id="d2-live-lb"></tbody></table></div>
   <div class="live-lb-title" style="margin-top:20px">Live Scorecard</div>
   <div class="nine-toggle"><button class="nine-btn active" onclick="setNine('d2',false,this)">Front 9</button><button class="nine-btn" onclick="setNine('d2',true,this)">Back 9</button></div>
@@ -916,10 +908,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="course-header">
     <div class="course-title">Grayhawk (Talon)</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
   </div>
-  <div class="game-block" id="gb-d3">
-    <div class="game-block-hdr" onclick="toggleGameBlock('d3')"><span class="game-block-name">2-Man Match Play</span><span class="game-block-chev">▾</span></div>
-    <div class="game-block-body"><div class="game-block-inner">Each player plays their own ball. The lower net score between partners counts for the team on each hole. The team that wins more holes wins the match — each hole won = 1 point, halved hole = ½ each. Two simultaneous matches running at the same time.</div></div>
-  </div>
+  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Match Play</span></span><span class="game-format-val">Best net per hole wins the hole. Most holes won wins the match.</span></div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
     <div class="mb-side mA"><div class="mb-label mA" id="d3-label-a">Team 1</div><div class="mb-pairs">Otero / Cromer<br>Reese / Pat</div><div class="mb-pts mA" id="d3-pts-a">0</div></div>
@@ -1262,12 +1251,32 @@ function applyRemoteState(state){
   if(!state)return;
   if(state.scores){
     ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
-      if(state.scores[day]&&state.scores[day][k])SC[day][k]=state.scores[day][k];
+      if(state.scores[day]&&state.scores[day][k]){
+        const remote=state.scores[day][k];
+        const local=SC[day][k];
+        for(let h=0;h<18;h++){
+          const rVal=remote[h]!=null?parseInt(remote[h]):null;
+          const lVal=local[h]!=null?parseInt(local[h]):null;
+          // If local has a value, keep it (local-wins on conflict).
+          // If local is empty and remote has a value, accept the remote value.
+          if(lVal==null&&rVal!=null) local[h]=rVal;
+        }
+      }
     }));
   }
   if(state.stats){
     ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
-      if(state.stats[day]&&state.stats[day][k])Object.assign(STATS[day][k],state.stats[day][k]);
+      if(state.stats[day]&&state.stats[day][k]){
+        const remoteSt=state.stats[day][k];
+        const localSt=STATS[day][k];
+        for(let h=0;h<18;h++){
+          const rh=remoteSt[h],lh=localSt[h];
+          // If local hole has any stat data, keep it entirely (local-wins).
+          // If local is empty/undefined and remote has data, accept remote.
+          const localHasData=lh&&(lh.fh!=null||lh.gir!=null||lh.putts!=null||lh.penalty!=null);
+          if(!localHasData&&rh){localSt[h]=Object.assign(localSt[h]||{},rh);}
+        }
+      }
     }));
   }
   if(state.chat&&Array.isArray(state.chat.messages)){
@@ -1380,24 +1389,58 @@ async function fetchRemote(){
   }catch(e){return null;}
 }
 
+let _pushInFlight=false;
 async function pushRemote(state,immediate){
   if(simActive)return;
   clearTimeout(saveTimer);
   saveLocal(state);
   const doIt=async()=>{
+    _pushInFlight=true;
     try{
       let latest=await fetchRemote();
-      if(latest&&latest.chat&&Array.isArray(latest.chat.messages)){
-        // Only merge remote messages that are newer than the data wipe epoch.
-        // This prevents pre-reset simulation messages from being re-injected
-        // into the state every time we do a fetch-before-write push.
-        const validRemote=latest.chat.messages.filter(m=>(m.ts||0)>=REQUIRED_WIPE_AT);
-        state.chat.messages=dedupeMessages([...validRemote,...state.chat.messages]);
+      if(latest){
+        // ── Merge chat (existing logic) ──
+        if(latest.chat&&Array.isArray(latest.chat.messages)){
+          const validRemote=latest.chat.messages.filter(m=>(m.ts||0)>=REQUIRED_WIPE_AT);
+          state.chat.messages=dedupeMessages([...validRemote,...state.chat.messages]);
+        }
+        // ── Merge scores: hole-by-hole, local-wins on conflict ──
+        // This ensures that if another device wrote scores for different holes/players
+        // since our last fetch, we incorporate those rather than clobbering them.
+        if(latest.scores){
+          ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
+            if(latest.scores[day]&&latest.scores[day][k]&&state.scores[day]&&state.scores[day][k]){
+              const remote=latest.scores[day][k];
+              const local=state.scores[day][k];
+              for(let h=0;h<18;h++){
+                const rVal=remote[h]!=null?parseInt(remote[h]):null;
+                const lVal=local[h]!=null?parseInt(local[h]):null;
+                // Accept remote value only when local has nothing for this hole
+                if(lVal==null&&rVal!=null) local[h]=rVal;
+              }
+            }
+          }));
+        }
+        // ── Merge stats: hole-by-hole, local-wins on conflict ──
+        if(latest.stats){
+          ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
+            if(latest.stats[day]&&latest.stats[day][k]&&state.stats[day]&&state.stats[day][k]){
+              const remoteSt=latest.stats[day][k];
+              const localSt=state.stats[day][k];
+              for(let h=0;h<18;h++){
+                const rh=remoteSt[h],lh=localSt[h];
+                const localHasData=lh&&(lh.fh!=null||lh.gir!=null||lh.putts!=null||lh.penalty!=null);
+                if(!localHasData&&rh){localSt[h]=Object.assign(localSt[h]||{},rh);}
+              }
+            }
+          }));
+        }
       }
       const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(state)});
       if(r.ok){lastRemoteJson=JSON.stringify(state);pulse();}
       else{console.warn('Save failed',r.status);}
     }catch(e){console.warn('Push failed',e);}
+    finally{_pushInFlight=false;}
   };
   if(immediate)await doIt();
   else saveTimer=setTimeout(doIt,1200);
@@ -1424,6 +1467,7 @@ function showApp(){
   document.getElementById('bottom-nav').classList.add('show');
   try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){console.error('showApp build error',e);}
   initGameBlocks();
+  applyDayLocks();
   show('me');
   // Show onboarding for first-time users; else handle notif prompt normally
   const showingOnboard=maybeShowOnboarding();
@@ -2080,7 +2124,7 @@ function closeNotifLog(e){
 }
 
 async function pollRemote(){
-  if(offlineMode)return;
+  if(offlineMode||_pushInFlight)return;
   // Presence heartbeat: update own timestamp every ~20s then push
   if(chatAuthor){
     const now=Date.now();
@@ -2122,10 +2166,6 @@ function onScore(day,key,h,val){
 // ═══════════════════════════════════════════════════
 let currentTab='d1';
 // ── Collapsible game + wager blocks ───────────────
-function toggleGameBlock(day){
-  const el=document.getElementById('gb-'+day);
-  el.classList.toggle('open',!el.classList.contains('open'));
-}
 function initGameBlocks(){}
 
 let currentScoresDay='d1';
@@ -2162,7 +2202,34 @@ function show(id){
   }
   currentTab=id==='scores'?currentScoresDay:id;
 }
+// ── Day lock: Fri unlocks Thu Apr 9 @ 8pm, Sat unlocks Fri Apr 10 @ 8pm ──
+const DAY_UNLOCK={d2:new Date(2026,3,9,20,0),d3:new Date(2026,3,10,20,0)};
+function isDayLocked(day){return DAY_UNLOCK[day]&&new Date()<DAY_UNLOCK[day];}
+function applyDayLocks(){
+  ['d2','d3'].forEach(day=>{
+    const locked=isDayLocked(day);
+    document.getElementById('ssn-'+day)?.classList.toggle('day-locked',locked);
+    document.querySelectorAll(`.mdn-btn[data-day="${day}"]`).forEach(b=>b.classList.toggle('day-locked',locked));
+  });
+}
+const _lockTaps={d2:0,d3:0},_lockTapTimer={};
+function handleLockedTap(day){
+  _lockTaps[day]=(_lockTaps[day]||0)+1;
+  clearTimeout(_lockTapTimer[day]);
+  _lockTapTimer[day]=setTimeout(()=>{_lockTaps[day]=0;},700);
+  if(_lockTaps[day]>=4){
+    _lockTaps[day]=0;
+    // Admin override: force unlock for this session
+    DAY_UNLOCK[day]=new Date(0);
+    applyDayLocks();
+    showDay(day);
+    return;
+  }
+  const unlockStr=day==='d2'?'Thu Apr 9 at 8pm':'Fri Apr 10 at 8pm';
+  showAvToast(`🔒 Unlocks ${unlockStr}`);
+}
 function showDay(day){
+  if(isDayLocked(day)){handleLockedTap(day);return;}
   ['d1','d2','d3'].forEach(d=>{
     const el=document.getElementById('panel-'+d);
     if(el)el.style.display=d===day?'':'none';
@@ -2280,7 +2347,8 @@ function bestRow(keys,day,label){
     else cells+=`<td class="${hClass} nc dim">·</td>`;
   }
   const tot=oB+iB,d=tot-cTot(day);
-  cells+=`<td class="col-in tot bold">${iB||'—'}</td><td class="col-grs tot bold">—</td><td class="col-net nc" style="font-size:14px;font-weight:700">${tot?(d===0?'E':d<0?String(d):'+'+d):'—'}</td>`;
+  const grsDisp=(oB>0&&iB>0)?tot:'—';
+  cells+=`<td class="col-in tot bold">${iB||'—'}</td><td class="col-grs tot bold">${grsDisp}</td><td class="col-net nc" style="font-size:14px;font-weight:700">${tot?(d===0?'E':d<0?String(d):'+'+d):'—'}</td>`;
   return`<tr class="best-row">${cells}</tr>`;
 }
 
@@ -2501,7 +2569,8 @@ function updateD3Board(){
     else if(diff>0){scoreStr=`+${fmt(diff)}`;scoreClass='mA';leadTxt=aNtxt;}
     else{scoreStr=`+${fmt(Math.abs(diff))}`;scoreClass='mB';leadTxt=bNtxt;}
     const thruStr=!thru?'—':thru===18?'Final':`Thru ${thru}`;
-    return`<div class="ms-card"><div class="ms-label">Match ${pi+1}<span>${thruStr}</span></div><div class="ms-versus"><div class="ms-side ms-a">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b">${bN}</div></div></div>`;
+    const _aFl=scoreClass==='mA'?0.4:scoreClass==='mB'?1.6:1;const _bFl=scoreClass==='mB'?0.4:scoreClass==='mA'?1.6:1;
+    return`<div class="ms-card"><div class="ms-label">Match ${pi+1}<span>${thruStr}</span></div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl} 1 0">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl} 1 0">${bN}</div></div></div>`;
   }).join('');
   document.getElementById('d3-matches').innerHTML=html;
 }
@@ -2509,7 +2578,7 @@ function updateD3Board(){
 function updateLB(){
   const chipsT=[],chipsF=[],chipsS=[],wins={};
   Object.keys(P).forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
-  {const d1g1=bbLive(D1[0].keys,'d1'),d1g2=bbLive(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chipsT.push({label:'4-Man Shamble',course:'We-Ko-Pa (Cholla)',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>a.bb.tot-b.bb.tot||(b.bb.holes-a.bb.holes));const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDoneD1&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsT.push({label:'4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa (Cholla)</div>`});}}
+  {const d1g1=bbLive(D1[0].keys,'d1'),d1g2=bbLive(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chipsT.push({label:'4-Man Shamble',course:'We-Ko-Pa (Cholla)',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDoneD1&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsT.push({label:'4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa (Cholla)</div>`});}}
   {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball Stroke Play',course:'Troon North (Pinnacle)',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball Stroke Play',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
   D3.forEach((pair,pi)=>{
     let aP=0,bP=0;
@@ -2524,13 +2593,14 @@ function updateLB(){
     if(d===0){scoreStr='AS';scoreClass='ev';}else if(d>0){scoreStr=`+${fmt(d)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(d))}`;scoreClass='mB';}
     if(done){if(d>0)pair.sA.forEach(k=>wins[k].d3+=1);else if(d<0)pair.sB.forEach(k=>wins[k].d3+=1);else[...pair.sA,...pair.sB].forEach(k=>wins[k].d3+=.5);}
     const thruStr=done?'Final':`Thru ${hp}`;
-    const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b">${bN}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;
+    const _aFl2=scoreClass==='mA'?0.4:scoreClass==='mB'?1.6:1;const _bFl2=scoreClass==='mB'?0.4:scoreClass==='mA'?1.6:1;
+    const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl2} 1 0">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl2} 1 0">${bN}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;
     chipsS.push({label:`Match ${pi+1}`,full:true,body});
   });
   // Skins chips → Friday
   for(let gi=0;gi<2;gi++){const sc=d2SkinsCalc(gi);const lbl=`Group ${gi+1} Skins`;if(sc.holesPlayed===0){chipsF.push({label:lbl,course:'Troon North (Pinnacle)',val:'Pending'});}else{const sorted=sc.keys.map(k=>({name:P[k].name.split(' ')[0],s:sc.skins[k]})).sort((a,b)=>b.s-a.s);const rows=sorted.map((p,i)=>`<div class="lc-st-row"><span class="lc-st-pos">${i+1}</span><span class="lc-st-name">${p.name}</span><span class="lc-st-thru">${i===0?sc.complete?'F':`T${sc.holesPlayed}`:''}</span><span class="lc-st-score" style="color:${i===0&&p.s>0?'var(--my)':'rgba(218,240,218,.55)'}">${p.s} sk</span></div>`).join('');chipsF.push({label:lbl,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
   // Team Match Play chip → Saturday
-  {let aH=0,bH=0,holes=0;for(let mi=0;mi<D3.length;mi++){const pair=D3[mi];for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){holes++;if(nA<nB)aH++;else if(nB<nA)bH++;else{aH+=.5;bH+=.5;}}}}const tmDone=holes===36;const tmD=aH-bH;const aLbl=gwLabel(teamName('d3_sA')),bLbl=gwLabel(teamName('d3_sB'));if(holes===0){chipsS.push({label:'Team Match Play',course:'Grayhawk (Talon)',val:'Pending',full:true});}else{let scoreStr,scoreClass;if(tmD===0){scoreStr='AS';scoreClass='ev';}else if(tmD>0){scoreStr=`+${fmt(tmD)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(tmD))}`;scoreClass='mB';}const thruStr=tmDone?'Final':`${holes} holes played`;const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a">${aLbl}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b">${bLbl}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;chipsS.push({label:'Team Match Play',full:true,body});}}
+  {let aH=0,bH=0,holes=0;for(let mi=0;mi<D3.length;mi++){const pair=D3[mi];for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){holes++;if(nA<nB)aH++;else if(nB<nA)bH++;else{aH+=.5;bH+=.5;}}}}const tmDone=holes===36;const tmD=aH-bH;const aLbl=gwLabel(teamName('d3_sA')),bLbl=gwLabel(teamName('d3_sB'));if(holes===0){chipsS.push({label:'Team Match Play',course:'Grayhawk (Talon)',val:'Pending',full:true});}else{let scoreStr,scoreClass;if(tmD===0){scoreStr='AS';scoreClass='ev';}else if(tmD>0){scoreStr=`+${fmt(tmD)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(tmD))}`;scoreClass='mB';}const thruStr=tmDone?'Final':`${holes} holes played`;const _aFl3=scoreClass==='mA'?0.4:scoreClass==='mB'?1.6:1;const _bFl3=scoreClass==='mB'?0.4:scoreClass==='mA'?1.6:1;const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl3} 1 0">${aLbl}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl3} 1 0">${bLbl}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;chipsS.push({label:'Team Match Play',full:true,body});}}
   // Render day sections
   const renderChips=arr=>arr.map(c=>`<div class="lb-chip${c.full?' lb-chip-full':''}"><div class="lc-label">${c.label}</div>${c.body||`<div class="lc-val">${c.val}</div><div class="lc-course">${c.course}</div>`}</div>`).join('');
   document.getElementById('lb-chips-thu').innerHTML=renderChips(chipsT);
@@ -2851,6 +2921,7 @@ function showMeTab(tab){renderMeProfileHero();
 }
 
 function showMeDay(day){
+  if(isDayLocked(day)){handleLockedTap(day);return;}
   currentMeDay=day;
   openHoles.clear();
   document.querySelectorAll('.mdn-btn').forEach(b=>b.classList.toggle('active',b.dataset.day===day));
@@ -3097,8 +3168,8 @@ function buildMyGame(){
     if(fhTotal>0||girTotal>0){
       const gcols=(fhTotal>0?1:0)+(girTotal>0?1:0);
       statsHtml+=`<div class="my-stat-section">Ball Striking</div><div class="my-stat-grid" style="grid-template-columns:repeat(${gcols},1fr)">
-        ${fhTotal>0?sc_c(_pct(fhHit,fhTotal),'Fairways Hit',_frac(fhHit,fhTotal)):''}
-        ${girTotal>0?sc_c(_pct(girHit,girTotal),'Greens in Reg',_frac(girHit,girTotal)):''}
+        ${fhTotal>0?sc_c(_frac(fhHit,fhTotal),'Fairways Hit',_pct(fhHit,fhTotal)):''}
+        ${girTotal>0?sc_c(_frac(girHit,girTotal),'Greens in Reg',_pct(girHit,girTotal)):''}
       </div>`;
     }
     const puttingSec=[];
@@ -3122,8 +3193,8 @@ function buildMyGame(){
       ${sc_c(totDiffStr,'Total to Par','',totColor)}
       ${sc_c(penaltyTotal,'Penalty Strokes','',penaltyTotal>=4?'#e05a4a':penaltyTotal>1?'#e8a456':'')}
     </div>`;
-    // Strokes Gained — needs ≥9 holes played to show anything
-    if(holesPlayed>=9){
+    // Strokes Gained — show on any day tab as soon as there's a score
+    if(holesPlayed>=1){
       // SG:PUTT  baseline = avg expected putts for a scratch amateur
       // GIR hole → 1.80, non-GIR → 2.08, unknown → 1.94
       const SG_GIR=1.80,SG_NOGIR=2.08,SG_UNK=1.94;
@@ -3134,34 +3205,34 @@ function buildMyGame(){
           const st=STATS[day][aKey]?.[h]||{};
           if(typeof st.putts==='undefined')return;
           const bl=st.gir===true?SG_GIR:st.gir===false?SG_NOGIR:SG_UNK;
-          sgPutt+=bl-st.putts; // positive = strokes gained on the green
+          sgPutt+=bl-st.putts;
           sgPuttHoles++;
         }
       });
-      // SG:Total vs par (just reflects score – useful as anchor for T2G)
-      const sgTotal=totalPar-totalGross; // negative = over par
-      const sgT2G=sgPuttHoles>=9?+(sgTotal-sgPutt).toFixed(1):null;
+      // SG:Total vs par — valid for any number of holes
+      const sgTotal=totalPar-totalGross;
+      // Need 9+ holes with putts for SG:Putting and T2G to be meaningful
+      const sgPuttThresh=isAll?9:6;
+      const sgT2G=sgPuttHoles>=sgPuttThresh?+(sgTotal-sgPutt).toFixed(1):null;
       const _sgStr=v=>(v>=0?'+':'')+v.toFixed(1);
       const _sgColor=v=>v>0.5?'#7ddba4':v<-0.5?'#e05a4a':'rgba(218,240,218,.55)';
       const sgItems=[];
-      if(sgPuttHoles>=9){
-        sgItems.push(sc_c(_sgStr(sgPutt),'SG: Putting','vs scratch baseline',_sgColor(sgPutt)));
+      if(sgPuttHoles>=sgPuttThresh){
+        sgItems.push(sc_c(_sgStr(sgPutt),'SG: Putting','',_sgColor(sgPutt)));
       }else{
-        sgItems.push(sc_c('<span style="color:rgba(218,240,218,.22)">—</span>','SG: Putting','log putts in Round',''));
+        sgItems.push(sc_c('<span style="color:rgba(218,240,218,.22)">—</span>','SG: Putting','',''));
       }
       if(sgT2G!==null){
-        sgItems.push(sc_c(_sgStr(sgT2G),'SG: Tee-to-Green','implied from score',_sgColor(sgT2G)));
+        sgItems.push(sc_c(_sgStr(sgT2G),'SG: Tee-to-Green','',_sgColor(sgT2G)));
       }else{
-        sgItems.push(sc_c('<span style="color:rgba(218,240,218,.22)">—</span>','SG: Tee-to-Green','need 9+ putts logged',''));
+        sgItems.push(sc_c('<span style="color:rgba(218,240,218,.22)">—</span>','SG: Tee-to-Green','',''));
       }
       const sgTotalStr=_sgStr(sgTotal);
       const sgHdr=`<div class="my-stat-section">Strokes Gained <span style="font-weight:400;font-size:8px;letter-spacing:.04em;opacity:.5">vs scratch · est.</span></div>`;
       statsHtml+=sgHdr;
-      // Row 1: SG:Putting + SG:T2G
       statsHtml+=`<div class="my-stat-grid" style="grid-template-columns:1fr 1fr">${sgItems.join('')}</div>`;
-      // Row 2: SG:Total anchors the picture
       statsHtml+=`<div class="my-stat-grid" style="grid-template-columns:1fr">
-        ${sc_c(sgTotalStr,'SG: Total','score vs par · T2G + Putting above',_sgColor(sgTotal))}
+        ${sc_c(sgTotalStr,'SG: Total','',_sgColor(sgTotal))}
       </div>`;
     }
     if(footerLine)statsHtml+=`<div class="my-stat-footer">${footerLine}</div>`;
@@ -3467,21 +3538,30 @@ function calcStatLine(playerKey,day,statType){
       priorValues.push(scaled);
     }
   }
-  if(priorValues.length>0){
-    const avg=priorValues.reduce((a,b)=>a+b,0)/priorValues.length;
-    return Math.floor(avg)+0.5;
-  }
   const hcp=P[playerKey]?.[day]||18;
-  // Handicap-based national averages (USGA research benchmarks) — always .5 to prevent push
-  const fallbacks={
-    gir:   Math.max(0.5, Math.floor(12.5 - hcp*0.50)+0.5),    // scratch~12.5, 10hcp~7.5, 20hcp~2.5
-    fh:    Math.max(1.5, Math.floor(9.5  - hcp*0.26)+0.5),    // scratch~9.5,  10hcp~6.5, 20hcp~4.5
-    putts: Math.min(41.5, Math.floor(28.5 + hcp*0.38)+0.5),   // scratch~28.5, 10hcp~32.5, 20hcp~36.5
-    '3putt':Math.max(0.5, Math.floor(0.3  + hcp*0.17)+0.5),   // scratch~0.5,  10hcp~2.5, 20hcp~3.5
-    birdies:Math.max(0.5, (hcp<=5?3:hcp<=10?2:hcp<=18?1:0)+0.5), // scratch~3.5, 10hcp~2.5, 18hcp~1.5
-    penalty:Math.max(0.5, Math.floor(hcp*0.13)+0.5),          // scratch~0.5,  10hcp~1.5, 20hcp~2.5
-  };
-  return fallbacks[statType]??0.5;
+  // USGA-benchmarked handicap estimates — lower hcp always gets better line
+  // GIR:  scratch~12, 5hcp~10, 10hcp~8, 15hcp~6, 20hcp~4   (slope -0.40)
+  // FWY:  scratch~9.5, 5hcp~8.5, 10hcp~7.5, 15hcp~6.5, 20hcp~5.5 (slope -0.20)
+  // Putts: scratch~29, 10hcp~32, 20hcp~35  (slope +0.30)
+  // 3putt: scratch~1, 10hcp~2.5, 20hcp~4  (slope +0.15)
+  // Birdies: scratch~3, 5hcp~2.5, 10hcp~1.5, 15hcp~0.5
+  // Penalty: scratch~0.5, 10hcp~1.5, 20hcp~2.5
+  const hcpEst={
+    gir:    Math.max(1.5, 12.0 - hcp*0.40),
+    fh:     Math.max(1.5, 9.5  - hcp*0.20),
+    putts:  Math.min(40.5, 29.0 + hcp*0.30),
+    '3putt':Math.max(0.5, 1.0  + hcp*0.15),
+    birdies:Math.max(0.2, 3.0  - hcp*0.15),
+    penalty:Math.max(0.5, hcp  * 0.12),
+  }[statType]??0.5;
+  if(priorValues.length>0){
+    const priorAvg=priorValues.reduce((a,b)=>a+b,0)/priorValues.length;
+    // Handicap is the primary driver (75%). Prior data fine-tunes (25%).
+    // This prevents a single tough-course day from flipping player ordering.
+    const blended=hcpEst*0.75+priorAvg*0.25;
+    return Math.floor(blended)+0.5;
+  }
+  return Math.floor(hcpEst)+0.5;
 }
 function hasStatData(playerKey,day,statType){
   // Returns number of prior days with enough data to use real stats
@@ -3513,7 +3593,7 @@ function getGroupKeys(k,day){
   return Object.keys(P);
 }
 function buildSuggestedBets(){
-  // Compute per-player per-day stats (only full rounds)
+  // ── Setup: compute full-round stats per player per day ──
   const stats=Object.keys(P).map(k=>{
     const s={key:k};
     ['d1','d2','d3'].forEach(day=>{
@@ -3523,58 +3603,139 @@ function buildSuggestedBets(){
     });
     return s;
   });
-  // Determine which day to suggest bets FOR (next unplayed day)
-  const d1Done=stats.every(s=>s.d1);const d2Done=stats.every(s=>s.d2);const d3Done=stats.every(s=>s.d3);
+  const d1Done=stats.every(s=>s.d1),d2Done=stats.every(s=>s.d2),d3Done=stats.every(s=>s.d3);
   let targetDay=null,prevDay=null;
-  if(!d1Done&&!d2Done&&!d3Done){return[];}
+  if(!d1Done&&!d2Done&&!d3Done)return[];
   else if(d1Done&&!d2Done){targetDay='d2';prevDay='d1';}
   else if(d2Done&&!d3Done){targetDay='d3';prevDay='d2';}
-  else{return[];}
+  else return[];
   const dayName={d1:'Thursday',d2:'Friday',d3:'Saturday'};
-  const targetName=dayName[targetDay];
-  const prevName=dayName[prevDay];
+  const tN=dayName[targetDay],pN=dayName[prevDay];
   const sorted=[...stats].filter(s=>s[prevDay]).sort((a,b)=>a[prevDay].g-b[prevDay].g);
   const sortedNet=[...stats].filter(s=>s[prevDay]).sort((a,b)=>a[prevDay].n-b[prevDay].n);
   if(!sorted.length)return[];
-  const hot=sorted[0];const cold=sorted[sorted.length-1];
-  const bestNet=sortedNet[0];const worstNet=sortedNet[sortedNet.length-1];
-  const sugg=[];
+  const n=sorted.length;
 
-  // ── P2P suggestions ─────────────────────────────
-  // 1 — Birdie over for the hot hand
-  const bl=calcBirdiesLine(hot.key,targetDay);
-  sugg.push({category:'p2p',type:'birdie-ou',label:`${P[hot.key].name} ${bl}+ Birdies on ${targetName}`,rationale:`Lowest gross ${prevName} — hot hand`,player:hot.key,day:targetDay,side:'over'});
-  // 2 — Clean card for the cold player (bounce-back)
-  sugg.push({category:'p2p',type:'cleancard',label:`${P[cold.key].name} Clean Card ${targetName}`,rationale:`Highest gross ${prevName} — due for a bounce-back`,player:cold.key,day:targetDay});
-  // 3 — H2H net between best and worst net players
-  if(bestNet.key!==worstNet.key){sugg.push({category:'p2p',type:'h2h',label:`${P[bestNet.key].name} beats ${P[worstNet.key].name} net`,rationale:`Best vs worst net from ${prevName}`,player:bestNet.key,playerB:worstNet.key,day:targetDay,side:'a'});}
-  // 4 — Last place for the coldest scorer
-  sugg.push({category:'p2p',type:'lastplace',label:`${P[cold.key].name} finishes last net on ${targetName}`,rationale:`Worst gross ${prevName} — trend bet`,player:cold.key,day:targetDay});
-  // 5 — Stroke O/U for the cold hand (due for a cleaner round)
-  const ouLine=calcLine(cold.key,targetDay);
-  sugg.push({category:'p2p',type:'ou',label:`${P[cold.key].name} Under ${ouLine} strokes`,rationale:`Worst gross ${prevName} — back the bounce-back`,player:cold.key,day:targetDay,side:'under'});
-  // 6 — Low Net for the best net player
-  if(bestNet.key!==cold.key){sugg.push({category:'p2p',type:'lownet',label:`${P[bestNet.key].name} leads the group net on ${targetName}`,rationale:`Best net ${prevName} — back the hot stick`,player:bestNet.key,day:targetDay});}
+  // ── Deviation: how far each player shot vs their handicap expectation ──
+  // Negative = beat expectation (hot). Positive = missed expectation (cold / bounce-back due).
+  const dev=k=>sorted.find(s=>s.key===k)?.[prevDay]?.g - calcLine(k,prevDay);
+  const byDev=[...sorted].sort((a,b)=>dev(a.key)-dev(b.key));
+  const hot=byDev[0];          // most overperformed vs handicap
+  const cold=byDev[n-1];       // most underperformed vs handicap
+  const hotDev=Math.abs(Math.min(dev(hot.key),0));    // strokes better than expected
+  const coldDev=Math.max(dev(cold.key),0);             // strokes worse than expected
+  const bestGross=sorted[0];
+  const worstGross=sorted[n-1];
+  const bestNet=sortedNet[0];
+  const worstNet=sortedNet[n-1];
 
-  // ── House Prop suggestions (only when prior stat data exists) ──
-  // 7 — Birdies O/U house prop for the hot hand
-  if(hasStatData(hot.key,targetDay,'birdies')>0){
-    const hbl=calcStatLine(hot.key,targetDay,'birdies');
-    sugg.push({category:'house',type:'house-prop',label:`House Prop: ${P[hot.key].name} Birdies Over ${hbl}`,rationale:`Back the hot hand to keep making birdies — set your own line`,player:hot.key,day:targetDay,statType:'birdies',propSide:'over',oddsPreset:'even'});
+  // ── Candidate pool ──
+  // Each candidate: { ...betFields, _k:[playerKeys], _t:type, _cat:category, _s:score }
+  const pool=[];
+  function add(bet,score){pool.push({...bet,_s:score});}
+
+  // ── O/U candidates ──
+  // Hot hand under (biggest relative overperformer)
+  {const line=calcLine(hot.key,targetDay);const d=hotDev;
+   const rat=d>=4?`Shot ${d} strokes better than expected on ${pN} — bet the streak to continue`:d>=2?`Outperformed their handicap by ${d} strokes on ${pN} — momentum is real`:`Played their best ball on ${pN} — back the hot hand`;
+   add({category:'p2p',type:'ou',label:`${P[hot.key].name} Under ${line} · ${tN}`,rationale:rat,player:hot.key,day:targetDay,side:'under',_k:[hot.key],_t:'ou',_cat:'p2p'},7+d);}
+
+  // Bounce-back under (biggest relative underperformer)
+  if(cold.key!==hot.key){
+    const line=calcLine(cold.key,targetDay);const d=coldDev;
+    const rat=d>=4?`Struggled ${d} strokes over expectation on ${pN} — the bounce-back is inevitable`:d>=2?`${d} strokes worse than their handicap projects — regression coming`:`Tough day on ${pN} — the numbers say they're better than that`;
+    add({category:'p2p',type:'ou',label:`${P[cold.key].name} Under ${line} · ${tN}`,rationale:rat,player:cold.key,day:targetDay,side:'under',_k:[cold.key],_t:'ou',_cat:'p2p'},6+d*0.8);}
+
+  // Best raw gross under (consistency angle — different from hot hand if they differ)
+  if(bestGross.key!==hot.key){
+    const line=calcLine(bestGross.key,targetDay);
+    add({category:'p2p',type:'ou',label:`${P[bestGross.key].name} Under ${line} · ${tN}`,rationale:`Best gross on ${pN} — elite players stay elite`,player:bestGross.key,day:targetDay,side:'under',_k:[bestGross.key],_t:'ou',_cat:'p2p'},5);}
+
+  // Worst gross over (is the struggle real? dark horse bet)
+  if(worstGross.key!==cold.key){
+    const line=calcLine(worstGross.key,targetDay);
+    add({category:'p2p',type:'ou',label:`${P[worstGross.key].name} Over ${line} · ${tN}`,rationale:`Shot the worst gross on ${pN} — sometimes the struggle is a pattern`,player:worstGross.key,day:targetDay,side:'over',_k:[worstGross.key],_t:'ou',_cat:'p2p'},3);}
+
+  // Birdie over: hot player (if low handicap)
+  if(P[hot.key]?.[targetDay]<=10){
+    const bl=calcBirdiesLine(hot.key,targetDay);
+    add({category:'p2p',type:'birdie-ou',label:`${P[hot.key].name} ${bl}+ Birdies · ${tN}`,rationale:`Hottest player on ${pN} — prop the birdie train`,player:hot.key,day:targetDay,side:'over',_k:[hot.key],_t:'birdie-ou',_cat:'p2p'},6+hotDev*0.5);}
+
+  // Birdie over: best gross (if different from hot)
+  if(bestGross.key!==hot.key&&P[bestGross.key]?.[targetDay]<=10){
+    const bl=calcBirdiesLine(bestGross.key,targetDay);
+    add({category:'p2p',type:'birdie-ou',label:`${P[bestGross.key].name} ${bl}+ Birdies · ${tN}`,rationale:`Best gross on ${pN} — can they keep making birdies?`,player:bestGross.key,day:targetDay,side:'over',_k:[bestGross.key],_t:'birdie-ou',_cat:'p2p'},4);}
+
+  // Clean card: best gross player (low probability but fun)
+  {add({category:'p2p',type:'cleancard',label:`${P[bestGross.key].name} Clean Card · ${tN}`,rationale:`Best gross on ${pN} — can they post a bogey-free round?`,player:bestGross.key,day:targetDay,_k:[bestGross.key],_t:'cleancard',_cat:'p2p'},3.5);}
+
+  // Low net: best net player
+  {add({category:'p2p',type:'lownet',label:`${P[bestNet.key].name} leads net · ${tN}`,rationale:`Best net on ${pN} — the handicap system is working in their favour`,player:bestNet.key,day:targetDay,_k:[bestNet.key],_t:'lownet',_cat:'p2p'},4);}
+
+  // Last place net: worst net player
+  {add({category:'p2p',type:'lastplace',label:`${P[worstNet.key].name} finishes last net · ${tN}`,rationale:`Worst net on ${pN} — the trend has momentum`,player:worstNet.key,day:targetDay,_k:[worstNet.key],_t:'lastplace',_cat:'p2p'},3);}
+
+  // ── H2H candidates: all adjacent net pairs (tightest = highest score) ──
+  for(let i=0;i<sortedNet.length-1;i++){
+    const pA=sortedNet[i],pB=sortedNet[i+1];
+    const gap=Math.abs(pA[prevDay].n-pB[prevDay].n);
+    const rat=gap===0?`Dead even on net on ${pN} — settle it on the course`:gap===1?`One net stroke apart on ${pN} — too close to call`:`Only ${gap} net strokes apart on ${pN} — a genuine matchup`;
+    add({category:'p2p',type:'h2h',label:`${P[pA.key].name} vs ${P[pB.key].name} net · ${tN}`,rationale:rat,player:pA.key,playerB:pB.key,day:targetDay,side:'a',_k:[pA.key,pB.key],_t:'h2h',_cat:'p2p'},8-gap);}
+
+  // H2H: hot hand vs cold player (form vs bounce-back — narrative-rich)
+  if(hot.key!==cold.key){
+    add({category:'p2p',type:'h2h',label:`${P[hot.key].name} vs ${P[cold.key].name} net · ${tN}`,rationale:`Hot hand vs the guy due to bounce back — which story wins?`,player:hot.key,playerB:cold.key,day:targetDay,side:'a',_k:[hot.key,cold.key],_t:'h2h',_cat:'p2p'},5+Math.min(hotDev,coldDev)*0.5);}
+
+  // H2H: best gross vs worst gross (the classic mismatch — can handicap close it?)
+  if(bestGross.key!==worstGross.key&&!(bestGross.key===hot.key&&worstGross.key===cold.key)){
+    const netGap=Math.abs(bestGross[prevDay].n-worstGross[prevDay].n);
+    add({category:'p2p',type:'h2h',label:`${P[bestGross.key].name} vs ${P[worstGross.key].name} net · ${tN}`,rationale:`Best vs worst gross on ${pN} — can the handicap close a ${netGap}-stroke net gap?`,player:bestGross.key,playerB:worstGross.key,day:targetDay,side:'a',_k:[bestGross.key,worstGross.key],_t:'h2h',_cat:'p2p'},4);}
+
+  // ── House prop candidates ──
+  for(const s of sorted){
+    const hcp=P[s.key]?.[targetDay]||18;
+    const devBonus=s.key===hot.key?2:s.key===cold.key?1:0;
+    if(hcp<=10){
+      const bl=calcStatLine(s.key,targetDay,'birdies');
+      const rat=s.key===hot.key?`Hottest hand on ${pN} — prop the birdie output`:`Low handicap player — how many birdies can they make today?`;
+      add({category:'house',type:'house-prop',label:`House Prop: ${P[s.key].name} ${bl}+ Birdies`,rationale:rat,player:s.key,day:targetDay,statType:'birdies',propSide:'over',oddsPreset:'even',_k:[s.key],_t:'house-prop',_cat:'house'},4.5+devBonus);}
+    if(hcp>=5&&hcp<=15){
+      const gl=calcStatLine(s.key,targetDay,'gir');
+      const rat=s.key===cold.key?`Struggled on ${pN} but hits greens — prop the approach game recovery`:`Mid-handicap player — prop how often they find the dance floor`;
+      add({category:'house',type:'house-prop',label:`House Prop: ${P[s.key].name} ${gl}+ Greens in Reg`,rationale:rat,player:s.key,day:targetDay,statType:'gir',propSide:'over',oddsPreset:'even',_k:[s.key],_t:'house-prop',_cat:'house'},3.5+devBonus);}
+    if(hcp>=10){
+      const pl=calcStatLine(s.key,targetDay,'putts');
+      const rat=`${hcp>=16?'Higher':'Mid'}-handicap player — can they limit the three-putts today?`;
+      add({category:'house',type:'house-prop',label:`House Prop: ${P[s.key].name} Under ${pl} Putts`,rationale:rat,player:s.key,day:targetDay,statType:'putts',propSide:'under',oddsPreset:'even',_k:[s.key],_t:'house-prop',_cat:'house'},3+devBonus);}
+    if(hcp<=8){
+      const fl=calcStatLine(s.key,targetDay,'fh');
+      add({category:'house',type:'house-prop',label:`House Prop: ${P[s.key].name} ${fl}+ Fairways Hit`,rationale:`Low handicap ball striker — prop the tee-to-fairway accuracy`,player:s.key,day:targetDay,statType:'fh',propSide:'over',oddsPreset:'even',_k:[s.key],_t:'house-prop',_cat:'house'},3);}
   }
-  // 8 — Putts house prop for the worst net player (if putting data exists)
-  if(worstNet.key!==hot.key&&hasStatData(worstNet.key,targetDay,'putts')>0){
-    const pLine=calcStatLine(worstNet.key,targetDay,'putts');
-    sugg.push({category:'house',type:'house-prop',label:`House Prop: ${P[worstNet.key].name} Putts Under ${pLine}`,rationale:`Worst net ${prevName} — prop their putting improvement`,player:worstNet.key,day:targetDay,statType:'putts',propSide:'under',oddsPreset:'even'});
+
+  // ── Pools ──
+  pool.push({category:'pool',type:'pool',label:`Most Birdies Pool · ${tN}`,rationale:`Anyone can run hot — most birdies wins the pot`,poolType:'birdies',day:targetDay,buyIn:10,_k:[],_t:'pool',_cat:'pool',_s:4});
+  pool.push({category:'pool',type:'pool',label:`Low Net Pool · ${tN}`,rationale:`Everyone has skin in every stroke all day`,poolType:'lownet',day:targetDay,buyIn:10,_k:[],_t:'pool',_cat:'pool',_s:3.5});
+
+  // ── Selection: pick top 5 by score, enforcing diversity ──
+  pool.sort((a,b)=>b._s-a._s);
+  const picked=[];
+  const usedPlayers=new Set();
+  const typeCounts={};
+  const catCounts={p2p:0,house:0,pool:0};
+  for(const c of pool){
+    if(picked.length>=5)break;
+    if(c._k.length>0&&c._k.some(k=>usedPlayers.has(k)))continue; // player already in another pick
+    if((typeCounts[c._t]||0)>=2)continue;                         // max 2 of any bet type
+    if(c._cat==='p2p'&&catCounts.p2p>=3)continue;                 // max 3 P2P
+    if(c._cat==='house'&&catCounts.house>=1)continue;             // max 1 house prop
+    if(c._cat==='pool'&&catCounts.pool>=1)continue;               // max 1 pool
+    picked.push(c);
+    c._k.forEach(k=>usedPlayers.add(k));
+    typeCounts[c._t]=(typeCounts[c._t]||0)+1;
+    catCounts[c._cat]++;
   }
-
-  // ── Pool suggestions (always relevant) ──────────
-  // 9 — Most Birdies pool
-  sugg.push({category:'pool',type:'pool',label:`Most Birdies Pool · ${targetName}`,rationale:`Group bet — birdies are unpredictable, anyone can run hot`,poolType:'birdies',day:targetDay,buyIn:10});
-  // 10 — Low Net pool
-  sugg.push({category:'pool',type:'pool',label:`Low Net Pool · ${targetName}`,rationale:`Everyone has skin in every stroke all day`,poolType:'lownet',day:targetDay,buyIn:10});
-
-  return sugg;
+  // Strip internal scoring fields before returning
+  return picked.map(({_s,_k,_t,_cat,...rest})=>rest);
 }
 
 // ── d3 Side winner (total holes across both matches) ─
@@ -5372,24 +5533,26 @@ function submitAccept(){
   function adjustChat(){
     const panel=document.getElementById('panel-chat');
     if(!panel||!panel.classList.contains('active'))return;
-    // kbH = how much the keyboard is stealing from the bottom
-    const kbH=Math.max(0,window.innerHeight-vv.offsetTop-vv.height);
+    const kbH=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);
     if(kbH>100){
-      // Keyboard open: push panel up to sit just above the keyboard
+      // Keyboard open: pin panel exactly to the visual viewport
+      panel.style.top=vv.offsetTop+'px';
       panel.style.bottom=kbH+'px';
+      panel.style.height='auto';
     }else{
-      // Keyboard closed: restore CSS default
+      // Keyboard closed: restore CSS defaults
+      panel.style.top='';
       panel.style.bottom='';
+      panel.style.height='';
     }
   }
   vv.addEventListener('resize',adjustChat,{passive:true});
   vv.addEventListener('scroll',adjustChat,{passive:true});
-  // Re-adjust whenever chat tab is activated
   const _origShow=window.show;
   window.show=function(id){
     _origShow(id);
     if(id==='chat')requestAnimationFrame(adjustChat);
-    else{const p=document.getElementById('panel-chat');if(p)p.style.bottom='';}
+    else{const p=document.getElementById('panel-chat');if(p){p.style.top='';p.style.bottom='';p.style.height='';}}
   };
 })();
 
