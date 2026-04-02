@@ -816,7 +816,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .notif-bell-btn svg{width:28px;height:28px;stroke:#fefe56;stroke-width:1.5;fill:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));transition:filter .15s ease;}
 .notif-bell-btn:active{transform:scale(.88);}
 .notif-bell-btn:active svg{filter:drop-shadow(0 0 5px rgba(254,254,86,.45)) drop-shadow(0 1px 2px rgba(0,0,0,.5));}
-.notif-bell-badge{position:absolute;top:3px;right:3px;min-width:16px;height:16px;border-radius:8px;background:#e03030;color:#fff;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:800;display:none;align-items:center;justify-content:center;padding:0 3px;line-height:1;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.45);}
+.notif-bell-badge{position:absolute;top:6px;right:6px;min-width:14px;height:14px;border-radius:7px;background:#e05a4a;color:#fff;font-family:'DM Sans',sans-serif;font-size:8px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 3px;line-height:1;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.4);}
 .notif-bell-badge.vis{display:flex;}
 
 /* ── Notification Log Sheet ──────────────────────── */
@@ -2205,11 +2205,15 @@ function show(id){
 // ── Day lock: Fri unlocks Thu Apr 9 @ 8pm, Sat unlocks Fri Apr 10 @ 8pm ──
 const DAY_UNLOCK={d2:new Date(2026,3,9,20,0),d3:new Date(2026,3,10,20,0)};
 function isDayLocked(day){return DAY_UNLOCK[day]&&new Date()<DAY_UNLOCK[day];}
+const _dayLabels={d1:'Thu',d2:'Fri',d3:'Sat'};
 function applyDayLocks(){
   ['d2','d3'].forEach(day=>{
     const locked=isDayLocked(day);
-    document.getElementById('ssn-'+day)?.classList.toggle('day-locked',locked);
-    document.querySelectorAll(`.mdn-btn[data-day="${day}"]`).forEach(b=>b.classList.toggle('day-locked',locked));
+    const label=_dayLabels[day];
+    const lockText=locked?label+' 🔒':label;
+    const ssn=document.getElementById('ssn-'+day);
+    if(ssn){ssn.classList.toggle('day-locked',locked);ssn.textContent=lockText;}
+    document.querySelectorAll(`.mdn-btn[data-day="${day}"]`).forEach(b=>{b.classList.toggle('day-locked',locked);b.textContent=lockText;});
   });
 }
 const _lockTaps={d2:0,d3:0},_lockTapTimer={};
