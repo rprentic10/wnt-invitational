@@ -87,6 +87,10 @@ body{
 .bn-label{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;}
 .bn-avatar-wrap{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(218,240,218,.22);background:rgba(218,240,218,.07);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;line-height:1;overflow:hidden;transition:border-color .15s;}
 .bn-tab.active .bn-avatar-wrap{border-color:rgba(254,254,86,.55);background:rgba(254,254,86,.1);}
+.bn-tab-center{position:relative;}
+.bn-tab-center::before{display:none!important;}
+.bn-center-ring{width:44px;height:44px;border-radius:50%;border:2.5px solid rgba(218,240,218,.25);background:rgba(218,240,218,.07);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;line-height:1;overflow:hidden;margin-top:-18px;box-shadow:0 -2px 12px rgba(0,0,0,.35);transition:border-color .2s,background .2s,box-shadow .2s;}
+.bn-tab-center.active .bn-center-ring{border-color:rgba(254,254,86,.6);background:rgba(254,254,86,.12);box-shadow:0 -2px 16px rgba(254,254,86,.15),0 -2px 12px rgba(0,0,0,.35);}
 .bn-tab .tab-badge{position:absolute;top:6px;right:calc(50% - 20px);display:none;align-items:center;justify-content:center;}
 /* Scores sub-nav */
 .ssn-btn{flex:1;padding:7px 4px;border:none;border-radius:7px;background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:all .15s;}
@@ -568,8 +572,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 #av-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#162e16;border:1px solid rgba(254,254,86,.3);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--my);opacity:0;pointer-events:none;transition:opacity .25s;z-index:300;white-space:nowrap;}
 #av-toast.show{opacity:1;}
 /* Pull-to-refresh */
-#ptr-indicator{position:fixed;top:max(env(safe-area-inset-top,0px),0px);left:0;right:0;display:flex;align-items:center;justify-content:center;z-index:9998;pointer-events:none;transform:translateY(-52px);transition:transform .2s ease;height:44px;}
-#ptr-indicator.ptr-visible{transform:translateY(0);}
+#ptr-indicator{position:fixed;left:0;right:0;display:flex;align-items:center;justify-content:center;z-index:99;pointer-events:none;height:44px;opacity:0;transition:opacity .2s ease;}
+#ptr-indicator.ptr-visible{opacity:1;}
 #ptr-spinner{width:22px;height:22px;border:2.5px solid rgba(218,240,218,.18);border-top-color:rgba(126,220,160,.85);border-radius:50%;animation:none;}
 #ptr-spinner.spinning{animation:ptr-spin .7s linear infinite;}
 @keyframes ptr-spin{to{transform:rotate(360deg);}}
@@ -877,7 +881,6 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <div id="panel-d1">
   <div class="course-header">
     <div class="course-title">We-Ko-Pa (Cholla)</div>
-    <div class="course-sub">Par 72 · Purple Tees · 6,740 Yards</div>
   </div>
   <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">4-Man Shamble</span></span><span class="game-format-val">Everyone tees, take the best drive and play your own ball. Best gross, no handicaps.</span></div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
@@ -894,7 +897,6 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <div id="panel-d2" style="display:none">
   <div class="course-header">
     <div class="course-title">Troon North (Pinnacle)</div>
-    <div class="course-sub">Par 71 · Gold Tees · 6,635 Yards</div>
   </div>
   <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Best Ball</span></span><span class="game-format-val">Play your own ball, take the best net score per hole. Lowest total net wins.</span></div>
   <div class="live-lb-wrap" style="margin-top:20px"><div class="live-lb-title">Live Standings</div><table class="live-lb-tbl"><thead><tr><th>Place</th><th>Team</th><th class="r">Score</th><th class="r">Thru</th></tr></thead><tbody id="d2-live-lb"></tbody></table></div>
@@ -906,7 +908,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <!-- DAY 3 -->
 <div id="panel-d3" style="display:none">
   <div class="course-header">
-    <div class="course-title">Grayhawk (Talon)</div><div class="course-sub">Par 72 · Palo Verde Tees · 6,430 Yards</div>
+    <div class="course-title">Grayhawk (Talon)</div>
   </div>
   <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Match Play</span></span><span class="game-format-val">Best net per hole wins the hole. Most holes won wins the match.</span></div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
@@ -1057,6 +1059,10 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="bn-icon">🏆</div>
     <div class="bn-label">Board</div>
   </button>
+  <button class="bn-tab bn-tab-center" id="bnt-me" onclick="show('me')">
+    <div class="bn-center-ring" id="bnt-me-av">?</div>
+    <div class="bn-label" id="bnt-me-label">Me</div>
+  </button>
   <button class="bn-tab" id="bnt-bets" onclick="show('bets')">
     <div class="bn-icon">💰</div>
     <div class="bn-label">Wagers</div>
@@ -1066,10 +1072,6 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="bn-icon">💬</div>
     <div class="bn-label">Chat</div>
     <span class="tab-badge" id="chat-badge"></span>
-  </button>
-  <button class="bn-tab" id="bnt-me" onclick="show('me')">
-    <div class="bn-avatar-wrap" id="bnt-me-av">?</div>
-    <div class="bn-label" id="bnt-me-label">Me</div>
   </button>
 </nav>
 
@@ -5538,12 +5540,12 @@ function submitAccept(){
     const hdr=document.getElementById('app-header');
     const hdrH=hdr?hdr.offsetHeight:0;
     if(kbH>100){
-      // Keyboard open: pin panel below header, above keyboard
+      // Keyboard open: scroll page to top so header stays visible
+      window.scrollTo(0,0);
       panel.style.top=hdrH+'px';
       panel.style.bottom=kbH+'px';
       panel.style.height='auto';
     }else{
-      // Keyboard closed: restore CSS defaults
       panel.style.top='';
       panel.style.bottom='';
       panel.style.height='';
@@ -5581,22 +5583,28 @@ function submitAccept(){
     return s<=10;
   }
 
+  function _positionIndicator(el){
+    const hdr=document.getElementById('app-header');
+    el.style.top=(hdr?hdr.offsetHeight:0)+'px';
+  }
+
   function _showProgress(dy){
     const el=ind();if(!el)return;
+    _positionIndicator(el);
     const frac=Math.min(dy/THRESHOLD,1);
     el.style.transition='none';
-    el.style.transform=`translateY(${-52+52*frac}px)`;
+    el.style.opacity=frac;
   }
 
   function _doRefresh(){
     if(refreshing)return;
     refreshing=true;
     const el=ind();const sp=spin();
-    if(el){el.style.transition='transform .2s ease';el.classList.add('ptr-visible');}
+    if(el){_positionIndicator(el);el.style.transition='opacity .2s ease';el.classList.add('ptr-visible');}
     if(sp)sp.classList.add('spinning');
     pollRemote().finally(()=>{
       setTimeout(()=>{
-        if(el){el.classList.remove('ptr-visible');}
+        if(el){el.classList.remove('ptr-visible');el.style.opacity='0';}
         if(sp)sp.classList.remove('spinning');
         setTimeout(()=>{refreshing=false;pulling=false;triggered=false;},220);
       },400);
@@ -5626,7 +5634,7 @@ function submitAccept(){
       _doRefresh();
     }else{
       const el=ind();
-      if(el){el.style.transition='transform .2s ease';el.style.transform='translateY(-52px)';}
+      if(el){el.style.transition='opacity .2s ease';el.style.opacity='0';}
       pulling=false;triggered=false;
     }
   },{passive:true});
