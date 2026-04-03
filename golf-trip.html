@@ -119,8 +119,8 @@ body{
 
 /* ── MY ROUND (Me tab score entry) ───────────────── */
 .me-subnav{display:flex;gap:8px;padding:2px 0 12px;}
-.me-profile-hero{display:flex;flex-direction:column;align-items:center;padding:22px 0 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.me-profile-hero:active .me-av-large{transform:scale(.95);}
+.me-profile-hero{display:flex;flex-direction:column;align-items:center;padding:22px 0 14px;-webkit-tap-highlight-color:transparent;}
+.me-av-container:active .me-av-large{transform:scale(.95);}
 .me-av-container{position:relative;display:inline-block;margin-bottom:10px;}
 .me-av-large{width:72px;height:72px;border-radius:50%;border:2px solid rgba(218,240,218,.22);background:#555;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:28px;font-weight:700;color:#fff;overflow:hidden;transition:transform .15s ease;}
 .me-av-large img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
@@ -225,6 +225,9 @@ body{
 #panel-chat.active{display:flex;}
 .scores-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:0 0 2px;}
 .wagers-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:12px 0 2px;}
+.wager-scope-toggle{display:flex;margin-bottom:12px;border-bottom:2px solid rgba(254,254,86,.12);}
+.wst-btn{flex:1;padding:9px 6px;border:none;background:transparent;color:rgba(218,240,218,.38);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:color .15s;}
+.wst-btn.active{color:#fefe56;border-bottom:2px solid #fefe56;margin-bottom:-2px;}
 
 /* ── COURSE HEADER ───────────────────────────────── */
 .course-header{text-align:center;margin-bottom:18px;padding-top:28px;}
@@ -587,8 +590,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .chat-msg.mine .chat-bubble:has(.chat-img){background:transparent;}
 
 /* ── WAGERS TAB ──────────────────────────────────── */
-.wager-propose-btn{display:block;width:100%;padding:14px 20px;border-radius:10px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;margin-bottom:22px;transition:all .15s;-webkit-tap-highlight-color:transparent;}
-.wager-propose-btn:active{background:rgba(254,254,86,.18);}
+.wager-propose-btn{position:fixed;bottom:calc(66px + env(safe-area-inset-bottom));left:16px;right:16px;z-index:99;padding:16px 28px;border-radius:14px;border:none;background:#fefe56;color:#0a280a;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;box-shadow:0 6px 24px rgba(0,0,0,.45),0 0 0 1px rgba(254,254,86,.3);white-space:nowrap;display:none;text-align:center;}
+.wager-propose-btn:active{background:#e8e84e;transform:scale(.98);}
 .wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative;}
 .wager-card.wc-open{border-color:rgba(254,254,86,.45);animation:wcPulse 2.5s ease-in-out infinite;}
 @keyframes wcPulse{0%,100%{border-color:rgba(254,254,86,.45);}50%{border-color:rgba(254,254,86,.18);}}
@@ -724,6 +727,9 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .ps-opt.sel{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.45);color:#fefe56;}
 .ps-opt:active{transform:scale(.96);}
 .ps-opt.ps-na{opacity:.25;pointer-events:none;}
+.ps-pool-chip{border-color:rgba(254,254,86,.3)!important;color:rgba(254,254,86,.8)!important;font-weight:700!important;}
+.ps-pool-chip.sel{background:rgba(254,254,86,.12)!important;border-color:rgba(254,254,86,.5)!important;color:#fefe56!important;}
+.ps-pool-hint{width:100%;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.4);line-height:1.45;margin-top:2px;}
 .ps-line-box{background:rgba(0,90,48,.2);border:1px solid rgba(100,200,120,.25);border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:14px;}
 .ps-line-num{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:900;color:var(--mw);}
 .ps-line-info{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.45);line-height:1.5;}
@@ -734,12 +740,10 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .ps-submit:disabled{opacity:.3;cursor:default;}
 .ps-cancel{display:block;width:100%;padding:11px;background:transparent;border:none;color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;}
 /* ── Wager section headers ─────────────────────── */
-.wager-section-hdr{font-family:'Forum',serif;font-size:18px;font-weight:normal;letter-spacing:.02em;color:rgba(254,254,86,.7);padding:20px 0 10px;display:flex;align-items:center;gap:10px;}
-.wager-section-hdr::before{content:'';flex:1;height:1px;background:rgba(254,254,86,.15);}
-.wager-section-hdr::after{content:'';flex:1;height:1px;background:rgba(254,254,86,.15);}
+.wager-section-hdr{font-family:'Forum',serif;font-size:18px;font-weight:normal;letter-spacing:.02em;color:rgba(254,254,86,.7);padding:20px 0 10px;text-align:center;}
 /* ── Day sub-group dividers ─────────────────────── */
-.wager-day-grp{margin-bottom:16px;}
-.wager-day-grp:last-child{margin-bottom:0;}
+.wager-day-grp{margin-bottom:0;}
+.wager-day-divider{height:1px;margin:14px 0;background:repeating-linear-gradient(90deg,rgba(218,240,218,.15) 0,rgba(218,240,218,.15) 12px,transparent 12px,transparent 18px);}
 .wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
 /* ── Main game cards (Wagers tab) ───────────────── */
 .main-game-card{margin-bottom:12px;}
@@ -961,13 +965,16 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="course-header">
     <div class="course-title">Gentlemen Wagers <a href="https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf" onclick="window.open('https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf','_blank');return false;" style="font-size:18px;text-decoration:none;opacity:.45;vertical-align:middle;margin-left:4px;cursor:pointer;" title="Betting Rules">📖</a></div>
   </div>
-  <button class="wager-propose-btn" onclick="openProposeSheet()">+ Propose a Bet</button>
+  <div class="wager-scope-toggle" id="wager-scope-toggle">
+    <button class="wst-btn active" data-scope="all" onclick="setWagerScope('all')">All Wagers</button>
+    <button class="wst-btn" data-scope="mine" onclick="setWagerScope('mine')">My Wagers</button>
+  </div>
+  <div id="wager-suggest"></div>
   <!-- MAIN GAMES -->
   <div class="wager-section-hdr">Main Games</div>
   <div class="main-game-card">
     <div class="gw-area" id="gw-area-d1"></div>
   </div>
-  <div style="height:1px;background:rgba(218,240,218,.08);margin:10px 0;"></div>
   <div class="main-game-card">
     <div class="gw-area" id="gw-area-d2-pot"></div>
     <div class="gw-row" style="margin-top:8px">
@@ -975,7 +982,6 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
       <div class="gw-area" id="gw-area-d2-skins-1"></div>
     </div>
   </div>
-  <div style="height:1px;background:rgba(218,240,218,.08);margin:10px 0;"></div>
   <div class="main-game-card">
     <div class="gw-row">
       <div class="gw-area" id="gw-area-d3-m0"></div>
@@ -983,12 +989,12 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     </div>
     <div class="gw-area" style="margin-top:8px" id="gw-area-d3-side"></div>
   </div>
-  <div id="wager-suggest"></div>
   <div class="sec-block" id="wager-standing-block" style="display:none">
     <div class="lb-sec-title">Net Standing</div>
     <table class="wager-standing-tbl" id="wager-standing"></table>
   </div>
   <div id="wager-content"></div>
+  <div style="height:60px"></div>
 </div><!-- /wc-bets -->
 <div id="wc-ledger" style="display:none">
   <div class="course-header">
@@ -1010,8 +1016,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 
 <!-- MY GAME PANEL -->
 <div class="panel" id="panel-me">
-  <div class="me-profile-hero" id="me-profile-hero" onclick="tapMeAvatar()">
-  <div class="me-av-container">
+  <div class="me-profile-hero" id="me-profile-hero">
+  <div class="me-av-container" onclick="tapMeAvatar()" style="cursor:pointer">
     <div class="me-av-large" id="me-av-large">?</div>
     <div class="me-av-edit-badge">✏️</div>
   </div>
@@ -1066,6 +1072,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 
 </div><!-- /main -->
 
+<button class="wager-propose-btn" id="wager-fab" onclick="openProposeSheet()">+ Propose a Bet</button>
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bn-tab active" id="bnt-scores" onclick="show('scores')">
@@ -2187,6 +2194,7 @@ function initGameBlocks(){}
 
 let currentScoresDay='d1';
 let currentWagersTab='bets';
+let wagerScope='all';
 function show(id){
   // Route legacy/alias IDs
   if(id==='d1'||id==='d2'||id==='d3'){show('scores');showDay(id);return;}
@@ -2226,6 +2234,7 @@ function show(id){
   }
   currentTab=id==='scores'?currentScoresDay:id;
   try{sessionStorage.setItem('wni-tab',id);}catch(e){}
+  const fab=document.getElementById('wager-fab');if(fab)fab.style.display=(id==='bets'&&currentWagersTab==='bets')?'block':'none';
 }
 // ── Day lock: Fri unlocks Thu Apr 9 @ 8pm, Sat unlocks Fri Apr 10 @ 8pm ──
 const DAY_UNLOCK={d2:new Date(2026,3,9,20,0),d3:new Date(2026,3,10,20,0)};
@@ -2276,6 +2285,29 @@ function showWagersTab(tab){
   currentWagersTab=tab;currentTab=tab;
   if(tab==='bets'){settleBets();buildWagers();}
   if(tab==='ledger')buildLedger();
+  const fab=document.getElementById('wager-fab');if(fab)fab.style.display=tab==='bets'?'block':'none';
+  const scopeToggle=document.getElementById('wager-scope-toggle');if(scopeToggle)scopeToggle.style.display=tab==='bets'?'flex':'none';
+}
+function setWagerScope(scope){
+  wagerScope=scope;
+  document.querySelectorAll('.wst-btn').forEach(b=>b.classList.toggle('active',b.dataset.scope===scope));
+  buildWagers();
+}
+function isMyBet(b){
+  const me=chatAuthor||'';if(!me)return true;
+  if(b.propName===me||b.accName===me)return true;
+  if(b.participants&&b.participants.includes(me))return true;
+  if(b.type==='house-prop'){if(b.houseName===me)return true;if((b.buyins||[]).some(bi=>bi.name===me))return true;}
+  if(b.type==='pool'){if(b.proposerName===me)return true;if((b.approvals||[]).includes(me))return true;}
+  return false;
+}
+function isMyGameWager(key){
+  const me=chatAuthor||'';if(!me)return true;
+  const myKey=Object.keys(P).find(k=>P[k].name===me);if(!myKey)return true;
+  const info=gwInfo(key);if(!info)return true;
+  if(info.type==='skins'&&info.keys)return info.keys.includes(myKey);
+  if(info.type==='match'&&info.aKeys&&info.bKeys)return info.aKeys.includes(myKey)||info.bKeys.includes(myKey);
+  return true; // all-play games (shamble, pot, side) always show
 }
 window.addEventListener('resize',()=>{});
 document.addEventListener('click',closeDrivePopIfOutside,true);
@@ -3827,24 +3859,8 @@ function buildSuggestedBets(){
     const line=calcLine(worstGross.key,targetDay);
     add({category:'p2p',type:'ou',label:`${P[worstGross.key].name} Over ${line} · ${tN}`,rationale:`Shot the worst gross on ${pN} — sometimes the struggle is a pattern`,player:worstGross.key,day:targetDay,side:'over',_k:[worstGross.key],_t:'ou',_cat:'p2p'},3);}
 
-  // Birdie over: hot player (if low handicap)
-  if(P[hot.key]?.[targetDay]<=10){
-    const bl=calcBirdiesLine(hot.key,targetDay);
-    add({category:'p2p',type:'birdie-ou',label:`${P[hot.key].name} ${bl}+ Birdies · ${tN}`,rationale:`Hottest player on ${pN} — prop the birdie train`,player:hot.key,day:targetDay,side:'over',_k:[hot.key],_t:'birdie-ou',_cat:'p2p'},6+hotDev*0.5);}
-
-  // Birdie over: best gross (if different from hot)
-  if(bestGross.key!==hot.key&&P[bestGross.key]?.[targetDay]<=10){
-    const bl=calcBirdiesLine(bestGross.key,targetDay);
-    add({category:'p2p',type:'birdie-ou',label:`${P[bestGross.key].name} ${bl}+ Birdies · ${tN}`,rationale:`Best gross on ${pN} — can they keep making birdies?`,player:bestGross.key,day:targetDay,side:'over',_k:[bestGross.key],_t:'birdie-ou',_cat:'p2p'},4);}
-
-  // Clean card: best gross player (low probability but fun)
-  {add({category:'p2p',type:'cleancard',label:`${P[bestGross.key].name} Clean Card · ${tN}`,rationale:`Best gross on ${pN} — can they post a bogey-free round?`,player:bestGross.key,day:targetDay,_k:[bestGross.key],_t:'cleancard',_cat:'p2p'},3.5);}
-
   // Low net: best net player
   {add({category:'p2p',type:'lownet',label:`${P[bestNet.key].name} leads net · ${tN}`,rationale:`Best net on ${pN} — the handicap system is working in their favour`,player:bestNet.key,day:targetDay,_k:[bestNet.key],_t:'lownet',_cat:'p2p'},4);}
-
-  // Last place net: worst net player
-  {add({category:'p2p',type:'lastplace',label:`${P[worstNet.key].name} finishes last net · ${tN}`,rationale:`Worst net on ${pN} — the trend has momentum`,player:worstNet.key,day:targetDay,_k:[worstNet.key],_t:'lastplace',_cat:'p2p'},3);}
 
   // ── H2H candidates: all adjacent net pairs (tightest = highest score) ──
   for(let i=0;i<sortedNet.length-1;i++){
@@ -3883,9 +3899,7 @@ function buildSuggestedBets(){
       add({category:'house',type:'house-prop',label:`House Prop: ${P[s.key].name} ${fl}+ Fairways Hit`,rationale:`Low handicap ball striker — prop the tee-to-fairway accuracy`,player:s.key,day:targetDay,statType:'fh',propSide:'over',oddsPreset:'even',_k:[s.key],_t:'house-prop',_cat:'house'},3);}
   }
 
-  // ── Pools ──
-  pool.push({category:'pool',type:'pool',label:`Most Birdies Pool · ${tN}`,rationale:`Anyone can run hot — most birdies wins the pot`,poolType:'birdies',day:targetDay,buyIn:10,_k:[],_t:'pool',_cat:'pool',_s:4});
-  pool.push({category:'pool',type:'pool',label:`Low Net Pool · ${tN}`,rationale:`Everyone has skin in every stroke all day`,poolType:'lownet',day:targetDay,buyIn:10,_k:[],_t:'pool',_cat:'pool',_s:3.5});
+  // ── Pools (removed) ──
 
   // ── Selection: pick top 5 by score, enforcing diversity ──
   pool.sort((a,b)=>b._s-a._s);
@@ -4722,17 +4736,17 @@ function poolModeCardHTML(bet,myName){
   const isSettled=bet.status==='settled';
   const cardCls=isOpen?'wc-open':isSettled?'wc-settled-win':'';
   const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day;
-  const typeIcon={kp:'⛳',lownet:'🥇',lowgross:'🏌️',lastplace:'💀',cleancard:'✅'};
+  const typeIcon={kp:'⛳',lownet:'',lowgross:'',lastplace:'💀',cleancard:'✅'};
   const typeLabel={kp:'Closest to Pin',lownet:'Low Net Pool',lowgross:'Low Gross Pool',lastplace:'Last Place Pool',cleancard:'Clean Card Pool'};
   const holeInfo=bet.hole!=null?` · Hole ${bet.hole+1}`:'';
   const n=(bet.participants||[]).length;
   const pot=n*bet.amount;
   const optedIn=bet.optedIn||[];
-  // Participant chips
-  const chips=(bet.participants||[]).map(p=>{
-    const in_=optedIn.includes(p);
-    return`<span style="display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-family:'DM Sans',sans-serif;font-weight:600;margin:2px;background:${in_?'rgba(106,180,106,.2)':'rgba(218,240,218,.06)'};border:1px solid ${in_?'rgba(106,180,106,.4)':'rgba(218,240,218,.15)'};color:${in_?'#7ddba4':'rgba(218,240,218,.45)'}">${p}${in_?' ✓':' …'}</span>`;
-  }).join('');
+  // Participant chips (use 3-letter shorthands, match pool-approval-chip styling)
+  const chips='<div class="pool-approval-chips" style="margin-top:8px">'+(bet.participants||[]).map(p=>{
+    const in_=optedIn.includes(p);const sh=p.slice(0,3);
+    return`<div class="pool-approval-chip${in_?'':' pending-chip'}">${in_?'✓ ':''}${sh}</div>`;
+  }).join('')+'</div>';
   // Join button for invited players who haven't opted in
   const canJoin=isOpen&&(bet.participants||[]).includes(myName)&&!optedIn.includes(myName);
   const joinBtn=canJoin?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Join Pool · $${bet.amount}</button>`:'';
@@ -4752,9 +4766,9 @@ function poolModeCardHTML(bet,myName){
   const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
   return`<div class="wager-card ${cardCls}">
   ${cancelBtn}
-  <div class="wc-title-row"><div class="wc-day">${dayLbl}</div><div class="wc-desc">${typeIcon[bet.type]||'🎱'} ${typeLabel[bet.type]||bet.type}${holeInfo?' · '+holeInfo:''}</div></div>
+  <div class="wc-title-row"><div class="wc-day">${dayLbl}</div><div class="wc-desc">${typeIcon[bet.type]?typeIcon[bet.type]+' ':''}${typeLabel[bet.type]||bet.type}${holeInfo?' · '+holeInfo:''}</div></div>
   <div class="wc-line">$${bet.amount}/person · $${pot} pot · ${n} players</div>
-  <div style="margin:8px 0 4px">${chips}</div>
+  ${chips}
   ${resultHtml}${awardBtn}${joinBtn}${cancelBtn}
 </div>`;}
 
@@ -4903,7 +4917,7 @@ function buildWagers(){
   const sugg=buildSuggestedBets();
   const suggEl=document.getElementById('wager-suggest');
   if(suggEl){
-    const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place','h2h':'Net H2H','ou':'Stroke O/U','lownet':'Low Net','house-prop':'House Prop','pool':'Pool'};
+    const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place','h2h':'Net H2H','ou':'Gross O/U','lownet':'Low Net','house-prop':'House Prop','pool':'Pool','kp':'KP','h2h-gross':'Gross H2H','match':'Match','nassau':'Nassau'};
     const hdr=`<div class="suggest-section"><div class="wager-section-hdr">Hot Takes</div>`;
     if(sugg.length){
       suggEl.innerHTML=hdr+sugg.map((s,i)=>`<div class="suggest-card"><div class="suggest-card-body"><div class="suggest-type">${typeLabels[s.type]||s.type}</div><div class="suggest-label">${s.label}</div><div class="suggest-rationale">${s.rationale}</div></div><button class="suggest-btn" onclick="proposeSuggested(${i})">Bet This</button></div>`).join('')+`</div>`;
@@ -4913,23 +4927,25 @@ function buildWagers(){
   }
   const cont=document.getElementById('wager-content');
   if(!cont)return;
+  const isMine=wagerScope==='mine';
+  const mf=b=>!isMine||isMyBet(b); // mine filter
   const p2pTypes=new Set(['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','match','nassau','lownet','lowgross','kp']);
-  const p2pBets=bets.filter(b=>p2pTypes.has(b.type)&&b.status!=='void');
-  const houseBets=bets.filter(b=>b.type==='house-prop'&&b.status!=='void');
-  const poolBets=bets.filter(b=>b.type==='pool'&&b.status!=='void');
+  const allP2P=bets.filter(b=>p2pTypes.has(b.type)&&b.status!=='void');
+  const p2pBets=allP2P.filter(b=>!b.participants||b.participants.length<=2).filter(mf);
+  const multiPoolBets=allP2P.filter(b=>b.participants&&b.participants.length>2).filter(mf);
+  const houseBets=bets.filter(b=>b.type==='house-prop'&&b.status!=='void').filter(mf);
+  const poolBets=[...bets.filter(b=>b.type==='pool'&&b.status!=='void').filter(mf),...multiPoolBets];
   function renderP2P(b){
     if(b.participants)return poolModeCardHTML(b,myName); // KP or multi-player pool
     return b.type==='nassau'?nassauCardHTML(b,myName):wagerCardHTML(b,myName);
   }
   const _ord={open:0,voting:0,active:1,settled:2};
   function groupByDay(arr,renderFn){
-    let out='';let first=true;
+    let out='';
     ['d1','d2','d3'].forEach(d=>{
       const items=arr.filter(b=>b.day===d).slice().sort((a,b)=>(_ord[a.status]||0)-(_ord[b.status]||0));
       if(!items.length)return;
-      if(!first)out+=`<div style="height:1px;background:rgba(218,240,218,.08);margin:10px 0;"></div>`;
       out+=`<div class="wager-day-grp">${items.map(renderFn).join('')}</div>`;
-      first=false;
     });
     return out||'';
   }
@@ -4939,13 +4955,30 @@ function buildWagers(){
   html+=`<div class="wager-section-hdr" style="margin-top:14px">House Props</div>`;
   html+=houseBets.length?groupByDay(houseBets,b=>houseCardHTML(b,myName)):'<div class="wager-empty">No house props yet</div>';
   html+=`<div class="wager-section-hdr" style="margin-top:14px">Pools</div>`;
-  html+=poolBets.length?groupByDay(poolBets,b=>poolCardHTML(b,myName)):'<div class="wager-empty">No active pools yet</div>';
+  html+=poolBets.length?groupByDay(poolBets,b=>(b.participants&&b.participants.length>0)?poolModeCardHTML(b,myName):poolCardHTML(b,myName)):'<div class="wager-empty">No active pools yet</div>';
   cont.innerHTML=html;
   const nl=netLedger();
   const rows=Object.entries(nl).filter(([,v])=>v!==0).sort((a,b)=>b[1]-a[1]);
   const stBlock=document.getElementById('wager-standing-block');
   if(rows.length){stBlock.style.display='';document.getElementById('wager-standing').innerHTML=rows.map(([name,v])=>`<tr><td class="wsn">${name}</td><td class="wsv ${v>0?'pos':v<0?'neg':'zero'}">${v>0?'+$'+v:'-$'+Math.abs(v)}</td></tr>`).join('');}
   else stBlock.style.display='none';
+  // Mine filter: hide/show Main Games + Hot Takes
+  const gwKeys=['d1','d2_pot','d2_skins_0','d2_skins_1','d3_m0','d3_m1','d3_side'];
+  const gwAreaMap={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d2_skins_0:'gw-area-d2-skins-0',d2_skins_1:'gw-area-d2-skins-1',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
+  gwKeys.forEach(key=>{const el=document.getElementById(gwAreaMap[key]);if(el)el.style.display=(!isMine||isMyGameWager(key))?'':'none';});
+  // Show/hide main-game-card parents if all children hidden
+  const mgCards=document.querySelectorAll('.main-game-card');
+  mgCards.forEach(card=>{
+    const areas=card.querySelectorAll('.gw-area');
+    const anyVisible=[...areas].some(a=>a.style.display!=='none');
+    card.style.display=anyVisible?'':'none';
+  });
+  // Hide Main Games header if all cards hidden
+  const mainHdr=document.querySelector('#wc-bets > .wager-section-hdr');
+  const anyMainVisible=[...mgCards].some(c=>c.style.display!=='none');
+  if(mainHdr)mainHdr.style.display=anyMainVisible?'':'none';
+  // Hide Hot Takes in mine mode
+  if(suggEl)suggEl.style.display=isMine?'none':'';
 }
 
 // ── Ledger tab ────────────────────────────────────
@@ -4990,6 +5023,8 @@ function buildLedger(){
   bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Game Wagers</div>';
   Object.entries(gwMap).forEach(([key,meta])=>{
     const gw=gameWagers[key];
+    // Hide skins until confirmed
+    if(key.startsWith('d2_skins')&&(!gw||gw.status==='void'||gw.status==='voting'||gw.status==='open'))return;
     let statusCls='lbr-none',statusTxt='Not set',amtTxt='—';
     if(gw&&gw.status!=='void'){
       if(gw.status==='settled'){statusCls='lbr-settled';statusTxt='Settled';}
@@ -5019,7 +5054,7 @@ function buildLedger(){
       else emoji='🤝';
       // Description
       if(b.type==='ou'){const p=P[b.player];desc=`${p.name} ${b.propSide==='under'?'Under':'Over'} ${b.line}`;}
-      else if(b.type==='lowgross'||b.type==='lownet'){const p=P[b.player];desc=`${p.name} Low ${b.type==='lowgross'?'Gross':'Net'}`;}
+      else if(b.type==='lowgross'||b.type==='lownet'){if(b.participants){desc=`Low ${b.type==='lowgross'?'Gross':'Net'} Pool`;}else{const p=P[b.player];desc=`${p.name} Low ${b.type==='lowgross'?'Gross':'Net'}`;}}
       else if(b.type==='nassau'){desc=`Nassau Match ${(b.matchIdx||0)+1}`;}
       else if(b.type==='birdie-ou'){desc=`${P[b.player].name} Birdies ${b.propSide==='over'?'Over':'Under'} ${b.line}`;}
       else if(b.type==='h2h'||b.type==='h2h-gross'){const lbl=b.type==='h2h-gross'?'Gross':'Net';desc=`${P[b.player].name} vs ${P[b.playerB].name} ${lbl} H2H`;}
@@ -5034,7 +5069,7 @@ function buildLedger(){
       if(b.type==='house-prop'){
         const backers=(b.buyins||[]).map(bi=>bi.name).join(', ');
         parties=`${b.houseName||b.propName} sets line`+(backers?` · ${backers} buying in`:'');
-      }else if(b.type==='pool'||b.type==='kp'){
+      }else if(b.type==='pool'||b.type==='kp'||b.participants){
         const opted=b.optedIn||[];
         const total=(b.participants||[]).length;
         parties=`${opted.length}/${total} joined`+(b.winner?` · Winner: ${b.winner}`:'');
@@ -5049,7 +5084,7 @@ function buildLedger(){
         else if(b.result==='win')resultLine=`${b.propName} wins`;
         else if(b.result==='loss')resultLine=`${b.accName} wins`;
       }
-      const bAmt=b.type==='house-prop'?`$${(b.buyins||[]).reduce((s,bi)=>s+bi.amount,0)}`:(b.type==='pool'||b.type==='kp'?`$${b.amount}/ea`:`$${b.amount}`);
+      const bAmt=b.type==='house-prop'?`$${(b.buyins||[]).reduce((s,bi)=>s+bi.amount,0)}`:(b.type==='pool'||b.type==='kp'||b.participants?`$${b.amount}/ea`:`$${b.amount}`);
       bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-name">${emoji} ${desc}</div><div class="lbr-parties"><span class="lbr-day-chip">${dayLbl}</span> ${parties}${resultLine?' · <span class="lbr-result">'+resultLine+'</span>':''}</div></div><span class="lbr-status ${statusCls}">${statusTxt}</span><div class="lbr-amt">${bAmt}</div></div>`;
     });
     bkHtml+='</div>';
@@ -5174,7 +5209,7 @@ function setPropCat(cat){
 
 // ── P2P flow ──────────────────────────────────────
 const PS_TYPE_DESC={
-  'ou':        "You pick Over or Under on a player's expected gross, set by their course handicap. Simple, personal, one-on-one.",
+  'ou':        "Over or Under on a player's expected gross score. Line is set by par + course handicap.",
   'birdie-ou': 'How many birdies will a player make? The line is set by handicap. Over or under — your call.',
   'h2h':       'Two players go head-to-head on net score for the day. Strokes given, best net wins.',
   'h2h-gross': 'Two players go head-to-head on raw gross score — no strokes. Best ball-striker wins.',
@@ -5183,9 +5218,10 @@ const PS_TYPE_DESC={
   'lastplace': 'Bet a player finishes dead last in net score across all 8. Only available Day 2+.',
   'match':     "Pick a side in one of the day's scheduled match-play matchups.",
   'nassau':    'Three separate $X bets on a Day 3 match: front 9, back 9, and overall 18. Up to 3x the action.',
+  'kp':        'Closest to the pin on a par 3. Everyone throws in, nearest to the flag takes the pot.',
 };
-function setPropType(t){propSt.type=t;propSt.player=null;propSt.playerB=null;propSt.matchIdx=null;propSt.side=null;propSt.hole=null;propSt.participants=[];propSt.poolMode=(t==='kp');
-  ['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','lownet','match','nassau'].forEach(x=>{const el=document.getElementById('ps-type-'+x);if(el)el.classList.toggle('sel',x===t);});
+function setPropType(t){propSt.type=t;propSt.player=null;propSt.playerB=null;propSt.matchIdx=null;propSt.side=null;propSt.hole=null;propSt.participants=[];propSt.poolMode=(t==='kp'||t==='lownet');
+  ['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','lownet','match','nassau','kp'].forEach(x=>{const el=document.getElementById('ps-type-'+x);if(el)el.classList.toggle('sel',x===t);});
   const descEl=document.getElementById('ps-type-desc');if(descEl)descEl.textContent=PS_TYPE_DESC[t]||'';
   renderPropPlayers();renderPropPlayerB();renderPropMatches();updateProposeUI();}
 function setPropDay(d){propSt.day=d;propSt.player=null;propSt.matchIdx=null;propSt.side=null;
@@ -5202,7 +5238,8 @@ function setPropSide(s){propSt.side=s;
   updateProposeUI();}
 function renderPropPlayers(){
   const el=document.getElementById('ps-players');if(!el)return;
-  el.innerHTML=Object.entries(P).map(([k,p])=>`<div class="ps-opt${propSt.player===k?' sel':''}" data-key="${k}" onclick="setPropPlayer('${k}')">${p.name}</div>`).join('');
+  const poolElig=(propSt.type==='lownet'||propSt.type==='cleancard'||propSt.type==='lastplace'||propSt.type==='lowgross');
+  el.innerHTML=Object.entries(P).map(([k,p])=>`<div class="ps-opt${propSt.player===k?' sel':''}" data-key="${k}" onclick="setPropPlayer('${k}')">${p.name}</div>`).join('')+(poolElig?`<div class="ps-opt ps-pool-chip" onclick="togglePoolMode()">👥 Group pool</div><div class="ps-pool-hint">Each person throws in the same amount. Best performance wins the pot.</div>`:'');
 }
 function renderPropPlayerB(){
   const el=document.getElementById('ps-players-b');if(!el)return;
@@ -5221,8 +5258,7 @@ function toggleParticipant(name){
   document.querySelectorAll('#ps-participants .ps-opt').forEach(el=>el.classList.toggle('sel',propSt.participants.includes(el.dataset.name)||el.dataset.name===me));
   updateProposeUI();}
 function togglePoolMode(){propSt.poolMode=!propSt.poolMode;propSt.participants=[];propSt.player=null;
-  const btn=document.getElementById('ps-pool-toggle');if(btn)btn.classList.toggle('sel',propSt.poolMode);
-  updateProposeUI();}
+  renderPropPlayers();updateProposeUI();}
 function renderPropMatches(){
   const ouStep=document.getElementById('ps-player-step');
   const mStep=document.getElementById('ps-match-step');
@@ -5260,9 +5296,7 @@ function updateProposeUI(){
   const holeStep=document.getElementById('ps-hole-step');
   const partStep=document.getElementById('ps-participants-step');
   const playerStep=document.getElementById('ps-player-step');
-  const poolToggleWrap=document.getElementById('ps-pool-toggle-wrap');
   if(dayStep)dayStep.style.display='';
-  if(poolToggleWrap)poolToggleWrap.style.display=poolEligible&&!isKP?'':'none';
   // KP flow
   if(isKP){
     if(playerStep)playerStep.style.display='none';
@@ -5278,7 +5312,7 @@ function updateProposeUI(){
     if(partStep)partStep.style.display='';
     const partEl=document.getElementById('ps-participants');
     const me=chatAuthor||'';
-    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('');}
+    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('')+`<div class="ps-opt sel ps-pool-chip" onclick="togglePoolMode()">👥 Group pool</div><div class="ps-pool-hint">Each person throws in the same amount. Closest to the pin takes the pot.</div>`;}
     const allPart=[me,...propSt.participants].filter(Boolean);
     const ready=propSt.hole!=null&&allPart.length>=2;
     const amtEl=document.getElementById('ps-amount');const amt=parseFloat(amtEl?.value)||0;
@@ -5300,7 +5334,7 @@ function updateProposeUI(){
     if(partStep)partStep.style.display='';
     const partEl=document.getElementById('ps-participants');
     const me=chatAuthor||'';
-    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('');}
+    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('')+`<div class="ps-opt sel ps-pool-chip" onclick="togglePoolMode()">👥 Group pool</div><div class="ps-pool-hint">Each person throws in the same amount. Best performance wins the pot.</div>`;}
     const allPart=[me,...propSt.participants].filter(Boolean);
     const ready=allPart.length>=2;
     const amtEl=document.getElementById('ps-amount');const amt=parseFloat(amtEl?.value)||0;
@@ -5817,7 +5851,6 @@ function submitAccept(){
       <div class="prop-cat-grid">
         <div class="prop-cat-btn sel" id="pcat-p2p" onclick="setPropCat('p2p')"><span class="prop-cat-icon">🤝</span><span class="prop-cat-label">P2P</span></div>
         <div class="prop-cat-btn" id="pcat-house" onclick="setPropCat('house')"><span class="prop-cat-icon">🏠</span><span class="prop-cat-label">House Prop</span></div>
-        <div class="prop-cat-btn" id="pcat-pool" onclick="setPropCat('pool')"><span class="prop-cat-icon">🎱</span><span class="prop-cat-label">Pool</span></div>
       </div>
       <div id="p2p-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🤝 A direct bet between two players. Pick your type, set the terms, and challenge someone. Both sides lock in their stake and the app tracks the outcome automatically.</div>
       <div id="house-cat-explainer" style="display:none;margin-top:10px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.55);line-height:1.55;padding:9px 11px;background:rgba(218,240,218,.05);border-radius:8px;border-left:2px solid rgba(254,254,86,.3);">🏠 The house sets a stat line on a player — anyone can buy in as the house and take the other side. The more people that back it, the bigger the pot. Anyone can act as the house.</div>
@@ -5828,15 +5861,9 @@ function submitAccept(){
       <div class="ps-step">
         <div class="ps-label">Bet Type</div>
         <div class="ps-opts">
-          <div class="ps-opt sel" id="ps-type-ou" onclick="setPropType('ou')">Score O/U</div>
-          <div class="ps-opt" id="ps-type-birdie-ou" onclick="setPropType('birdie-ou')">Birdies O/U</div>
+          <div class="ps-opt sel" id="ps-type-ou" onclick="setPropType('ou')">Gross O/U</div>
           <div class="ps-opt" id="ps-type-h2h" onclick="setPropType('h2h')">Net H2H</div>
-          <div class="ps-opt" id="ps-type-h2h-gross" onclick="setPropType('h2h-gross')">Gross H2H</div>
-          <div class="ps-opt" id="ps-type-cleancard" onclick="setPropType('cleancard')">Clean Card</div>
-          <div class="ps-opt" id="ps-type-lastplace" onclick="setPropType('lastplace')">Last Place Net</div>
           <div class="ps-opt" id="ps-type-lownet" onclick="setPropType('lownet')">Low Net</div>
-          <div class="ps-opt" id="ps-type-match" onclick="setPropType('match')">Match Winner</div>
-          <div class="ps-opt" id="ps-type-nassau" onclick="setPropType('nassau')">Nassau</div>
           <div class="ps-opt" id="ps-type-kp" onclick="setPropType('kp')">⛳ KP</div>
         </div>
         <div id="ps-type-desc" style="margin-top:8px;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(254,254,86,.55);font-style:italic;min-height:1em;"></div>
@@ -5856,11 +5883,6 @@ function submitAccept(){
       <div class="ps-step" id="ps-player-b-step" style="display:none">
         <div class="ps-label">vs. Player</div>
         <div class="ps-opts" id="ps-players-b"></div>
-      </div>
-      <!-- Pool-mode toggle (for eligible P2P types) -->
-      <div id="ps-pool-toggle-wrap" style="display:none;margin-bottom:4px">
-        <div class="ps-opt" id="ps-pool-toggle" onclick="togglePoolMode()" style="display:inline-block">👥 Make it a group pool</div>
-        <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.4);margin-top:5px;line-height:1.45">Each person throws in the same amount. Best performance wins the pot.</div>
       </div>
       <!-- Par-3 hole picker (KP only) -->
       <div class="ps-step" id="ps-hole-step" style="display:none">
