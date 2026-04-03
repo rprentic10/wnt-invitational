@@ -185,9 +185,9 @@ body{
 #loading-overlay.hidden{display:none;}
 .load-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;}
 .load-sub{
-  position:absolute;bottom:max(7%,env(safe-area-inset-bottom) + 28px);
+  position:absolute;top:66%;
   left:0;right:0;text-align:center;z-index:1;
-  font-family:'DM Sans',sans-serif;font-size:11px;font-weight:900;letter-spacing:.28em;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;letter-spacing:.28em;
   color:rgba(255,255,255,.75);text-transform:uppercase;
   text-shadow:0 1px 10px rgba(0,0,0,.9);
 }
@@ -571,7 +571,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 #av-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#162e16;border:1px solid rgba(254,254,86,.3);border-radius:8px;padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--my);opacity:0;pointer-events:none;transition:opacity .25s;z-index:300;white-space:nowrap;}
 #av-toast.show{opacity:1;}
 /* Pull-to-refresh */
-#ptr-indicator{position:fixed;left:0;right:0;display:flex;align-items:center;justify-content:center;z-index:99;pointer-events:none;height:44px;opacity:0;transition:opacity .2s ease;}
+#ptr-indicator{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;justify-content:center;z-index:101;pointer-events:none;height:44px;opacity:0;transition:opacity .2s ease;}
 #ptr-indicator.ptr-visible{opacity:1;}
 #ptr-spinner{width:22px;height:22px;border:2.5px solid rgba(218,240,218,.18);border-top-color:rgba(126,220,160,.85);border-radius:50%;animation:none;}
 #ptr-spinner.spinning{animation:ptr-spin .7s linear infinite;}
@@ -589,14 +589,17 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── WAGERS TAB ──────────────────────────────────── */
 .wager-propose-btn{display:block;width:100%;padding:14px 20px;border-radius:10px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;margin-bottom:22px;transition:all .15s;-webkit-tap-highlight-color:transparent;}
 .wager-propose-btn:active{background:rgba(254,254,86,.18);}
-.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative;}
 .wager-card.wc-open{border-color:rgba(254,254,86,.45);animation:wcPulse 2.5s ease-in-out infinite;}
 @keyframes wcPulse{0%,100%{border-color:rgba(254,254,86,.45);}50%{border-color:rgba(254,254,86,.18);}}
 .wager-card.wc-settled-win{border-color:rgba(100,200,120,.45);}
 .wager-card.wc-settled-loss{border-color:rgba(218,240,218,.1);}
 .wager-card.wc-settled-push{border-color:rgba(218,240,218,.18);}
-.wc-day{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(218,240,218,.38);margin-bottom:5px;}
-.main-game-card .wc-day,.wager-day-grp .wc-day{display:none;}
+.wc-day{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:3px;padding:2px 6px;display:inline-block;vertical-align:middle;margin-right:6px;line-height:1.4;}
+.main-game-card .wc-day{display:inline-block;}
+.wc-title-row{display:flex;align-items:center;margin-bottom:5px;gap:6px;}
+.wc-title-row .wc-day{margin-right:0;}
+.wc-title-row .wc-desc{margin-bottom:0;}
 .wc-desc{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;color:var(--mw);text-transform:uppercase;letter-spacing:.02em;margin-bottom:5px;line-height:1.2;}
 .wc-line{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.45);margin-bottom:10px;}
 .wc-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
@@ -605,15 +608,15 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wc-chip.acc{background:rgba(160,40,28,.22);border:1px solid rgba(224,112,96,.3);color:#e87060;}
 .wc-chip.slot{background:rgba(218,240,218,.05);border:1px dashed rgba(218,240,218,.22);color:rgba(218,240,218,.38);}
 .wc-vs{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.28);flex-shrink:0;}
-.wc-amount{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:rgba(254,254,86,.65);margin-left:auto;flex-shrink:0;}
+.wc-amount{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;color:#fefe56;margin-left:auto;flex-shrink:0;}
 .wc-trend{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;display:inline-block;margin-bottom:8px;}
 .wc-trend.tr-good{background:rgba(0,90,48,.25);color:#7ddba4;}
 .wc-trend.tr-bad{background:rgba(160,40,28,.2);color:#e87060;}
 .wc-trend.tr-even{background:rgba(218,240,218,.07);color:rgba(218,240,218,.45);}
 .wc-accept-btn{display:block;width:100%;padding:10px;border-radius:8px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;transition:background .15s;-webkit-tap-highlight-color:transparent;}
 .wc-accept-btn:active{background:rgba(254,254,86,.2);}
-.wc-cancel-btn{display:block;width:100%;padding:8px;border-radius:8px;border:1px solid rgba(218,240,218,.15);background:transparent;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;}
-.wc-cancel-btn:active{background:rgba(218,90,74,.15);color:#e87060;border-color:rgba(218,90,74,.3);}
+.wc-cancel-btn{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:6px;border:1px solid rgba(218,240,218,.12);background:rgba(218,240,218,.05);color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;line-height:1;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;padding:0;}
+.wc-cancel-btn:active{background:rgba(218,240,218,.12);}
 .wc-result{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;display:inline-block;text-transform:uppercase;letter-spacing:.05em;}
 .wc-result.res-win{background:rgba(100,200,120,.2);color:#6dc884;}
 .wc-result.res-loss{background:rgba(218,240,218,.06);color:rgba(218,240,218,.32);}
@@ -631,7 +634,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .nassau-note{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.35);margin:6px 0 10px;letter-spacing:.04em;}
 /* Game wager widgets */
 .gw-area{margin:0 0 14px;}
-.gw-row{display:flex;gap:8px;align-items:flex-start;}.gw-row>.gw-area{flex:1;min-width:0;margin:0;}
+.gw-row{display:flex;gap:8px;align-items:stretch;}.gw-row>.gw-area{flex:1;min-width:0;margin:0;display:flex;flex-direction:column;}.gw-row>.gw-area:empty{display:none;}.gw-row>.gw-area>.gw-widget{flex:1;display:flex;flex-direction:column;}
 /* ── Ledger tab ───────────────────────────────── */
 .ledger-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;}
 .ledger-card{background:rgba(16,36,16,.9);border:1px solid rgba(218,240,218,.1);border-radius:10px;padding:14px 10px;text-align:center;}
@@ -662,26 +665,31 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .settle-arrow{color:rgba(218,240,218,.3);}
 .settle-to{font-weight:700;color:#6dc884;}
 .settle-amt{font-weight:900;color:#fefe56;margin-left:auto;}
-.gw-widget{background:rgba(16,36,16,.85);border:1px solid rgba(218,240,218,.12);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+.gw-widget{background:rgba(16,36,16,.85);border:1px solid rgba(218,240,218,.12);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative;}
 .gw-widget.gw-open-state{border-color:rgba(254,254,86,.4);animation:wcPulse 2.5s ease-in-out infinite;}
 .gw-widget.gw-settled-state{border-color:rgba(100,200,120,.3);}
-.gw-header{margin-bottom:8px;}
-.gw-title{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(218,240,218,.5);display:block;margin-bottom:3px;}
-.gw-matchup-line{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(218,240,218,.7);}
+.gw-header{margin-bottom:4px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
+.gw-matchup-row{margin-bottom:6px;}
+.gw-title{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;color:var(--mw);line-height:1.2;}
+.gw-matchup-line{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:rgba(218,240,218,.45);}
 .gw-matchup-line .gw-vs{color:rgba(218,240,218,.3);margin:0 5px;font-weight:400;}
+.gw-opt-tag{font-family:'DM Sans',sans-serif;font-size:8px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(218,240,218,.3);border:1px solid rgba(218,240,218,.12);border-radius:3px;padding:1px 5px;line-height:1.4;}
 .gw-set-btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(254,254,86,.7);background:transparent;border:1px dashed rgba(254,254,86,.3);border-radius:8px;padding:8px 14px;cursor:pointer;width:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 .gw-set-btn:active{background:rgba(254,254,86,.08);}
 .gw-form{display:flex;flex-direction:column;gap:10px;}
 .gw-form-row{display:flex;flex-direction:column;gap:6px;}
 .gw-propose-btn{padding:10px;border-radius:8px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 .gw-propose-btn:active{background:rgba(254,254,86,.2);}
+.gw-identity-tag{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:#fefe56;background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.25);border-radius:8px;padding:10px 14px;width:100%;box-sizing:border-box;}
 .gw-cancel-form-btn{padding:7px;border-radius:8px;border:1px solid rgba(218,240,218,.12);background:transparent;color:rgba(218,240,218,.38);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 .gw-pending{margin-bottom:8px;}
-.gw-pending-txt{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mw);}
+.gw-pending-txt{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.45);}
+.gw-pending-txt strong{color:#fefe56;font-size:13px;}
 .gw-pending-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.gw-accept-btn{flex:1;padding:9px 12px;border-radius:8px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.gw-accept-btn{flex:1;padding:9px 12px;border-radius:8px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;text-align:center;}
 .gw-accept-btn:active{background:rgba(254,254,86,.2);}
-.gw-cancel-wager-btn{padding:9px 12px;border-radius:8px;border:1px solid rgba(218,240,218,.12);background:transparent;color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.gw-cancel-wager-btn{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:6px;border:1px solid rgba(218,240,218,.12);background:rgba(218,240,218,.05);color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;line-height:1;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;padding:0;}
+.gw-cancel-wager-btn:active{background:rgba(218,240,218,.12);}
 .gw-pot-row,.gw-skin-row{transition:background .2s;}
 .gw-active-info{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(218,240,218,.6);}
 .gw-active-amt{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;color:var(--my);margin-right:8px;}
@@ -758,8 +766,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── Pool card ──────────────────────────────────── */
 .pool-ante-row{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--mw);margin-bottom:4px;}
 .pool-prize{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(254,254,86,.55);margin-bottom:10px;}
-.pool-approval-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
-.pool-approval-chip{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:rgba(0,90,48,.25);border:1px solid rgba(100,200,120,.25);color:#7ddba4;}
+.pool-approval-chips{display:flex;flex-wrap:nowrap;gap:5px;margin-bottom:8px;}
+.pool-approval-chip{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;padding:5px 7px;border-radius:8px;background:rgba(0,90,48,.25);border:1px solid rgba(100,200,120,.25);color:#7ddba4;text-align:center;min-width:0;}
 .pool-approval-chip.pending-chip{background:rgba(218,240,218,.05);border:1px dashed rgba(218,240,218,.2);color:rgba(218,240,218,.35);}
 .pool-progress{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.4);margin-bottom:10px;}
 .pool-approve-btn{display:block;width:100%;padding:10px;border-radius:8px;border:1px solid rgba(254,254,86,.4);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
@@ -957,19 +965,18 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <!-- MAIN GAMES -->
   <div class="wager-section-hdr">Main Games</div>
   <div class="main-game-card">
-    <div class="main-game-hdr"><span class="main-game-daybadge">THU</span></div>
     <div class="gw-area" id="gw-area-d1"></div>
   </div>
+  <div style="height:1px;background:rgba(218,240,218,.08);margin:10px 0;"></div>
   <div class="main-game-card">
-    <div class="main-game-hdr"><span class="main-game-daybadge">FRI</span></div>
     <div class="gw-area" id="gw-area-d2-pot"></div>
     <div class="gw-row" style="margin-top:8px">
       <div class="gw-area" id="gw-area-d2-skins-0"></div>
       <div class="gw-area" id="gw-area-d2-skins-1"></div>
     </div>
   </div>
+  <div style="height:1px;background:rgba(218,240,218,.08);margin:10px 0;"></div>
   <div class="main-game-card">
-    <div class="main-game-hdr"><span class="main-game-daybadge">SAT</span></div>
     <div class="gw-row">
       <div class="gw-area" id="gw-area-d3-m0"></div>
       <div class="gw-area" id="gw-area-d3-m1"></div>
@@ -1012,7 +1019,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 </div>
   <!-- Me sub-nav -->
   <div class="me-subnav">
-    <button class="msn-btn active" data-tab="round" onclick="showMeTab('round')">Round</button>
+    <button class="msn-btn active" data-tab="round" onclick="showMeTab('round')">Scores</button>
     <button class="msn-btn" data-tab="wagers" onclick="showMeTab('wagers')">Wagers</button>
     <button class="msn-btn" data-tab="stats" onclick="showMeTab('stats')">Stats</button>
   </div>
@@ -1233,7 +1240,11 @@ function fmt(n){return n%1===0?String(n):n.toFixed(1);}
 // SYNC — JSONbin.io + localStorage fallback
 // ═══════════════════════════════════════════════════
 const JSONBIN='https://api.jsonbin.io/v3/b';
-const JSONBIN_ID='69c6bfa3c3097a1dd568bcda';
+// ── Environment toggle ───────────────────────────
+// 'dev'  = your QA sandbox (all test data lives here)
+// 'prod' = clean production bin (flip this when you go live)
+const ENV='dev';
+const JSONBIN_ID=ENV==='prod'?'69d00c0136566621a8782afb':'69c6bfa3c3097a1dd568bcda';
 const JSONBIN_KEY='$2a$10$u8H4aaQDmmwyV6A6ieyFDeUhVJBxFvFU4PeBUJxtg.1mMUkrys7e.';
 const LS_DATA='wni-data-2026';
 // ── Data epoch ────────────────────────────────────
@@ -1472,7 +1483,8 @@ function showApp(){
   try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){console.error('showApp build error',e);}
   initGameBlocks();
   applyDayLocks();
-  show('me');
+  const savedTab=(()=>{try{return sessionStorage.getItem('wni-tab');}catch(e){return null;}})();
+  show(savedTab||'me');
   // Show onboarding for first-time users; else handle notif prompt normally
   const showingOnboard=maybeShowOnboarding();
   if(!showingOnboard){
@@ -1484,6 +1496,7 @@ function showApp(){
   }
   if(offlineMode)document.getElementById('offline-banner').classList.add('show');
   if(new URLSearchParams(location.search).get('sim')==='1')setTimeout(runSim,200);
+  if(new URLSearchParams(location.search).get('reset')==='1')setTimeout(clearSim,200);
 }
 
 // ═══════════════════════════════════════════════════
@@ -1537,7 +1550,7 @@ function runSim(){
 }
 async function clearSim(){
   // Reset all in-memory state to empty
-  Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);});});
+  Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);STATS[day][k]={};});});
   drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
   gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};
   // Allow push, write clean state to JSONbin, then clear local cache
@@ -2185,7 +2198,10 @@ function show(id){
     main.style.display='none';
     const hdr=document.getElementById('app-header');
     const hdrH=hdr?hdr.offsetHeight:0;
+    // Lock header to fixed position so iOS keyboard can't displace it
+    if(hdr){hdr.style.position='fixed';hdr.style.left='0';hdr.style.right='0';hdr.style.top='0';}
     document.documentElement.style.setProperty('--chat-top',hdrH+'px');
+    window.scrollTo(0,0);
     const cp=document.getElementById('panel-chat');
     cp.classList.add('active');
     clearBadge();
@@ -2194,6 +2210,9 @@ function show(id){
     document.getElementById('bnt-chat')?.classList.add('active');
   }else{
     main.style.display='';
+    // Restore header to sticky for normal scrolling tabs
+    const hdr=document.getElementById('app-header');
+    if(hdr){hdr.style.position='';hdr.style.left='';hdr.style.right='';hdr.style.top='';}
     document.getElementById('panel-chat').classList.remove('active');
     document.getElementById('panel-'+id)?.classList.add('active');
     window.scrollTo(0,0);
@@ -2206,6 +2225,7 @@ function show(id){
     document.getElementById('bnt-'+id)?.classList.add('active');
   }
   currentTab=id==='scores'?currentScoresDay:id;
+  try{sessionStorage.setItem('wni-tab',id);}catch(e){}
 }
 // ── Day lock: Fri unlocks Thu Apr 9 @ 8pm, Sat unlocks Fri Apr 10 @ 8pm ──
 const DAY_UNLOCK={d2:new Date(2026,3,9,20,0),d3:new Date(2026,3,10,20,0)};
@@ -2606,8 +2626,10 @@ function updateLB(){
     const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl2} 1 0">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl2} 1 0">${bN}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;
     chipsS.push({label:`Match ${pi+1}`,full:true,body});
   });
-  // Skins chips → Friday
-  for(let gi=0;gi<2;gi++){const sc=d2SkinsCalc(gi);const lbl=`Group ${gi+1} Skins`;if(sc.holesPlayed===0){chipsF.push({label:lbl,course:'Troon North (Pinnacle)',val:'Pending'});}else{const sorted=sc.keys.map(k=>({name:P[k].name.split(' ')[0],s:sc.skins[k]})).sort((a,b)=>b.s-a.s);const rows=sorted.map((p,i)=>`<div class="lc-st-row"><span class="lc-st-pos">${i+1}</span><span class="lc-st-name">${p.name}</span><span class="lc-st-thru">${i===0?sc.complete?'F':`T${sc.holesPlayed}`:''}</span><span class="lc-st-score" style="color:${i===0&&p.s>0?'var(--my)':'rgba(218,240,218,.55)'}">${p.s} sk</span></div>`).join('');chipsF.push({label:lbl,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
+  // Skins chips → Friday (only show if wager confirmed)
+  const skinsConfirmed=[0,1].map(gi=>{const gw=gameWagers['d2_skins_'+gi];return gw&&(gw.status==='active'||gw.status==='settled');});
+  const skinsCount=skinsConfirmed.filter(Boolean).length;
+  for(let gi=0;gi<2;gi++){if(!skinsConfirmed[gi])continue;const sc=d2SkinsCalc(gi);const lbl=`Group ${gi+1} Skins`;const isFull=skinsCount===1;if(sc.holesPlayed===0){chipsF.push({label:lbl,course:'Troon North (Pinnacle)',val:'Pending',full:isFull});}else{const sorted=sc.keys.map(k=>({name:P[k].name.split(' ')[0],s:sc.skins[k]})).sort((a,b)=>b.s-a.s);const rows=sorted.map((p,i)=>`<div class="lc-st-row"><span class="lc-st-pos">${i+1}</span><span class="lc-st-name">${p.name}</span><span class="lc-st-thru">${i===0?sc.complete?'F':`T${sc.holesPlayed}`:''}</span><span class="lc-st-score" style="color:${i===0&&p.s>0?'var(--my)':'rgba(218,240,218,.55)'}">${p.s} sk</span></div>`).join('');chipsF.push({label:lbl,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`,full:isFull});}}
   // Team Match Play chip → Saturday
   {let aH=0,bH=0,holes=0;for(let mi=0;mi<D3.length;mi++){const pair=D3[mi];for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){holes++;if(nA<nB)aH++;else if(nB<nA)bH++;else{aH+=.5;bH+=.5;}}}}const tmDone=holes===36;const tmD=aH-bH;const aLbl=gwLabel(teamName('d3_sA')),bLbl=gwLabel(teamName('d3_sB'));if(holes===0){chipsS.push({label:'Team Match Play',course:'Grayhawk (Talon)',val:'Pending',full:true});}else{let scoreStr,scoreClass;if(tmD===0){scoreStr='AS';scoreClass='ev';}else if(tmD>0){scoreStr=`+${fmt(tmD)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(tmD))}`;scoreClass='mB';}const thruStr=tmDone?'Final':`${holes} holes played`;const _aFl3=scoreClass==='mA'?0.4:scoreClass==='mB'?1.6:1;const _bFl3=scoreClass==='mB'?0.4:scoreClass==='mA'?1.6:1;const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl3} 1 0">${aLbl}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl3} 1 0">${bLbl}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;chipsS.push({label:'Team Match Play',full:true,body});}}
   // Render day sections
@@ -3997,6 +4019,7 @@ function updateGWWidgets(){
 }
 function gameWagerWidget(key){
   const info=gwInfo(key);if(!info)return'';
+  const gwDayLbl=key.startsWith('d1')?'THU':key.startsWith('d2')?'FRI':'SAT';
   const gw=gameWagers[key]||null;
   const myName=chatAuthor||'';
   const inputOpen=gwInputOpen===key;
@@ -4004,6 +4027,14 @@ function gameWagerWidget(key){
   const ist=gwInputState[key]||{};
   const statusCls=(!gw||gw.status==='void')?'':(gw.status==='open'||gw.status==='voting'?'gw-open-state':gw.status==='settled'?'gw-settled-state':'');
   const voteOpen=gwVoteOpen===key;
+
+  // Determine if current user is a participant in this specific game
+  const myKey=myName?Object.keys(P).find(k=>P[k].name===myName):null;
+  let isParticipant=true; // default true for pot (all 8) and d1/d3_side (all 8)
+  if(info.type==='skins'&&info.keys){isParticipant=!!myKey&&info.keys.includes(myKey);}
+  else if(info.type==='match'&&info.aKeys&&info.bKeys&&(key==='d3_m0'||key==='d3_m1')){isParticipant=!!myKey&&(info.aKeys.includes(myKey)||info.bKeys.includes(myKey));}
+  // If user isn't in this game and no wager exists yet, hide the widget entirely
+  if(!isParticipant&&(!gw||gw.status==='void'))return'';
 
   // ── POT widget ───────────────────────────────────
   if(info.type==='pot'){
@@ -4033,14 +4064,11 @@ function gameWagerWidget(key){
     if(!gw||gw.status==='void'){
       if(inputOpen){
         body=`<div class="gw-form">
-          <div class="gw-form-row"><div class="ps-label">Your Name</div>
-            <select class="ps-name-sel" id="gw-name-${key}">
-              <option value="">Select…</option>${Object.values(P).map(p=>`<option${p.name===ist.name?` selected`:''}>${p.name}</option>`).join('')}
-            </select></div>
+          <div class="gw-form-row"><div class="ps-label">Betting as</div><div class="gw-identity-tag">${myName}</div></div>
           <div class="gw-form-row"><div class="ps-label">$ Per Player</div>
             <input class="ps-amount-inp" id="gw-amt-${key}" type="number" inputmode="decimal" min="1" placeholder="e.g. 20" value="${ist.amount||''}">
           </div>
-          <button class="gw-propose-btn" onclick="submitGW('${key}')">Propose Pot</button>
+          <button class="gw-propose-btn" onclick="submitGW('${key}')">Propose Wager</button>
           <button class="gw-cancel-form-btn" onclick="hideGWPropose('${key}')">Cancel</button>
         </div>`;
       } else {
@@ -4052,47 +4080,21 @@ function gameWagerWidget(key){
       const approvedSet=new Set(approvals);
       const iApproved=myName&&approvedSet.has(myName);
       const canCancel=gw.propName===myName&&approvals.length<=1;
-      const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''} ${n}</div>`).join('');
-      if(voteOpen){
-        const unapprovedNames=allNames.filter(n=>!approvedSet.has(n));
-        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong> pot · ${approvals.length}/5 to lock</span></div>
-        <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
-        <div class="gw-form" style="margin-top:6px">
-          <div class="gw-form-row"><div class="ps-label">Your Name</div>
-            <select class="ps-name-sel" id="gw-gwa-name-${key}">
-              <option value="">Select…</option>${unapprovedNames.map(n=>`<option>${n}</option>`).join('')}
-            </select></div>
-          <button class="gw-propose-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>
-          <button class="gw-cancel-form-btn" onclick="hideGWVote('${key}')">Back</button>
-        </div>`;
-      } else {
-        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong> pot</span></div>
+      const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''}${n.slice(0,3)}</div>`).join('');
+      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong></span></div>
         <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
         <div class="pool-progress">${approvals.length}/5 approvals · 5 of 8 locks it in</div>
         <div class="gw-pending-actions">
-          ${!iApproved?`<button class="gw-accept-btn" onclick="showGWVote('${key}')">👍 Approve</button>`:''}
-          ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
+          ${!iApproved?`<button class="gw-accept-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>`:''}
+          ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
         </div>`;
-      }
     } else if(gw.status==='open'){
       const isProposer=gw.propName===myName;
-      if(acceptOpen){
-        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong> pot</span></div>
-        <div class="gw-form">
-          <div class="gw-form-row"><div class="ps-label">Your Name</div>
-            <select class="ps-name-sel" id="gw-acc-name-${key}">
-              <option value="">Select…</option>${Object.values(P).filter(p=>p.name!==gw.propName).map(p=>`<option>${p.name}</option>`).join('')}
-            </select></div>
-          <button class="gw-propose-btn" onclick="submitGWAccept('${key}')">Confirm — $${gw.amount}/player</button>
-          <button class="gw-cancel-form-btn" onclick="hideGWAccept('${key}')">Back</button>
-        </div>`;
-      } else {
-        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong> pot</span></div>
+      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong></span></div>
         <div class="gw-pending-actions">
-          <button class="gw-accept-btn" onclick="showGWAccept('${key}')">Accept</button>
-          ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
+          ${!isProposer?`<button class="gw-accept-btn" onclick="submitGWAccept('${key}')">Accept · $${gw.amount}/player</button>`:''}
+          ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
         </div>`;
-      }
     } else if(gw.status==='active'){
       body=`<div style="margin-bottom:6px"><span class="gw-active-amt">$${gw.amount}/player</span><span class="gw-active-info">${gw.propName} confirmed</span></div>
       <div style="padding:2px 0">${potLines()}</div>`;
@@ -4105,7 +4107,7 @@ function gameWagerWidget(key){
         body=`<div><span class="gw-settled-result">${winLabel} win</span><span class="gw-active-info" style="margin-left:8px">$${gw.amount}/player · winners net +$${3*gw.amount}</span></div>`;
       }
     }
-    return`<div class="gw-widget ${statusCls}"><div class="gw-header"><span class="gw-title">${info.label}</span></div>${body}</div>`;
+    return`<div class="gw-widget ${statusCls}"><div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span></div>${body}</div>`;
   }
 
   // ── SKINS widget ─────────────────────────────────
@@ -4144,12 +4146,8 @@ function gameWagerWidget(key){
     let body='';
     if(!gw||gw.status==='void'){
       if(inputOpen){
-        const nameOpts=skinKeys.map(k=>P[k].name);
         body=`<div class="gw-form">
-          <div class="gw-form-row"><div class="ps-label">Your Name</div>
-            <select class="ps-name-sel" id="gw-name-${key}">
-              <option value="">Select…</option>${nameOpts.map(n=>`<option${n===ist.name?` selected`:''}>${n}</option>`).join('')}
-            </select></div>
+          <div class="gw-form-row"><div class="ps-label">Betting as</div><div class="gw-identity-tag">${myName}</div></div>
           <div class="gw-form-row"><div class="ps-label">$ Per Skin</div>
             <input class="ps-amount-inp" id="gw-amt-${key}" type="number" inputmode="decimal" min="1" placeholder="e.g. 5" value="${ist.amount||''}">
           </div>
@@ -4166,23 +4164,12 @@ function gameWagerWidget(key){
       const propIsOnSA=propKey&&D2[gi].sA.includes(propKey);
       const oppKeys=propIsOnSA?D2[gi].sB:D2[gi].sA;
       const oppNames=oppKeys.map(k=>P[k].name);
-      if(acceptOpen){
-        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/skin</strong></span></div>
-        <div class="gw-form">
-          <div class="gw-form-row"><div class="ps-label">Your Name</div>
-            <select class="ps-name-sel" id="gw-acc-name-${key}">
-              <option value="">Select…</option>${oppNames.map(n=>`<option>${n}</option>`).join('')}
-            </select></div>
-          <button class="gw-propose-btn" onclick="submitGWAccept('${key}')">Confirm — $${gw.amount}/skin</button>
-          <button class="gw-cancel-form-btn" onclick="hideGWAccept('${key}')">Back</button>
-        </div>`;
-      } else {
-        body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/skin</strong></span></div>
+      const canAcceptSkins=myName&&oppNames.includes(myName);
+      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/skin</strong></span></div>
         <div class="gw-pending-actions">
-          <button class="gw-accept-btn" onclick="showGWAccept('${key}')">Accept (opposing team)</button>
-          ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
+          ${canAcceptSkins?`<button class="gw-accept-btn" onclick="submitGWAccept('${key}')">Accept · $${gw.amount}/skin</button>`:''}
+          ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
         </div>`;
-      }
     } else if(gw.status==='active'){
       body=`<div style="margin-bottom:6px"><span class="gw-active-amt">$${gw.amount}/skin</span><span class="gw-active-info">${gw.propName} confirmed</span></div>
       <div style="padding:2px 0">${skinLines(gw.amount)}</div>`;
@@ -4191,13 +4178,11 @@ function gameWagerWidget(key){
       <div style="padding:2px 0">${settledLines(gw.amount)}</div>`;
     }
     const groupLabel=skinKeys.map(k=>P[k].name).join(', ');
-    return`<div class="gw-widget ${statusCls}"><div class="gw-header"><span class="gw-title">${info.label}</span></div>${body}</div>`;
+    return`<div class="gw-widget ${statusCls}"><div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span><span class="gw-opt-tag">optional</span></div>${body}</div>`;
   }
 
   // ── MATCH widget (existing logic, d1 / d3_m0 / d3_m1 / d3_side) ───────────
-  const matchupHtml=info.compact
-    ?`<div class="gw-header"><span class="gw-title">${info.label}</span><span class="gw-matchup-line" style="font-size:9px;white-space:nowrap">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span></div>`
-    :`<div class="gw-header"><span class="gw-title">${info.label}</span><span class="gw-matchup-line">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span></div>`;
+  const matchupHtml=`<div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span></div><div class="gw-matchup-row"><span class="gw-matchup-line">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span></div>`;
   let body='';
   if(!gw||gw.status==='void'){
     if(inputOpen){
@@ -4210,10 +4195,7 @@ function gameWagerWidget(key){
             <div class="ps-opt${sB?' sel':''}" onclick="setGWSide('${key}','b')">${info.bLabel}</div>
           </div>
         </div>
-        ${ist.side?`<div class="gw-form-row"><div class="ps-label">Your Name</div>
-          <select class="ps-name-sel" id="gw-name-${key}">
-            <option value="">Select…</option>${names.map(n=>`<option${n===ist.name?` selected`:``}>${n}</option>`).join('')}
-          </select></div>
+        ${ist.side?`<div class="gw-form-row"><div class="ps-label">Betting as</div><div class="gw-identity-tag">${myName}</div></div>
           <div class="gw-form-row"><div class="ps-label">$ Per Player</div>
           <input class="ps-amount-inp" id="gw-amt-${key}" type="number" inputmode="decimal" min="1" placeholder="e.g. 10" value="${ist.amount||''}">
           </div>
@@ -4231,51 +4213,26 @@ function gameWagerWidget(key){
     const iApproved=myName&&approvedSet.has(myName);
     const canCancel=gw.propName===myName&&approvals.length<=1;
     const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
-    const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''} ${n}</div>`).join('');
-    if(voteOpen){
-      const unapprovedNames=allNames.filter(n=>!approvedSet.has(n));
-      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong> · ${approvals.length}/5 to lock</span></div>
-      <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
-      <div class="gw-form" style="margin-top:6px">
-        <div class="gw-form-row"><div class="ps-label">Your Name</div>
-          <select class="ps-name-sel" id="gw-gwa-name-${key}">
-            <option value="">Select…</option>${unapprovedNames.map(n=>`<option>${n}</option>`).join('')}
-          </select></div>
-        <button class="gw-propose-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>
-        <button class="gw-cancel-form-btn" onclick="hideGWVote('${key}')">Back</button>
-      </div>`;
-    } else {
-      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
+    const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''}${n.slice(0,3)}</div>`).join('');
+    body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
       <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
       <div class="pool-progress">${approvals.length}/5 approvals · 5 of 8 locks it in</div>
       <div class="gw-pending-actions">
-        ${!iApproved?`<button class="gw-accept-btn" onclick="showGWVote('${key}')">👍 Approve</button>`:''}
-        ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
+        ${!iApproved?`<button class="gw-accept-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>`:''}
+        ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
       </div>`;
-    }
   } else if(gw.status==='open'){
     const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
     const accSideLabel=gw.propSide==='a'?info.bLabel:info.aLabel;
     const isProposer=gw.propName===myName;
-    if(acceptOpen){
-      const accKeys=(gw.propSide==='a'?info.bKeys:info.aKeys);
-      const names=accKeys.map(k=>P[k].name).filter(n=>n!==gw.propName);
-      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
-      <div class="gw-form">
-        <div class="gw-form-row"><div class="ps-label">Your Name</div>
-          <select class="ps-name-sel" id="gw-acc-name-${key}">
-            <option value="">Select…</option>${names.map(n=>`<option>${n}</option>`).join('')}
-          </select></div>
-        <button class="gw-propose-btn" onclick="submitGWAccept('${key}')">Confirm — $${gw.amount}/player</button>
-        <button class="gw-cancel-form-btn" onclick="hideGWAccept('${key}')">Back</button>
-      </div>`;
-    } else {
-      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
+    const accKeys=(gw.propSide==='a'?info.bKeys:info.aKeys);
+    const accNames=accKeys.map(k=>P[k].name);
+    const canAcceptMatch=myName&&accNames.includes(myName);
+    body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
       <div class="gw-pending-actions">
-        <button class="gw-accept-btn" onclick="showGWAccept('${key}')">Accept · ${accSideLabel}</button>
-        ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">Cancel</button>`:''}
+        ${canAcceptMatch?`<button class="gw-accept-btn" onclick="submitGWAccept('${key}')">Accept · $${gw.amount}/player</button>`:''}
+        ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
       </div>`;
-    }
   } else if(gw.status==='active'){
     const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
     const accSideLabel=gw.propSide==='a'?info.bLabel:info.aLabel;
@@ -4290,17 +4247,17 @@ function gameWagerWidget(key){
 function showGWPropose(key){gwInputOpen=key;gwAcceptOpen=null;gwVoteOpen=null;gwInputState[key]={side:null,name:'',amount:''};updateGWWidgets();}
 function hideGWPropose(key){gwInputOpen=null;delete gwInputState[key];updateGWWidgets();}
 function setGWSide(key,side){
-  const nameEl=document.getElementById('gw-name-'+key);
   const amtEl=document.getElementById('gw-amt-'+key);
   if(!gwInputState[key])gwInputState[key]={};
   gwInputState[key].side=side;
-  gwInputState[key].name=nameEl?nameEl.value:'';
+  gwInputState[key].name=chatAuthor||'';
   gwInputState[key].amount=amtEl?amtEl.value:'';
   updateGWWidgets();
 }
 function submitGW(key){
   const ist=gwInputState[key]||{};
-  const name=document.getElementById('gw-name-'+key)?.value||ist.name;
+  const name=chatAuthor;
+  if(!name)return;
   const amt=parseFloat(document.getElementById('gw-amt-'+key)?.value||ist.amount||0);
   const info=gwInfo(key);
   const needsSide=info&&info.type==='match';
@@ -4321,7 +4278,7 @@ function showGWVote(key){gwVoteOpen=key;gwAcceptOpen=null;updateGWWidgets();}
 function hideGWVote(key){gwVoteOpen=null;updateGWWidgets();}
 function submitGWApproval(key){
   const gw=gameWagers[key];if(!gw||gw.status!=='voting')return;
-  const name=document.getElementById('gw-gwa-name-'+key)?.value;
+  const name=chatAuthor;
   if(!name)return;
   if(!gw.approvals)gw.approvals=[];
   if(gw.approvals.includes(name))return;
@@ -4336,7 +4293,7 @@ function submitGWApproval(key){
 }
 function submitGWAccept(key){
   const gw=gameWagers[key];if(!gw||gw.status!=='open')return;
-  const name=document.getElementById('gw-acc-name-'+key)?.value;
+  const name=chatAuthor;
   if(!name)return;
   gw.accName=name;gw.status='active';gw.ts=Date.now();
   gwAcceptOpen=null;
@@ -4740,11 +4697,11 @@ function wagerCardHTML(bet,myName){
   const canAccept=isOpen&&bet.propName!==myName&&!bet.accName;
   const canCancel=isOpen&&bet.propName===myName;
   const acceptBtn=canAccept?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Take the Other Side →</button>`:'';
-  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel Bet</button>`:'';
+  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
 
   return `<div class="wager-card ${cardCls}">
-  <div class="wc-day">${betDayLabel(bet.day)}</div>
-  <div class="wc-desc">${desc}</div>
+  ${cancelBtn}
+  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${desc}</div></div>
   <div class="wc-line">${lineInfo}</div>
   ${trendHtml}
   <div class="wc-row">
@@ -4755,7 +4712,6 @@ function wagerCardHTML(bet,myName){
   </div>
   ${resultHtml}
   ${acceptBtn}
-  ${cancelBtn}
 </div>`;
 }
 
@@ -4765,7 +4721,7 @@ function poolModeCardHTML(bet,myName){
   const isActive=bet.status==='active';
   const isSettled=bet.status==='settled';
   const cardCls=isOpen?'wc-open':isSettled?'wc-settled-win':'';
-  const dayLbl={d1:'THU · Day 1',d2:'FRI · Day 2',d3:'SAT · Day 3'}[bet.day]||bet.day;
+  const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day;
   const typeIcon={kp:'⛳',lownet:'🥇',lowgross:'🏌️',lastplace:'💀',cleancard:'✅'};
   const typeLabel={kp:'Closest to Pin',lownet:'Low Net Pool',lowgross:'Low Gross Pool',lastplace:'Last Place Pool',cleancard:'Clean Card Pool'};
   const holeInfo=bet.hole!=null?` · Hole ${bet.hole+1}`:'';
@@ -4793,10 +4749,10 @@ function poolModeCardHTML(bet,myName){
     else if(bet.winner)resultHtml=`<div class="wc-result res-win">${bet.winner} wins $${(n-1)*bet.amount}</div>`;
   }
   const canCancel=isOpen&&bet.propName===myName;
-  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel</button>`:'';
+  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
   return`<div class="wager-card ${cardCls}">
-  <div class="wc-day">${dayLbl}${holeInfo}</div>
-  <div class="wc-desc">${typeIcon[bet.type]||'🎱'} ${typeLabel[bet.type]||bet.type}</div>
+  ${cancelBtn}
+  <div class="wc-title-row"><div class="wc-day">${dayLbl}</div><div class="wc-desc">${typeIcon[bet.type]||'🎱'} ${typeLabel[bet.type]||bet.type}${holeInfo?' · '+holeInfo:''}</div></div>
   <div class="wc-line">$${bet.amount}/person · $${pot} pot · ${n} players</div>
   <div style="margin:8px 0 4px">${chips}</div>
   ${resultHtml}${awardBtn}${joinBtn}${cancelBtn}
@@ -4854,11 +4810,11 @@ function nassauCardHTML(bet,myName){
   const canAccept=isOpen&&bet.propName!==myName&&!bet.accName;
   const canCancel=isOpen&&bet.propName===myName;
   const acceptBtn=canAccept?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Take the Other Side →</button>`:'';
-  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel Bet</button>`:'';
+  const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
 
   return`<div class="wager-card ${cardCls}">
-  <div class="wc-day">${betDayLabel(bet.day)}</div>
-  <div class="wc-desc">Nassau · Match ${bet.matchIdx+1}</div>
+  ${cancelBtn}
+  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">Nassau · Match ${bet.matchIdx+1}</div></div>
   <div class="wc-line">${aN} vs ${bN}</div>
   <div class="nassau-note">$${bet.amount} per leg · up to $${bet.amount*3} total</div>
   <div class="wc-row">
@@ -4899,15 +4855,14 @@ function houseCardHTML(bet,myName){
   const canBuyIn=isOpen&&!capFull&&!iAmHouse&&!iHaveBought&&myName;
   const canCancel=(isOpen||bet.status==='active')&&iAmHouse&&bet.buyins.length===0;
   return`<div class="wager-card ${cardCls}">
-  <div class="wc-day">${betDayLabel(bet.day)}</div>
-  <div class="wc-desc">${playerName} · ${meta.label||bet.statType}</div>
+  ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:''}
+  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${playerName} · ${meta.label||bet.statType}</div></div>
   <div class="hp-stat-row"><span class="hp-stat-val">${bet.line}</span><span class="hp-stat-dir ${dirCls}">${dirLabel}</span><span style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-left:2px">${meta.unit||''}</span></div>
   <div class="hp-house-row">🏠 ${bet.houseName} backs ${dirLabel} · Odds <span class="hp-odds">${oddsStr}</span></div>
   <div class="hp-buyins">${buyinChips}</div>
   ${bet.exposureCap>0?`<div class="hp-cap-bar-wrap"><div class="hp-cap-label">Exposure: $${houseExp} of $${bet.exposureCap} cap</div><div class="hp-cap-bar"><div class="hp-cap-fill" style="width:${capPct}%"></div></div></div>`:''}
   ${resultHtml}
   ${canBuyIn?`<button class="hp-buyin-btn" onclick="openAcceptSheet('${bet.id}')">Buy In · ${oddsStr} odds →</button>`:''}
-  ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel</button>`:''}
 </div>`;
 }
 
@@ -4923,21 +4878,20 @@ function poolCardHTML(bet,myName){
   const cardCls=isVoting?'wc-open':isSettled?(bet.winnerName===myName?'wc-settled-win':'wc-settled-loss'):'';
   const allNames=Object.values(P).map(p=>p.name);
   const chips=allNames.map(n=>
-    `<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''} ${n}</div>`
+    `<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''}${n.slice(0,3)}</div>`
   ).join('');
   let resultHtml='';
   if(isSettled){resultHtml=bet.result==='push'?'<div class="wc-result res-push">Tied — no winner</div>':`<div class="pool-winner-row">🏆 ${bet.winnerName} wins $${prize}</div>`;}
   const canApprove=isVoting&&!iApproved&&myName;
   const canCancel=isVoting&&bet.proposerName===myName&&bet.approvals.length<=1;
   return`<div class="wager-card ${cardCls}">
-  <div class="wc-day">${betDayLabel(bet.day)}</div>
-  <div class="wc-desc">${label}</div>
+  ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:''}
+  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${label}</div></div>
   <div class="pool-ante-row">$${bet.buyIn} · all-in pot</div>
   <div class="pool-prize">$${prize} to winner · ${isVoting?`${(bet.approvals||[]).length}/5 approvals to lock`:(bet.status==='active'?'In progress':'Settled')}</div>
   <div class="pool-approval-chips">${chips}</div>
   ${resultHtml}
   ${canApprove?`<button class="pool-approve-btn" onclick="openAcceptSheet('${bet.id}')">👍 Approve · $${bet.buyIn} buy-in</button>`:''}
-  ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">Cancel Pool</button>`:''}
 </div>`;
 }
 
@@ -4969,12 +4923,13 @@ function buildWagers(){
   }
   const _ord={open:0,voting:0,active:1,settled:2};
   function groupByDay(arr,renderFn){
-    const dayLabels={d1:'THU',d2:'FRI',d3:'SAT'};
-    let out='';
+    let out='';let first=true;
     ['d1','d2','d3'].forEach(d=>{
       const items=arr.filter(b=>b.day===d).slice().sort((a,b)=>(_ord[a.status]||0)-(_ord[b.status]||0));
       if(!items.length)return;
-      out+=`<div class="wager-day-grp"><div class="wager-day-lbl">${dayLabels[d]}</div>${items.map(renderFn).join('')}</div>`;
+      if(!first)out+=`<div style="height:1px;background:rgba(218,240,218,.08);margin:10px 0;"></div>`;
+      out+=`<div class="wager-day-grp">${items.map(renderFn).join('')}</div>`;
+      first=false;
     });
     return out||'';
   }
@@ -5546,6 +5501,35 @@ function updatePoolUI(){
   const sub=document.getElementById('ps-submit');if(sub)sub.disabled=!ready;
 }
 
+// ── Duplicate detection ──────────────────────────
+function isDuplicateBet(newBet){
+  const live=bets.filter(b=>b.status!=='cancelled'&&b.status!=='void');
+  return live.some(b=>{
+    // House prop: same day + player + statType
+    if(newBet.type==='house-prop'&&b.type==='house-prop')
+      return b.day===newBet.day&&b.player===newBet.player&&b.statType===newBet.statType;
+    // Pool: same poolType + day
+    if(newBet.type==='pool'&&b.type==='pool')
+      return b.poolType===newBet.poolType&&b.day===newBet.day;
+    // KP: same day + hole
+    if(newBet.type==='kp'&&b.type==='kp')
+      return b.day===newBet.day&&b.hole===newBet.hole;
+    // H2H: same type + day + both players (either order)
+    if((newBet.type==='h2h'||newBet.type==='h2h-gross')&&b.type===newBet.type)
+      return b.day===newBet.day&&((b.player===newBet.player&&b.playerB===newBet.playerB)||(b.player===newBet.playerB&&b.playerB===newBet.player));
+    // Match/Nassau: same type + day + matchIdx
+    if((newBet.type==='match'||newBet.type==='nassau')&&b.type===newBet.type)
+      return b.day===newBet.day&&b.matchIdx===newBet.matchIdx;
+    // OU / birdie-ou / cleancard / lastplace / lownet: same type + day + player
+    if(b.type===newBet.type&&newBet.player)
+      return b.day===newBet.day&&b.player===newBet.player;
+    // Pool-mode (lownet/lowgross/lastplace/cleancard): same type + day
+    if(b.type===newBet.type&&newBet.participants)
+      return b.day===newBet.day;
+    return false;
+  });
+}
+
 // ── Submit ────────────────────────────────────────
 function submitPropose(){
   const name=chatAuthor;if(!name)return;
@@ -5558,12 +5542,14 @@ function submitPropose(){
       oddsNum:odds.num,oddsDen:odds.den,
       exposureCap:parseFloat(document.getElementById('hp-cap-inp')?.value)||0,
       buyins:[],status:'open',result:null,ts:Date.now()};
+    if(isDuplicateBet(bet)){alert('This bet already exists.');return;}
     bets.push(bet);
   }else if(propCategory==='pool'){
     const {poolType,day,buyIn}=poolSt;if(!poolType||!day||!buyIn)return;
     const bet={id:'b'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),
       type:'pool',poolType,day,buyIn,proposerName:name,
       approvals:[name],participants:[],status:'voting',winnerName:null,result:null,ts:Date.now()};
+    if(isDuplicateBet(bet)){alert('This pool already exists for that day.');return;}
     bets.push(bet);
   }else{
     const amt=parseFloat(document.getElementById('ps-amount')?.value);if(!amt)return;
@@ -5581,6 +5567,7 @@ function submitPropose(){
         optedIn:[name],
         amount:amt,
         status:'open',result:null,winner:null,ts:Date.now()};
+      if(isDuplicateBet(bet)){alert('This bet already exists.');return;}
       bets.push(bet);
     }else{
       const isLow=t==='lownet';const isBirdieOU=t==='birdie-ou';
@@ -5594,6 +5581,7 @@ function submitPropose(){
         line:t==='ou'?calcLine(propSt.player,propSt.day):isBirdieOU?calcBirdiesLine(propSt.player,propSt.day):undefined,
         matchIdx:(t==='match'||t==='nassau')?propSt.matchIdx:undefined,
         propSide,propName:name,amount:amt,accName:null,status:'open',result:null,ts:Date.now()};
+      if(isDuplicateBet(bet)){alert('This bet already exists.');return;}
       bets.push(bet);
     }
   }
@@ -5715,13 +5703,15 @@ function submitAccept(){
     const kbH=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);
     const hdr=document.getElementById('app-header');
     const hdrH=hdr?hdr.offsetHeight:0;
+    // Always keep page scrolled to top so fixed header stays visible
+    window.scrollTo(0,0);
     if(kbH>100){
-      // Keyboard open: scroll page to top so header stays visible
-      window.scrollTo(0,0);
+      // Keyboard open: shrink chat panel above keyboard
       panel.style.top=hdrH+'px';
       panel.style.bottom=kbH+'px';
       panel.style.height='auto';
     }else{
+      // Keyboard closed: reset to CSS variable positioning
       panel.style.top='';
       panel.style.bottom='';
       panel.style.height='';
