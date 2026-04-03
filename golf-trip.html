@@ -3656,7 +3656,7 @@ async function _submitPw(){
 
 // ── Line calculation ─────────────────────────────
 function calcLine(playerKey,day){
-  const idx=P[playerKey][day];
+  const idx=P[playerKey].d1; // d1 holds the actual handicap index
   const {slope,rating}=COURSES[day];
   const par=cTot(day);
   const cHcp=Math.round(idx*(slope/113)+(rating-par));
@@ -3681,7 +3681,7 @@ function betTrend(bet){
 }
 
 // ── New bet type helpers ─────────────────────────
-function calcBirdiesLine(k,day){return P[k][day]<=8?1.5:0.5;}
+function calcBirdiesLine(k,day){return P[k].d1<=8?1.5:0.5;}
 
 // ── House Prop stat helpers ───────────────────────
 const STAT_META={
@@ -3741,7 +3741,7 @@ function calcStatLine(playerKey,day,statType){
       priorValues.push(scaled);
     }
   }
-  const hcp=P[playerKey]?.[day]||18;
+  const hcp=P[playerKey]?.d1||18;
   // USGA-benchmarked handicap estimates — lower hcp always gets better line
   // GIR:  scratch~12, 5hcp~10, 10hcp~8, 15hcp~6, 20hcp~4   (slope -0.40)
   // FWY:  scratch~9.5, 5hcp~8.5, 10hcp~7.5, 15hcp~6.5, 20hcp~5.5 (slope -0.20)
@@ -5358,9 +5358,9 @@ function updateProposeUI(){
   if(fullSubject){
     if(lineBox)lineBox.style.display=(isLow||isClean||isLast||isH2H)?'none':'';
     if(isOU){
-      const line=calcLine(propSt.player,propSt.day);const p=P[propSt.player];const cHcp=line-cTot(propSt.day);
+      const line=calcLine(propSt.player,propSt.day);const p=P[propSt.player];const idx=p.d1;const {slope,rating}=COURSES[propSt.day];const par=cTot(propSt.day);const cHcp=Math.round(idx*(slope/113)+(rating-par));
       document.getElementById('ps-line-num').textContent=line;
-      document.getElementById('ps-line-info').textContent=`${p.name} · Hcp ${P[propSt.player][propSt.day]} → Course hcp ${cHcp} · Par ${cTot(propSt.day)}`;
+      document.getElementById('ps-line-info').textContent=`${p.name} · Hcp ${idx} → Course hcp ${cHcp} · Par ${par}`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div><div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div>`;
       if(sideStep)sideStep.style.display='';
     }else if(isBirdieOU){
