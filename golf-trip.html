@@ -590,8 +590,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .chat-msg.mine .chat-bubble:has(.chat-img){background:transparent;}
 
 /* ── WAGERS TAB ──────────────────────────────────── */
-.wager-propose-btn{position:fixed;bottom:calc(66px + env(safe-area-inset-bottom));left:16px;right:16px;z-index:99;padding:16px 28px;border-radius:14px;border:none;background:#fefe56;color:#0a280a;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;box-shadow:0 6px 24px rgba(0,0,0,.45),0 0 0 1px rgba(254,254,86,.3);white-space:nowrap;display:none;text-align:center;}
-.wager-propose-btn:active{background:#e8e84e;transform:scale(.98);}
+.wager-propose-btn{position:fixed;bottom:calc(74px + env(safe-area-inset-bottom));left:16px;z-index:99;width:72px;height:72px;border-radius:50%;border:none;background:#fefe56;color:#0a280a;font-family:'DM Sans',sans-serif;font-size:34px;font-weight:300;line-height:1;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;box-shadow:0 4px 20px rgba(0,0,0,.45),0 0 0 1px rgba(254,254,86,.2);display:none;align-items:center;justify-content:center;padding:0;}
+.wager-propose-btn:active{background:#e8e84e;transform:scale(.92);}
 .wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative;}
 .wager-card.wc-open{border-color:rgba(254,254,86,.45);animation:wcPulse 2.5s ease-in-out infinite;}
 @keyframes wcPulse{0%,100%{border-color:rgba(254,254,86,.45);}50%{border-color:rgba(254,254,86,.18);}}
@@ -738,7 +738,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .ps-name-sel:focus,.ps-amount-inp:focus{border-color:rgba(254,254,86,.5);}
 .ps-submit{display:block;width:100%;padding:14px;border-radius:10px;border:none;background:#fefe56;color:#003d20;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;margin-top:6px;-webkit-tap-highlight-color:transparent;}
 .ps-submit:disabled{opacity:.3;cursor:default;}
-.ps-cancel{display:block;width:100%;padding:11px;background:transparent;border:none;color:rgba(218,240,218,.35);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:4px;}
+.ps-cancel{display:block;width:100%;padding:14px;background:transparent;border:none;color:rgba(218,240,218,.4);font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;margin-top:6px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 /* ── Wager section headers ─────────────────────── */
 .wager-section-hdr{font-family:'Forum',serif;font-size:18px;font-weight:normal;letter-spacing:.02em;color:rgba(254,254,86,.7);padding:20px 0 10px;text-align:center;}
 /* ── Day sub-group dividers ─────────────────────── */
@@ -857,11 +857,19 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── MASTERS POOL ───────────────────────────────── */
 .masters-overlay{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.92);overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;}
 .masters-overlay.show{display:block;}
-.masters-sheet{max-width:440px;margin:0 auto;padding:20px 16px 100px;}
+.masters-sheet{max-width:440px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 16px 100px;}
 .masters-hdr{text-align:center;margin-bottom:24px;}
 .masters-hdr h2{font-family:'Forum',serif;font-size:26px;color:#fefe56;margin:0 0 4px;}
 .masters-hdr p{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(218,240,218,.5);margin:0;}
-.masters-lock-msg{font-family:'DM Mono',monospace;font-size:13px;color:rgba(254,254,86,.6);text-align:center;margin-bottom:22px;padding:12px 0;font-weight:600;letter-spacing:.03em;}
+.masters-lock-msg{text-align:center;padding:16px 0 0;}
+#masters-tiers{padding-top:28px;}
+.masters-lock-label{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px;text-align:center;display:block;}
+.masters-lock-digits{display:flex;align-items:center;justify-content:center;gap:6px;}
+.masters-lock-seg{display:flex;flex-direction:column;align-items:center;min-width:42px;}
+.masters-lock-seg .num{font-family:'DM Mono',monospace;font-size:22px;font-weight:700;color:#fefe56;line-height:1;background:rgba(254,254,86,.07);border:1px solid rgba(254,254,86,.12);border-radius:8px;padding:8px 6px;min-width:42px;text-align:center;}
+.masters-lock-seg .unit{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(218,240,218,.3);margin-top:4px;}
+.masters-lock-sep{font-family:'DM Mono',monospace;font-size:18px;color:rgba(254,254,86,.25);padding-bottom:16px;}
+.masters-locked-msg{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(218,240,218,.4);}
 .masters-tier{margin-bottom:18px;}
 .masters-tier-hdr{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(254,254,86,.55);margin-bottom:8px;padding-left:2px;}
 .masters-tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
@@ -872,7 +880,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .masters-submit{display:block;width:100%;margin-top:24px;padding:16px;border-radius:12px;border:none;background:#fefe56;color:#0a280a;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 .masters-submit:active{background:#e8e84e;transform:scale(.98);}
 .masters-submit:disabled{opacity:.35;pointer-events:none;}
-.masters-close{position:fixed;top:16px;right:16px;z-index:1000;background:rgba(218,240,218,.1);border:none;color:rgba(218,240,218,.6);font-size:22px;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+.masters-close{background:rgba(218,240,218,.1);border:none;color:rgba(218,240,218,.6);font-size:22px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;margin-left:auto;flex-shrink:0;}
+.masters-top-bar{display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px;}
 .masters-close:active{background:rgba(218,240,218,.2);}
 /* Masters leaderboard on LB tab */
 .masters-lb{margin-top:28px;background:rgba(16,36,16,.6);border:1px solid rgba(254,254,86,.12);border-radius:12px;padding:14px 12px;margin-left:4px;margin-right:4px;}
@@ -1119,7 +1128,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 
 </div><!-- /main -->
 
-<button class="wager-propose-btn" id="wager-fab" onclick="openProposeSheet()">+ Propose a Bet</button>
+<button class="wager-propose-btn" id="wager-fab" onclick="openProposeSheet()">+</button>
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav" id="bottom-nav">
   <button class="bn-tab active" id="bnt-scores" onclick="show('scores')">
@@ -1174,8 +1183,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <!-- NAME PICKER -->
 <!-- ── Masters Pool Pick Sheet ── -->
 <div class="masters-overlay" id="masters-overlay">
-  <button class="masters-close" onclick="closeMastersPicks()">&times;</button>
   <div class="masters-sheet">
+    <div class="masters-top-bar"><button class="masters-close" onclick="closeMastersPicks()">&times;</button></div>
     <div class="masters-hdr">
       <h2>Masters Pool</h2>
       <p>Pick 6, Use Best 4 · $20 Buy-In · Winner Take All</p>
@@ -1308,75 +1317,75 @@ const MASTERS_DELAY_MS = 3 * 60 * 60 * 1000; // 3 hours
 const MASTERS_TIERS = [
   { tier:1, label:'Tier 1 — Elite', players:[
     {id:'scheffler',first:'Scottie',last:'Scheffler'},
+    {id:'mcilroy',first:'Rory',last:'McIlroy'},
     {id:'dechambeau',first:'Bryson',last:'DeChambeau'},
     {id:'rahm',first:'Jon',last:'Rahm'},
-    {id:'mcilroy',first:'Rory',last:'McIlroy'},
-    {id:'schauffele',first:'Xander',last:'Schauffele'},
     {id:'aberg',first:'Ludvig',last:'Åberg'},
-    {id:'morikawa',first:'Collin',last:'Morikawa'},
-    {id:'fitzpatrick',first:'Matt',last:'Fitzpatrick'},
-    {id:'young',first:'Cameron',last:'Young'},
     {id:'fleetwood',first:'Tommy',last:'Fleetwood'},
+    {id:'schauffele',first:'Xander',last:'Schauffele'},
+    {id:'morikawa',first:'Collin',last:'Morikawa'},
+    {id:'young',first:'Cameron',last:'Young'},
+    {id:'fitzpatrick',first:'Matt',last:'Fitzpatrick'},
   ]},
   { tier:2, label:'Tier 2 — Contenders', players:[
+    {id:'rose',first:'Justin',last:'Rose'},
+    {id:'reed',first:'Patrick',last:'Reed'},
+    {id:'gotterup',first:'Chris',last:'Gotterup'},
+    {id:'matsuyama',first:'Hideki',last:'Matsuyama'},
     {id:'hovland',first:'Viktor',last:'Hovland'},
     {id:'koepka',first:'Brooks',last:'Koepka'},
-    {id:'spieth',first:'Jordan',last:'Spieth'},
-    {id:'matsuyama',first:'Hideki',last:'Matsuyama'},
-    {id:'reed',first:'Patrick',last:'Reed'},
-    {id:'rose',first:'Justin',last:'Rose'},
     {id:'macintyre',first:'Robert',last:'MacIntyre'},
-    {id:'lee',first:'Min Woo',last:'Lee'},
-    {id:'lowry',first:'Shane',last:'Lowry'},
+    {id:'thomas',first:'Justin',last:'Thomas'},
     {id:'hatton',first:'Tyrrell',last:'Hatton'},
+    {id:'spieth',first:'Jordan',last:'Spieth'},
   ]},
   { tier:3, label:'Tier 3 — Mid-Range', players:[
+    {id:'lowry',first:'Shane',last:'Lowry'},
     {id:'cantlay',first:'Patrick',last:'Cantlay'},
-    {id:'henley',first:'Russell',last:'Henley'},
+    {id:'griffin',first:'Ben',last:'Griffin'},
     {id:'bhatia',first:'Akshay',last:'Bhatia'},
     {id:'kim_sw',first:'Si Woo',last:'Kim'},
-    {id:'gotterup',first:'Chris',last:'Gotterup'},
-    {id:'burns',first:'Sam',last:'Burns'},
-    {id:'thomas',first:'Justin',last:'Thomas'},
+    {id:'knapp',first:'Jake',last:'Knapp'},
     {id:'conners',first:'Corey',last:'Conners'},
-    {id:'niemann',first:'Joaquin',last:'Niemann'},
-    {id:'straka',first:'Sepp',last:'Straka'},
+    {id:'henley',first:'Russell',last:'Henley'},
+    {id:'lee',first:'Min Woo',last:'Lee'},
+    {id:'day',first:'Jason',last:'Day'},
   ]},
   { tier:4, label:'Tier 4 — Dark Horses', players:[
-    {id:'day',first:'Jason',last:'Day'},
     {id:'scott',first:'Adam',last:'Scott'},
-    {id:'knapp',first:'Jake',last:'Knapp'},
-    {id:'im',first:'Sungjae',last:'Im'},
-    {id:'penge',first:'Marco',last:'Penge'},
-    {id:'bridgeman',first:'Jacob',last:'Bridgeman'},
-    {id:'hojgaard',first:'Nicolai',last:'Højgaard'},
+    {id:'homa',first:'Max',last:'Homa'},
     {id:'smith',first:'Cameron',last:'Smith'},
-    {id:'zalatoris',first:'Will',last:'Zalatoris'},
-    {id:'theegala',first:'Sahith',last:'Theegala'},
+    {id:'straka',first:'Sepp',last:'Straka'},
+    {id:'burns',first:'Sam',last:'Burns'},
+    {id:'berger',first:'Daniel',last:'Berger'},
+    {id:'penge',first:'Marco',last:'Penge'},
+    {id:'woodland',first:'Gary',last:'Woodland'},
+    {id:'im',first:'Sungjae',last:'Im'},
+    {id:'clark',first:'Wyndham',last:'Clark'},
   ]},
   { tier:5, label:'Tier 5 — Longshots', players:[
-    {id:'kim_t',first:'Tom',last:'Kim'},
-    {id:'clark',first:'Wyndham',last:'Clark'},
-    {id:'bradley',first:'Keegan',last:'Bradley'},
-    {id:'finau',first:'Tony',last:'Finau'},
-    {id:'homa',first:'Max',last:'Homa'},
-    {id:'harman',first:'Brian',last:'Harman'},
-    {id:'detry',first:'Thomas',last:'Detry'},
-    {id:'griffin',first:'Ben',last:'Griffin'},
-    {id:'jarvis',first:'Casey',last:'Jarvis'},
-    {id:'mccarthy',first:'Denny',last:'McCarthy'},
-  ]},
-  { tier:6, label:'Tier 6 — Past Champions', players:[
+    {id:'spaun',first:'J.J.',last:'Spaun'},
+    {id:'bridgeman',first:'Jacob',last:'Bridgeman'},
+    {id:'english',first:'Harris',last:'English'},
     {id:'djohnson',first:'Dustin',last:'Johnson'},
+    {id:'noren',first:'Alexander',last:'Noren'},
+    {id:'mccarty',first:'Matthew',last:'McCarty'},
     {id:'garcia',first:'Sergio',last:'Garcia'},
-    {id:'watson',first:'Bubba',last:'Watson'},
-    {id:'couples',first:'Fred',last:'Couples'},
-    {id:'zjohnson',first:'Zach',last:'Johnson'},
-    {id:'olazabal',first:'José María',last:'Olazábal'},
-    {id:'willett',first:'Danny',last:'Willett'},
-    {id:'schwartzel',first:'Charl',last:'Schwartzel'},
-    {id:'weir',first:'Mike',last:'Weir'},
-    {id:'cabrera',first:'Angel',last:'Cabrera'},
+    {id:'mcnealy',first:'Maverick',last:'McNealy'},
+    {id:'gerard',first:'Ryan',last:'Gerard'},
+    {id:'bradley',first:'Keegan',last:'Bradley'},
+  ]},
+  { tier:6, label:'Tier 6 — Field', players:[
+    {id:'kitayama',first:'Kurt',last:'Kitayama'},
+    {id:'n_hojgaard',first:'Nicolai',last:'Højgaard'},
+    {id:'fox',first:'Ryan',last:'Fox'},
+    {id:'rai',first:'Aaron',last:'Rai'},
+    {id:'hall',first:'Harry',last:'Hall'},
+    {id:'keefer',first:'Johnny',last:'Keefer'},
+    {id:'mckibbin',first:'Tom',last:'McKibbin'},
+    {id:'stevens',first:'Sam',last:'Stevens'},
+    {id:'harman',first:'Brian',last:'Harman'},
+    {id:'r_hojgaard',first:'Rasmus',last:'Højgaard'},
   ]},
 ];
 // Flatten for quick lookup
@@ -2398,7 +2407,7 @@ function show(id){
   }
   currentTab=id==='scores'?currentScoresDay:id;
   try{sessionStorage.setItem('wni-tab',id);}catch(e){}
-  const fab=document.getElementById('wager-fab');if(fab)fab.style.display=(id==='bets'&&currentWagersTab==='bets')?'block':'none';
+  const fab=document.getElementById('wager-fab');if(fab)fab.style.display=(id==='bets'&&currentWagersTab==='bets')?'flex':'none';
 }
 // ── Day lock: Fri unlocks Thu Apr 9 @ 8pm, Sat unlocks Fri Apr 10 @ 8pm ──
 const DAY_UNLOCK={d2:new Date(2026,3,9,20,0),d3:new Date(2026,3,10,20,0)};
@@ -2449,7 +2458,7 @@ function showWagersTab(tab){
   currentWagersTab=tab;currentTab=tab;
   if(tab==='bets'){settleBets();buildWagers();}
   if(tab==='ledger')buildLedger();
-  const fab=document.getElementById('wager-fab');if(fab)fab.style.display=tab==='bets'?'block':'none';
+  const fab=document.getElementById('wager-fab');if(fab)fab.style.display=tab==='bets'?'flex':'none';
   const scopeToggle=document.getElementById('wager-scope-toggle');if(scopeToggle)scopeToggle.style.display=tab==='bets'?'flex':'none';
 }
 function setWagerScope(scope){
@@ -3050,6 +3059,15 @@ function obFinish(){
 // MASTERS POOL FUNCTIONS
 // ═══════════════════════════════════════════════════
 function mastersLocked(){return Date.now()>=MASTERS_LOCK;}
+function mastersCountdownHTML(){
+  const diff=MASTERS_LOCK-Date.now();
+  const d=Math.floor(diff/86400000);const h=Math.floor((diff%86400000)/3600000);
+  const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);
+  const pad=n=>String(n).padStart(2,'0');
+  const seg=(v,u)=>`<div class="masters-lock-seg"><span class="num">${pad(v)}</span><span class="unit">${u}</span></div>`;
+  const sep='<div class="masters-lock-sep">:</div>';
+  return `<div class="masters-lock-label">Picks lock in</div><div class="masters-lock-digits">${seg(d,'days')}${sep}${seg(h,'hrs')}${sep}${seg(m,'min')}${sep}${seg(s,'sec')}</div>`;
+}
 
 let mastersTickInterval=null;
 function openMastersPicks(){
@@ -3063,10 +3081,8 @@ function openMastersPicks(){
   if(mastersTickInterval)clearInterval(mastersTickInterval);
   mastersTickInterval=setInterval(()=>{
     const lockEl=document.getElementById('masters-lock-msg');if(!lockEl)return;
-    if(mastersLocked()){lockEl.innerHTML='Picks are locked';clearInterval(mastersTickInterval);return;}
-    const diff=MASTERS_LOCK-Date.now();
-    const hrs=Math.floor(diff/3600000);const mins=Math.floor((diff%3600000)/60000);const secs=Math.floor((diff%60000)/1000);
-    lockEl.innerHTML=`Picks lock in ${hrs}h ${mins}m ${secs}s`;
+    if(mastersLocked()){lockEl.innerHTML='<div class="masters-locked-msg">Picks are locked</div>';clearInterval(mastersTickInterval);return;}
+    lockEl.innerHTML=mastersCountdownHTML();
   },1000);
 }
 function closeMastersPicks(){
@@ -3077,11 +3093,9 @@ function renderMastersTiers(){
   const locked=mastersLocked();
   const lockEl=document.getElementById('masters-lock-msg');
   if(locked){
-    lockEl.innerHTML='Picks are locked';
+    lockEl.innerHTML='<div class="masters-locked-msg">Picks are locked</div>';
   }else{
-    const diff=MASTERS_LOCK-Date.now();
-    const hrs=Math.floor(diff/3600000);const mins=Math.floor((diff%3600000)/60000);const secs=Math.floor((diff%60000)/1000);
-    lockEl.innerHTML=`Picks lock in ${hrs}h ${mins}m ${secs}s`;
+    lockEl.innerHTML=mastersCountdownHTML();
   }
   const cont=document.getElementById('masters-tiers');
   let html='';
@@ -3239,7 +3253,7 @@ function buildMastersWagerCard(){
     if(!locked)html+='<div style="margin-top:8px;text-align:right;"><button class="masters-edit-btn" onclick="openMastersPicks()">Edit Picks</button></div>';
   }else{
     if(!locked){
-      html+='<div style="text-align:center;padding:10px 0;"><button class="masters-edit-btn" onclick="openMastersPicks()" style="font-size:13px;padding:8px 18px;">Make Your Picks</button></div>';
+      html+='<div style="padding:6px 0;"><button class="gw-set-btn" onclick="openMastersPicks()">+ Make Your Picks</button></div>';
     }else{
       html+='<div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:rgba(218,240,218,.4);text-align:center;padding:8px 0;">Picks are locked. You didn\'t submit picks.</div>';
     }
