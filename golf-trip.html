@@ -3564,7 +3564,7 @@ function buildMastersLB(){
       let cls='masters-wager-pick';
       if(counting)cls+=' counting';
       else if(dropped)cls+=' dropped';
-      const shortName=mp.last.length>8?mp.last.slice(0,7)+'…':mp.last;
+      const shortName=mp.last.length>5?mp.last.slice(0,5)+'…':mp.last;
       return`<span class="${cls}">${shortName}${sc!=null?' ('+sc+')':''}</span>`;
     }).join('');
     html+=`<div class="masters-picks-summary">${pickChips}</div>`;
@@ -3596,7 +3596,7 @@ function buildMastersWagerCard(){
     myPicks.forEach(pid=>{
       if(!pid){html+='<span class="masters-wager-pick empty">—</span>';return;}
       const mp=MASTERS_PLAYERS[pid];
-      if(mp)html+='<span class="masters-wager-pick">'+mp.last+'</span>';
+      if(mp){const sn=mp.last.length>5?mp.last.slice(0,5)+'…':mp.last;html+='<span class="masters-wager-pick">'+sn+'</span>';}
     });
     html+='</div>';
   }else{
