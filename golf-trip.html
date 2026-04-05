@@ -1767,14 +1767,26 @@ async function clearSim(){
   // Reset all in-memory state to empty
   Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);STATS[day][k]={};});});
   drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
-  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};mastersPicks={};
+  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};mastersPicks={};presenceData={};
+  // Stop all polling so nothing re-pushes old data
+  simActive=false;_pushInFlight=true;
+  // Clear local cache immediately
+  try{localStorage.removeItem(LS_DATA);}catch(e){}
   // Write clean state directly to JSONbin (skip merge so old data doesn't creep back)
-  simActive=false;
   const cleanState=getState();
   try{
-    await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(cleanState)});
+    const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(cleanState)});
+    if(!r.ok)console.warn('Reset push status',r.status);
+    // Read it back to confirm the write stuck
+    const v=await fetch(`${JSONBIN}/${JSONBIN_ID}/latest`,{headers:{'X-Bin-Meta':'false','X-Master-Key':JSONBIN_KEY}});
+    const vData=await v.json();
+    if(vData.bets&&vData.bets.length>0){
+      // Write didn't stick — try once more
+      await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(cleanState)});
+    }
   }catch(e){console.warn('Reset push failed',e);}
-  try{localStorage.removeItem(LS_DATA);}catch(e){}
+  // Small delay to let JSONBin propagate, then redirect
+  await new Promise(r=>setTimeout(r,500));
   location.href=location.pathname;
 }
 
