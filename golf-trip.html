@@ -1767,10 +1767,13 @@ async function clearSim(){
   // Reset all in-memory state to empty
   Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);STATS[day][k]={};});});
   drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
-  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};
-  // Allow push, write clean state to JSONbin, then clear local cache
+  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};mastersPicks={};
+  // Write clean state directly to JSONbin (skip merge so old data doesn't creep back)
   simActive=false;
-  await pushRemote(getState(),true);
+  const cleanState=getState();
+  try{
+    await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(cleanState)});
+  }catch(e){console.warn('Reset push failed',e);}
   try{localStorage.removeItem(LS_DATA);}catch(e){}
   location.href=location.pathname;
 }
