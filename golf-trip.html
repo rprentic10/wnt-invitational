@@ -727,7 +727,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .ps-opt.sel{background:rgba(254,254,86,.1);border-color:rgba(254,254,86,.45);color:#fefe56;}
 .ps-opt:active{transform:scale(.96);}
 .ps-opt.ps-na{opacity:.25;pointer-events:none;}
-.ps-pool-chip{border-color:rgba(254,254,86,.3)!important;color:rgba(254,254,86,.8)!important;font-weight:700!important;}
+.ps-pool-chip{border-color:rgba(218,240,218,.25)!important;color:rgba(218,240,218,.6)!important;font-weight:700!important;}
 .ps-pool-chip.sel{background:rgba(254,254,86,.12)!important;border-color:rgba(254,254,86,.5)!important;color:#fefe56!important;}
 .ps-pool-hint{width:100%;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.4);line-height:1.45;margin-top:2px;}
 .ps-line-box{background:rgba(0,90,48,.2);border:1px solid rgba(100,200,120,.25);border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:14px;}
@@ -924,9 +924,9 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .tour-tooltip-dot{width:6px;height:6px;border-radius:50%;background:rgba(218,240,218,.15);}
 .tour-tooltip-dot.active{background:#fefe56;}
 .tour-skip{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(218,240,218,.3);background:none;border:none;cursor:pointer;padding:4px 8px;-webkit-tap-highlight-color:transparent;}
-.tour-back{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;line-height:1;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:6px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;}
+.tour-back{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;line-height:1;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:8px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-back:active{background:rgba(218,240,218,.06);}
-.tour-next{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#0a280a;background:#fefe56;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.tour-next{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#0a280a;background:#fefe56;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-next:active{background:#e8e84e;transform:scale(.97);}
 .tour-arrow{position:absolute;width:12px;height:12px;background:#0f2b0f;border:1px solid rgba(254,254,86,.3);transform:rotate(45deg);}
 .tour-arrow.top{bottom:-7px;left:50%;margin-left:-6px;border-top:none;border-left:none;}
@@ -1048,18 +1048,14 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <button class="wst-btn active" data-scope="all" onclick="setWagerScope('all')">All Bets</button>
     <button class="wst-btn" data-scope="mine" onclick="setWagerScope('mine')">My Bets</button>
   </div>
-  <div id="wager-suggest"></div>
-  <!-- MAIN GAMES -->
-  <div class="wager-section-hdr">Main Games</div>
+  <!-- POOLS (Masters + Main Games + other pools) -->
+  <div class="wager-section-hdr">Pools</div>
+  <div id="masters-pool-slot"></div>
   <div class="main-game-card">
     <div class="gw-area" id="gw-area-d1"></div>
   </div>
   <div class="main-game-card">
     <div class="gw-area" id="gw-area-d2-pot"></div>
-    <div class="gw-row" style="margin-top:8px">
-      <div class="gw-area" id="gw-area-d2-skins-0"></div>
-      <div class="gw-area" id="gw-area-d2-skins-1"></div>
-    </div>
   </div>
   <div class="main-game-card">
     <div class="gw-row">
@@ -1068,11 +1064,13 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     </div>
     <div class="gw-area" style="margin-top:8px" id="gw-area-d3-side"></div>
   </div>
+  <div id="other-pools-slot"></div>
   <div class="sec-block" id="wager-standing-block" style="display:none">
     <div class="lb-sec-title">Net Standing</div>
     <table class="wager-standing-tbl" id="wager-standing"></table>
   </div>
   <div id="wager-content"></div>
+  <div id="wager-suggest"></div>
   <div style="height:60px"></div>
 </div><!-- /wc-bets -->
 <div id="wc-ledger" style="display:none">
@@ -1334,7 +1332,9 @@ function yTot(d){return yOut(d)+yIn(d);}
 const SC={d1:{},d2:{},d3:{}};
 let bets=[];
 let drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
-let gameWagers={};// keys: d1, d2_pot, d2_skins_0, d2_skins_1, d3_m0, d3_m1, d3_side
+let gameWagers={};// keys: d1, d2_pot, d3_m0, d3_m1, d3_side
+const GW_HARDSET=['d1','d2_pot','d3_m0','d3_m1','d3_side'];
+function initHardsetWagers(){GW_HARDSET.forEach(k=>{const gw=gameWagers[k];if(!gw||gw.status==='void'){gameWagers[k]={amount:20,propName:'Pool',propSide:null,accName:null,status:'active',result:null,ts:Date.now()};}});}
 let gwInputOpen=null,gwAcceptOpen=null,gwVoteOpen=null,gwInputState={};
 let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false};
 let acceptBetId=null;
@@ -1525,6 +1525,17 @@ function applyRemoteState(state){
   if(state.teamNames&&typeof state.teamNames==='object'){
     Object.keys(state.teamNames).forEach(k=>{if(state.teamNames[k])teamNames[k]=state.teamNames[k];});
   }
+  // Masters picks: merge BEFORE bets/gameWagers so buildWagers has picks ready
+  if(state.mastersPicks&&typeof state.mastersPicks==='object'){
+    Object.keys(state.mastersPicks).forEach(k=>{
+      const remote=state.mastersPicks[k];
+      if(!mastersPicks[k]||!mastersPicks[k].length){
+        mastersPicks[k]=remote;
+      }else if(remote&&remote.length>mastersPicks[k].length){
+        mastersPicks[k]=remote;
+      }
+    });
+  }
   if(Array.isArray(state.bets)){
     const rank={open:0,voting:0,active:1,settled:2,void:3};
     const merged={};
@@ -1546,6 +1557,7 @@ function applyRemoteState(state){
       if((r.ts||0)<REQUIRED_WIPE_AT)return;
       if(!gameWagers[k]||r.ts>=gameWagers[k].ts)gameWagers[k]=r;
     });
+    initHardsetWagers();
     settleGameWagers();
     updateGWWidgets();
   }
@@ -1569,17 +1581,6 @@ function applyRemoteState(state){
       if((state.presence[k]||0)>(presenceData[k]||0)){presenceData[k]=state.presence[k];presenceChanged=true;}
     });
     if(presenceChanged)updatePresenceDots();
-  }
-  // Masters picks: merge remote picks (remote wins for players who haven't picked locally)
-  if(state.mastersPicks&&typeof state.mastersPicks==='object'){
-    Object.keys(state.mastersPicks).forEach(k=>{
-      const remote=state.mastersPicks[k];
-      if(!mastersPicks[k]||!mastersPicks[k].length){
-        mastersPicks[k]=remote;
-      }else if(remote&&remote.length>mastersPicks[k].length){
-        mastersPicks[k]=remote;
-      }
-    });
   }
 }
 
@@ -1754,8 +1755,6 @@ function runSim(){
   gameWagers={
     d1:{status:'active',propName:'Prentice',accName:'Ryder',propSide:'a',amount:20,ts:t-6e4},
     d2_pot:{status:'active',propName:'Otero',accName:'Buzz',propSide:'a',amount:50,ts:t-5e4},
-    d2_skins_0:{status:'active',propName:'Simon',accName:'Prentice',propSide:'a',amount:5,ts:t-4e4},
-    d2_skins_1:{status:'active',propName:'Ryder',accName:'Cromer',propSide:'a',amount:5,ts:t-3e4},
     d3_m0:{status:'active',propName:'Otero',accName:'Ryder',propSide:'a',amount:25,ts:t-2e4},
     d3_m1:{status:'active',propName:'Reese',accName:'Buzz',propSide:'a',amount:25,ts:t-1e4},
     d3_side:{status:'active',propName:'Prentice',accName:'Simon',propSide:'b',amount:30,ts:t},
@@ -2454,7 +2453,7 @@ function applyDayLocks(){
   ['d2','d3'].forEach(day=>{
     const locked=isDayLocked(day);
     const label=_dayLabels[day];
-    const lockText=locked?label+' 🔒':label;
+    const lockText=label;
     const ssn=document.getElementById('ssn-'+day);
     if(ssn){ssn.classList.toggle('day-locked',locked);ssn.textContent=lockText;}
     document.querySelectorAll(`.mdn-btn[data-day="${day}"]`).forEach(b=>{b.classList.toggle('day-locked',locked);b.textContent=lockText;});
@@ -2514,7 +2513,6 @@ function isMyGameWager(key){
   const me=chatAuthor||'';if(!me)return true;
   const myKey=Object.keys(P).find(k=>P[k].name===me);if(!myKey)return true;
   const info=gwInfo(key);if(!info)return true;
-  if(info.type==='skins'&&info.keys)return info.keys.includes(myKey);
   if(info.type==='match'&&info.aKeys&&info.bKeys)return info.aKeys.includes(myKey)||info.bKeys.includes(myKey);
   return true; // all-play games (shamble, pot, side) always show
 }
@@ -2865,7 +2863,7 @@ function updateLB(){
   const chipsT=[],chipsF=[],chipsS=[],wins={};
   Object.keys(P).forEach(k=>{wins[k]={d1:0,d2:0,d3:0};});
   {const d1g1=bbLive(D1[0].keys,'d1'),d1g2=bbLive(D1[1].keys,'d1');const allDoneD1=d1g1.holes===18&&d1g2.holes===18;const anyD1=d1g1.holes>0||d1g2.holes>0;if(allDoneD1){const d=d1g1.tot-d1g2.tot;const w=d===0?.5:1;(d<0?D1[0].keys:d>0?D1[1].keys:[...D1[0].keys,...D1[1].keys]).forEach(k=>wins[k].d1+=w);}if(!anyD1){chipsT.push({label:'4-Man Shamble',course:'We-Ko-Pa (Cholla)',val:'Pending',full:true});}else{const g1n=gwLabel(teamName('d1_g1'),12),g2n=gwLabel(teamName('d1_g2'),12);const teams=[{name:g1n,bb:d1g1,keys:D1[0].keys},{name:g2n,bb:d1g2,keys:D1[1].keys}];const sorted=[...teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});const ordinals=['1st','2nd'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDoneD1&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsT.push({label:'4-Man Shamble',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">We-Ko-Pa (Cholla)</div>`});}}
-  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.slice(0,3)).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball Stroke Play',course:'Troon North (Pinnacle)',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball Stroke Play',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
+  {const d2teams=[{keys:D2[0].sA},{keys:D2[0].sB},{keys:D2[1].sA},{keys:D2[1].sB}].map(t=>({...t,name:t.keys.map(k=>P[k].name.split(' ').pop()).join('/'),bb:bbLive(t.keys,'d2')}));const anyD2=d2teams.some(t=>t.bb.holes>0);const allDone=d2teams.every(t=>t.bb.holes===18);const sorted=[...d2teams].sort((a,b)=>{if(a.bb.holes===0&&b.bb.holes===0)return 0;if(a.bb.holes===0)return 1;if(b.bb.holes===0)return -1;return(a.bb.tot-a.bb.par)-(b.bb.tot-b.bb.par)||(b.bb.holes-a.bb.holes);});if(allDone){const minDiff=sorted[0].bb.tot-sorted[0].bb.par;const winners=sorted.filter(t=>(t.bb.tot-t.bb.par)===minDiff);winners.forEach(w=>w.keys.forEach(k=>wins[k].d2+=(1/winners.length)));}if(!anyD2){chipsF.push({label:'2-Man Best Ball Stroke Play',course:'Troon North (Pinnacle)',val:'Pending',full:true});}else{const ordinals=['1st','2nd','3rd','4th'];const rows=sorted.map((t,i)=>{const diff=t.bb.tot-t.bb.par;const scoreStr=t.bb.holes===0?'—':diff===0?'E':diff>0?`+${diff}`:String(diff);const scoreColor=diff<0?'#7ddba4':diff>0?'#e05a4a':'rgba(218,240,218,.55)';const thruStr=t.bb.holes===0?'—':t.bb.holes===18?'F':`T${t.bb.holes}`;const isWinner=allDone&&i===0;const rowStyle=isWinner?'color:var(--my)':'';return`<div class="lc-st-row"${rowStyle?` style="${rowStyle}"`:''}><span class="lc-st-pos">${ordinals[i]}</span><span class="lc-st-name">${t.name}</span><span class="lc-st-thru">${thruStr}</span><span class="lc-st-score" style="color:${isWinner?'var(--my)':scoreColor}">${scoreStr}</span></div>`;}).join('');chipsF.push({label:'2-Man Best Ball Stroke Play',full:true,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`});}}
   D3.forEach((pair,pi)=>{
     let aP=0,bP=0;
     for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){if(nA<nB)aP++;else if(nB<nA)bP++;else{aP+=.5;bP+=.5;}}}
@@ -2883,10 +2881,6 @@ function updateLB(){
     const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl2} 1 0">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl2} 1 0">${bN}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;
     chipsS.push({label:`Match ${pi+1}`,full:true,body});
   });
-  // Skins chips → Friday (only show if wager confirmed)
-  const skinsConfirmed=[0,1].map(gi=>{const gw=gameWagers['d2_skins_'+gi];return gw&&(gw.status==='active'||gw.status==='settled');});
-  const skinsCount=skinsConfirmed.filter(Boolean).length;
-  for(let gi=0;gi<2;gi++){if(!skinsConfirmed[gi])continue;const sc=d2SkinsCalc(gi);const lbl=`Group ${gi+1} Skins`;const isFull=skinsCount===1;if(sc.holesPlayed===0){chipsF.push({label:lbl,course:'Troon North (Pinnacle)',val:'Pending',full:isFull});}else{const sorted=sc.keys.map(k=>({name:P[k].name.split(' ')[0],s:sc.skins[k]})).sort((a,b)=>b.s-a.s);const rows=sorted.map((p,i)=>`<div class="lc-st-row"><span class="lc-st-pos">${i+1}</span><span class="lc-st-name">${p.name}</span><span class="lc-st-thru">${i===0?sc.complete?'F':`T${sc.holesPlayed}`:''}</span><span class="lc-st-score" style="color:${i===0&&p.s>0?'var(--my)':'rgba(218,240,218,.55)'}">${p.s} sk</span></div>`).join('');chipsF.push({label:lbl,body:`<div class="lc-standings">${rows}</div><div class="lc-course">Troon North (Pinnacle)</div>`,full:isFull});}}
   // Team Match Play chip → Saturday
   {let aH=0,bH=0,holes=0;for(let mi=0;mi<D3.length;mi++){const pair=D3[mi];for(let h=0;h<18;h++){const nA=bestNet(pair.sA,'d3',h),nB=bestNet(pair.sB,'d3',h);if(nA!=null&&nB!=null){holes++;if(nA<nB)aH++;else if(nB<nA)bH++;else{aH+=.5;bH+=.5;}}}}const tmDone=holes===36;const tmD=aH-bH;const aLbl=gwLabel(teamName('d3_sA')),bLbl=gwLabel(teamName('d3_sB'));if(holes===0){chipsS.push({label:'Team Match Play',course:'Grayhawk (Talon)',val:'Pending',full:true});}else{let scoreStr,scoreClass;if(tmD===0){scoreStr='AS';scoreClass='ev';}else if(tmD>0){scoreStr=`+${fmt(tmD)}`;scoreClass='mA';}else{scoreStr=`+${fmt(Math.abs(tmD))}`;scoreClass='mB';}const thruStr=tmDone?'Final':`${holes} holes played`;const _aFl3=scoreClass==='mA'?0.4:scoreClass==='mB'?1.6:1;const _bFl3=scoreClass==='mB'?0.4:scoreClass==='mA'?1.6:1;const body=`<div style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-bottom:10px">${thruStr}</div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl3} 1 0">${aLbl}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl3} 1 0">${bLbl}</div></div><div class="lc-course" style="margin-top:10px">Grayhawk (Talon)</div>`;chipsS.push({label:'Team Match Play',full:true,body});}}
   // Render day sections
@@ -3129,7 +3123,8 @@ const TOUR_STEPS=[
   },
   {
     tab:'lb',
-    target:'panel-lb',
+    target:null,
+    targetQuery:'.lb-hero',
     title:'Leaderboard',
     body:'Live standings update automatically as scores come in — individual totals, match play results, and the Masters Pool.',
     pos:'below',
@@ -3365,8 +3360,9 @@ function tourPositionTooltip(el,step,idx){
     }
   }
 
-  // Clamp vertically
-  top=Math.max(pad,Math.min(top,window.innerHeight-250));
+  // Clamp vertically — ensure tooltip stays below mobile status bar (safe area)
+  const safeTop=Math.max(pad,parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat'))||0,50);
+  top=Math.max(safeTop,Math.min(top,window.innerHeight-250));
 
   tt.style.left=left+'px';
   tt.style.top=top+'px';
@@ -3544,7 +3540,8 @@ function buildMastersLB(){
       let cls='masters-wager-pick';
       if(counting)cls+=' counting';
       else if(dropped)cls+=' dropped';
-      return`<span class="${cls}">${mDisp(mp)}${sc!=null?' ('+sc+')':''}</span>`;
+      const shortName=mp.last.length>8?mp.last.slice(0,7)+'…':mp.last;
+      return`<span class="${cls}">${shortName}${sc!=null?' ('+sc+')':''}</span>`;
     }).join('');
     html+=`<div class="masters-picks-summary">${pickChips}</div>`;
   });
@@ -3565,18 +3562,19 @@ function buildMastersWagerCard(){
   const picksCount=Object.keys(mastersPicks).filter(k=>mastersPicks[k]&&mastersPicks[k].length>0).length;
 
   let html='<div class="wager-card">';
-  html+='<div class="wc-title-row"><div class="wc-desc">The Masters Pool</div><div class="wc-amount">$'+MASTERS_BUYIN+'</div></div>';
-  html+='<div style="font-family:\'DM Sans\',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-bottom:6px;">Pick 6, Use Best 4 · Winner Take All · '+picksCount+'/8 picked</div>';
+  html+='<div class="wc-title-row"><div class="wc-day" style="background:rgba(254,254,86,.12);color:#fefe56;border-color:rgba(254,254,86,.3);">⭐</div><div class="wc-desc">The Masters Pool</div><div class="wc-amount">$'+MASTERS_BUYIN+'</div></div>';
+  html+='<div style="display:flex;align-items:center;justify-content:space-between;font-family:\'DM Sans\',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-bottom:6px;"><span>Pick 6, Use Best 4 · Winner Take All · '+picksCount+'/8 picked</span>';
+  if(myPicks.length>0&&!locked)html+='<button class="masters-edit-btn" onclick="openMastersPicks()">Edit Picks</button>';
+  html+='</div>';
 
   if(myPicks.length>0){
-    html+='<div class="masters-wager-picks" style="margin-top:8px">';
+    html+='<div class="masters-wager-picks" style="margin-top:4px">';
     myPicks.forEach(pid=>{
       if(!pid){html+='<span class="masters-wager-pick empty">—</span>';return;}
       const mp=MASTERS_PLAYERS[pid];
-      if(mp)html+='<span class="masters-wager-pick">'+mDisp(mp)+'</span>';
+      if(mp)html+='<span class="masters-wager-pick">'+mp.last+'</span>';
     });
     html+='</div>';
-    if(!locked)html+='<div style="margin-top:8px;text-align:right;"><button class="masters-edit-btn" onclick="openMastersPicks()">Edit Picks</button></div>';
   }else{
     if(!locked){
       html+='<div style="padding:6px 0;"><button class="gw-set-btn" onclick="openMastersPicks()">+ Make Your Picks</button></div>';
@@ -4564,8 +4562,8 @@ function suggestOddsPreset(playerKey,day,statType,line,propSide){
   if(!meta)return'even';
   const range=meta.max||18;
   const pct=diff/range;
-  if(pct<0.05)return'even';
-  if(pct<0.1)return'tight';
+  if(pct<0.05)return'tight';
+  if(pct<0.1)return'even';
   if(pct<0.18)return'generous';
   return'longshot';
 }
@@ -4722,8 +4720,6 @@ function gwInfo(key){
   const m={
     d1:{label:'4-Man Shamble Match',type:'match',aLabel:gwLabel(teamName('d1_g1'),14),bLabel:gwLabel(teamName('d1_g2'),14),aKeys:D1[0].keys,bKeys:D1[1].keys},
     d2_pot:{label:'2-Man Best Ball Stroke Play',type:'pot'},
-    d2_skins_0:{label:'Group 1 Skins',type:'skins',gi:0,keys:[...D2[0].sA,...D2[0].sB]},
-    d2_skins_1:{label:'Group 2 Skins',type:'skins',gi:1,keys:[...D2[1].sA,...D2[1].sB]},
     d3_m0:{label:'Match Play 1',type:'match',compact:true,aLabel:D3[0].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[0].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[0].sA,bKeys:D3[0].sB},
     d3_m1:{label:'Match Play 2',type:'match',compact:true,aLabel:D3[1].sA.map(k=>P[k].name.slice(0,3)).join('/'),bLabel:D3[1].sB.map(k=>P[k].name.slice(0,3)).join('/'),aKeys:D3[1].sA,bKeys:D3[1].sB},
     d3_side:{label:'Team Match Play',type:'match',compact:true,aLabel:gwLabel(teamName('d3_sA')),bLabel:gwLabel(teamName('d3_sB')),aKeys:[...D3[0].sA,...D3[1].sA],bKeys:[...D3[0].sB,...D3[1].sB]},
@@ -4794,11 +4790,6 @@ function settleGameWagers(){
     const gw=gameWagers[key];
     if(!gw||gw.status!=='active')return;
     const info=gwInfo(key);if(!info)return;
-    if(info.type==='skins'){
-      const calc=d2SkinsCalc(info.gi);
-      if(calc.complete){gw.status='settled';gw.result='skins';gw.skinsData={...calc.skins};changed=true;}
-      return;
-    }
     const outcome=gwWinner(key);
     if(outcome!==null){gw.status='settled';gw.result=outcome;changed=true;}
   });
@@ -4806,7 +4797,8 @@ function settleGameWagers(){
   return changed;
 }
 function updateGWWidgets(){
-  const map={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d2_skins_0:'gw-area-d2-skins-0',d2_skins_1:'gw-area-d2-skins-1',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
+  initHardsetWagers();
+  const map={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
   Object.entries(map).forEach(([key,id])=>{const el=document.getElementById(id);if(el)el.innerHTML=gameWagerWidget(key);});
   if(currentTab==='bets')buildWagers();
   if(currentTab==='ledger')buildLedger();
@@ -4825,215 +4817,35 @@ function gameWagerWidget(key){
   // Determine if current user is a participant in this specific game
   const myKey=myName?Object.keys(P).find(k=>P[k].name===myName):null;
   let isParticipant=true; // default true for pot (all 8) and d1/d3_side (all 8)
-  if(info.type==='skins'&&info.keys){isParticipant=!!myKey&&info.keys.includes(myKey);}
-  else if(info.type==='match'&&info.aKeys&&info.bKeys&&(key==='d3_m0'||key==='d3_m1')){isParticipant=!!myKey&&(info.aKeys.includes(myKey)||info.bKeys.includes(myKey));}
+  if(info.type==='match'&&info.aKeys&&info.bKeys&&(key==='d3_m0'||key==='d3_m1')){isParticipant=!!myKey&&(info.aKeys.includes(myKey)||info.bKeys.includes(myKey));}
   // If user isn't in this game and no wager exists yet, hide the widget entirely
   if(!isParticipant&&(!gw||gw.status==='void'))return'';
 
   // ── POT widget ───────────────────────────────────
   if(info.type==='pot'){
-    const potLines=()=>{
-      const res=D2_TEAMS.map((ks,ti)=>{
-        const {netToPar,holesPlayed}=d2BbNetToPar(ks);
-        const str=holesPlayed===0?'—':(netToPar===0?'E':(netToPar>0?'+'+netToPar:String(netToPar)));
-        return`<div class="gw-pot-row${ti===0?' gw-pot-leader':''}" style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(218,240,218,.07);">
-          <span style="font-size:12px;color:var(--mw)">${d2TeamLabel(ti)}</span>
-          <span style="font-size:12px;font-weight:700;color:${netToPar<=0?'#6dc884':'rgba(218,240,218,.6)'};">${str}</span>
-        </div>`;
-      });
-      // sort by netToPar live
-      const data=D2_TEAMS.map((ks,ti)=>{const {netToPar,holesPlayed}=d2BbNetToPar(ks);return{ti,netToPar,holesPlayed};});
-      data.sort((a,b)=>a.netToPar-b.netToPar);
-      return data.map(({ti,netToPar,holesPlayed})=>{
-        const str=holesPlayed===0?'—':(netToPar===0?'E':(netToPar>0?'+'+netToPar:String(netToPar)));
-        const thru=holesPlayed>0?`<span style="font-size:10px;color:rgba(218,240,218,.35);margin-left:4px">thru ${holesPlayed}</span>`:'';
-        return`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(218,240,218,.07);">
-          <span style="font-size:12px;color:var(--mw)">${d2TeamLabel(ti)}</span>
-          <span style="font-size:12px;font-weight:700;color:${netToPar<0?'#6dc884':netToPar===0?'rgba(218,240,218,.7)':'rgba(218,240,218,.45)'};">${str}${thru}</span>
-        </div>`;
-      }).join('');
-    };
-    const isMajority=gwRequiresMajority(key);
+    // Matchup line showing all 4 teams
+    const teamsStr=D2_TEAMS.map((_,ti)=>d2TeamLabel(ti)).join('<span class="gw-vs">vs</span>');
+    const matchupRow=`<div class="gw-matchup-row"><span class="gw-matchup-line">${teamsStr}</span></div>`;
+    // Preset $20 pool — no propose/accept flow
     let body='';
-    if(!gw||gw.status==='void'){
-      if(inputOpen){
-        body=`<div class="gw-form">
-          <div class="gw-form-row"><div class="ps-label">Betting as</div><div class="gw-identity-tag">${myName}</div></div>
-          <div class="gw-form-row"><div class="ps-label">$ Per Player</div>
-            <input class="ps-amount-inp" id="gw-amt-${key}" type="number" inputmode="decimal" min="1" placeholder="e.g. 20" value="${ist.amount||''}">
-          </div>
-          <button class="gw-propose-btn" onclick="submitGW('${key}')">Propose Wager</button>
-          <button class="gw-cancel-form-btn" onclick="hideGWPropose('${key}')">Cancel</button>
-        </div>`;
-      } else {
-        body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Wager</button>`;
-      }
-    } else if(gw.status==='voting'){
-      const approvals=gw.approvals||[];
-      const allNames=Object.values(P).map(p=>p.name);
-      const approvedSet=new Set(approvals);
-      const iApproved=myName&&approvedSet.has(myName);
-      const canCancel=gw.propName===myName&&approvals.length<=1;
-      const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''}${n.slice(0,3)}</div>`).join('');
-      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong></span></div>
-        <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
-        <div class="pool-progress">${approvals.length}/5 approvals · 5 of 8 locks it in</div>
-        <div class="gw-pending-actions">
-          ${!iApproved?`<button class="gw-accept-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>`:''}
-          ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
-        </div>`;
-    } else if(gw.status==='open'){
-      const isProposer=gw.propName===myName;
-      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/player</strong></span></div>
-        <div class="gw-pending-actions">
-          ${!isProposer?`<button class="gw-accept-btn" onclick="submitGWAccept('${key}')">Accept · $${gw.amount}/player</button>`:''}
-          ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
-        </div>`;
-    } else if(gw.status==='active'){
-      body=`<div style="margin-bottom:6px"><span class="gw-active-amt">$${gw.amount}/player</span><span class="gw-active-info">${gw.propName} confirmed</span></div>
-      <div style="padding:2px 0">${potLines()}</div>`;
-    } else if(gw.status==='settled'){
+    if(gw&&gw.status==='settled'){
       if(gw.result==='push'){
         body=`<div><span class="gw-settled-push">All square — pot split</span></div>`;
       } else {
         const ti=gw.result;
         const winLabel=d2TeamLabel(ti);
-        body=`<div><span class="gw-settled-result">${winLabel} win</span><span class="gw-active-info" style="margin-left:8px">$${gw.amount}/player · winners net +$${3*gw.amount}</span></div>`;
+        body=`<div><span class="gw-settled-result">${winLabel} win</span><span class="gw-active-info" style="margin-left:8px">$20/player · winners net +$60</span></div>`;
       }
     }
-    return`<div class="gw-widget ${statusCls}"><div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span></div>${body}</div>`;
+    return`<div class="gw-widget ${statusCls}"><div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span><span class="wc-amount">$20</span></div>${matchupRow}${body}</div>`;
   }
 
-  // ── SKINS widget ─────────────────────────────────
-  if(info.type==='skins'){
-    const gi=info.gi;
-    const skinKeys=info.keys; // 4 players
-    const skinLines=(amount)=>{
-      const calc=d2SkinsCalc(gi);
-      const rows=skinKeys.map(k=>{
-        const s=calc.skins[k]||0;
-        const dots=s>0?`<span style="color:#fefe56;letter-spacing:1px">${'●'.repeat(s)}</span>`:`<span style="color:rgba(218,240,218,.2)">—</span>`;
-        return`<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(218,240,218,.07);">
-          <span style="font-size:12px;color:var(--mw)">${P[k].name}</span>
-          <span style="display:flex;align-items:center;gap:6px">${dots}<span style="font-size:11px;font-weight:700;color:rgba(218,240,218,.5);min-width:18px;text-align:right">${s}</span></span>
-        </div>`;
-      }).join('');
-      const outstandingHtml=calc.outstanding>0?`<div style="margin-top:6px;font-size:10px;color:rgba(218,240,218,.4)">⏳ ${calc.outstanding} skin${calc.outstanding>1?'s':''} outstanding</div>`:'';
-      return rows+outstandingHtml;
-    };
-    const settledLines=(amount)=>{
-      const calc=d2SkinsCalc(gi);
-      return skinKeys.map(k=>{
-        const s=calc.skins[k]||0;
-        const playerNet=(4*s-calc.totalSkins)*amount;
-        const netStr=playerNet===0?'even':(playerNet>0?`+$${playerNet}`:`-$${Math.abs(playerNet)}`);
-        const netColor=playerNet>0?'#6dc884':playerNet<0?'#e87060':'rgba(218,240,218,.5)';
-        return`<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(218,240,218,.07);">
-          <span style="font-size:12px;color:var(--mw)">${P[k].name}</span>
-          <span style="display:flex;align-items:center;gap:10px">
-            <span style="font-size:11px;color:rgba(218,240,218,.5)">${s} skin${s!==1?'s':''}</span>
-            <span style="font-size:12px;font-weight:700;color:${netColor}">${netStr}</span>
-          </span>
-        </div>`;
-      }).join('');
-    };
-    let body='';
-    if(!gw||gw.status==='void'){
-      if(inputOpen){
-        body=`<div class="gw-form">
-          <div class="gw-form-row"><div class="ps-label">Betting as</div><div class="gw-identity-tag">${myName}</div></div>
-          <div class="gw-form-row"><div class="ps-label">$ Per Skin</div>
-            <input class="ps-amount-inp" id="gw-amt-${key}" type="number" inputmode="decimal" min="1" placeholder="e.g. 5" value="${ist.amount||''}">
-          </div>
-          <button class="gw-propose-btn" onclick="submitGW('${key}')">Propose Skins</button>
-          <button class="gw-cancel-form-btn" onclick="hideGWPropose('${key}')">Cancel</button>
-        </div>`;
-      } else {
-        body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Wager</button>`;
-      }
-    } else if(gw.status==='open'){
-      const isProposer=gw.propName===myName;
-      // Find opposing team — proposer's team = sA or sB; acceptor must be from the other side
-      const propKey=Object.keys(P).find(k=>P[k].name===gw.propName);
-      const propIsOnSA=propKey&&D2[gi].sA.includes(propKey);
-      const oppKeys=propIsOnSA?D2[gi].sB:D2[gi].sA;
-      const oppNames=oppKeys.map(k=>P[k].name);
-      const canAcceptSkins=myName&&oppNames.includes(myName);
-      body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} proposed <strong>$${gw.amount}/skin</strong></span></div>
-        <div class="gw-pending-actions">
-          ${canAcceptSkins?`<button class="gw-accept-btn" onclick="submitGWAccept('${key}')">Accept · $${gw.amount}/skin</button>`:''}
-          ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
-        </div>`;
-    } else if(gw.status==='active'){
-      body=`<div style="margin-bottom:6px"><span class="gw-active-amt">$${gw.amount}/skin</span><span class="gw-active-info">${gw.propName} confirmed</span></div>
-      <div style="padding:2px 0">${skinLines(gw.amount)}</div>`;
-    } else if(gw.status==='settled'){
-      body=`<div style="margin-bottom:6px"><span class="gw-settled-result">Final Skins</span><span class="gw-active-info" style="margin-left:8px">$${gw.amount}/skin</span></div>
-      <div style="padding:2px 0">${settledLines(gw.amount)}</div>`;
-    }
-    const groupLabel=skinKeys.map(k=>P[k].name).join(', ');
-    return`<div class="gw-widget ${statusCls}"><div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span><span class="gw-opt-tag">optional</span></div>${body}</div>`;
-  }
-
-  // ── MATCH widget (existing logic, d1 / d3_m0 / d3_m1 / d3_side) ───────────
-  const matchupHtml=`<div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span></div><div class="gw-matchup-row"><span class="gw-matchup-line">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span></div>`;
+  // ── MATCH widget (preset $20 pool — d1 / d3_m0 / d3_m1 / d3_side) ───────────
+  const matchupHtml=`<div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span><span class="wc-amount">$20</span></div><div class="gw-matchup-row"><span class="gw-matchup-line">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span></div>`;
   let body='';
-  if(!gw||gw.status==='void'){
-    if(inputOpen){
-      const sA=ist.side==='a',sB=ist.side==='b';
-      const names=ist.side?(ist.side==='a'?info.aKeys:info.bKeys).map(k=>P[k].name):[];
-      body=`<div class="gw-form">
-        <div class="gw-form-row"><div class="ps-label">Your Side</div>
-          <div class="ps-opts" style="gap:6px">
-            <div class="ps-opt${sA?' sel':''}" onclick="setGWSide('${key}','a')">${info.aLabel}</div>
-            <div class="ps-opt${sB?' sel':''}" onclick="setGWSide('${key}','b')">${info.bLabel}</div>
-          </div>
-        </div>
-        ${ist.side?`<div class="gw-form-row"><div class="ps-label">Betting as</div><div class="gw-identity-tag">${myName}</div></div>
-          <div class="gw-form-row"><div class="ps-label">$ Per Player</div>
-          <input class="ps-amount-inp" id="gw-amt-${key}" type="number" inputmode="decimal" min="1" placeholder="e.g. 10" value="${ist.amount||''}">
-          </div>
-          <button class="gw-propose-btn" onclick="submitGW('${key}')">Propose Wager</button>`:''}
-        <button class="gw-cancel-form-btn" onclick="hideGWPropose('${key}')">Cancel</button>
-      </div>`;
-    } else {
-      body=`<button class="gw-set-btn" onclick="showGWPropose('${key}')">+ Set Wager</button>`;
-    }
-  } else if(gw.status==='voting'){
-    // Majority approval state — for d1 (Shamble) and d3_side (Team Match Play)
-    const approvals=gw.approvals||[];
-    const allNames=Object.values(P).map(p=>p.name);
-    const approvedSet=new Set(approvals);
-    const iApproved=myName&&approvedSet.has(myName);
-    const canCancel=gw.propName===myName&&approvals.length<=1;
-    const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
-    const chips=allNames.map(n=>`<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''}${n.slice(0,3)}</div>`).join('');
-    body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
-      <div class="pool-approval-chips" style="margin-top:8px">${chips}</div>
-      <div class="pool-progress">${approvals.length}/5 approvals · 5 of 8 locks it in</div>
-      <div class="gw-pending-actions">
-        ${!iApproved?`<button class="gw-accept-btn" onclick="submitGWApproval('${key}')">👍 Approve · $${gw.amount}/player</button>`:''}
-        ${canCancel?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
-      </div>`;
-  } else if(gw.status==='open'){
-    const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
-    const accSideLabel=gw.propSide==='a'?info.bLabel:info.aLabel;
-    const isProposer=gw.propName===myName;
-    const accKeys=(gw.propSide==='a'?info.bKeys:info.aKeys);
-    const accNames=accKeys.map(k=>P[k].name);
-    const canAcceptMatch=myName&&accNames.includes(myName);
-    body=`<div class="gw-pending"><span class="gw-pending-txt">${gw.propName} <span style="color:rgba(218,240,218,.45)">(${propSideLabel})</span> proposed <strong>$${gw.amount}/player</strong></span></div>
-      <div class="gw-pending-actions">
-        ${canAcceptMatch?`<button class="gw-accept-btn" onclick="submitGWAccept('${key}')">Accept · $${gw.amount}/player</button>`:''}
-        ${isProposer?`<button class="gw-cancel-wager-btn" onclick="cancelGW('${key}')">✕</button>`:''}
-      </div>`;
-  } else if(gw.status==='active'){
-    const propSideLabel=gw.propSide==='a'?info.aLabel:info.bLabel;
-    const accSideLabel=gw.propSide==='a'?info.bLabel:info.aLabel;
-    body=`<div><span class="gw-active-amt">$${gw.amount}/player</span><span class="gw-active-info">${gw.propName} (${propSideLabel}) vs ${gw.accName} (${accSideLabel})</span></div>`;
-  } else if(gw.status==='settled'){
+  if(gw&&gw.status==='settled'){
     const winner=gw.result==='push'?null:(gw.result==='a'?info.aLabel:info.bLabel);
-    body=`<div><span class="${winner?'gw-settled-result':'gw-settled-push'}">${winner?winner+' win · $'+gw.amount+'/player':'Halved (push)'}</span></div>`;
+    body=`<div><span class="${winner?'gw-settled-result':'gw-settled-push'}">${winner?winner+' win · $20/player':'Halved (push)'}</span></div>`;
   }
   return`<div class="gw-widget ${statusCls}">${matchupHtml}${body}</div>`;
 }
@@ -5060,6 +4872,22 @@ function submitGW(key){
   if(isMajority){
     gameWagers[key]={amount:amt,propName:name,propSide:needsSide?ist.side:null,accName:null,status:'voting',approvals:[name],result:null,ts:Date.now()};
   } else {
+    gameWagers[key]={amount:amt,propName:name,propSide:needsSide?ist.side:null,accName:null,status:'open',result:null,ts:Date.now()};
+  }
+  gwInputOpen=null;delete gwInputState[key];
+  pushRemote(getState(),true);
+  updateGWWidgets();
+}
+function submitGWFixed(key,amt){
+  const name=chatAuthor;if(!name)return;
+  const info=gwInfo(key);
+  const needsSide=info&&info.type==='match';
+  const ist=gwInputState[key]||{};
+  if(needsSide&&!ist.side)return;
+  const isMajority=gwRequiresMajority(key);
+  if(isMajority){
+    gameWagers[key]={amount:amt,propName:name,propSide:needsSide?ist.side:null,accName:null,status:'voting',approvals:[name],result:null,ts:Date.now()};
+  }else{
     gameWagers[key]={amount:amt,propName:name,propSide:needsSide?ist.side:null,accName:null,status:'open',result:null,ts:Date.now()};
   }
   gwInputOpen=null;delete gwInputState[key];
@@ -5370,17 +5198,6 @@ function netLedger(){
       allKeys.filter(k=>!winTeam.includes(k)).forEach(k=>{if(net[P[k].name]!==undefined)net[P[k].name]-=gw.amount;});
       return;
     }
-    if(info.type==='skins'){
-      if(!gw.skinsData)return;
-      const allKeys=info.keys;
-      const totalSkins=Object.values(gw.skinsData).reduce((a,b)=>a+b,0);
-      allKeys.forEach(k=>{
-        const s=gw.skinsData[k]||0;
-        const playerNet=(4*s-totalSkins)*gw.amount;
-        if(net[P[k].name]!==undefined)net[P[k].name]+=playerNet;
-      });
-      return;
-    }
     // match type
     if(gw.result==='push')return;
     const wKeys=gw.result==='a'?info.aKeys:info.bKeys;
@@ -5630,6 +5447,8 @@ function houseCardHTML(bet,myName){
   const playerName=P[bet.player]?.name||bet.player;
   const dirLabel=bet.propSide==='over'?'OVER':'UNDER';
   const dirCls=bet.propSide==='over'?'hp-over':'hp-under';
+  const buyerSide=bet.propSide==='over'?'UNDER':'OVER';
+  const buyerCls=bet.propSide==='over'?'hp-under':'hp-over';
   const oddsStr=bet.oddsNum===bet.oddsDen?'EVEN':`${bet.oddsNum}:${bet.oddsDen}`;
   const totalIn=bet.buyins.reduce((s,b)=>s+b.amount,0);
   const houseExp=bet.buyins.reduce((s,b)=>s+Math.round(b.amount*bet.oddsNum/bet.oddsDen),0);
@@ -5651,12 +5470,12 @@ function houseCardHTML(bet,myName){
   return`<div class="wager-card ${cardCls}">
   ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:''}
   <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${playerName} · ${meta.label||bet.statType}</div></div>
-  <div class="hp-stat-row"><span class="hp-stat-val">${bet.line}</span><span class="hp-stat-dir ${dirCls}">${dirLabel}</span><span style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-left:2px">${meta.unit||''}</span></div>
+  <div class="hp-stat-row"><span class="hp-stat-dir ${buyerCls}">${buyerSide}</span><span class="hp-stat-val">${bet.line}</span><span style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-left:2px">${meta.unit||''}</span></div>
   <div class="hp-house-row">🏠 ${bet.houseName} backs ${dirLabel} · Odds <span class="hp-odds">${oddsStr}</span></div>
   <div class="hp-buyins">${buyinChips}</div>
   ${bet.exposureCap>0?`<div class="hp-cap-bar-wrap"><div class="hp-cap-label">Exposure: $${houseExp} of $${bet.exposureCap} cap</div><div class="hp-cap-bar"><div class="hp-cap-fill" style="width:${capPct}%"></div></div></div>`:''}
   ${resultHtml}
-  ${canBuyIn?`<button class="hp-buyin-btn" onclick="openAcceptSheet('${bet.id}')">Buy In · ${oddsStr} odds →</button>`:''}
+  ${canBuyIn?`<button class="hp-buyin-btn" onclick="openAcceptSheet('${bet.id}')">Take the ${buyerSide} · ${oddsStr} odds →</button>`:''}
 </div>`;
 }
 
@@ -5698,7 +5517,7 @@ function buildWagers(){
   const suggEl=document.getElementById('wager-suggest');
   if(suggEl){
     const typeLabels={'birdie-ou':'Birdies O/U','cleancard':'Clean Card','lastplace':'Last Place','h2h':'Net H2H','ou':'Gross O/U','lownet':'Low Net','house-prop':'House Prop','pool':'Pool','kp':'KP','h2h-gross':'Gross H2H','match':'Match','nassau':'Nassau'};
-    const hdr=`<div class="suggest-section"><div class="wager-section-hdr">Hot Takes</div>`;
+    const hdr=`<div class="suggest-section"><div class="wager-section-hdr">AI Bets</div>`;
     if(sugg.length){
       suggEl.innerHTML=hdr+sugg.map((s,i)=>`<div class="suggest-card"><div class="suggest-card-body"><div class="suggest-type">${typeLabels[s.type]||s.type}</div><div class="suggest-label">${s.label}</div><div class="suggest-rationale">${s.rationale}</div></div><button class="suggest-btn" onclick="proposeSuggested(${i})">Bet This</button></div>`).join('')+`</div>`;
     }else{
@@ -5729,23 +5548,27 @@ function buildWagers(){
     });
     return out||'';
   }
+  // Masters Pool → dedicated slot above Main Games
+  const mastersSlot=document.getElementById('masters-pool-slot');
+  if(mastersSlot)mastersSlot.innerHTML=buildMastersWagerCard();
+  // Other pools → slot below Main Games
+  const otherPoolsSlot=document.getElementById('other-pools-slot');
+  if(otherPoolsSlot)otherPoolsSlot.innerHTML=poolBets.length?groupByDay(poolBets,b=>(b.participants&&b.participants.length>0)?poolModeCardHTML(b,myName):poolCardHTML(b,myName)):'';
+  // P2P + House Props → wager-content
   let html='';
   html+=`<div class="wager-section-hdr">P2P Bets</div>`;
   html+=p2pBets.length?groupByDay(p2pBets,renderP2P):'<div class="wager-empty">No P2P bets yet</div>';
   html+=`<div class="wager-section-hdr" style="margin-top:14px">House Props</div>`;
   html+=houseBets.length?groupByDay(houseBets,b=>houseCardHTML(b,myName)):'<div class="wager-empty">No house props yet</div>';
-  html+=`<div class="wager-section-hdr" style="margin-top:14px">Pools</div>`;
-  html+=buildMastersWagerCard();
-  html+=poolBets.length?groupByDay(poolBets,b=>(b.participants&&b.participants.length>0)?poolModeCardHTML(b,myName):poolCardHTML(b,myName)):'';
   cont.innerHTML=html;
   const nl=netLedger();
   const rows=Object.entries(nl).filter(([,v])=>v!==0).sort((a,b)=>b[1]-a[1]);
   const stBlock=document.getElementById('wager-standing-block');
   if(rows.length){stBlock.style.display='';document.getElementById('wager-standing').innerHTML=rows.map(([name,v])=>`<tr><td class="wsn">${name}</td><td class="wsv ${v>0?'pos':v<0?'neg':'zero'}">${v>0?'+$'+v:'-$'+Math.abs(v)}</td></tr>`).join('');}
   else stBlock.style.display='none';
-  // Mine filter: hide/show Main Games + Hot Takes
-  const gwKeys=['d1','d2_pot','d2_skins_0','d2_skins_1','d3_m0','d3_m1','d3_side'];
-  const gwAreaMap={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d2_skins_0:'gw-area-d2-skins-0',d2_skins_1:'gw-area-d2-skins-1',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
+  // Mine filter: hide/show Main Games + AI Bets
+  const gwKeys=['d1','d2_pot','d3_m0','d3_m1','d3_side'];
+  const gwAreaMap={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
   gwKeys.forEach(key=>{const el=document.getElementById(gwAreaMap[key]);if(el)el.style.display=(!isMine||isMyGameWager(key))?'':'none';});
   // Show/hide main-game-card parents if all children hidden
   const mgCards=document.querySelectorAll('.main-game-card');
@@ -5754,11 +5577,15 @@ function buildWagers(){
     const anyVisible=[...areas].some(a=>a.style.display!=='none');
     card.style.display=anyVisible?'':'none';
   });
-  // Hide Main Games header if all cards hidden
-  const mainHdr=document.querySelector('#wc-bets > .wager-section-hdr');
+  // Hide Pools header if no pools content visible
+  const poolsHdr=document.querySelector('#wc-bets > .wager-section-hdr');
   const anyMainVisible=[...mgCards].some(c=>c.style.display!=='none');
-  if(mainHdr)mainHdr.style.display=anyMainVisible?'':'none';
-  // Hide Hot Takes in mine mode
+  const mastersSlotEl=document.getElementById('masters-pool-slot');
+  const otherPoolsSlotEl=document.getElementById('other-pools-slot');
+  const hasMasters=mastersSlotEl&&mastersSlotEl.innerHTML.trim().length>0;
+  const hasOtherPools=otherPoolsSlotEl&&otherPoolsSlotEl.innerHTML.trim().length>0;
+  if(poolsHdr)poolsHdr.style.display=(anyMainVisible||hasMasters||hasOtherPools)?'':'none';
+  // Hide AI Bets in mine mode
   if(suggEl)suggEl.style.display=isMine?'none':'';
 }
 
@@ -5794,8 +5621,6 @@ function buildLedger(){
   const gwMap={
     d1:{day:'THU',name:'4-Man Shamble Match'},
     d2_pot:{day:'FRI',name:'2-Man Best Ball Stroke Play'},
-    d2_skins_0:{day:'FRI',name:'Group 1 Skins'},
-    d2_skins_1:{day:'FRI',name:'Group 2 Skins'},
     d3_m0:{day:'SAT',name:'Match Play 1'},
     d3_m1:{day:'SAT',name:'Match Play 2'},
     d3_side:{day:'SAT',name:'Team Match Play'},
@@ -5804,16 +5629,13 @@ function buildLedger(){
   bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.3);border-bottom:1px solid rgba(218,240,218,.08);">Game Wagers</div>';
   Object.entries(gwMap).forEach(([key,meta])=>{
     const gw=gameWagers[key];
-    // Hide skins until confirmed
-    if(key.startsWith('d2_skins')&&(!gw||gw.status==='void'||gw.status==='voting'||gw.status==='open'))return;
     let statusCls='lbr-none',statusTxt='Not set',amtTxt='—';
     if(gw&&gw.status!=='void'){
       if(gw.status==='settled'){statusCls='lbr-settled';statusTxt='Settled';}
       else if(gw.status==='active'){statusCls='lbr-active';statusTxt='Active';}
       else if(gw.status==='open'){statusCls='lbr-open';statusTxt='Open';}
       else if(gw.status==='voting'){statusCls='lbr-open';statusTxt='Pending';}
-      const isSkins=key.startsWith('d2_skins');
-      amtTxt='$'+gw.amount+(isSkins?'/skin':'/player');
+      amtTxt='$'+gw.amount+'/player';
     }
     bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-day">${meta.day}</div><div class="lbr-name">${meta.name}</div></div><span class="lbr-status ${statusCls}">${statusTxt}</span><div class="lbr-amt">${amtTxt}</div></div>`;
   });
@@ -5950,7 +5772,7 @@ function openProposeSheet(){
     const steps=document.getElementById(c+'-steps');if(steps)steps.style.display=c==='p2p'?'':'none';
   });
   // P2P reset
-  const allTypes=['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','lownet','match','nassau'];
+  const allTypes=['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','lownet','match','nassau','kp'];
   allTypes.forEach(t=>{const el=document.getElementById('ps-type-'+t);if(el)el.classList.toggle('sel',t==='ou');});
   ['d1','d2','d3'].forEach(d=>{const el=document.getElementById('ps-day-'+d);if(el)el.classList.toggle('sel',d==='d1');});
   renderPropPlayers();renderPropPlayerB();renderPropMatches();
@@ -6040,6 +5862,8 @@ function toggleParticipant(name){
   updateProposeUI();}
 function togglePoolMode(){propSt.poolMode=!propSt.poolMode;propSt.participants=[];propSt.player=null;
   renderPropPlayers();updateProposeUI();}
+function toggleKPAll(){const me=chatAuthor||'';const allNames=Object.values(P).map(p=>p.name).filter(n=>n!==me);const allIn=allNames.every(n=>propSt.participants.includes(n));propSt.participants=allIn?[]:allNames.slice();updateProposeUI();}
+function togglePoolAll(){const me=chatAuthor||'';const allNames=Object.values(P).map(p=>p.name).filter(n=>n!==me);const allIn=allNames.every(n=>propSt.participants.includes(n));propSt.participants=allIn?[]:allNames.slice();updateProposeUI();}
 function renderPropMatches(){
   const ouStep=document.getElementById('ps-player-step');
   const mStep=document.getElementById('ps-match-step');
@@ -6078,6 +5902,11 @@ function updateProposeUI(){
   const partStep=document.getElementById('ps-participants-step');
   const playerStep=document.getElementById('ps-player-step');
   if(dayStep)dayStep.style.display='';
+  // Thursday disable logic — runs for ALL types before any early returns
+  const d1Btn=document.getElementById('ps-day-d1');
+  const isNassau=t==='nassau';
+  const netOnly=isLast||isNassau||t==='lownet'||t==='h2h';
+  if(d1Btn){d1Btn.classList.toggle('ps-na',netOnly);if(netOnly&&propSt.day==='d1'){setPropDay('d2');return;}}
   // KP flow
   if(isKP){
     if(playerStep)playerStep.style.display='none';
@@ -6093,7 +5922,8 @@ function updateProposeUI(){
     if(partStep)partStep.style.display='';
     const partEl=document.getElementById('ps-participants');
     const me=chatAuthor||'';
-    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('')+`<div class="ps-opt sel ps-pool-chip" onclick="togglePoolMode()">👥 Group pool</div><div class="ps-pool-hint">Each person throws in the same amount. Closest to the pin takes the pot.</div>`;}
+    const allNames=Object.values(P).map(p=>p.name);const nonMe=allNames.filter(n=>n!==me);const allIn=nonMe.every(n=>propSt.participants.includes(n));
+    if(partEl){partEl.innerHTML=`<div class="ps-opt ps-pool-chip${allIn?' sel':''}" onclick="toggleKPAll()">👥 Group Pool</div>`+Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('');}
     const allPart=[me,...propSt.participants].filter(Boolean);
     const ready=propSt.hole!=null&&allPart.length>=2;
     const amtEl=document.getElementById('ps-amount');const amt=parseFloat(amtEl?.value)||0;
@@ -6115,7 +5945,8 @@ function updateProposeUI(){
     if(partStep)partStep.style.display='';
     const partEl=document.getElementById('ps-participants');
     const me=chatAuthor||'';
-    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('')+`<div class="ps-opt sel ps-pool-chip" onclick="togglePoolMode()">👥 Group pool</div><div class="ps-pool-hint">Each person throws in the same amount. Best performance wins the pot.</div>`;}
+    const allPoolNames=Object.values(P).map(p=>p.name).filter(n=>n!==me);const allPoolIn=allPoolNames.every(n=>propSt.participants.includes(n));
+    if(partEl){partEl.innerHTML=Object.entries(P).map(([k,p])=>{const isSelf=p.name===me;const isSel=isSelf||propSt.participants.includes(p.name);return`<div class="ps-opt${isSel?' sel':''}${isSelf?' ps-na':''}" data-name="${p.name}" onclick="toggleParticipant('${p.name}')">${p.name}${isSelf?' (you)':''}</div>`;}).join('')+`<div class="ps-opt${allPoolIn?' sel':''} ps-pool-chip" onclick="togglePoolAll()">👥 Group pool</div><div class="ps-pool-hint">Each person throws in the same amount. Best performance wins the pot.</div>`;}
     const allPart=[me,...propSt.participants].filter(Boolean);
     const ready=allPart.length>=2;
     const amtEl=document.getElementById('ps-amount');const amt=parseFloat(amtEl?.value)||0;
@@ -6128,10 +5959,6 @@ function updateProposeUI(){
   if(partStep)partStep.style.display='none';
   if(playerBStep)playerBStep.style.display=isH2H?'':'none';
   if(playerStep)playerStep.style.display=isMatch?'none':'';
-  const d1Btn=document.getElementById('ps-day-d1');
-  const isNassau=t==='nassau';
-  const netOnly=isLast||isNassau||t==='lownet'||t==='h2h';
-  if(d1Btn){d1Btn.classList.toggle('ps-na',netOnly);if(netOnly&&propSt.day==='d1'){setPropDay('d2');return;}}
   const playerSet=propSt.player!=null;
   const playerBSet=!isH2H||(propSt.playerB!=null);
   const subjectSet=isMatch?propSt.matchIdx!=null:playerSet;
