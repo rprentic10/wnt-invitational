@@ -927,7 +927,6 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .tour-overlay{position:fixed;inset:0;z-index:9998;pointer-events:none;display:none;}
 .tour-overlay.show{display:block;}
 .tour-overlay.dim{background:rgba(0,0,0,.78);pointer-events:auto;}
-.tour-spotlight{z-index:9999 !important;}
 .tour-fullcard{position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto;background:rgba(0,0,0,.82);}
 .tour-fullcard-inner{width:min(88vw,380px);background:#0f2b0f;border:1px solid rgba(254,254,86,.3);border-radius:18px;padding:28px 24px 20px;box-shadow:0 12px 60px rgba(0,0,0,.8);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.95);}
 .tour-fullcard-inner.show{opacity:1;transform:scale(1);}
@@ -3362,12 +3361,9 @@ function tourHandleOverlayTap(e){
   if(e.target===document.getElementById('tour-overlay'))tourNext();
 }
 
-let _tourSpotlightEl=null;
-let _tourSpotlightAncestors=[];
 function _tourClearSpotlight(){
-  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl.style.position='';_tourSpotlightEl=null;}
-  _tourSpotlightAncestors.forEach(([node,oldZ,oldPos])=>{node.style.zIndex=oldZ;node.style.position=oldPos;});
-  _tourSpotlightAncestors=[];
+  const overlay=document.getElementById('tour-overlay');
+  if(overlay)overlay.style.clipPath='';
 }
 function tourGo(idx){
   const step=TOUR_STEPS[idx];
@@ -3427,20 +3423,12 @@ function tourGo(idx){
       el.scrollIntoView({behavior:'instant',block:'center'});
     }
 
-    // Spotlight element if dimmed step — elevate ancestor z-indexes so element escapes stacking contexts
+    // Spotlight: cut a hole in the overlay using clip-path (no z-index tricks needed)
     if(step.dim&&el){
-      el.classList.add('tour-spotlight');
-      const pos=getComputedStyle(el).position;
-      if(pos==='static')el.style.position='relative';
-      _tourSpotlightEl=el;
-      let node=el.parentElement;
-      while(node&&node!==document.body){
-        const s=getComputedStyle(node);
-        _tourSpotlightAncestors.push([node,node.style.zIndex,node.style.position]);
-        node.style.zIndex='9999';
-        if(s.position==='static')node.style.position='relative';
-        node=node.parentElement;
-      }
+      const r=el.getBoundingClientRect();
+      const pad=8;
+      const t=r.top-pad,l=r.left-pad,b=r.bottom+pad,ri=r.right+pad;
+      overlay.style.clipPath=`polygon(0 0,0 100%,${l}px 100%,${l}px ${t}px,${ri}px ${t}px,${ri}px ${b}px,${l}px ${b}px,${l}px 100%,100% 100%,100% 0)`;
     }
 
     // Position tooltip
