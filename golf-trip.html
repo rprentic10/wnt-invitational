@@ -727,7 +727,9 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .ps-pool-chip{border-color:rgba(218,240,218,.25)!important;color:rgba(218,240,218,.6)!important;font-weight:700!important;}
 .ps-pool-chip.sel{background:rgba(254,254,86,.12)!important;border-color:rgba(254,254,86,.5)!important;color:#fefe56!important;}
 .ps-pool-hint{width:100%;font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.4);line-height:1.45;margin-top:2px;}
-.ps-line-box{background:rgba(0,90,48,.2);border:1px solid rgba(100,200,120,.25);border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:14px;}
+.ps-line-box{background:rgba(0,90,48,.2);border:1px solid rgba(100,200,120,.25);border-radius:8px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:14px;}
+.ps-line-adj{width:38px;height:38px;border-radius:50%;border:1px solid rgba(254,254,86,.3);background:rgba(254,254,86,.08);color:#fefe56;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;-webkit-tap-highlight-color:transparent;flex-shrink:0;}
+.ps-line-adj:active{background:rgba(254,254,86,.2);}
 .ps-line-num{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:900;color:var(--mw);}
 .ps-line-info{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.45);line-height:1.5;}
 .ps-name-sel,.ps-amount-inp{width:100%;padding:11px 14px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(254,254,86,.22);color:var(--mw);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;outline:none;-webkit-appearance:none;appearance:none;box-sizing:border-box;}
@@ -1360,7 +1362,7 @@ let gameWagers={};// keys: d1, d2_pot, d3_m0, d3_m1, d3_side
 const GW_HARDSET=['d1','d2_pot','d3_m0','d3_m1','d3_side'];
 function initHardsetWagers(){GW_HARDSET.forEach(k=>{const gw=gameWagers[k];if(!gw||gw.status==='void'){gameWagers[k]={amount:20,propName:'Pool',propSide:null,accName:null,status:'active',result:null,ts:Date.now()};}});}
 let gwInputOpen=null,gwAcceptOpen=null,gwVoteOpen=null,gwInputState={};
-let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false};
+let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false,customLine:null};
 let acceptBetId=null;
 Object.keys(P).forEach(k=>{SC.d1[k]={};SC.d2[k]={};SC.d3[k]={};});
 // Per-hole secondary stats: fh (fairway hit), gir, putts, penalty
@@ -1697,6 +1699,44 @@ async function pushRemote(state,immediate){
             }
           }));
         }
+        // ── Merge mastersPicks: fill blanks from remote, remote-wins if local empty ──
+        if(latest.mastersPicks&&typeof latest.mastersPicks==='object'){
+          if(!state.mastersPicks)state.mastersPicks={};
+          Object.keys(latest.mastersPicks).forEach(k=>{
+            const remote=latest.mastersPicks[k];
+            const local=state.mastersPicks[k];
+            if(!local||!local.length){state.mastersPicks[k]=remote;}
+            else if(remote&&remote.length>local.length){state.mastersPicks[k]=remote;}
+          });
+        }
+        // ── Merge bets: combine by ID, local-wins on conflict ──
+        if(Array.isArray(latest.bets)){
+          const merged={};
+          latest.bets.filter(b=>(b.ts||0)>=REQUIRED_WIPE_AT).forEach(b=>merged[b.id]=b);
+          (state.bets||[]).forEach(b=>merged[b.id]=b); // local wins
+          state.bets=Object.values(merged);
+        }
+        // ── Merge gameWagers: fill blanks from remote ──
+        if(latest.gameWagers&&typeof latest.gameWagers==='object'){
+          if(!state.gameWagers)state.gameWagers={};
+          Object.keys(latest.gameWagers).forEach(k=>{
+            if(!state.gameWagers[k])state.gameWagers[k]=latest.gameWagers[k];
+          });
+        }
+        // ── Merge presence: take newest timestamp per player ──
+        if(latest.presence&&typeof latest.presence==='object'){
+          if(!state.presence)state.presence={};
+          Object.keys(latest.presence).forEach(k=>{
+            if((latest.presence[k]||0)>(state.presence[k]||0))state.presence[k]=latest.presence[k];
+          });
+        }
+        // ── Merge avatars: fill blanks from remote ──
+        if(latest.avatars&&typeof latest.avatars==='object'){
+          if(!state.avatars)state.avatars={};
+          Object.keys(latest.avatars).forEach(k=>{
+            if(!state.avatars[k]&&latest.avatars[k])state.avatars[k]=latest.avatars[k];
+          });
+        }
       }
       const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(state)});
       if(r.ok){lastRemoteJson=JSON.stringify(state);pulse();}
@@ -1727,7 +1767,7 @@ function showApp(){
   document.getElementById('app-header').style.display='';
   document.getElementById('app-main').style.display='';
   document.getElementById('bottom-nav').classList.add('show');
-  try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();}catch(e){console.error('showApp build error',e);}
+  try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();renderChat();}catch(e){console.error('showApp build error',e);}
   initGameBlocks();
   applyDayLocks();
   const savedTab=(()=>{try{return sessionStorage.getItem('wni-tab');}catch(e){return null;}})();
@@ -1933,7 +1973,7 @@ async function init(){
         try{applyRemoteState(data);}catch(e){console.warn('applyRemote err',e);}
       }
       lastRemoteJson=JSON.stringify(data);
-      if(!_simRanThisBoot){try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();}catch(e){}}
+      if(!_simRanThisBoot){try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();renderChat();}catch(e){}}
     }else{
       offlineMode=true;
       document.getElementById('offline-banner').classList.add('show');
@@ -2507,7 +2547,7 @@ async function pollRemote(){
     const _wagersBefore=alertsReady?JSON.parse(JSON.stringify(gameWagers)):null;
     const _statsBefore=alertsReady?_deepCopyStats():null;
     applyRemoteState(data);
-    buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();
+    buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();renderChat();
     pulse();
     if(!alertsReady){alertsReady=true;}
     else{runAlertChecks(_snapBefore,_wagersBefore,_statsBefore);}
@@ -5957,7 +5997,7 @@ function proposeSuggested(i){
 
 function openProposeSheet(){
   propCategory='p2p';
-  propSt={type:'ou',day:'d1',player:null,playerB:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false};
+  propSt={type:'ou',day:'d1',player:null,playerB:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false,customLine:null};
   houseSt={day:null,player:null,statType:null,line:null,propSide:null,oddsPreset:'even',exposureCap:0};
   poolSt={poolType:null,day:null,buyIn:null};
   // Guard: must have identity set
@@ -6024,15 +6064,16 @@ function setPropType(t){propSt.type=t;propSt.player=null;propSt.playerB=null;pro
   ['ou','birdie-ou','h2h','h2h-gross','cleancard','lastplace','lownet','match','nassau','kp'].forEach(x=>{const el=document.getElementById('ps-type-'+x);if(el)el.classList.toggle('sel',x===t);});
   const descEl=document.getElementById('ps-type-desc');if(descEl)descEl.textContent=PS_TYPE_DESC[t]||'';
   renderPropPlayers();renderPropPlayerB();renderPropMatches();updateProposeUI();}
-function setPropDay(d){propSt.day=d;propSt.player=null;propSt.matchIdx=null;propSt.side=null;
+function setPropDay(d){propSt.day=d;propSt.player=null;propSt.matchIdx=null;propSt.side=null;propSt.customLine=null;
   ['d1','d2','d3'].forEach(x=>{const el=document.getElementById('ps-day-'+x);if(el)el.classList.toggle('sel',x===d);});
   renderPropPlayers();renderPropMatches();updateProposeUI();}
-function setPropPlayer(k){propSt.player=k;propSt.side=null;if(propSt.playerB===k)propSt.playerB=null;
+function setPropPlayer(k){propSt.player=k;propSt.side=null;propSt.customLine=null;if(propSt.playerB===k)propSt.playerB=null;
   document.querySelectorAll('#ps-players .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.key===k));
   renderPropPlayerB();updateProposeUI();}
 function setPropMatch(mi){propSt.matchIdx=mi;propSt.side=null;
   document.querySelectorAll('#ps-matches .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.mi===String(mi)));
   updateProposeUI();}
+function adjOULine(delta){if(propSt.customLine==null)return;propSt.customLine=Math.round((propSt.customLine+delta)*2)/2;propSt.side=null;updateProposeUI();}
 function setPropSide(s){propSt.side=s;
   document.querySelectorAll('#ps-sides .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.side===s));
   updateProposeUI();}
@@ -6162,10 +6203,15 @@ function updateProposeUI(){
   const fullSubject=subjectSet&&playerBSet;
   if(fullSubject){
     if(lineBox)lineBox.style.display=(isLow||isClean||isLast||isH2H)?'none':'';
+    document.querySelectorAll('.ps-line-adj').forEach(b=>b.style.display=isOU?'flex':'none');
     if(isOU){
-      const line=calcLine(propSt.player,propSt.day);const p=P[propSt.player];const idx=p.d1;const {slope,rating}=COURSES[propSt.day];const par=cTot(propSt.day);const cHcp=Math.round(idx*(slope/113)+(rating-par));
+      const baseLine=calcLine(propSt.player,propSt.day);
+      if(propSt.customLine==null)propSt.customLine=baseLine;
+      const line=propSt.customLine;
+      const p=P[propSt.player];const idx=p.d1;const {slope,rating}=COURSES[propSt.day];const par=cTot(propSt.day);const cHcp=Math.round(idx*(slope/113)+(rating-par));
       document.getElementById('ps-line-num').textContent=line;
-      document.getElementById('ps-line-info').textContent=`${p.name} · Hcp ${idx} → Course hcp ${cHcp} · Par ${par}`;
+      const diff=line-baseLine;const diffStr=diff===0?'default':diff>0?'+'+diff:String(diff);
+      document.getElementById('ps-line-info').textContent=`${p.name} · Hcp ${idx} → Course hcp ${cHcp} · Par ${par} (${diffStr})`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div><div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div>`;
       if(sideStep)sideStep.style.display='';
     }else if(isBirdieOU){
@@ -6417,7 +6463,7 @@ function submitPropose(){
         type:t,day:propSt.day,
         player:needsPlayer?propSt.player:undefined,
         playerB:isH2H?propSt.playerB:undefined,
-        line:t==='ou'?calcLine(propSt.player,propSt.day):isBirdieOU?calcBirdiesLine(propSt.player,propSt.day):undefined,
+        line:t==='ou'?(propSt.customLine!=null?propSt.customLine:calcLine(propSt.player,propSt.day)):isBirdieOU?calcBirdiesLine(propSt.player,propSt.day):undefined,
         matchIdx:(t==='match'||t==='nassau')?propSt.matchIdx:undefined,
         propSide,propName:name,amount:amt,accName:null,status:'open',result:null,ts:Date.now()};
       if(isDuplicateBet(bet)){alert('This bet already exists.');return;}
@@ -6712,7 +6758,11 @@ function submitAccept(){
         <div class="ps-opts" id="ps-matches"></div>
       </div>
       <div class="ps-line-box" id="ps-line-box" style="display:none">
-        <div><div class="ps-line-num" id="ps-line-num">—</div><div class="ps-line-info" id="ps-line-info">Expected gross · Course handicap line</div></div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+          <button class="ps-line-adj" onclick="adjOULine(-0.5)">−</button>
+          <div><div class="ps-line-num" id="ps-line-num">—</div><div class="ps-line-info" id="ps-line-info">Expected gross · Course handicap line</div></div>
+          <button class="ps-line-adj" onclick="adjOULine(0.5)">+</button>
+        </div>
       </div>
       <div class="ps-step" id="ps-side-step" style="display:none">
         <div class="ps-label">Your Side</div>
