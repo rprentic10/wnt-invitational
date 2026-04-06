@@ -1616,7 +1616,7 @@ function updatePresenceDots(){
   const now=Date.now();
   Object.keys(P).forEach(key=>{
     const isMine=chatAuthor&&chatAuthor.toLowerCase()===key;
-    const isOnline=isMine||((presenceData[key]||0)>now-90000);
+    const isOnline=isMine||((presenceData[key]||0)>now-180000);
     document.querySelectorAll('#pd-'+key).forEach(el=>el.classList.toggle('active',isOnline));
   });
 }
@@ -1727,7 +1727,7 @@ function showApp(){
   document.getElementById('app-header').style.display='';
   document.getElementById('app-main').style.display='';
   document.getElementById('bottom-nav').classList.add('show');
-  try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){console.error('showApp build error',e);}
+  try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();}catch(e){console.error('showApp build error',e);}
   initGameBlocks();
   applyDayLocks();
   const savedTab=(()=>{try{return sessionStorage.getItem('wni-tab');}catch(e){return null;}})();
@@ -1933,7 +1933,7 @@ async function init(){
         try{applyRemoteState(data);}catch(e){console.warn('applyRemote err',e);}
       }
       lastRemoteJson=JSON.stringify(data);
-      if(!_simRanThisBoot){try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){}}
+      if(!_simRanThisBoot){try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();}catch(e){}}
     }else{
       offlineMode=true;
       document.getElementById('offline-banner').classList.add('show');
@@ -2486,29 +2486,42 @@ function closeNotifLog(e){
 
 async function pollRemote(){
   if(offlineMode||_pushInFlight)return;
-  // Presence heartbeat: update own timestamp every ~20s then push
+  // Presence heartbeat: update own timestamp every ~20s
+  let presenceDirty=false;
   if(chatAuthor){
     const now=Date.now();
     if(now-myLastPresencePush>18000){
       presenceData[chatAuthor.toLowerCase()]=now;
       myLastPresencePush=now;
-      pushRemote(getState(),true);
+      presenceDirty=true;
     }
   }
   const data=await fetchRemote();
   if(!data)return;
   const json=JSON.stringify(data);
-  if(json===lastRemoteJson)return;
-  lastRemoteJson=json;
-  // Snapshot state BEFORE applying remote — used for alert diffing
-  const _snapBefore=alertsReady?_deepCopySC():null;
-  const _wagersBefore=alertsReady?JSON.parse(JSON.stringify(gameWagers)):null;
-  const _statsBefore=alertsReady?_deepCopyStats():null;
-  applyRemoteState(data);
-  buildD1();buildD2();buildD3();updateLB();updateBetsBadge();
-  pulse();
-  if(!alertsReady){alertsReady=true;}
-  else{runAlertChecks(_snapBefore,_wagersBefore,_statsBefore);}
+  const changed=json!==lastRemoteJson;
+  if(changed){
+    lastRemoteJson=json;
+    // Snapshot state BEFORE applying remote — used for alert diffing
+    const _snapBefore=alertsReady?_deepCopySC():null;
+    const _wagersBefore=alertsReady?JSON.parse(JSON.stringify(gameWagers)):null;
+    const _statsBefore=alertsReady?_deepCopyStats():null;
+    applyRemoteState(data);
+    buildD1();buildD2();buildD3();updateLB();updateBetsBadge();buildWagers();buildMastersLB();
+    pulse();
+    if(!alertsReady){alertsReady=true;}
+    else{runAlertChecks(_snapBefore,_wagersBefore,_statsBefore);}
+  }
+  // Push presence after fetch completes (piggyback, no extra fetch-merge)
+  if(presenceDirty)saveLocal(getState());
+  if(presenceDirty&&!_pushInFlight){
+    _pushInFlight=true;
+    try{
+      const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(getState())});
+      if(r.ok){lastRemoteJson=JSON.stringify(getState());pulse();}
+    }catch(e){}
+    finally{_pushInFlight=false;}
+  }
 }
 
 // ═══════════════════════════════════════════════════
@@ -3084,7 +3097,7 @@ function getAvatarHtml(key){
   const titleAttr=isMine?` title="Tap to change your photo"`:` title="${P[key].name}"`;
   const onclick=`onclick="tapAvatar('${key}')"`;
   const avEl=av?`<div class="${cls}"${titleAttr} ${onclick} style="background:#111"><img src="${av}" alt="${P[key].name}"></div>`:`<div class="${cls}"${titleAttr} ${onclick} style="background:${color}">${initial}</div>`;
-  const isOnline=isMine||((presenceData[key]||0)>Date.now()-90000);
+  const isOnline=isMine||((presenceData[key]||0)>Date.now()-180000);
   return`<div class="av-wrap"><span class="presence-dot${isOnline?' active':''}" id="pd-${key}"></span>${avEl}</div>`;
 }
 
