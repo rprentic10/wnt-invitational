@@ -743,16 +743,13 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wager-day-divider{height:1px;margin:14px 0;background:repeating-linear-gradient(90deg,rgba(218,240,218,.15) 0,rgba(218,240,218,.15) 12px,transparent 12px,transparent 18px);}
 .wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
 /* ── Pool section spacing (Wagers tab) ─────────── */
-#pools-container{display:flex;flex-direction:column;gap:8px;}
 #pools-container #masters-pool-slot:empty,
 #pools-container #other-pools-slot:empty{display:none;}
-#pools-container .main-game-card{margin-bottom:0;}
-#pools-container .gw-area{margin-bottom:0;}
-#pools-container .wager-card{margin-bottom:0;}
-#pools-container .wager-day-grp{display:flex;flex-direction:column;gap:8px;margin-bottom:0;}
-#other-pools-slot{display:flex;flex-direction:column;gap:8px;}
-#masters-pool-slot{display:flex;flex-direction:column;gap:8px;}
-#masters-pool-slot .wager-card{margin-bottom:0;}
+#pools-container .gw-area{margin:0;}
+#pools-container .gw-widget{margin-bottom:8px;}
+#pools-container .masters-wager-card{margin-bottom:8px;}
+#pools-container .wager-card{margin-bottom:8px;}
+#pools-container .wager-day-grp{margin:0;}
 .main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .main-game-daybadge{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;flex-shrink:0;}
 .main-game-title{font-family:'Forum',serif;font-size:15px;color:var(--mw);}
@@ -929,6 +926,8 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── APP TOUR WALKTHROUGH ─────────────────────── */
 .tour-overlay{position:fixed;inset:0;z-index:9998;pointer-events:none;display:none;}
 .tour-overlay.show{display:block;}
+.tour-overlay.dim{background:rgba(0,0,0,.78);pointer-events:auto;}
+.tour-spotlight{position:relative;z-index:9999;}
 .tour-fullcard{position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto;background:rgba(0,0,0,.82);}
 .tour-fullcard-inner{width:min(88vw,380px);background:#0f2b0f;border:1px solid rgba(254,254,86,.3);border-radius:18px;padding:28px 24px 20px;box-shadow:0 12px 60px rgba(0,0,0,.8);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.95);}
 .tour-fullcard-inner.show{opacity:1;transform:scale(1);}
@@ -945,7 +944,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .tour-tooltip-dot{width:6px;height:6px;border-radius:50%;background:rgba(218,240,218,.15);}
 .tour-tooltip-dot.active{background:#fefe56;}
 .tour-skip{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(218,240,218,.3);background:none;border:none;cursor:pointer;padding:4px 8px;-webkit-tap-highlight-color:transparent;}
-.tour-back{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:8px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
+.tour-back{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;line-height:1;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:0;width:37px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-back:active{background:rgba(218,240,218,.06);}
 .tour-next{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#0a280a;background:#fefe56;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-next:active{background:#e8e84e;transform:scale(.97);}
@@ -1080,7 +1079,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
         <div class="gw-area" id="gw-area-d3-m0"></div>
         <div class="gw-area" id="gw-area-d3-m1"></div>
       </div>
-      <div class="gw-area" style="margin-top:6px" id="gw-area-d3-side"></div>
+      <div class="gw-area" id="gw-area-d3-side"></div>
     </div>
     <div id="other-pools-slot"></div>
   </div>
@@ -1251,7 +1250,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="tour-tooltip-footer">
     <button class="tour-skip" onclick="tourEnd()">Skip</button>
     <div class="tour-tooltip-dots" id="tour-dots"></div>
-    <div><button class="tour-back" id="tour-back" onclick="tourPrev()">Back</button><button class="tour-next" id="tour-next" onclick="tourNext()">Next</button></div>
+    <div><button class="tour-back" id="tour-back" onclick="tourPrev()">&#8249;</button><button class="tour-next" id="tour-next" onclick="tourNext()">Next</button></div>
   </div>
 </div>
 <!-- ── Onboarding overlay ── -->
@@ -3317,7 +3316,8 @@ const TOUR_STEPS=[
     title:'Masters Pool',
     body:'Make your 6 picks before they lock on Thursday. Best 4 scores count. $20 buy-in, winner takes the pot.',
     pos:'below',
-    scrollTop:true
+    scrollTop:true,
+    dim:true
   }
 ];
 
@@ -3339,6 +3339,9 @@ function tourEnd(){
   const fc=document.getElementById('tour-fullcard');
   fc.style.display='none';
   document.getElementById('tour-fullcard-inner').classList.remove('show');
+  const overlay=document.getElementById('tour-overlay');
+  overlay.classList.remove('show','dim');
+  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl=null;}
   try{localStorage.setItem('wni-toured','1');}catch(e){}
   show('scores');
 }
@@ -3355,20 +3358,31 @@ function tourPrev(){
   tourGo(tourStep);
 }
 
-function tourHandleOverlayTap(e){}
+function tourHandleOverlayTap(e){
+  if(e.target===document.getElementById('tour-overlay'))tourNext();
+}
 
+let _tourSpotlightEl=null;
 function tourGo(idx){
   const step=TOUR_STEPS[idx];
   if(!step){tourEnd();return;}
 
   const tt=document.getElementById('tour-tooltip');
   const fc=document.getElementById('tour-fullcard');
+  const overlay=document.getElementById('tour-overlay');
+
+  // Clear previous spotlight
+  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl=null;}
 
   // Hide both containers first
   tt.classList.remove('show');
   tt.style.display='none';
   fc.style.display='none';
   document.getElementById('tour-fullcard-inner').classList.remove('show');
+
+  // Toggle overlay dim
+  overlay.classList.toggle('dim',!!step.dim);
+  overlay.classList.toggle('show',!!step.dim);
 
   // Full-screen card step (step 0)
   if(step.type==='fullcard'){
@@ -3406,6 +3420,9 @@ function tourGo(idx){
     if(step.scrollTarget&&el){
       el.scrollIntoView({behavior:'instant',block:'center'});
     }
+
+    // Spotlight element if dimmed step
+    if(step.dim&&el){el.classList.add('tour-spotlight');_tourSpotlightEl=el;}
 
     // Position tooltip
     tourPositionTooltip(el,step,idx);
