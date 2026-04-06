@@ -3599,7 +3599,7 @@ function submitMastersPicks(){
   for(let i=1;i<=6;i++)picks.push(mastersTempPicks[i]||null);
   mastersPicks[myKey]=picks;
   closeMastersPicks();
-  debounceSave();
+  pushRemote(getState(),true);
   if(currentTab==='bets')buildWagers();
   buildMastersLB();
 }
@@ -3622,7 +3622,7 @@ function autoFillMasters(){
       }
     });
   });
-  if(changed)debounceSave();
+  if(changed)pushRemote(getState(),false);
 }
 
 function mastersPlayerScore(pid){
