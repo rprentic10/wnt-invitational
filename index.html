@@ -743,13 +743,13 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wager-day-divider{height:1px;margin:14px 0;background:repeating-linear-gradient(90deg,rgba(218,240,218,.15) 0,rgba(218,240,218,.15) 12px,transparent 12px,transparent 18px);}
 .wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
 /* ── Pool section spacing (Wagers tab) ─────────── */
-/* Every pool-area item gets 8px below except the very last before #wager-content */
-#masters-pool-slot:not(:empty) .wager-card{margin-bottom:0;}
-#masters-pool-slot:not(:empty){margin-bottom:8px;}
-.main-game-card{margin-bottom:8px;}
-#other-pools-slot:not(:empty) .wager-card{margin-bottom:8px;}
-#other-pools-slot:not(:empty) .wager-card:last-child{margin-bottom:0;}
-#other-pools-slot .wager-day-grp:last-child .wager-card:last-child{margin-bottom:0;}
+#pools-container{display:flex;flex-direction:column;gap:8px;}
+#pools-container #masters-pool-slot:empty,
+#pools-container #other-pools-slot:empty{display:none;}
+#pools-container .main-game-card{margin-bottom:0;}
+#pools-container .wager-card{margin-bottom:0;}
+#pools-container #other-pools-slot .wager-day-grp{display:flex;flex-direction:column;gap:8px;}
+#pools-container .wager-day-grp{margin-bottom:0;}
 .main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .main-game-daybadge{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;flex-shrink:0;}
 .main-game-title{font-family:'Forum',serif;font-size:15px;color:var(--mw);}
@@ -924,10 +924,16 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .masters-edit-btn:active{background:rgba(254,254,86,.1);}
 .masters-delayed-note{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.3);text-align:center;margin-top:8px;font-style:italic;}
 /* ── APP TOUR WALKTHROUGH ─────────────────────── */
-.tour-overlay{position:fixed;inset:0;z-index:9998;pointer-events:auto;display:none;}
+.tour-overlay{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.78);pointer-events:auto;display:none;}
 .tour-overlay.show{display:block;}
-.tour-overlay canvas{position:absolute;inset:0;width:100%;height:100%;}
-.tour-tooltip{position:fixed;z-index:9999;max-width:300px;background:#0f2b0f;border:1px solid rgba(254,254,86,.3);border-radius:14px;padding:18px 18px 14px;box-shadow:0 8px 40px rgba(0,0,0,.7);pointer-events:auto;transition:opacity .25s,transform .25s;opacity:0;transform:translateY(8px);}
+.tour-highlight{position:relative;z-index:9999;box-shadow:0 0 0 4px rgba(254,254,86,.35);border-radius:12px;}
+.tour-fullcard{position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto;}
+.tour-fullcard-inner{width:min(88vw,380px);background:#0f2b0f;border:1px solid rgba(254,254,86,.3);border-radius:18px;padding:28px 24px 20px;box-shadow:0 12px 60px rgba(0,0,0,.8);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.95);}
+.tour-fullcard-inner.show{opacity:1;transform:scale(1);}
+.tour-fullcard-title{font-family:'Forum',serif;font-size:26px;color:#fefe56;margin:0 0 18px;line-height:1.2;text-align:center;}
+.tour-fullcard-body{font-family:'DM Sans',sans-serif;font-size:14px;color:rgba(218,240,218,.75);line-height:1.5;margin:0 0 20px;}
+.tour-fullcard-footer{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.tour-tooltip{position:fixed;z-index:10000;max-width:300px;background:#0f2b0f;border:1px solid rgba(254,254,86,.3);border-radius:14px;padding:18px 18px 14px;box-shadow:0 8px 40px rgba(0,0,0,.7);pointer-events:auto;transition:opacity .25s,transform .25s;opacity:0;transform:translateY(8px);}
 .tour-tooltip.tour-wide{max-width:min(92vw,380px);}
 .tour-tooltip.show{opacity:1;transform:translateY(0);}
 .tour-tooltip-title{font-family:'Forum',serif;font-size:18px;color:#fefe56;margin:0 0 6px;line-height:1.2;}
@@ -1059,21 +1065,23 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   </div>
   <!-- POOLS (Masters + Main Games + other pools) -->
   <div class="wager-section-hdr">Pools</div>
-  <div id="masters-pool-slot"></div>
-  <div class="main-game-card">
-    <div class="gw-area" id="gw-area-d1"></div>
-  </div>
-  <div class="main-game-card">
-    <div class="gw-area" id="gw-area-d2-pot"></div>
-  </div>
-  <div class="main-game-card">
-    <div class="gw-row">
-      <div class="gw-area" id="gw-area-d3-m0"></div>
-      <div class="gw-area" id="gw-area-d3-m1"></div>
+  <div id="pools-container">
+    <div id="masters-pool-slot"></div>
+    <div class="main-game-card">
+      <div class="gw-area" id="gw-area-d1"></div>
     </div>
-    <div class="gw-area" style="margin-top:6px" id="gw-area-d3-side"></div>
+    <div class="main-game-card">
+      <div class="gw-area" id="gw-area-d2-pot"></div>
+    </div>
+    <div class="main-game-card">
+      <div class="gw-row">
+        <div class="gw-area" id="gw-area-d3-m0"></div>
+        <div class="gw-area" id="gw-area-d3-m1"></div>
+      </div>
+      <div class="gw-area" style="margin-top:6px" id="gw-area-d3-side"></div>
+    </div>
+    <div id="other-pools-slot"></div>
   </div>
-  <div id="other-pools-slot"></div>
   <!-- Net Standing removed -->
   <div id="wager-content"></div>
   <div id="wager-suggest"></div>
@@ -1222,8 +1230,17 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   </div>
 </div>
 <!-- ── App Tour Walkthrough ── -->
-<div class="tour-overlay" id="tour-overlay" onclick="tourHandleOverlayTap(event)">
-  <canvas id="tour-canvas"></canvas>
+<div class="tour-overlay" id="tour-overlay" onclick="tourHandleOverlayTap(event)"></div>
+<div class="tour-fullcard" id="tour-fullcard" style="display:none;">
+  <div class="tour-fullcard-inner" id="tour-fullcard-inner">
+    <div class="tour-fullcard-title" id="tour-fullcard-title"></div>
+    <div class="tour-fullcard-body" id="tour-fullcard-body"></div>
+    <div class="tour-fullcard-footer">
+      <button class="tour-skip" onclick="tourEnd()">Skip</button>
+      <div class="tour-tooltip-dots" id="tour-fc-dots"></div>
+      <div><button class="tour-next" id="tour-fc-next" onclick="tourNext()">Next</button></div>
+    </div>
+  </div>
 </div>
 <div class="tour-tooltip" id="tour-tooltip">
   <div class="tour-arrow" id="tour-arrow"></div>
@@ -3131,8 +3148,9 @@ function renderMeProfileHero(){
   const aKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
   if(chatAuthor&&aKey){
     nameEl.textContent=chatAuthor;
-    if(playerAvatars[aKey]){avEl.style.background='#111';avEl.innerHTML=`<img src="${playerAvatars[aKey]}">`;}
-    else{const col=PLAYER_COLORS[aKey]||'#555';avEl.style.background=col;avEl.innerHTML='';avEl.textContent=chatAuthor[0].toUpperCase();}
+    if(playerAvatars[aKey]&&playerAvatars[aKey].startsWith('data:')){avEl.style.background='#111';avEl.innerHTML=`<img src="${playerAvatars[aKey]}">`;}
+    else if(playerAvatars[aKey]){avEl.style.background='rgba(16,36,16,.85)';avEl.innerHTML='';avEl.textContent=playerAvatars[aKey];avEl.style.fontSize='42px';avEl.style.lineHeight='1';}
+    else{const col=PLAYER_COLORS[aKey]||'#555';avEl.style.background=col;avEl.innerHTML='';avEl.textContent=chatAuthor[0].toUpperCase();avEl.style.fontSize='';avEl.style.lineHeight='';}
   }else{avEl.style.background='rgba(218,240,218,.08)';avEl.innerHTML='';avEl.textContent='?';nameEl.textContent='My Game';}
 }
 function updateBottomNavAvatar(){
@@ -3142,7 +3160,8 @@ function updateBottomNavAvatar(){
   const aKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
   if(chatAuthor){
     const ini=chatAuthor[0].toUpperCase();
-    if(aKey&&playerAvatars[aKey]){av.style.background='';av.innerHTML=`<img src="${playerAvatars[aKey]}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
+    if(aKey&&playerAvatars[aKey]&&playerAvatars[aKey].startsWith('data:')){av.style.background='';av.innerHTML=`<img src="${playerAvatars[aKey]}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
+    else if(aKey&&playerAvatars[aKey]){av.style.background='rgba(16,36,16,.85)';av.innerHTML='';av.textContent=playerAvatars[aKey];}
     else{const col=aKey?PLAYER_COLORS[aKey]||'#555':'#555';av.style.background=col;av.innerHTML='';av.textContent=ini;}
     lbl.textContent=chatAuthor.split(' ')[0];
   }else{av.textContent='?';lbl.textContent='Me';}
@@ -3207,81 +3226,97 @@ function obFinish(){
 // ═══════════════════════════════════════════════════
 const TOUR_STEPS=[
   {
-    tab:'me',
-    target:'mr-hole-list',
-    title:'Your Scorecard',
-    body:'This is your personal scorecard. Tap any hole to enter your score in real time as you play. Switch between rounds with the day tabs above.',
-    pos:'above'
+    type:'fullcard',
+    title:'The Weekend',
+    body:`<div style="margin-bottom:16px;">
+<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(218,240,218,.08);">
+<div style="font-family:'DM Sans',sans-serif;font-weight:800;font-size:13px;color:#fefe56;letter-spacing:.06em;text-transform:uppercase;min-width:36px;padding-top:1px;">THU</div>
+<div style="flex:1"><div style="font-weight:700;color:rgba(218,240,218,.85);font-size:15px;">We-Ko-Pa (Cholla)</div><div style="color:rgba(218,240,218,.4);font-size:12px;margin-top:3px;">4-Man Shamble &middot; Tees at 3:00 &amp; 3:20 PM</div></div>
+</div>
+<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(218,240,218,.08);">
+<div style="font-family:'DM Sans',sans-serif;font-weight:800;font-size:13px;color:#fefe56;letter-spacing:.06em;text-transform:uppercase;min-width:36px;padding-top:1px;">FRI</div>
+<div style="flex:1"><div style="font-weight:700;color:rgba(218,240,218,.85);font-size:15px;">Troon North (Pinnacle)</div><div style="color:rgba(218,240,218,.4);font-size:12px;margin-top:3px;">2-Man Best Ball &middot; Tees at 8:55 &amp; 9:35 AM</div></div>
+</div>
+<div style="display:flex;gap:12px;align-items:flex-start;">
+<div style="font-family:'DM Sans',sans-serif;font-weight:800;font-size:13px;color:#fefe56;letter-spacing:.06em;text-transform:uppercase;min-width:36px;padding-top:1px;">SAT</div>
+<div style="flex:1"><div style="font-weight:700;color:rgba(218,240,218,.85);font-size:15px;">Grayhawk (Talon)</div><div style="color:rgba(218,240,218,.4);font-size:12px;margin-top:3px;">2-Man Match Play &middot; Tees at 9:12 &amp; 9:21 AM</div></div>
+</div>
+</div>
+<div style="font-size:13px;color:rgba(218,240,218,.5);line-height:1.5;border-top:1px solid rgba(218,240,218,.08);padding-top:14px;">We built this app to keep score, settle bets, and make the weekend a little more fun. Tap through for a quick tour.</div>`
   },
   {
     tab:'scores',
     target:'sc-d1',
-    title:'Group Scores',
-    body:'See the whole group\'s scores side by side. Toggle between Front 9 and Back 9, and switch rounds at the top.',
+    title:'Live Scorecards',
+    body:'Group scorecards update in real time as everyone posts scores. Front 9, Back 9, and full standings — all right here.',
+    pos:'above',
+    scrollTop:true
+  },
+  {
+    tab:'scores',
+    targetQuery:'.scores-subnav',
+    title:'Day Toggle',
+    body:'Switch between Thursday, Friday, and Saturday rounds with these tabs.',
+    pos:'below'
+  },
+  {
+    tab:'me',
+    subtab:'round',
+    target:'mr-hole-list',
+    title:'Enter Your Scores',
+    body:'Tap any hole to log your score as you play. You can also add optional shot data like putts, fairways, and GIR.',
     pos:'above'
   },
   {
+    tab:'me',
+    targetQuery:'.me-subnav',
+    title:'Your Stats & Wagers',
+    body:'Switch between your scorecard, personal wager summary, and detailed stats from these tabs.',
+    pos:'below'
+  },
+  {
     tab:'lb',
-    target:null,
     target:'lb-chips-thu',
     title:'Leaderboard',
-    body:'Live standings update automatically as scores come in — individual totals, match play results, and the Masters Pool.',
+    body:'Live standings across all three rounds — individual totals, match play results, and Masters Pool rankings.',
     pos:'below',
     scrollTop:true
   },
   {
     tab:'bets',
-    target:'wager-content',
-    title:'Wagers',
-    body:'Every group bet lives here — P2P wagers, house props, pools, and the Masters Pool. Accept or propose bets from this tab.',
+    target:'pools-container',
+    title:'Preset Games',
+    body:'$20 buy-in games are already set up — Low Net, Closest to Pin, Skins, and more. These run automatically as scores come in.',
     pos:'above',
-    scrollTop:true,
-    arrowTarget:'bnt-bets'
+    scrollTop:true
   },
   {
     tab:'bets',
     target:'wager-fab',
     title:'Propose a Bet',
-    body:'Tap this button anytime to propose a new bet to the group. Pick a type, set the stakes, and fire it off.',
+    body:'Tap this button to create a new side bet anytime. Pick a type, set the stakes, and send it to the group.',
     pos:'above'
   },
   {
     tab:'bets',
-    target:null,
-    targetQuery:'.wager-card:last-of-type',
-    targetFallback:'wager-content',
-    title:'Masters Pool',
-    body:'Make your 6 picks before they lock. Best 4 scores count. $20 buy-in, winner take all.',
-    pos:'above',
-    scrollTarget:true
+    targetQuery:'.wsn-btn[onclick*="ledger"]',
+    title:'The Ledger',
+    body:'Track every settled bet and the running balance for each player. Who owes what — all in one place.',
+    pos:'below'
   },
   {
-    tab:null,
-    target:null,
-    title:'The Weekend',
-    html:true,
-    wide:true,
-    body:`<div style="margin-bottom:14px;">
-<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(218,240,218,.08);">
-<div style="font-family:'DM Sans',sans-serif;font-weight:800;font-size:11px;color:#fefe56;letter-spacing:.06em;text-transform:uppercase;min-width:32px;padding-top:1px;">THU</div>
-<div style="flex:1"><div style="font-weight:700;color:rgba(218,240,218,.85);font-size:13px;">We-Ko-Pa (Cholla)</div><div style="color:rgba(218,240,218,.4);font-size:11px;margin-top:2px;">4-Man Shamble &middot; Tees at 3:00 & 3:20 PM</div></div>
-</div>
-<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(218,240,218,.08);">
-<div style="font-family:'DM Sans',sans-serif;font-weight:800;font-size:11px;color:#fefe56;letter-spacing:.06em;text-transform:uppercase;min-width:32px;padding-top:1px;">FRI</div>
-<div style="flex:1"><div style="font-weight:700;color:rgba(218,240,218,.85);font-size:13px;">Troon North (Pinnacle)</div><div style="color:rgba(218,240,218,.4);font-size:11px;margin-top:2px;">2-Man Best Ball &middot; Tees at 8:55 & 9:35 AM</div></div>
-</div>
-<div style="display:flex;gap:10px;align-items:flex-start;">
-<div style="font-family:'DM Sans',sans-serif;font-weight:800;font-size:11px;color:#fefe56;letter-spacing:.06em;text-transform:uppercase;min-width:32px;padding-top:1px;">SAT</div>
-<div style="flex:1"><div style="font-weight:700;color:rgba(218,240,218,.85);font-size:13px;">Grayhawk (Talon)</div><div style="color:rgba(218,240,218,.4);font-size:11px;margin-top:2px;">2-Man Match Play &middot; Tees at 9:12 & 9:21 AM</div></div>
-</div>
-</div>
-<div style="font-size:12px;color:rgba(218,240,218,.45);line-height:1.5;border-top:1px solid rgba(218,240,218,.08);padding-top:12px;">We built this app to make the weekend a little more fun with the boys. Click around, explore, think happy thoughts, and good luck!</div>`,
-    pos:'center'
+    tab:'bets',
+    target:'masters-pool-slot',
+    title:'Masters Pool',
+    body:'Make your 6 picks before they lock on Thursday. Best 4 scores count. $20 buy-in, winner takes the pot.',
+    pos:'below',
+    scrollTop:true
   }
 ];
 
 let tourStep=0;
 let tourActive=false;
+let tourHighlightEl=null;
 
 function tourStart(){
   if(tourActive)return;
@@ -3297,7 +3332,12 @@ function tourEnd(){
   const tt=document.getElementById('tour-tooltip');
   tt.classList.remove('show');
   tt.style.display='none';
+  const fc=document.getElementById('tour-fullcard');
+  fc.style.display='none';
+  document.getElementById('tour-fullcard-inner').classList.remove('show');
+  tourClearHighlight();
   try{localStorage.setItem('wni-toured','1');}catch(e){}
+  show('scores');
 }
 
 function tourNext(){
@@ -3313,23 +3353,50 @@ function tourPrev(){
 }
 
 function tourHandleOverlayTap(e){
-  // Tapping the dark overlay area advances the tour
-  if(e.target===document.getElementById('tour-overlay')||e.target===document.getElementById('tour-canvas')){
+  if(e.target===document.getElementById('tour-overlay')){
     tourNext();
   }
+}
+
+function tourClearHighlight(){
+  if(tourHighlightEl){tourHighlightEl.classList.remove('tour-highlight');tourHighlightEl=null;}
 }
 
 function tourGo(idx){
   const step=TOUR_STEPS[idx];
   if(!step){tourEnd();return;}
 
-  // Switch tab if needed
-  if(step.tab){
-    show(step.tab);
-    if(step.tab==='me')showMeTab('round');
+  tourClearHighlight();
+
+  const tt=document.getElementById('tour-tooltip');
+  const fc=document.getElementById('tour-fullcard');
+
+  // Hide both containers first
+  tt.classList.remove('show');
+  tt.style.display='none';
+  fc.style.display='none';
+  document.getElementById('tour-fullcard-inner').classList.remove('show');
+
+  // Full-screen card step (step 0)
+  if(step.type==='fullcard'){
+    document.getElementById('tour-fullcard-title').textContent=step.title;
+    document.getElementById('tour-fullcard-body').innerHTML=step.body;
+    const fcDots=document.getElementById('tour-fc-dots');
+    fcDots.innerHTML=TOUR_STEPS.map((_,i)=>`<div class="tour-tooltip-dot${i===idx?' active':''}"></div>`).join('');
+    document.getElementById('tour-fc-next').textContent='Next';
+    fc.style.display='flex';
+    requestAnimationFrame(()=>document.getElementById('tour-fullcard-inner').classList.add('show'));
+    return;
   }
 
-  // Small delay to let DOM settle after tab switch
+  // Tooltip steps — switch tab if needed
+  if(step.tab){
+    show(step.tab);
+    if(step.tab==='me'&&step.subtab)showMeTab(step.subtab);
+    else if(step.tab==='me')showMeTab('round');
+    if(step.tab==='bets')showWagersTab('bets');
+  }
+
   setTimeout(()=>{
     // Find target element
     let el=null;
@@ -3347,51 +3414,15 @@ function tourGo(idx){
       el.scrollIntoView({behavior:'instant',block:'center'});
     }
 
-    // Draw spotlight overlay
-    tourDrawOverlay(el);
+    // Highlight the target element
+    if(el){
+      el.classList.add('tour-highlight');
+      tourHighlightEl=el;
+    }
 
     // Position tooltip
     tourPositionTooltip(el,step,idx);
-  },250);
-}
-
-function tourDrawOverlay(el){
-  const canvas=document.getElementById('tour-canvas');
-  const ctx=canvas.getContext('2d');
-  const dpr=window.devicePixelRatio||1;
-  canvas.width=window.innerWidth*dpr;
-  canvas.height=window.innerHeight*dpr;
-  canvas.style.width=window.innerWidth+'px';
-  canvas.style.height=window.innerHeight+'px';
-  ctx.scale(dpr,dpr);
-
-  // Fill dark overlay
-  ctx.fillStyle='rgba(0,0,0,0.82)';
-  ctx.fillRect(0,0,window.innerWidth,window.innerHeight);
-
-  if(el){
-    const r=el.getBoundingClientRect();
-    const pad=8;
-    const radius=14;
-    const x=r.left-pad,y=r.top-pad,w=r.width+pad*2,h=r.height+pad*2;
-
-    // Cut out rounded rect
-    ctx.save();
-    ctx.globalCompositeOperation='destination-out';
-    ctx.beginPath();
-    ctx.roundRect(x,y,w,h,radius);
-    ctx.fill();
-    ctx.restore();
-
-    // Subtle border around cutout
-    ctx.save();
-    ctx.strokeStyle='rgba(254,254,86,0.25)';
-    ctx.lineWidth=1.5;
-    ctx.beginPath();
-    ctx.roundRect(x,y,w,h,radius);
-    ctx.stroke();
-    ctx.restore();
-  }
+  },280);
 }
 
 function tourPositionTooltip(el,step,idx){
@@ -3433,25 +3464,21 @@ function tourPositionTooltip(el,step,idx){
   let top,left;
 
   if(step.pos==='above'){
-    // Tooltip above the element
     tt.style.left='0';tt.style.top='0';
     const ttH=tt.offsetHeight;
     top=r.top-ttH-20;
     left=Math.max(pad,Math.min(r.left+r.width/2-ttW/2,window.innerWidth-ttW-pad));
     if(top<pad){
-      // Not enough room above, go below
       top=r.bottom+20;
       arrow.className='tour-arrow bottom';
     }else{
       arrow.className='tour-arrow top';
     }
   }else{
-    // Tooltip below the element
     top=r.bottom+20;
     left=Math.max(pad,Math.min(r.left+r.width/2-ttW/2,window.innerWidth-ttW-pad));
     arrow.className='tour-arrow bottom';
     if(top+200>window.innerHeight-80){
-      // Not enough room below, go above
       tt.style.left='0';tt.style.top='0';
       const ttH=tt.offsetHeight;
       top=r.top-ttH-20;
@@ -3459,14 +3486,12 @@ function tourPositionTooltip(el,step,idx){
     }
   }
 
-  // Clamp vertically — ensure tooltip stays below mobile status bar (safe area)
   const safeTop=Math.max(pad,parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat'))||0,50);
   top=Math.max(safeTop,Math.min(top,window.innerHeight-250));
 
   tt.style.left=left+'px';
   tt.style.top=top+'px';
   arrow.style.display='block';
-  // Arrow points at arrowTarget element if specified, otherwise at the main target
   let arrowAnchor=r;
   if(step.arrowTarget){const ae=document.getElementById(step.arrowTarget);if(ae)arrowAnchor=ae.getBoundingClientRect();}
   arrow.style.left=Math.max(20,Math.min(arrowAnchor.left+arrowAnchor.width/2-left,ttW-20))+'px';
@@ -3809,7 +3834,7 @@ function renderChat(){
     const mine=msg.author===chatAuthor;
     const aKey=Object.keys(P).find(k=>P[k].name===msg.author)||null;
     const avBg=aKey&&playerAvatars[aKey]?'background:#111':`background:${aKey?PLAYER_COLORS[aKey]||'#555':'#555'}`;
-    const avInner=aKey&&playerAvatars[aKey]?`<img src="${playerAvatars[aKey]}" alt="${msg.author}">`:(msg.author[0]||'?').toUpperCase();
+    const avInner=aKey&&playerAvatars[aKey]?(playerAvatars[aKey].startsWith('data:')?`<img src="${playerAvatars[aKey]}" alt="${msg.author}">`:playerAvatars[aKey]):(msg.author[0]||'?').toUpperCase();
     const miniAv=`<div class="chat-mini-av" style="${avBg}">${avInner}</div>`;
     const metaRow=mine
       ?`<div class="chat-av-row mine-row">${miniAv}<div class="chat-meta">${fmtTime(msg.ts)}</div></div>`
@@ -4042,10 +4067,10 @@ function buildMyWagers(){
       else if(b.result==='house'){winnerName='House';}
       else if(b.result==='buyers'){winnerName='Buyers';}
       if(isPush){
-        winnerTag='<span style="display:inline-block;margin-top:4px;font-size:10px;font-weight:600;color:rgba(218,240,218,.4);background:rgba(218,240,218,.06);padding:2px 7px;border-radius:4px">Push</span>';
+        winnerTag='<span style="display:inline-block;margin-top:4px;font-family:\'DM Sans\',sans-serif;font-size:10px;font-weight:500;color:rgba(218,240,218,.4);background:rgba(218,240,218,.06);padding:2px 7px;border-radius:4px">Push</span>';
         amtDisplay=amt;amtColor='rgba(218,240,218,.4)';
       }else{
-        if(winnerName)winnerTag=`<span style="display:inline-block;margin-top:4px;font-size:10px;font-weight:600;color:${iWon?'#6dc884':'#e05a4a'};background:${iWon?'rgba(109,200,132,.1)':'rgba(224,90,74,.1)'};padding:2px 7px;border-radius:4px">${winnerName} wins</span>`;
+        if(winnerName)winnerTag=`<span style="display:inline-block;margin-top:4px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;color:${iWon?'#6dc884':'#e05a4a'};background:${iWon?'rgba(109,200,132,.1)':'rgba(224,90,74,.1)'};padding:2px 7px;border-radius:4px">${winnerName} wins</span>`;
         const numAmt=b.amount||0;
         amtDisplay=iWon?`+$${numAmt}`:`-$${numAmt}`;
         amtColor=iWon?'#6dc884':'#e05a4a';
