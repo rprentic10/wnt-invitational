@@ -747,6 +747,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 #pools-container #masters-pool-slot:empty,
 #pools-container #other-pools-slot:empty{display:none;}
 #pools-container .main-game-card{margin-bottom:0;}
+#pools-container .gw-area{margin-bottom:0;}
 #pools-container .wager-card{margin-bottom:0;}
 #pools-container .wager-day-grp{display:flex;flex-direction:column;gap:8px;margin-bottom:0;}
 #other-pools-slot{display:flex;flex-direction:column;gap:8px;}
@@ -1750,9 +1751,11 @@ function showApp(){
 // SIMULATION MODE
 // ═══════════════════════════════════════════════════
 let simActive=false;
+let _simRanThisBoot=false;
 function _simRng(seed){let s=seed|0;return()=>{s=Math.imul(s^(s>>16),0x45d9f3b);s=Math.imul(s^(s>>16),0x45d9f3b);return((s^(s>>16))>>>0)/0x100000000;};}
 function runSim(){
   simActive=true;
+  _simRanThisBoot=true;
   const t=Date.now();
   const rng=_simRng(42069);
 
@@ -1926,9 +1929,12 @@ async function init(){
   try{
     const data=await fetchRemote();
     if(data){
-      try{applyRemoteState(data);}catch(e){console.warn('applyRemote err',e);}
+      // If sim ran during boot, skip this merge — sim already pushed fresh state
+      if(!_simRanThisBoot){
+        try{applyRemoteState(data);}catch(e){console.warn('applyRemote err',e);}
+      }
       lastRemoteJson=JSON.stringify(data);
-      try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){}
+      if(!_simRanThisBoot){try{buildD1();buildD2();buildD3();updateLB();updateBetsBadge();}catch(e){}}
     }else{
       offlineMode=true;
       document.getElementById('offline-banner').classList.add('show');
@@ -5659,9 +5665,6 @@ function poolCardHTML(bet,myName){
 // ── Build wagers tab ─────────────────────────────
 function buildWagers(){
   settleBets();
-  // De-duplicate bets by ID (safety net against merge artifacts)
-  const _seen=new Set();const _dupeCount=bets.length;bets=bets.filter(b=>{if(_seen.has(b.id))return false;_seen.add(b.id);return true;});
-  if(bets.length<_dupeCount)console.warn('[WNI] Removed '+((_dupeCount-bets.length))+' duplicate bets');
   const myName=chatAuthor||'';
   // Suggested bets
   const sugg=buildSuggestedBets();
