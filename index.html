@@ -225,9 +225,6 @@ body{
 #panel-chat.active{display:flex;}
 .scores-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:0 0 2px;}
 .wagers-subnav{display:flex;gap:3px;padding:3px;background:rgba(218,240,218,.06);border:1px solid rgba(218,240,218,.13);border-radius:10px;margin:12px 0 2px;}
-.wager-scope-toggle{display:flex;margin-bottom:12px;border-bottom:2px solid rgba(254,254,86,.12);}
-.wst-btn{flex:1;padding:9px 6px;border:none;background:transparent;color:rgba(218,240,218,.38);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:color .15s;}
-.wst-btn.active{color:#fefe56;border-bottom:2px solid #fefe56;margin-bottom:-2px;}
 
 /* ── COURSE HEADER ───────────────────────────────── */
 .course-header{text-align:center;margin-bottom:18px;padding-top:28px;}
@@ -592,7 +589,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── WAGERS TAB ──────────────────────────────────── */
 .wager-propose-btn{position:fixed;bottom:calc(74px + env(safe-area-inset-bottom));left:16px;z-index:99;width:72px;height:72px;border-radius:50%;border:none;background:#fefe56;color:#0a280a;font-family:'DM Sans',sans-serif;font-size:34px;font-weight:300;line-height:1;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;box-shadow:0 4px 20px rgba(0,0,0,.45),0 0 0 1px rgba(254,254,86,.2);display:none;align-items:center;justify-content:center;padding:0;}
 .wager-propose-btn:active{background:#e8e84e;transform:scale(.92);}
-.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative;}
+.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:12px;position:relative;}
 .wager-card.wc-open{border-color:rgba(254,254,86,.45);animation:wcPulse 2.5s ease-in-out infinite;}
 @keyframes wcPulse{0%,100%{border-color:rgba(254,254,86,.45);}50%{border-color:rgba(254,254,86,.18);}}
 .wager-card.wc-settled-win{border-color:rgba(100,200,120,.45);}
@@ -668,7 +665,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .settle-arrow{color:rgba(218,240,218,.3);}
 .settle-to{font-weight:700;color:#6dc884;}
 .settle-amt{font-weight:900;color:#fefe56;margin-left:auto;}
-.gw-widget{background:rgba(16,36,16,.85);border:1px solid rgba(218,240,218,.12);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative;}
+.gw-widget{background:rgba(16,36,16,.85);border:1px solid rgba(218,240,218,.12);border-radius:10px;padding:12px 14px;margin-bottom:12px;position:relative;}
 .gw-widget.gw-open-state{border-color:rgba(254,254,86,.4);animation:wcPulse 2.5s ease-in-out infinite;}
 .gw-widget.gw-settled-state{border-color:rgba(100,200,120,.3);}
 .gw-header{margin-bottom:4px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
@@ -746,7 +743,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wager-day-divider{height:1px;margin:14px 0;background:repeating-linear-gradient(90deg,rgba(218,240,218,.15) 0,rgba(218,240,218,.15) 12px,transparent 12px,transparent 18px);}
 .wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
 /* ── Main game cards (Wagers tab) ───────────────── */
-.main-game-card{margin-bottom:12px;}
+.main-game-card{margin-bottom:0;}
 .main-game-card:last-child{margin-bottom:0;}
 .main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .main-game-daybadge{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;flex-shrink:0;}
@@ -984,7 +981,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="course-header">
     <div class="course-title">We-Ko-Pa (Cholla)</div>
   </div>
-  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">4-Man Shamble</span></span><span class="game-format-val">Everyone tees, take the best drive and play your own ball. Best gross, no handicaps.</span></div>
+  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">4-Man Shamble</span></span><span class="game-format-val">Everyone tees, take the best drive and play your own ball.<br>Best gross, no handicaps.</span></div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
     <div class="mb-side mA"><div class="mb-label mA" id="d1-label-a">Group 1</div><div class="mb-pairs">Prentice / Cromer<br>Buzz / Reese</div><div class="mb-pts mA" id="d1-score-a">—</div><div id="d1-thru-a" style="font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.35);margin-top:4px">No scores yet</div></div>
@@ -1000,7 +997,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="course-header">
     <div class="course-title">Troon North (Pinnacle)</div>
   </div>
-  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Best Ball</span></span><span class="game-format-val">Play your own ball, take the best net score per hole. Lowest total net wins.</span></div>
+  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Best Ball</span></span><span class="game-format-val">Play your own ball, take the best net score per hole.<br>Lowest total net wins.</span></div>
   <div class="live-lb-wrap" style="margin-top:20px"><div class="live-lb-title">Live Standings</div><table class="live-lb-tbl"><thead><tr><th>Place</th><th>Team</th><th class="r">Score</th><th class="r">Thru</th></tr></thead><tbody id="d2-live-lb"></tbody></table></div>
   <div class="live-lb-title" style="margin-top:20px">Live Scorecard</div>
   <div class="nine-toggle"><button class="nine-btn active" onclick="setNine('d2',false,this)">Front 9</button><button class="nine-btn" onclick="setNine('d2',true,this)">Back 9</button></div>
@@ -1012,7 +1009,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="course-header">
     <div class="course-title">Grayhawk (Talon)</div>
   </div>
-  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Match Play</span></span><span class="game-format-val">Best net per hole wins the hole. Most holes won wins the match.</span></div>
+  <div class="game-format-strip"><span class="game-format-hdr"><span class="game-format-lbl">Today's Format: </span><span class="game-format-type">2-Man Match Play</span></span><span class="game-format-val">Best net per hole wins the hole.<br>Most holes won wins the match.</span></div>
   <div class="live-lb-title" style="margin-top:20px">Live Standings</div>
   <div class="match-board">
     <div class="mb-side mA"><div class="mb-label mA" id="d3-label-a">Team 1</div><div class="mb-pairs">Otero / Cromer<br>Reese / Pat</div><div class="mb-pts mA" id="d3-pts-a">0</div></div>
@@ -1054,10 +1051,6 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 <div id="wc-bets">
   <div class="course-header">
     <div class="course-title">Gentlemen Wagers <a href="https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf" onclick="window.open('https://rprentic10.github.io/wnt-invitational/WNT-Betting-Rulebook.pdf','_blank');return false;" style="font-size:18px;text-decoration:none;opacity:.45;vertical-align:middle;margin-left:4px;cursor:pointer;" title="Betting Rules">📖</a></div>
-  </div>
-  <div class="wager-scope-toggle" id="wager-scope-toggle">
-    <button class="wst-btn active" data-scope="all" onclick="setWagerScope('all')">All Bets</button>
-    <button class="wst-btn" data-scope="mine" onclick="setWagerScope('mine')">My Bets</button>
   </div>
   <!-- POOLS (Masters + Main Games + other pools) -->
   <div class="wager-section-hdr">Pools</div>
@@ -2535,12 +2528,6 @@ function showWagersTab(tab){
   if(tab==='bets'){settleBets();buildWagers();}
   if(tab==='ledger')buildLedger();
   const fab=document.getElementById('wager-fab');if(fab)fab.style.display=tab==='bets'?'flex':'none';
-  const scopeToggle=document.getElementById('wager-scope-toggle');if(scopeToggle)scopeToggle.style.display=tab==='bets'?'flex':'none';
-}
-function setWagerScope(scope){
-  wagerScope=scope;
-  document.querySelectorAll('.wst-btn').forEach(b=>b.classList.toggle('active',b.dataset.scope===scope));
-  buildWagers();
 }
 function isMyBet(b){
   const me=chatAuthor||'';if(!me)return true;
@@ -3165,7 +3152,7 @@ const TOUR_STEPS=[
   {
     tab:'lb',
     target:null,
-    targetQuery:'.lb-hero',
+    target:'lb-chips-thu',
     title:'Leaderboard',
     body:'Live standings update automatically as scores come in — individual totals, match play results, and the Masters Pool.',
     pos:'below',
@@ -3174,7 +3161,7 @@ const TOUR_STEPS=[
   {
     tab:'bets',
     target:'wager-content',
-    title:'All Bets',
+    title:'Wagers',
     body:'Every group bet lives here — P2P wagers, house props, pools, and the Masters Pool. Accept or propose bets from this tab.',
     pos:'above',
     scrollTop:true,
