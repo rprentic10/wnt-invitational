@@ -887,16 +887,27 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .masters-close:active{background:rgba(218,240,218,.2);}
 /* Masters leaderboard on LB tab */
 .masters-lb{margin-top:28px;background:rgba(16,36,16,.6);border:1px solid rgba(254,254,86,.12);border-radius:12px;padding:14px 12px;margin-left:4px;margin-right:4px;}
-.masters-lb-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-.masters-lb-hdr h3{font-family:'Forum',serif;font-size:18px;color:rgba(254,254,86,.7);margin:0;font-weight:normal;}
-.masters-lb-hdr span{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.35);font-weight:600;}
-.masters-lb-row{display:flex;align-items:center;padding:8px 0;border-bottom:1px solid rgba(218,240,218,.06);}
-.masters-lb-row:last-child{border-bottom:none;}
-.masters-lb-rank{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(254,254,86,.5);width:24px;text-align:center;}
-.masters-lb-name{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:rgba(218,240,218,.85);flex:1;padding-left:8px;}
-.masters-lb-score{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#fefe56;width:50px;text-align:right;}
-.masters-lb-detail{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.35);padding-left:32px;padding-bottom:4px;}
-.masters-picks-summary{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.4);padding-left:32px;margin-top:-4px;margin-bottom:4px;}
+.masters-lb-player{margin-bottom:16px;}
+.masters-lb-player:last-child{margin-bottom:0;}
+.masters-lb-phdr{display:flex;align-items:center;padding:6px 0;border-bottom:1px solid rgba(254,254,86,.15);}
+.masters-lb-rank{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(254,254,86,.5);width:22px;text-align:center;flex-shrink:0;}
+.masters-lb-pname{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:rgba(218,240,218,.85);flex:1;padding-left:6px;}
+.masters-lb-ptotal{font-family:'DM Mono',monospace;font-size:14px;font-weight:700;color:#fefe56;width:44px;text-align:right;flex-shrink:0;}
+.masters-lb-colhdr{display:flex;align-items:center;padding:4px 0 2px;margin-left:28px;}
+.masters-lb-gname{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:rgba(218,240,218,.3);flex:1;text-transform:uppercase;letter-spacing:.3px;}
+.masters-lb-rh{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;color:rgba(218,240,218,.25);width:32px;text-align:center;flex-shrink:0;text-transform:uppercase;}
+.masters-lb-th{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;color:rgba(218,240,218,.25);width:38px;text-align:right;flex-shrink:0;text-transform:uppercase;}
+.masters-lb-grow{display:flex;align-items:center;padding:3px 0;margin-left:28px;border-bottom:1px solid rgba(218,240,218,.04);}
+.masters-lb-grow:last-child{border-bottom:none;}
+.masters-lb-grow.dropped{opacity:.35;}
+.masters-lb-grow.counting .masters-lb-gn{color:rgba(218,240,218,.75);}
+.masters-lb-gn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(218,240,218,.5);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.masters-lb-rd{font-family:'DM Mono',monospace;font-size:11px;color:rgba(218,240,218,.4);width:32px;text-align:center;flex-shrink:0;}
+.masters-lb-gt{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;width:38px;text-align:right;flex-shrink:0;}
+.masters-lb-grow.counting .masters-lb-gt{color:#fefe56;}
+.masters-lb-grow.dropped .masters-lb-gt{color:rgba(218,240,218,.3);text-decoration:line-through;}
+.masters-lb-grow:not(.counting):not(.dropped) .masters-lb-gt{color:rgba(218,240,218,.45);}
+.masters-lb-cut{font-family:'DM Sans',sans-serif;font-size:9px;color:rgba(255,100,100,.5);margin-left:4px;font-weight:700;text-transform:uppercase;}
 .masters-wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.2);border-radius:10px;padding:12px 14px;margin-bottom:8px;}
 .masters-wager-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .masters-wager-title{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:rgba(218,240,218,.85);}
@@ -1451,13 +1462,13 @@ const JSONBIN='https://api.jsonbin.io/v3/b';
 const ENV='dev';
 const JSONBIN_ID=ENV==='prod'?'69d00c0136566621a8782afb':'69c6bfa3c3097a1dd568bcda';
 const JSONBIN_KEY='$2a$10$u8H4aaQDmmwyV6A6ieyFDeUhVJBxFvFU4PeBUJxtg.1mMUkrys7e.';
-const LS_DATA='wni-data-2026';
+const LS_DATA='wni-data-2026-v2';
 // ── Data epoch ────────────────────────────────────
 // Any wager / bet / chat message with ts < REQUIRED_WIPE_AT is considered
 // pre-reset simulation data and is silently dropped everywhere (local apply,
 // remote merge, push merge).  Bump this constant whenever you need a full
 // data wipe — the first device to push will clean JSONbin for everyone.
-const REQUIRED_WIPE_AT=1774975508573;
+const REQUIRED_WIPE_AT=1775429930000;
 
 let lastRemoteJson=null;
 let offlineMode=false;
@@ -1469,6 +1480,8 @@ function getState(){
 
 function applyRemoteState(state){
   if(!state)return;
+  // If the remote state was written before our wipe epoch, ignore it entirely
+  if(state.wipeAt&&state.wipeAt<REQUIRED_WIPE_AT)return;
   if(state.scores){
     ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
       if(state.scores[day]&&state.scores[day][k]){
@@ -1557,7 +1570,9 @@ function applyRemoteState(state){
       if((r.ts||0)<REQUIRED_WIPE_AT)return;
       if(!gameWagers[k]||r.ts>=gameWagers[k].ts)gameWagers[k]=r;
     });
-    initHardsetWagers();
+    // Only auto-create hardset wagers if there are real wagers present
+    // (prevents recreating them on a wiped/empty bin)
+    if(Object.keys(gameWagers).length>0)initHardsetWagers();
     settleGameWagers();
     updateGWWidgets();
   }
@@ -1630,6 +1645,8 @@ async function pushRemote(state,immediate){
     _pushInFlight=true;
     try{
       let latest=await fetchRemote();
+      // If remote data predates our wipe epoch, ignore it (don't merge stale data)
+      if(latest&&latest.wipeAt&&latest.wipeAt<REQUIRED_WIPE_AT)latest=null;
       if(latest){
         // ── Merge chat (existing logic) ──
         if(latest.chat&&Array.isArray(latest.chat.messages)){
@@ -1764,14 +1781,34 @@ function runSim(){
   document.getElementById('sim-banner').style.display='flex';
 }
 async function clearSim(){
-  // Reset all in-memory state to empty
+  // ── Nuclear reset: wipe ALL state and push empty shell to remote ──
+  // 1. Kill all background activity
+  simActive=false;_pushInFlight=true;
+  // 2. Bump the wipe epoch to NOW — anything with ts < this is dead on arrival
+  const newWipeAt=Date.now();
+  // 3. Blank every in-memory store
   Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);STATS[day][k]={};});});
   drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
-  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};
-  // Allow push, write clean state to JSONbin, then clear local cache
-  simActive=false;
-  await pushRemote(getState(),true);
+  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};mastersPicks={};presenceData={};
+  // 4. Build a minimal empty state with the new wipe epoch
+  const emptyState={scores:JSON.parse(JSON.stringify(SC)),stats:JSON.parse(JSON.stringify(STATS)),chat:{messages:[]},avatars:{},teamNames:{},bets:[],drives:{g1:Array(18).fill(null),g2:Array(18).fill(null)},gameWagers:{},presence:{},mastersPicks:{},wipeAt:newWipeAt,v:1};
+  // 5. Nuke local cache
   try{localStorage.removeItem(LS_DATA);}catch(e){}
+  // 6. PUT directly (NO fetchRemote, NO merge) — try up to 3 times
+  let ok=false;
+  for(let attempt=0;attempt<3&&!ok;attempt++){
+    try{
+      const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(emptyState)});
+      ok=r.ok;
+      if(!ok)console.warn('Reset attempt',attempt+1,'status',r.status);
+    }catch(e){console.warn('Reset attempt',attempt+1,'error',e);}
+  }
+  // 7. Show result and redirect
+  if(ok){
+    alert('Data wiped. Update REQUIRED_WIPE_AT to '+newWipeAt+' in source code to make this permanent.');
+  }else{
+    alert('Remote wipe may have failed — check JSONBin manually.');
+  }
   location.href=location.pathname;
 }
 
@@ -1815,6 +1852,10 @@ async function init(){
       document.getElementById('offline-banner').classList.add('show');
     }
   }catch(e){console.warn('remote sync err',e);}
+  // Bootstrap hardset wagers on first real load (not after a wipe)
+  // They exist if any score, bet, or wager is present — meaning real usage has started
+  const hasAnyData=bets.length>0||Object.keys(gameWagers).length>0||Object.keys(SC).some(day=>Object.keys(P).some(k=>SC[day][k].some(v=>v!=null)));
+  if(hasAnyData)initHardsetWagers();
   initSyncDone=true; // only count messages as unread after this point
   buildMastersLB();fetchMastersScores();
 
@@ -3529,21 +3570,29 @@ function buildMastersLB(){
   html+='<div class="masters-lb">';
   standings.forEach((s,i)=>{
     const scoreDisp=s.total!=null?s.total:'—';
-    html+=`<div class="masters-lb-row"><div class="masters-lb-rank">${i+1}</div><div class="masters-lb-name">${s.name}</div><div class="masters-lb-score">${scoreDisp}</div></div>`;
-    // Show picks
-    const pickChips=s.picks.map((pid,j)=>{
-      if(!pid)return'<span class="masters-wager-pick empty">—</span>';
-      const mp=MASTERS_PLAYERS[pid];if(!mp)return'';
+    html+='<div class="masters-lb-player">';
+    // Player header row: rank, name, total
+    html+=`<div class="masters-lb-phdr"><div class="masters-lb-rank">${i+1}</div><div class="masters-lb-pname">${s.name}</div><div class="masters-lb-ptotal">${scoreDisp}</div></div>`;
+    // Column headers
+    html+='<div class="masters-lb-colhdr"><div class="masters-lb-gname"></div><div class="masters-lb-rh">R1</div><div class="masters-lb-rh">R2</div><div class="masters-lb-rh">R3</div><div class="masters-lb-rh">R4</div><div class="masters-lb-th">Tot</div></div>';
+    // Golfer rows — best 4 highlighted, dropped dimmed
+    s.picks.forEach((pid,j)=>{
+      if(!pid)return;
+      const mp=MASTERS_PLAYERS[pid];if(!mp)return;
       const sc=s.scores[j];
       const counting=s.best4Indices.has(j);
       const dropped=sc!=null&&!counting&&s.best4Indices.size>=4;
-      let cls='masters-wager-pick';
-      if(counting)cls+=' counting';
-      else if(dropped)cls+=' dropped';
-      const shortName=mp.last.length>8?mp.last.slice(0,7)+'…':mp.last;
-      return`<span class="${cls}">${shortName}${sc!=null?' ('+sc+')':''}</span>`;
-    }).join('');
-    html+=`<div class="masters-picks-summary">${pickChips}</div>`;
+      const cls=counting?'masters-lb-grow counting':dropped?'masters-lb-grow dropped':'masters-lb-grow';
+      const ms=mastersScores[pid];
+      const r1=ms&&ms.r1!=null?ms.r1:'—';
+      const r2=ms&&ms.r2!=null?ms.r2:'—';
+      const r3=ms&&ms.r3!=null?ms.r3:(ms&&ms.cut?MASTERS_CUT_SCORE:'—');
+      const r4=ms&&ms.r4!=null?ms.r4:(ms&&ms.cut?MASTERS_CUT_SCORE:'—');
+      const tot=sc!=null?sc:'—';
+      const cutTag=ms&&ms.cut?'<span class="masters-lb-cut">MC</span>':'';
+      html+=`<div class="${cls}"><div class="masters-lb-gn">${mp.last}${cutTag}</div><div class="masters-lb-rd">${r1}</div><div class="masters-lb-rd">${r2}</div><div class="masters-lb-rd">${r3}</div><div class="masters-lb-rd">${r4}</div><div class="masters-lb-gt">${tot}</div></div>`;
+    });
+    html+='</div>';
   });
   if(!hasScores){
     html+='<div class="masters-delayed-note">Live scores appear once the tournament begins (3-hour delay)</div>';
@@ -3572,7 +3621,7 @@ function buildMastersWagerCard(){
     myPicks.forEach(pid=>{
       if(!pid){html+='<span class="masters-wager-pick empty">—</span>';return;}
       const mp=MASTERS_PLAYERS[pid];
-      if(mp)html+='<span class="masters-wager-pick">'+mp.last+'</span>';
+      if(mp){const sn=mp.last.length>5?mp.last.slice(0,5)+'…':mp.last;html+='<span class="masters-wager-pick">'+sn+'</span>';}
     });
     html+='</div>';
   }else{
@@ -4797,7 +4846,7 @@ function settleGameWagers(){
   return changed;
 }
 function updateGWWidgets(){
-  initHardsetWagers();
+  if(Object.keys(gameWagers).length>0||bets.length>0)initHardsetWagers();
   const map={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
   Object.entries(map).forEach(([key,id])=>{const el=document.getElementById(id);if(el)el.innerHTML=gameWagerWidget(key);});
   if(currentTab==='bets')buildWagers();
