@@ -694,7 +694,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .gw-active-info{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(218,240,218,.6);}
 .gw-active-amt{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:900;color:var(--my);margin-right:8px;}
 .gw-settled-result{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#6dc884;}
-.gw-settled-push{color:rgba(218,240,218,.45);}
+.gw-settled-push{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45);}
 .wager-empty{text-align:center;padding:22px 16px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.22);background:rgba(16,36,16,.6);border-radius:8px;}
 .suggest-section{margin-bottom:18px;}
 .suggest-empty{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(218,240,218,.35);background:rgba(16,36,16,.5);border:1px dashed rgba(254,254,86,.12);border-radius:9px;padding:14px 16px;line-height:1.5;}
@@ -743,6 +743,10 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wager-day-divider{height:1px;margin:14px 0;background:repeating-linear-gradient(90deg,rgba(218,240,218,.15) 0,rgba(218,240,218,.15) 12px,transparent 12px,transparent 18px);}
 .wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
 /* ── Main game cards (Wagers tab) ───────────────── */
+#masters-pool-slot:not(:empty){margin-bottom:8px;}
+#masters-pool-slot:not(:empty) .wager-card:last-child{margin-bottom:0;}
+#other-pools-slot:not(:empty){margin-top:8px;}
+#other-pools-slot:not(:empty) .wager-card:first-child{margin-top:0;}
 .main-game-card{margin-bottom:8px;}
 .main-game-card:last-child{margin-bottom:0;}
 .main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
@@ -1069,10 +1073,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="gw-area" style="margin-top:6px" id="gw-area-d3-side"></div>
   </div>
   <div id="other-pools-slot"></div>
-  <div class="sec-block" id="wager-standing-block" style="display:none">
-    <div class="lb-sec-title">Net Standing</div>
-    <table class="wager-standing-tbl" id="wager-standing"></table>
-  </div>
+  <!-- Net Standing removed -->
   <div id="wager-content"></div>
   <div id="wager-suggest"></div>
   <div style="height:60px"></div>
@@ -2984,10 +2985,10 @@ function updateLB(){
   document.getElementById('lb-chips-thu').innerHTML=renderChips(chipsT);
   document.getElementById('lb-chips-fri').innerHTML=renderChips(chipsF);
   document.getElementById('lb-chips-sat').innerHTML=renderChips(chipsS);
-  const winRows=Object.keys(P).map(k=>{const t=wins[k].d1+wins[k].d2+wins[k].d3;return{key:k,name:P[k].name,d1:wins[k].d1,d2:wins[k].d2,d3:wins[k].d3,total:t};}).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
+  const winRows=Object.keys(P).map(k=>{const t=wins[k].d1+wins[k].d2+wins[k].d3;let totNet=0,totH=0;['d2','d3'].forEach(day=>{for(let h=0;h<18;h++){const g=SC[day][k][h];if(g!=null){totNet+=net(parseInt(g),phcp(k,day),h,day);totH++;}}});for(let h=0;h<18;h++){const g=SC.d1[k][h];if(g!=null){totNet+=parseInt(g);totH++;}}return{key:k,name:P[k].name,d1:wins[k].d1,d2:wins[k].d2,d3:wins[k].d3,total:t,totNet,totH};}).sort((a,b)=>b.total-a.total||a.totNet-b.totNet||a.name.localeCompare(b.name));
   const maxW=winRows[0]?.total||0;
   function wc(w){if(w===0)return`<td style="color:rgba(218,240,218,.22)">—</td>`;if(w===.5)return`<td style="color:var(--my3)">½</td>`;return`<td style="color:#6ab46a;font-weight:600">W</td>`;}
-  document.getElementById('lb-wins').innerHTML=winRows.map((r,i)=>{const ic=r.total===maxW&&maxW>0,tr=ic?' 🏆':'',ts=ic?'color:var(--my);font-weight:700;font-size:15px':r.total>0?'color:rgba(218,240,218,.8)':'color:rgba(218,240,218,.28)';return`<tr><td><span class="pos ${ic?'g':''}">${i+1}</span>${r.name}${tr}</td>${wc(r.d1)}${wc(r.d2)}${wc(r.d3)}<td style="${ts}">${r.total>0?fmt(r.total):'—'}</td></tr>`;}).join('');
+  document.getElementById('lb-wins').innerHTML=winRows.map((r,i)=>{const ic=i===0&&maxW>0,tr=ic?' 🏆':'',ts=ic?'color:var(--my);font-weight:700;font-size:15px':r.total>0?'color:rgba(218,240,218,.8)':'color:rgba(218,240,218,.28)';return`<tr><td><span class="pos ${ic?'g':''}">${i+1}</span>${r.name}${tr}</td>${wc(r.d1)}${wc(r.d2)}${wc(r.d3)}<td style="${ts}">${r.total>0?fmt(r.total):'—'}</td></tr>`;}).join('');
   const scoreRows=Object.keys(P).map(k=>{const p=P[k];let d1G=0,d1H=0,d2G=0,d2Net=0,d2H=0,d3G=0,d3Net=0,d3H=0;for(let h=0;h<18;h++){const g=SC.d1[k][h];if(g!=null){d1G+=parseInt(g);d1H++;}}['d2','d3'].forEach(day=>{for(let h=0;h<18;h++){const g=SC[day][k][h];if(g!=null){const gr=parseInt(g),nt=net(gr,phcp(k,day),h,day);if(day==='d2'){d2G+=gr;d2Net+=nt;d2H++;}else{d3G+=gr;d3Net+=nt;d3H++;}}}});return{name:p.name,hcp:p.d1,d1:{s:d1G,h:d1H},d2:{g:d2G,n:d2Net,h:d2H},d3:{g:d3G,n:d3Net,h:d3H},any:d1H+d2H+d3H>0};}).sort((a,b)=>{if(b.any!==a.any)return b.any-a.any;return(a.d1.s+a.d2.g+a.d3.g)-(b.d1.s+b.d2.g+b.d3.g);});
   function fG(x){if(x.h===0)return'—';return String(x.s);}
   function fGN(x){if(x.h===0)return'<td style="color:rgba(218,240,218,.3)">—</td><td style="color:rgba(218,240,218,.3)">—</td>';return`<td>${x.g}</td><td style="color:rgba(218,240,218,.55)">${x.n}</td>`;}
@@ -5361,13 +5362,13 @@ function wagerCardHTML(bet,myName){
   const propLabel=bet.type==='ou'?(bet.propSide==='under'?`↓ UNDER ${bet.line}`:`↑ OVER ${bet.line}`):
     isLowType?`Goes Low`:
     isBirdieOU?(bet.propSide==='over'?`↑ Over ${bet.line}`:`↓ Under ${bet.line}`):
-    isH2H?(bet.propSide==='a'?`${P[bet.player].name} wins`:`${P[bet.playerB].name} wins`):
+    isH2H?(bet.propSide==='a'?P[bet.player].name:P[bet.playerB].name):
     isClean?`Clean card ✓`:isLast?`Finishes last`:
     (bet.propSide==='a'?betDescMatch(bet,true)+'  ✓':'✓ '+betDescMatch(bet,true));
   const accLabel=bet.type==='ou'?(bet.propSide==='under'?`↑ OVER ${bet.line}`:`↓ UNDER ${bet.line}`):
     isLowType?`Doesn't Go Low`:
     isBirdieOU?(bet.propSide==='over'?`↓ Under ${bet.line}`:`↑ Over ${bet.line}`):
-    isH2H?(bet.propSide==='a'?`${P[bet.playerB].name} wins`:`${P[bet.player].name} wins`):
+    isH2H?(bet.propSide==='a'?P[bet.playerB].name:P[bet.player].name):
     isClean?`Gets a double+ ✗`:isLast?`Doesn't finish last`:
     (bet.propSide==='a'?betDescMatch(bet,false)+'  ✓':'✓ '+betDescMatch(bet,false));
 
@@ -5416,14 +5417,13 @@ function wagerCardHTML(bet,myName){
 
   return `<div class="wager-card ${cardCls}">
   ${cancelBtn}
-  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${desc}</div></div>
+  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${desc}</div><div class="wc-amount">$${bet.amount}</div></div>
   <div class="wc-line">${lineInfo}</div>
   ${trendHtml}
   <div class="wc-row">
     <div class="wc-chip prop">${bet.propName} · ${propLabel}</div>
     <div class="wc-vs">vs</div>
     ${isOpen?`<div class="wc-chip slot">Open slot · ${accLabel}</div>`:`<div class="wc-chip acc">${bet.accName} · ${accLabel}</div>`}
-    <div class="wc-amount">$${bet.amount}</div>
   </div>
   ${resultHtml}
   ${acceptBtn}
@@ -5451,12 +5451,10 @@ function poolModeCardHTML(bet,myName){
   // Join button for invited players who haven't opted in
   const canJoin=isOpen&&(bet.participants||[]).includes(myName)&&!optedIn.includes(myName);
   const joinBtn=canJoin?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Join Pool · $${bet.amount}</button>`:'';
-  // Award winner button for KP: show when bet is active and all participants have a score for the hole
+  // Award winner button for KP: show when bet is active
   let awardBtn='';
   if(bet.type==='kp'&&isActive){
-    const pkeys=Object.keys(P);
-    const allScored=(bet.participants||[]).every(pname=>{const k=pkeys.find(k=>P[k].name===pname);return k&&SC[bet.day][k][bet.hole]!=null;});
-    if(allScored)awardBtn=`<button class="wc-accept-btn" style="background:rgba(254,254,86,.15);border-color:rgba(254,254,86,.4);color:#fefe56" onclick="openAwardKP('${bet.id}')">⛳ Award Winner</button>`;
+    awardBtn=`<button class="wc-accept-btn" style="background:rgba(254,254,86,.15);border-color:rgba(254,254,86,.4);color:#fefe56" onclick="openAwardKP('${bet.id}')">⛳ Award Winner</button>`;
   }
   let resultHtml='';
   if(isSettled){
@@ -5467,8 +5465,8 @@ function poolModeCardHTML(bet,myName){
   const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
   return`<div class="wager-card ${cardCls}">
   ${cancelBtn}
-  <div class="wc-title-row"><div class="wc-day">${dayLbl}</div><div class="wc-desc">${typeIcon[bet.type]?typeIcon[bet.type]+' ':''}${typeLabel[bet.type]||bet.type}${holeInfo?' · '+holeInfo:''}</div></div>
-  <div class="wc-line">$${bet.amount}/person · $${pot} pot · ${n} players</div>
+  <div class="wc-title-row"><div class="wc-day">${dayLbl}</div><div class="wc-desc">${typeIcon[bet.type]?typeIcon[bet.type]+' ':''}${typeLabel[bet.type]||bet.type}${holeInfo?' · '+holeInfo:''}</div><div class="wc-amount">$${bet.amount}</div></div>
+  <div class="wc-line">$${pot} pot · ${n} players</div>
   ${chips}
   ${resultHtml}${awardBtn}${joinBtn}${cancelBtn}
 </div>`;}
@@ -5665,11 +5663,7 @@ function buildWagers(){
   html+=`<div class="wager-section-hdr" style="margin-top:14px">House Props</div>`;
   html+=houseBets.length?groupByDay(houseBets,b=>houseCardHTML(b,myName)):'<div class="wager-empty">No house props yet</div>';
   cont.innerHTML=html;
-  const nl=netLedger();
-  const rows=Object.entries(nl).filter(([,v])=>v!==0).sort((a,b)=>b[1]-a[1]);
-  const stBlock=document.getElementById('wager-standing-block');
-  if(rows.length){stBlock.style.display='';document.getElementById('wager-standing').innerHTML=rows.map(([name,v])=>`<tr><td class="wsn">${name}</td><td class="wsv ${v>0?'pos':v<0?'neg':'zero'}">${v>0?'+$'+v:'-$'+Math.abs(v)}</td></tr>`).join('');}
-  else stBlock.style.display='none';
+  // Net Standing block removed from Wagers tab
   // Mine filter: hide/show Main Games + AI Bets
   const gwKeys=['d1','d2_pot','d3_m0','d3_m1','d3_side'];
   const gwAreaMap={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
@@ -5769,7 +5763,7 @@ function buildLedger(){
       else if(b.type==='lastplace'){desc=`${P[b.player].name} Last Place Net`;}
       else if(b.type==='house-prop'){const meta=STAT_META[b.statType]||{};desc=`${P[b.player]?.name||b.player} · ${meta.label||b.statType} ${b.propSide==='over'?'Over':'Under'} ${b.line}`;}
       else if(b.type==='pool'){const pl={lownet:'Low Net',lastplace:'Last Place',birdies:'Most Birdies',cleancard:'Clean Holes'};desc=`${pl[b.poolType]||b.poolType}`;}
-      else if(b.type==='kp'){desc=`Hole ${(b.hole||0)+1}`;}
+      else if(b.type==='kp'){desc=`Closest to Pin · Hole ${(b.hole||0)+1}`;}
       else{desc=b.type;}
       // Parties line
       let parties='';
