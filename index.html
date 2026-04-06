@@ -748,8 +748,10 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 #pools-container #other-pools-slot:empty{display:none;}
 #pools-container .main-game-card{margin-bottom:0;}
 #pools-container .wager-card{margin-bottom:0;}
-#pools-container #other-pools-slot .wager-day-grp{display:flex;flex-direction:column;gap:8px;}
-#pools-container .wager-day-grp{margin-bottom:0;}
+#pools-container .wager-day-grp{display:flex;flex-direction:column;gap:8px;margin-bottom:0;}
+#other-pools-slot{display:flex;flex-direction:column;gap:8px;}
+#masters-pool-slot{display:flex;flex-direction:column;gap:8px;}
+#masters-pool-slot .wager-card{margin-bottom:0;}
 .main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .main-game-daybadge{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;flex-shrink:0;}
 .main-game-title{font-family:'Forum',serif;font-size:15px;color:var(--mw);}
@@ -924,10 +926,9 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .masters-edit-btn:active{background:rgba(254,254,86,.1);}
 .masters-delayed-note{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.3);text-align:center;margin-top:8px;font-style:italic;}
 /* ── APP TOUR WALKTHROUGH ─────────────────────── */
-.tour-overlay{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.78);pointer-events:auto;display:none;}
+.tour-overlay{position:fixed;inset:0;z-index:9998;pointer-events:none;display:none;}
 .tour-overlay.show{display:block;}
-.tour-highlight{position:relative;z-index:9999;box-shadow:0 0 0 4px rgba(254,254,86,.35);border-radius:12px;}
-.tour-fullcard{position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto;}
+.tour-fullcard{position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto;background:rgba(0,0,0,.82);}
 .tour-fullcard-inner{width:min(88vw,380px);background:#0f2b0f;border:1px solid rgba(254,254,86,.3);border-radius:18px;padding:28px 24px 20px;box-shadow:0 12px 60px rgba(0,0,0,.8);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.95);}
 .tour-fullcard-inner.show{opacity:1;transform:scale(1);}
 .tour-fullcard-title{font-family:'Forum',serif;font-size:26px;color:#fefe56;margin:0 0 18px;line-height:1.2;text-align:center;}
@@ -943,7 +944,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .tour-tooltip-dot{width:6px;height:6px;border-radius:50%;background:rgba(218,240,218,.15);}
 .tour-tooltip-dot.active{background:#fefe56;}
 .tour-skip{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(218,240,218,.3);background:none;border:none;cursor:pointer;padding:4px 8px;-webkit-tap-highlight-color:transparent;}
-.tour-back{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;line-height:1;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:8px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
+.tour-back{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:8px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-back:active{background:rgba(218,240,218,.06);}
 .tour-next{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#0a280a;background:#fefe56;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-next:active{background:#e8e84e;transform:scale(.97);}
@@ -1249,7 +1250,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="tour-tooltip-footer">
     <button class="tour-skip" onclick="tourEnd()">Skip</button>
     <div class="tour-tooltip-dots" id="tour-dots"></div>
-    <div><button class="tour-back" id="tour-back" onclick="tourPrev()">&lsaquo;</button><button class="tour-next" id="tour-next" onclick="tourNext()">Next</button></div>
+    <div><button class="tour-back" id="tour-back" onclick="tourPrev()">Back</button><button class="tour-next" id="tour-next" onclick="tourNext()">Next</button></div>
   </div>
 </div>
 <!-- ── Onboarding overlay ── -->
@@ -3316,26 +3317,22 @@ const TOUR_STEPS=[
 
 let tourStep=0;
 let tourActive=false;
-let tourHighlightEl=null;
 
 function tourStart(){
   if(tourActive)return;
   tourActive=true;
   tourStep=0;
-  document.getElementById('tour-overlay').classList.add('show');
   tourGo(0);
 }
 
 function tourEnd(){
   tourActive=false;
-  document.getElementById('tour-overlay').classList.remove('show');
   const tt=document.getElementById('tour-tooltip');
   tt.classList.remove('show');
   tt.style.display='none';
   const fc=document.getElementById('tour-fullcard');
   fc.style.display='none';
   document.getElementById('tour-fullcard-inner').classList.remove('show');
-  tourClearHighlight();
   try{localStorage.setItem('wni-toured','1');}catch(e){}
   show('scores');
 }
@@ -3352,21 +3349,11 @@ function tourPrev(){
   tourGo(tourStep);
 }
 
-function tourHandleOverlayTap(e){
-  if(e.target===document.getElementById('tour-overlay')){
-    tourNext();
-  }
-}
-
-function tourClearHighlight(){
-  if(tourHighlightEl){tourHighlightEl.classList.remove('tour-highlight');tourHighlightEl=null;}
-}
+function tourHandleOverlayTap(e){}
 
 function tourGo(idx){
   const step=TOUR_STEPS[idx];
   if(!step){tourEnd();return;}
-
-  tourClearHighlight();
 
   const tt=document.getElementById('tour-tooltip');
   const fc=document.getElementById('tour-fullcard');
@@ -3412,12 +3399,6 @@ function tourGo(idx){
     }
     if(step.scrollTarget&&el){
       el.scrollIntoView({behavior:'instant',block:'center'});
-    }
-
-    // Highlight the target element
-    if(el){
-      el.classList.add('tour-highlight');
-      tourHighlightEl=el;
     }
 
     // Position tooltip
@@ -5533,7 +5514,7 @@ function poolModeCardHTML(bet,myName){
   <div class="wc-title-row"><div class="wc-day">${dayLbl}</div><div class="wc-desc">${typeIcon[bet.type]?typeIcon[bet.type]+' ':''}${typeLabel[bet.type]||bet.type}${holeInfo?' · '+holeInfo:''}</div><div class="wc-amount">$${bet.amount}</div></div>
   <div class="wc-line">$${pot} pot · ${n} players</div>
   ${chips}
-  ${resultHtml}${awardBtn}${joinBtn}${cancelBtn}
+  ${resultHtml}${awardBtn}${joinBtn}
 </div>`;}
 
 // ── Award KP Winner sheet ─────────────────────────
@@ -5678,6 +5659,9 @@ function poolCardHTML(bet,myName){
 // ── Build wagers tab ─────────────────────────────
 function buildWagers(){
   settleBets();
+  // De-duplicate bets by ID (safety net against merge artifacts)
+  const _seen=new Set();const _dupeCount=bets.length;bets=bets.filter(b=>{if(_seen.has(b.id))return false;_seen.add(b.id);return true;});
+  if(bets.length<_dupeCount)console.warn('[WNI] Removed '+((_dupeCount-bets.length))+' duplicate bets');
   const myName=chatAuthor||'';
   // Suggested bets
   const sugg=buildSuggestedBets();
