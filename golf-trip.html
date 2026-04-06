@@ -742,13 +742,14 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wager-day-grp{margin-bottom:0;}
 .wager-day-divider{height:1px;margin:14px 0;background:repeating-linear-gradient(90deg,rgba(218,240,218,.15) 0,rgba(218,240,218,.15) 12px,transparent 12px,transparent 18px);}
 .wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
-/* ── Main game cards (Wagers tab) ───────────────── */
+/* ── Pool section spacing (Wagers tab) ─────────── */
+/* Every pool-area item gets 8px below except the very last before #wager-content */
+#masters-pool-slot:not(:empty) .wager-card{margin-bottom:0;}
 #masters-pool-slot:not(:empty){margin-bottom:8px;}
-#masters-pool-slot:not(:empty) .wager-card:last-child{margin-bottom:0;}
-#other-pools-slot:not(:empty){margin-top:8px;}
-#other-pools-slot:not(:empty) .wager-card:first-child{margin-top:0;}
 .main-game-card{margin-bottom:8px;}
-.main-game-card:last-child{margin-bottom:0;}
+#other-pools-slot:not(:empty) .wager-card{margin-bottom:8px;}
+#other-pools-slot:not(:empty) .wager-card:last-child{margin-bottom:0;}
+#other-pools-slot .wager-day-grp:last-child .wager-card:last-child{margin-bottom:0;}
 .main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .main-game-daybadge{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;flex-shrink:0;}
 .main-game-title{font-family:'Forum',serif;font-size:15px;color:var(--mw);}
@@ -1782,7 +1783,8 @@ function runSim(){
 
   // ── 4. P2P BETS ──
   const names=Object.values(P).map(p=>p.name);
-  const mkId=()=>'b'+t+'-'+Math.random().toString(36).slice(2,8);
+  let _simBetIdx=0;
+  const mkId=()=>'sim-bet-'+(_simBetIdx++);
   bets=[
     // Over/Under bets
     {id:mkId(),type:'ou',day:'d2',player:'prentice',line:74.5,propSide:'under',propName:'Otero',accName:'Prentice',amount:25,status:'active',result:null,ts:t-3e5},
@@ -3906,7 +3908,7 @@ function buildMyWagers(){
   filtered.forEach(b=>{
     if(b.status!=='settled')return;
     if(b.result==='push')return;
-    const won=b.result==='win'?(b.propName===myName):b.result==='loss'?(b.accName===myName):(b.winner===myName);
+    const won=b.result==='prop'?(b.propName===myName):b.result==='acc'?(b.accName===myName):b.result==='house'?(b.houseName===myName):b.result==='buyers'?(b.buyins||[]).some(bi=>bi.name===myName):(b.winner===myName||b.winnerName===myName);
     if(won)bal+=b.amount;else bal-=b.amount;
   });
   // Game wager balance
@@ -3962,15 +3964,33 @@ function buildMyWagers(){
       title=`${subj} — Last Place Net?`;
       detail=`You say ${mySide} · vs ${oppStr}`;
     }else if(b.type==='lownet'){
-      const subj=playerName(b.player);
-      const mySide=isProp?'Yes':'No';
-      title=`${subj} — Lowest Net?`;
-      detail=`You say ${mySide} · vs ${oppStr}`;
+      if(b.participants&&b.participants.length>2){
+        emoji='🎱';
+        const n=(b.participants||[]).length;
+        const opted=(b.optedIn||[]).length;
+        title=`Low Net Pool`;
+        detail=`${opted}/${n} joined · $${b.amount}/person`;
+        amt='$'+b.amount;
+      }else{
+        const subj=playerName(b.player);
+        const mySide=isProp?'Yes':'No';
+        title=`${subj} — Lowest Net?`;
+        detail=`You say ${mySide} · vs ${oppStr}`;
+      }
     }else if(b.type==='lowgross'){
-      const subj=playerName(b.player);
-      const mySide=isProp?'Yes':'No';
-      title=`${subj} — Lowest Gross?`;
-      detail=`You say ${mySide} · vs ${oppStr}`;
+      if(b.participants&&b.participants.length>2){
+        emoji='🎱';
+        const n=(b.participants||[]).length;
+        const opted=(b.optedIn||[]).length;
+        title=`Low Gross Pool`;
+        detail=`${opted}/${n} joined · $${b.amount}/person`;
+        amt='$'+b.amount;
+      }else{
+        const subj=playerName(b.player);
+        const mySide=isProp?'Yes':'No';
+        title=`${subj} — Lowest Gross?`;
+        detail=`You say ${mySide} · vs ${oppStr}`;
+      }
     }else if(b.type==='nassau'){
       title='Nassau';
       detail=`vs ${oppStr}`;
@@ -4007,22 +4027,39 @@ function buildMyWagers(){
     }else{
       title=b.type;detail='';
     }
-    // Result line for settled
-    let resultLine='';
+    // Settled: determine winner name and win/loss for amount coloring
+    let winnerTag='',amtDisplay=amt,amtColor='rgba(218,240,218,.45)';
     if(b.status==='settled'){
-      if(b.result==='push')resultLine='<div style="margin-top:4px;font-size:11px;color:rgba(218,240,218,.4);font-weight:600">Push — bets returned</div>';
-      else if(b.winner===myName||(b.result==='win'&&b.propName===myName)||(b.result==='loss'&&b.accName===myName))resultLine=`<div style="margin-top:4px;font-size:11px;color:#6dc884;font-weight:600">Won +$${b.amount}</div>`;
-      else resultLine=`<div style="margin-top:4px;font-size:11px;color:#e05a4a;font-weight:600">Lost -$${b.amount}</div>`;
+      const iWon=b.winner===myName||b.winnerName===myName||(b.result==='prop'&&b.propName===myName)||(b.result==='acc'&&b.accName===myName)||(b.result==='buyers'&&(b.buyins||[]).some(bi=>bi.name===myName))||(b.result==='house'&&b.houseName===myName);
+      const isPush=b.result==='push';
+      // Determine winner name for display
+      let winnerName='';
+      if(isPush){winnerName='Push';}
+      else if(b.winner){winnerName=b.winner;}
+      else if(b.winnerName){winnerName=b.winnerName;}
+      else if(b.result==='prop'){winnerName=b.propName;}
+      else if(b.result==='acc'){winnerName=b.accName;}
+      else if(b.result==='house'){winnerName='House';}
+      else if(b.result==='buyers'){winnerName='Buyers';}
+      if(isPush){
+        winnerTag='<span style="display:inline-block;margin-top:4px;font-size:10px;font-weight:600;color:rgba(218,240,218,.4);background:rgba(218,240,218,.06);padding:2px 7px;border-radius:4px">Push</span>';
+        amtDisplay=amt;amtColor='rgba(218,240,218,.4)';
+      }else{
+        if(winnerName)winnerTag=`<span style="display:inline-block;margin-top:4px;font-size:10px;font-weight:600;color:${iWon?'#6dc884':'#e05a4a'};background:${iWon?'rgba(109,200,132,.1)':'rgba(224,90,74,.1)'};padding:2px 7px;border-radius:4px">${winnerName} wins</span>`;
+        const numAmt=b.amount||0;
+        amtDisplay=iWon?`+$${numAmt}`:`-$${numAmt}`;
+        amtColor=iWon?'#6dc884':'#e05a4a';
+      }
     }
     return`<div class="my-bet-row" style="flex-wrap:wrap">
       <div style="flex:1;min-width:0">
         <div class="my-bet-day"><span class="lbr-day-chip">${dayLbl}</span> <span style="font-size:14px;vertical-align:middle">${emoji}</span> <strong>${title}</strong></div>
         <div class="my-bet-desc" style="margin-top:3px;font-size:11px;color:rgba(218,240,218,.4)">${detail}</div>
-        ${resultLine}
+        ${winnerTag}
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
         <span class="lbr-status ${statusCls}" style="font-size:10px;padding:3px 7px">${statusTxt}</span>
-        <div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(218,240,218,.45)">${amt}</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:${amtColor}">${amtDisplay}</div>
       </div>
     </div>`;
   }
@@ -4946,7 +4983,10 @@ function gameWagerWidget(key){
   }
 
   // ── MATCH widget (preset $20 pool — d1 / d3_m0 / d3_m1 / d3_side) ───────────
-  const matchupHtml=`<div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span><span class="wc-amount">$20</span></div><div class="gw-matchup-row"><span class="gw-matchup-line">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span></div>`;
+  const isNarrowMatch=key==='d3_m0'||key==='d3_m1';
+  const matchupHtml=isNarrowMatch
+    ?`<div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span></div><div class="gw-matchup-row" style="display:flex;align-items:center;justify-content:space-between"><span class="gw-matchup-line">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span><span class="wc-amount" style="margin-left:auto;flex-shrink:0">$20</span></div>`
+    :`<div class="gw-header"><span class="wc-day">${gwDayLbl}</span><span class="gw-title">${info.label}</span><span class="wc-amount">$20</span></div><div class="gw-matchup-row"><span class="gw-matchup-line">${info.aLabel}<span class="gw-vs">vs</span>${info.bLabel}</span></div>`;
   let body='';
   if(gw&&gw.status==='settled'){
     const winner=gw.result==='push'?null:(gw.result==='a'?info.aLabel:info.bLabel);
@@ -5782,8 +5822,18 @@ function buildLedger(){
       if(b.status==='settled'){
         if(b.result==='push')resultLine='Push';
         else if(b.winner)resultLine=`${b.winner} wins`;
-        else if(b.result==='win')resultLine=`${b.propName} wins`;
-        else if(b.result==='loss')resultLine=`${b.accName} wins`;
+        else if(b.winnerName)resultLine=`${b.winnerName} wins`;
+        else if(b.result==='prop')resultLine=`${b.propName} wins`;
+        else if(b.result==='acc')resultLine=`${b.accName} wins`;
+        else if(b.result==='house')resultLine=`House wins`;
+        else if(b.result==='buyers')resultLine=`Buyers win`;
+        else if(b.result==='nassau'){
+          const parts=[];
+          if(b.frontResult&&b.frontResult!=='push')parts.push('F:'+(b.frontResult==='prop'?b.propName:b.accName));
+          if(b.backResult&&b.backResult!=='push')parts.push('B:'+(b.backResult==='prop'?b.propName:b.accName));
+          if(b.overallResult&&b.overallResult!=='push')parts.push('O:'+(b.overallResult==='prop'?b.propName:b.accName));
+          resultLine=parts.length?parts.join(' · '):'Push';
+        }
       }
       const bAmt=b.type==='house-prop'?`$${(b.buyins||[]).reduce((s,bi)=>s+bi.amount,0)}`:(b.type==='pool'||b.type==='kp'||b.participants?`$${b.amount}/ea`:`$${b.amount}`);
       bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-name">${emoji} ${desc}</div><div class="lbr-parties"><span class="lbr-day-chip">${dayLbl}</span> ${parties}${resultLine?' · <span class="lbr-result">'+resultLine+'</span>':''}</div></div><span class="lbr-status ${statusCls}">${statusTxt}</span><div class="lbr-amt">${bAmt}</div></div>`;
