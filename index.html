@@ -589,7 +589,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 /* ── WAGERS TAB ──────────────────────────────────── */
 .wager-propose-btn{position:fixed;bottom:calc(74px + env(safe-area-inset-bottom));left:16px;z-index:99;width:72px;height:72px;border-radius:50%;border:none;background:#fefe56;color:#0a280a;font-family:'DM Sans',sans-serif;font-size:34px;font-weight:300;line-height:1;cursor:pointer;touch-action:manipulation;transition:all .15s;-webkit-tap-highlight-color:transparent;box-shadow:0 4px 20px rgba(0,0,0,.45),0 0 0 1px rgba(254,254,86,.2);display:none;align-items:center;justify-content:center;padding:0;}
 .wager-propose-btn:active{background:#e8e84e;transform:scale(.92);}
-.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:12px;position:relative;}
+.wager-card{background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:10px;padding:12px 14px;margin-bottom:8px;position:relative;}
 .wager-card.wc-open{border-color:rgba(254,254,86,.45);animation:wcPulse 2.5s ease-in-out infinite;}
 @keyframes wcPulse{0%,100%{border-color:rgba(254,254,86,.45);}50%{border-color:rgba(254,254,86,.18);}}
 .wager-card.wc-settled-win{border-color:rgba(100,200,120,.45);}
@@ -665,7 +665,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .settle-arrow{color:rgba(218,240,218,.3);}
 .settle-to{font-weight:700;color:#6dc884;}
 .settle-amt{font-weight:900;color:#fefe56;margin-left:auto;}
-.gw-widget{background:rgba(16,36,16,.85);border:1px solid rgba(218,240,218,.12);border-radius:10px;padding:12px 14px;margin-bottom:12px;position:relative;}
+.gw-widget{background:rgba(16,36,16,.85);border:1px solid rgba(218,240,218,.12);border-radius:10px;padding:12px 14px;margin-bottom:0;position:relative;}
 .gw-widget.gw-open-state{border-color:rgba(254,254,86,.4);animation:wcPulse 2.5s ease-in-out infinite;}
 .gw-widget.gw-settled-state{border-color:rgba(100,200,120,.3);}
 .gw-header{margin-bottom:4px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
@@ -743,7 +743,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wager-day-divider{height:1px;margin:14px 0;background:repeating-linear-gradient(90deg,rgba(218,240,218,.15) 0,rgba(218,240,218,.15) 12px,transparent 12px,transparent 18px);}
 .wager-day-lbl{display:inline-block;font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;margin-bottom:8px;}
 /* ── Main game cards (Wagers tab) ───────────────── */
-.main-game-card{margin-bottom:0;}
+.main-game-card{margin-bottom:8px;}
 .main-game-card:last-child{margin-bottom:0;}
 .main-game-hdr{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .main-game-daybadge{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:4px;padding:2px 6px;flex-shrink:0;}
@@ -1066,7 +1066,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
       <div class="gw-area" id="gw-area-d3-m0"></div>
       <div class="gw-area" id="gw-area-d3-m1"></div>
     </div>
-    <div class="gw-area" style="margin-top:8px" id="gw-area-d3-side"></div>
+    <div class="gw-area" style="margin-top:6px" id="gw-area-d3-side"></div>
   </div>
   <div id="other-pools-slot"></div>
   <div class="sec-block" id="wager-standing-block" style="display:none">
@@ -1733,45 +1733,113 @@ let simActive=false;
 function _simRng(seed){let s=seed|0;return()=>{s=Math.imul(s^(s>>16),0x45d9f3b);s=Math.imul(s^(s>>16),0x45d9f3b);return((s^(s>>16))>>>0)/0x100000000;};}
 function runSim(){
   simActive=true;
-  // Generate deterministic per-hole scores for every player on all 3 days
+  const t=Date.now();
+  const rng=_simRng(42069);
+
+  // ── 1. SCORES & STATS for all 8 players, all 3 days ──
   Object.keys(P).forEach(k=>{
     const seed=k.split('').reduce((a,c)=>Math.imul(a,31)+c.charCodeAt(0),0);
     ['d1','d2','d3'].forEach((day,di)=>{
-      const hcp=P[k][day],par=cPar(day);
-      const rng=_simRng(seed+(di+1)*99991);
-      SC[day][k]=par.map(p=>{
-        const r=rng();
-        const birdie=Math.max(0.02,0.11-hcp*0.004);
-        const even=Math.max(0.10,0.36-hcp*0.010);
-        const bogey=0.32,dbl=0.17;
-        if(r<birdie)return p-1;
-        if(r<birdie+even)return p;
-        if(r<birdie+even+bogey)return p+1;
-        if(r<birdie+even+bogey+dbl)return p+2;
-        return p+3;
-      });
+      const hcp=P[k][day],par=cPar(day),diff=cDiff(day);
+      const r=_simRng(seed+(di+1)*99991);
+      SC[day][k]=[];STATS[day][k]={};
+      for(let h=0;h<18;h++){
+        const p=par[h];
+        const v=r();
+        const birdie=Math.max(0.02,0.12-hcp*0.004);
+        const even=Math.max(0.10,0.35-hcp*0.010);
+        const bogey=0.32,dbl=0.16;
+        let score;
+        if(v<birdie)score=p-1;
+        else if(v<birdie+even)score=p;
+        else if(v<birdie+even+bogey)score=p+1;
+        else if(v<birdie+even+bogey+dbl)score=p+2;
+        else score=p+3;
+        SC[day][k][h]=score;
+        // Stats
+        const isPar3=p===3;
+        const fh=isPar3?null:(r()< (0.65-hcp*0.02)?1:0);
+        const gir=score<=p?(r()<0.85?1:0):(r()<(0.25-hcp*0.01)?1:0);
+        const putts=score<=p?(r()<0.3?1:2):(r()<0.15?1:r()<0.75?2:3);
+        const penalty=(r()<(0.04+hcp*0.006))?1:0;
+        STATS[day][k][h]={fh,gir,putts,penalty};
+      }
     });
   });
-  // Fill D1 drives weighted toward lower-handicap players
+
+  // ── 2. DRIVES (Day 1 shamble — pick best drive per hole) ──
   ['g1','g2'].forEach((grp,gi)=>{
     const keys=D1[gi].keys;
     const weights=keys.map(k=>Math.max(1,22-P[k].d1));
     const total=weights.reduce((a,b)=>a+b,0);
-    const rng=_simRng(gi*77777+12345);
-    drives[grp]=Array.from({length:18},()=>{const r=rng();let c=0;for(let i=0;i<keys.length;i++){c+=weights[i]/total;if(r<c)return keys[i];}return keys[keys.length-1];});
+    const dr=_simRng(gi*77777+12345);
+    drives[grp]=Array.from({length:18},()=>{const v=dr();let c=0;for(let i=0;i<keys.length;i++){c+=weights[i]/total;if(v<c)return keys[i];}return keys[keys.length-1];});
   });
-  // Sample game wagers for all formats
-  const t=Date.now();
-  gameWagers={
-    d1:{status:'active',propName:'Prentice',accName:'Ryder',propSide:'a',amount:20,ts:t-6e4},
-    d2_pot:{status:'active',propName:'Otero',accName:'Buzz',propSide:'a',amount:50,ts:t-5e4},
-    d3_m0:{status:'active',propName:'Otero',accName:'Ryder',propSide:'a',amount:25,ts:t-2e4},
-    d3_m1:{status:'active',propName:'Reese',accName:'Buzz',propSide:'a',amount:25,ts:t-1e4},
-    d3_side:{status:'active',propName:'Prentice',accName:'Simon',propSide:'b',amount:30,ts:t},
-  };
-  // Rebuild all views (no pushRemote — sim is local only)
-  buildD1();buildD2();buildD3();updateLB();settleGameWagers();updateGWWidgets();buildLedger();buildWagers();updateBetsBadge();
+
+  // ── 3. HARDSET GAME WAGERS ($20 pools) ──
+  initHardsetWagers();
+
+  // ── 4. P2P BETS ──
+  const names=Object.values(P).map(p=>p.name);
+  const mkId=()=>'b'+t+'-'+Math.random().toString(36).slice(2,8);
+  bets=[
+    // Over/Under bets
+    {id:mkId(),type:'ou',day:'d2',player:'prentice',line:74.5,propSide:'under',propName:'Otero',accName:'Prentice',amount:25,status:'active',result:null,ts:t-3e5},
+    {id:mkId(),type:'ou',day:'d2',player:'buzz',line:86.5,propSide:'over',propName:'Reese',accName:'Buzz',amount:15,status:'active',result:null,ts:t-2.8e5},
+    // Head-to-Head net
+    {id:mkId(),type:'h2h',day:'d3',player:'otero',playerB:'ryder',propSide:'a',propName:'Otero',accName:'Ryder',amount:30,status:'active',result:null,ts:t-2.5e5},
+    {id:mkId(),type:'h2h',day:'d2',player:'cromer',playerB:'reese',propSide:'a',propName:'Cromer',accName:'Reese',amount:20,status:'active',result:null,ts:t-2e5},
+    // Low Net pool
+    {id:mkId(),type:'lownet',day:'d2',propSide:'low',propName:'Prentice',accName:null,amount:10,status:'active',result:null,ts:t-1.8e5,participants:['Prentice','Otero','Ryder','Simon','Pat','Cromer','Buzz','Reese'],optedIn:['Prentice','Otero','Ryder','Simon','Pat','Cromer','Buzz','Reese']},
+    // KP pool
+    {id:mkId(),type:'kp',day:'d3',propSide:null,propName:'Ryder',accName:null,amount:5,status:'active',result:null,ts:t-1.5e5,participants:['Prentice','Otero','Ryder','Simon','Pat','Cromer','Buzz','Reese'],optedIn:['Prentice','Otero','Ryder','Simon','Pat','Cromer','Buzz','Reese'],winner:null},
+    // Birdie O/U
+    {id:mkId(),type:'birdie-ou',day:'d2',player:'otero',line:2.5,propSide:'over',propName:'Prentice',accName:'Otero',amount:20,status:'active',result:null,ts:t-1.2e5},
+    // Nassau
+    {id:mkId(),type:'nassau',day:'d3',matchIdx:0,propSide:'a',propName:'Otero',accName:'Ryder',amount:10,status:'active',result:null,frontResult:null,backResult:null,overallResult:null,ts:t-1e5},
+    // Clean card
+    {id:mkId(),type:'cleancard',day:'d2',player:'prentice',propSide:'clean',propName:'Buzz',accName:'Prentice',amount:15,status:'active',result:null,ts:t-8e4},
+  ];
+
+  // ── 5. MASTERS PICKS (6 per player, spread across tiers) ──
+  const tierPicks=[
+    ['scheffler','gotterup','lee','woodland','bridgeman','n_hojgaard'],   // prentice
+    ['mcilroy','hovland','cantlay','homa','english','fox'],               // cromer
+    ['schauffele','koepka','griffin','smith','spaun','kitayama'],          // buzz
+    ['rahm','thomas','bhatia','straka','noren','rai'],                    // reese
+    ['dechambeau','matsuyama','lowry','burns','garcia','hall'],           // otero
+    ['aberg','spieth','conners','berger','mcnealy','harman'],             // ryder
+    ['fleetwood','macintyre','kim_sw','scott','mccarty','mckibbin'],      // simon
+    ['morikawa','hatton','henley','im','bradley','r_hojgaard'],           // pat
+  ];
+  Object.keys(P).forEach((k,i)=>{mastersPicks[k]=tierPicks[i];});
+
+  // ── 6. TEAM NAMES (custom names for fun) ──
+  teamNames={d1_g1:'Hotshit',d1_g2:'Underdogs',d3_sA:'Alpha Dogs',d3_sB:'Dark Horses'};
+
+  // ── 7. PLAYER AVATARS ──
+  playerAvatars={prentice:'🏌️',cromer:'🦅',buzz:'🍺',reese:'🎯',otero:'🔥',ryder:'🏇',simon:'🎲',pat:'🍀'};
+
+  // ── 8. CHAT MESSAGES ──
+  chatMessages=[
+    {id:t-5e5+'-a',author:'Prentice',text:'Let\'s go boys. Bags are packed.',ts:t-5e5},
+    {id:t-4e5+'-b',author:'Otero',text:'Ready to take everyone\'s money 💰',ts:t-4e5},
+    {id:t-3e5+'-c',author:'Buzz',text:'My swing is either on fire or on the highway. No in between.',ts:t-3e5},
+    {id:t-2e5+'-d',author:'Ryder',text:'Prentice you really took the under on your own score? Bold.',ts:t-2e5},
+    {id:t-1.5e5+'-e',author:'Cromer',text:'Who\'s got the bourbon? Asking for my short game.',ts:t-1.5e5},
+    {id:t-1e5+'-f',author:'Simon',text:'Match play Saturday is gonna be a bloodbath.',ts:t-1e5},
+    {id:t-5e4+'-g',author:'Pat',text:'My putter is dialed. Fair warning.',ts:t-5e4},
+    {id:t-2e4+'-h',author:'Reese',text:'Cromer vs Reese on Friday... may the best handicap win.',ts:t-2e4},
+  ];
+
+  // ── 9. SETTLE EVERYTHING & REBUILD UI ──
+  settleBets();settleGameWagers();
+  buildD1();buildD2();buildD3();updateLB();updateGWWidgets();buildLedger();buildWagers();updateBetsBadge();renderChat();buildMastersLB();
   document.getElementById('sim-banner').style.display='flex';
+
+  // Push to remote so it persists across reloads
+  simActive=false;
+  pushRemote(getState(),true);
 }
 async function clearSim(){
   // ── Nuclear reset: wipe ALL state and push empty shell to remote ──
