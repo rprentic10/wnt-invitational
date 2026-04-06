@@ -3312,7 +3312,7 @@ const TOUR_STEPS=[
   },
   {
     tab:'bets',
-    target:'masters-pool-slot',
+    targetQuery:'#masters-pool-slot .masters-wager-card',
     title:'Masters Pool',
     body:'Make your 6 picks before they lock on Thursday. Best 4 scores count. $20 buy-in, winner takes the pot.',
     pos:'below',
@@ -3341,7 +3341,7 @@ function tourEnd(){
   document.getElementById('tour-fullcard-inner').classList.remove('show');
   const overlay=document.getElementById('tour-overlay');
   overlay.classList.remove('show','dim');
-  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl=null;}
+  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl.style.position='';_tourSpotlightEl=null;}
   try{localStorage.setItem('wni-toured','1');}catch(e){}
   show('scores');
 }
@@ -3372,7 +3372,7 @@ function tourGo(idx){
   const overlay=document.getElementById('tour-overlay');
 
   // Clear previous spotlight
-  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl=null;}
+  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl.style.position='';_tourSpotlightEl=null;}
 
   // Hide both containers first
   tt.classList.remove('show');
@@ -3422,7 +3422,12 @@ function tourGo(idx){
     }
 
     // Spotlight element if dimmed step
-    if(step.dim&&el){el.classList.add('tour-spotlight');_tourSpotlightEl=el;}
+    if(step.dim&&el){
+      el.classList.add('tour-spotlight');
+      const pos=getComputedStyle(el).position;
+      if(pos==='static')el.style.position='relative';
+      _tourSpotlightEl=el;
+    }
 
     // Position tooltip
     tourPositionTooltip(el,step,idx);
