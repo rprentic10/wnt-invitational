@@ -3312,7 +3312,7 @@ const TOUR_STEPS=[
   },
   {
     tab:'bets',
-    targetQuery:'#masters-pool-slot .masters-wager-card',
+    target:'masters-pool-slot',
     title:'Masters Pool',
     body:'Make your 6 picks before they lock on Thursday. Best 4 scores count. $20 buy-in, winner takes the pot.',
     pos:'below',
@@ -3341,7 +3341,7 @@ function tourEnd(){
   document.getElementById('tour-fullcard-inner').classList.remove('show');
   const overlay=document.getElementById('tour-overlay');
   overlay.classList.remove('show','dim');
-  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl.style.position='';_tourSpotlightEl=null;}
+  _tourClearSpotlight();
   try{localStorage.setItem('wni-toured','1');}catch(e){}
   show('scores');
 }
@@ -3363,6 +3363,12 @@ function tourHandleOverlayTap(e){
 }
 
 let _tourSpotlightEl=null;
+let _tourSpotlightAncestors=[];
+function _tourClearSpotlight(){
+  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl.style.position='';_tourSpotlightEl=null;}
+  _tourSpotlightAncestors.forEach(([node,oldZ,oldPos])=>{node.style.zIndex=oldZ;node.style.position=oldPos;});
+  _tourSpotlightAncestors=[];
+}
 function tourGo(idx){
   const step=TOUR_STEPS[idx];
   if(!step){tourEnd();return;}
@@ -3372,7 +3378,7 @@ function tourGo(idx){
   const overlay=document.getElementById('tour-overlay');
 
   // Clear previous spotlight
-  if(_tourSpotlightEl){_tourSpotlightEl.classList.remove('tour-spotlight');_tourSpotlightEl.style.position='';_tourSpotlightEl=null;}
+  _tourClearSpotlight();
 
   // Hide both containers first
   tt.classList.remove('show');
@@ -3421,12 +3427,20 @@ function tourGo(idx){
       el.scrollIntoView({behavior:'instant',block:'center'});
     }
 
-    // Spotlight element if dimmed step
+    // Spotlight element if dimmed step — elevate ancestor z-indexes so element escapes stacking contexts
     if(step.dim&&el){
       el.classList.add('tour-spotlight');
       const pos=getComputedStyle(el).position;
       if(pos==='static')el.style.position='relative';
       _tourSpotlightEl=el;
+      let node=el.parentElement;
+      while(node&&node!==document.body){
+        const s=getComputedStyle(node);
+        _tourSpotlightAncestors.push([node,node.style.zIndex,node.style.position]);
+        node.style.zIndex='9999';
+        if(s.position==='static')node.style.position='relative';
+        node=node.parentElement;
+      }
     }
 
     // Position tooltip
