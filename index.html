@@ -927,7 +927,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .tour-overlay{position:fixed;inset:0;z-index:9998;pointer-events:none;display:none;}
 .tour-overlay.show{display:block;}
 .tour-overlay.dim{background:rgba(0,0,0,.78);pointer-events:auto;}
-.tour-spotlight{position:relative;z-index:9999;}
+.tour-spotlight{z-index:9999 !important;}
 .tour-fullcard{position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto;background:rgba(0,0,0,.82);}
 .tour-fullcard-inner{width:min(88vw,380px);background:#0f2b0f;border:1px solid rgba(254,254,86,.3);border-radius:18px;padding:28px 24px 20px;box-shadow:0 12px 60px rgba(0,0,0,.8);transition:opacity .3s,transform .3s;opacity:0;transform:scale(.95);}
 .tour-fullcard-inner.show{opacity:1;transform:scale(1);}
@@ -947,6 +947,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .tour-back{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;line-height:1;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:0;width:37px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-back:active{background:rgba(218,240,218,.06);}
 .tour-next{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;line-height:1;color:#0a280a;background:#fefe56;border:none;border-radius:8px;padding:0;width:37px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
+.tour-next-text{width:auto;padding:0 18px;font-size:13px;}
 .tour-next:active{background:#e8e84e;transform:scale(.97);}
 .tour-arrow{position:absolute;width:12px;height:12px;background:#0f2b0f;border:1px solid rgba(254,254,86,.3);transform:rotate(45deg);}
 .tour-arrow.top{bottom:-7px;left:50%;margin-left:-6px;border-top:none;border-left:none;}
@@ -1239,7 +1240,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="tour-fullcard-footer">
       <button class="tour-skip" onclick="tourEnd()">Skip</button>
       <div class="tour-tooltip-dots" id="tour-fc-dots"></div>
-      <div><button class="tour-next" id="tour-fc-next" onclick="tourNext()">&#8250;</button></div>
+      <div><button class="tour-next tour-next-text" id="tour-fc-next" onclick="tourNext()">Next</button></div>
     </div>
   </div>
 </div>
@@ -1475,13 +1476,13 @@ const JSONBIN='https://api.jsonbin.io/v3/b';
 const ENV='dev';
 const JSONBIN_ID=ENV==='prod'?'69d00c0136566621a8782afb':'69c6bfa3c3097a1dd568bcda';
 const JSONBIN_KEY='$2a$10$u8H4aaQDmmwyV6A6ieyFDeUhVJBxFvFU4PeBUJxtg.1mMUkrys7e.';
-const LS_DATA='wni-data-2026-v2';
+const LS_DATA='wni-data-2026-v3';
 // ── Data epoch ────────────────────────────────────
 // Any wager / bet / chat message with ts < REQUIRED_WIPE_AT is considered
 // pre-reset simulation data and is silently dropped everywhere (local apply,
 // remote merge, push merge).  Bump this constant whenever you need a full
 // data wipe — the first device to push will clean JSONbin for everyone.
-const REQUIRED_WIPE_AT=1775429930000;
+const REQUIRED_WIPE_AT=1775502505000;
 
 let lastRemoteJson=null;
 let offlineMode=false;
@@ -3155,7 +3156,6 @@ function renderMeProfileHero(){
   if(chatAuthor&&aKey){
     nameEl.textContent=chatAuthor;
     if(playerAvatars[aKey]&&playerAvatars[aKey].startsWith('data:')){avEl.style.background='#111';avEl.innerHTML=`<img src="${playerAvatars[aKey]}">`;}
-    else if(playerAvatars[aKey]){avEl.style.background='rgba(16,36,16,.85)';avEl.innerHTML='';avEl.textContent=playerAvatars[aKey];avEl.style.fontSize='42px';avEl.style.lineHeight='1';}
     else{const col=PLAYER_COLORS[aKey]||'#555';avEl.style.background=col;avEl.innerHTML='';avEl.textContent=chatAuthor[0].toUpperCase();avEl.style.fontSize='';avEl.style.lineHeight='';}
   }else{avEl.style.background='rgba(218,240,218,.08)';avEl.innerHTML='';avEl.textContent='?';nameEl.textContent='My Game';}
 }
@@ -3167,7 +3167,6 @@ function updateBottomNavAvatar(){
   if(chatAuthor){
     const ini=chatAuthor[0].toUpperCase();
     if(aKey&&playerAvatars[aKey]&&playerAvatars[aKey].startsWith('data:')){av.style.background='';av.innerHTML=`<img src="${playerAvatars[aKey]}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;}
-    else if(aKey&&playerAvatars[aKey]){av.style.background='rgba(16,36,16,.85)';av.innerHTML='';av.textContent=playerAvatars[aKey];}
     else{const col=aKey?PLAYER_COLORS[aKey]||'#555':'#555';av.style.background=col;av.innerHTML='';av.textContent=ini;}
     lbl.textContent=chatAuthor.split(' ')[0];
   }else{av.textContent='?';lbl.textContent='Me';}
