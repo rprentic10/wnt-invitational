@@ -946,7 +946,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .tour-skip{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:rgba(218,240,218,.3);background:none;border:none;cursor:pointer;padding:4px 8px;-webkit-tap-highlight-color:transparent;}
 .tour-back{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;line-height:1;color:rgba(218,240,218,.45);background:none;border:1px solid rgba(218,240,218,.15);border-radius:8px;padding:0;width:37px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-right:6px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-back:active{background:rgba(218,240,218,.06);}
-.tour-next{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:#0a280a;background:#fefe56;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
+.tour-next{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:700;line-height:1;color:#0a280a;background:#fefe56;border:none;border-radius:8px;padding:0;width:37px;cursor:pointer;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:37px;}
 .tour-next:active{background:#e8e84e;transform:scale(.97);}
 .tour-arrow{position:absolute;width:12px;height:12px;background:#0f2b0f;border:1px solid rgba(254,254,86,.3);transform:rotate(45deg);}
 .tour-arrow.top{bottom:-7px;left:50%;margin-left:-6px;border-top:none;border-left:none;}
@@ -1239,7 +1239,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
     <div class="tour-fullcard-footer">
       <button class="tour-skip" onclick="tourEnd()">Skip</button>
       <div class="tour-tooltip-dots" id="tour-fc-dots"></div>
-      <div><button class="tour-next" id="tour-fc-next" onclick="tourNext()">Next</button></div>
+      <div><button class="tour-next" id="tour-fc-next" onclick="tourNext()">&#8250;</button></div>
     </div>
   </div>
 </div>
@@ -1250,7 +1250,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
   <div class="tour-tooltip-footer">
     <button class="tour-skip" onclick="tourEnd()">Skip</button>
     <div class="tour-tooltip-dots" id="tour-dots"></div>
-    <div><button class="tour-back" id="tour-back" onclick="tourPrev()">&#8249;</button><button class="tour-next" id="tour-next" onclick="tourNext()">Next</button></div>
+    <div><button class="tour-back" id="tour-back" onclick="tourPrev()">&#8249;</button><button class="tour-next" id="tour-next" onclick="tourNext()">&#8250;</button></div>
   </div>
 </div>
 <!-- ── Onboarding overlay ── -->
@@ -3292,7 +3292,7 @@ const TOUR_STEPS=[
     tab:'bets',
     target:'pools-container',
     title:'Preset Games',
-    body:'$20 buy-in games are already set up — Low Net, Closest to Pin, Skins, and more. These run automatically as scores come in.',
+    body:'The main $20 buy-in games — Shamble, Best Ball, and Match Play — are locked in. Results settle automatically as scores come in.',
     pos:'above',
     scrollTop:true
   },
@@ -3301,7 +3301,8 @@ const TOUR_STEPS=[
     target:'wager-fab',
     title:'Propose a Bet',
     body:'Tap this button to create a new side bet anytime. Pick a type, set the stakes, and send it to the group.',
-    pos:'above'
+    pos:'above',
+    dim:true
   },
   {
     tab:'bets',
@@ -3440,7 +3441,7 @@ function tourPositionTooltip(el,step,idx){
   titleEl.textContent=step.title;
   if(step.html){bodyEl.innerHTML=step.body;}else{bodyEl.textContent=step.body;}
   tt.classList.toggle('tour-wide',!!step.wide);
-  nextBtn.textContent=idx===TOUR_STEPS.length-1?'Let\'s Go':'Next';
+  nextBtn.textContent=idx===TOUR_STEPS.length-1?'✓':'›';
   document.getElementById('tour-back').style.display=idx===0?'none':'inline-block';
 
   // Dots
