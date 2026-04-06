@@ -3788,7 +3788,7 @@ function buildMastersWagerCard(){
   Object.keys(P).forEach(k=>{
     const hasPicks=mastersPicks[k]&&mastersPicks[k].length>0;
     const sh=P[k].name.slice(0,3);
-    html+=`<div class="pool-approval-chip${hasPicks?'':' pending-chip'}">${hasPicks?'✓ ':''}${sh}</div>`;
+    html+=`<div class="pool-approval-chip${hasPicks?'':' pending-chip'}">${sh}</div>`;
   });
   html+='</div>';
   html+='</div>';
@@ -5580,7 +5580,7 @@ function poolModeCardHTML(bet,myName){
   // Participant chips (use 3-letter shorthands, match pool-approval-chip styling)
   const chips='<div class="pool-approval-chips" style="margin-top:8px">'+(bet.participants||[]).map(p=>{
     const in_=optedIn.includes(p);const sh=p.slice(0,3);
-    return`<div class="pool-approval-chip${in_?'':' pending-chip'}">${in_?'✓ ':''}${sh}</div>`;
+    return`<div class="pool-approval-chip${in_?'':' pending-chip'}">${sh}</div>`;
   }).join('')+'</div>';
   // Join button for invited players who haven't opted in
   const canJoin=isOpen&&(bet.participants||[]).includes(myName)&&!optedIn.includes(myName);
@@ -5727,7 +5727,7 @@ function poolCardHTML(bet,myName){
   const cardCls=isVoting?'wc-open':isSettled?(bet.winnerName===myName?'wc-settled-win':'wc-settled-loss'):'';
   const allNames=Object.values(P).map(p=>p.name);
   const chips=allNames.map(n=>
-    `<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${approvedSet.has(n)?'✓ ':''}${n.slice(0,3)}</div>`
+    `<div class="pool-approval-chip${approvedSet.has(n)?'':' pending-chip'}">${n.slice(0,3)}</div>`
   ).join('');
   let resultHtml='';
   if(isSettled){resultHtml=bet.result==='push'?'<div class="wc-result res-push">Tied — no winner</div>':`<div class="pool-winner-row">🏆 ${bet.winnerName} wins $${prize}</div>`;}
@@ -6316,7 +6316,7 @@ function renderHouseOdds(){
     const preset=ODDS_PRESETS[houseSt.oddsPreset]||ODDS_PRESETS.even;
     const buyerBets=10;
     const payout=Math.round(buyerBets*preset.num/preset.den*100)/100;
-    exEl.textContent=`e.g. $${buyerBets} bet pays $${payout} — you collect $${buyerBets} if wrong`;
+    exEl.textContent=`e.g. $${buyerBets} bet pays $${payout} — you collect $${buyerBets} if right`;
   }
 }
 function updateHouseUI(){
