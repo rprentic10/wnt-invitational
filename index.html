@@ -5573,7 +5573,7 @@ function poolModeCardHTML(bet,myName){
   const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day;
   const typeIcon={kp:'',lownet:'',lowgross:'',lastplace:'💀',cleancard:'✅'};
   const typeLabel={kp:'Closest to Pin',lownet:'Low Net Pool',lowgross:'Low Gross Pool',lastplace:'Last Place Pool',cleancard:'Clean Card Pool'};
-  const holeInfo=bet.hole!=null?` · Hole ${bet.hole+1}`:'';
+  const holeInfo=bet.hole!=null?`Hole ${bet.hole+1}`:'';
   const n=(bet.participants||[]).length;
   const pot=n*bet.amount;
   const optedIn=bet.optedIn||[];
