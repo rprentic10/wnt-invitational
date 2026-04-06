@@ -1462,13 +1462,13 @@ const JSONBIN='https://api.jsonbin.io/v3/b';
 const ENV='dev';
 const JSONBIN_ID=ENV==='prod'?'69d00c0136566621a8782afb':'69c6bfa3c3097a1dd568bcda';
 const JSONBIN_KEY='$2a$10$u8H4aaQDmmwyV6A6ieyFDeUhVJBxFvFU4PeBUJxtg.1mMUkrys7e.';
-const LS_DATA='wni-data-2026';
+const LS_DATA='wni-data-2026-v2';
 // ── Data epoch ────────────────────────────────────
 // Any wager / bet / chat message with ts < REQUIRED_WIPE_AT is considered
 // pre-reset simulation data and is silently dropped everywhere (local apply,
 // remote merge, push merge).  Bump this constant whenever you need a full
 // data wipe — the first device to push will clean JSONbin for everyone.
-const REQUIRED_WIPE_AT=1775365260000;
+const REQUIRED_WIPE_AT=1775429930000;
 
 let lastRemoteJson=null;
 let offlineMode=false;
@@ -1570,7 +1570,9 @@ function applyRemoteState(state){
       if((r.ts||0)<REQUIRED_WIPE_AT)return;
       if(!gameWagers[k]||r.ts>=gameWagers[k].ts)gameWagers[k]=r;
     });
-    initHardsetWagers();
+    // Only auto-create hardset wagers if there are real wagers present
+    // (prevents recreating them on a wiped/empty bin)
+    if(Object.keys(gameWagers).length>0)initHardsetWagers();
     settleGameWagers();
     updateGWWidgets();
   }
@@ -1850,6 +1852,10 @@ async function init(){
       document.getElementById('offline-banner').classList.add('show');
     }
   }catch(e){console.warn('remote sync err',e);}
+  // Bootstrap hardset wagers on first real load (not after a wipe)
+  // They exist if any score, bet, or wager is present — meaning real usage has started
+  const hasAnyData=bets.length>0||Object.keys(gameWagers).length>0||Object.keys(SC).some(day=>Object.keys(P).some(k=>SC[day][k].some(v=>v!=null)));
+  if(hasAnyData)initHardsetWagers();
   initSyncDone=true; // only count messages as unread after this point
   buildMastersLB();fetchMastersScores();
 
@@ -4840,7 +4846,7 @@ function settleGameWagers(){
   return changed;
 }
 function updateGWWidgets(){
-  initHardsetWagers();
+  if(Object.keys(gameWagers).length>0||bets.length>0)initHardsetWagers();
   const map={d1:'gw-area-d1',d2_pot:'gw-area-d2-pot',d3_m0:'gw-area-d3-m0',d3_m1:'gw-area-d3-m1',d3_side:'gw-area-d3-side'};
   Object.entries(map).forEach(([key,id])=>{const el=document.getElementById(id);if(el)el.innerHTML=gameWagerWidget(key);});
   if(currentTab==='bets')buildWagers();
