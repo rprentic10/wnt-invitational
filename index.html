@@ -1657,29 +1657,28 @@ async function pushRemote(state,immediate){
   clearTimeout(saveTimer);
   saveLocal(state);
   const doIt=async()=>{
+    // Always use FRESH state at push time (not the stale snapshot from call time)
+    const fresh=getState();
     _pushInFlight=true;
     try{
       let latest=await fetchRemote();
       // If remote data predates our wipe epoch, ignore it (don't merge stale data)
       if(latest&&latest.wipeAt&&latest.wipeAt<REQUIRED_WIPE_AT)latest=null;
       if(latest){
-        // ── Merge chat (existing logic) ──
+        // ── Merge chat ──
         if(latest.chat&&Array.isArray(latest.chat.messages)){
           const validRemote=latest.chat.messages.filter(m=>(m.ts||0)>=REQUIRED_WIPE_AT);
-          state.chat.messages=dedupeMessages([...validRemote,...state.chat.messages]);
+          fresh.chat.messages=dedupeMessages([...validRemote,...fresh.chat.messages]);
         }
         // ── Merge scores: hole-by-hole, local-wins on conflict ──
-        // This ensures that if another device wrote scores for different holes/players
-        // since our last fetch, we incorporate those rather than clobbering them.
         if(latest.scores){
           ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
-            if(latest.scores[day]&&latest.scores[day][k]&&state.scores[day]&&state.scores[day][k]){
+            if(latest.scores[day]&&latest.scores[day][k]&&fresh.scores[day]&&fresh.scores[day][k]){
               const remote=latest.scores[day][k];
-              const local=state.scores[day][k];
+              const local=fresh.scores[day][k];
               for(let h=0;h<18;h++){
                 const rVal=remote[h]!=null?parseInt(remote[h]):null;
                 const lVal=local[h]!=null?parseInt(local[h]):null;
-                // Accept remote value only when local has nothing for this hole
                 if(lVal==null&&rVal!=null) local[h]=rVal;
               }
             }
@@ -1688,9 +1687,9 @@ async function pushRemote(state,immediate){
         // ── Merge stats: hole-by-hole, local-wins on conflict ──
         if(latest.stats){
           ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
-            if(latest.stats[day]&&latest.stats[day][k]&&state.stats[day]&&state.stats[day][k]){
+            if(latest.stats[day]&&latest.stats[day][k]&&fresh.stats[day]&&fresh.stats[day][k]){
               const remoteSt=latest.stats[day][k];
-              const localSt=state.stats[day][k];
+              const localSt=fresh.stats[day][k];
               for(let h=0;h<18;h++){
                 const rh=remoteSt[h],lh=localSt[h];
                 const localHasData=lh&&(lh.fh!=null||lh.gir!=null||lh.putts!=null||lh.penalty!=null);
@@ -1699,53 +1698,62 @@ async function pushRemote(state,immediate){
             }
           }));
         }
-        // ── Merge mastersPicks: fill blanks from remote, remote-wins if local empty ──
+        // ── Merge mastersPicks ──
         if(latest.mastersPicks&&typeof latest.mastersPicks==='object'){
-          if(!state.mastersPicks)state.mastersPicks={};
+          if(!fresh.mastersPicks)fresh.mastersPicks={};
           Object.keys(latest.mastersPicks).forEach(k=>{
             const remote=latest.mastersPicks[k];
-            const local=state.mastersPicks[k];
-            if(!local||!local.length){state.mastersPicks[k]=remote;}
-            else if(remote&&remote.length>local.length){state.mastersPicks[k]=remote;}
+            const local=fresh.mastersPicks[k];
+            if(!local||!local.length){fresh.mastersPicks[k]=remote;}
+            else if(remote&&remote.length>local.length){fresh.mastersPicks[k]=remote;}
           });
         }
         // ── Merge bets: combine by ID, local-wins on conflict ──
         if(Array.isArray(latest.bets)){
           const merged={};
           latest.bets.filter(b=>(b.ts||0)>=REQUIRED_WIPE_AT).forEach(b=>merged[b.id]=b);
-          (state.bets||[]).forEach(b=>merged[b.id]=b); // local wins
-          state.bets=Object.values(merged);
+          (fresh.bets||[]).forEach(b=>merged[b.id]=b);
+          fresh.bets=Object.values(merged);
         }
-        // ── Merge gameWagers: fill blanks from remote ──
+        // ── Merge gameWagers: timestamp-wins (matches applyRemoteState) ──
         if(latest.gameWagers&&typeof latest.gameWagers==='object'){
-          if(!state.gameWagers)state.gameWagers={};
+          if(!fresh.gameWagers)fresh.gameWagers={};
           Object.keys(latest.gameWagers).forEach(k=>{
-            if(!state.gameWagers[k])state.gameWagers[k]=latest.gameWagers[k];
+            const r=latest.gameWagers[k];if(!r)return;
+            if((r.ts||0)<REQUIRED_WIPE_AT)return;
+            if(!fresh.gameWagers[k]||r.ts>=fresh.gameWagers[k].ts)fresh.gameWagers[k]=r;
           });
         }
-        // ── Merge presence: take newest timestamp per player ──
+        // ── Merge presence: newest timestamp wins ──
         if(latest.presence&&typeof latest.presence==='object'){
-          if(!state.presence)state.presence={};
+          if(!fresh.presence)fresh.presence={};
           Object.keys(latest.presence).forEach(k=>{
-            if((latest.presence[k]||0)>(state.presence[k]||0))state.presence[k]=latest.presence[k];
+            if((latest.presence[k]||0)>(fresh.presence[k]||0))fresh.presence[k]=latest.presence[k];
           });
         }
         // ── Merge avatars: fill blanks from remote ──
         if(latest.avatars&&typeof latest.avatars==='object'){
-          if(!state.avatars)state.avatars={};
+          if(!fresh.avatars)fresh.avatars={};
           Object.keys(latest.avatars).forEach(k=>{
-            if(!state.avatars[k]&&latest.avatars[k])state.avatars[k]=latest.avatars[k];
+            if(!fresh.avatars[k]&&latest.avatars[k])fresh.avatars[k]=latest.avatars[k];
+          });
+        }
+        // ── Merge drives: fill blanks from remote ──
+        if(latest.drives){
+          ['g1','g2'].forEach(g=>{
+            if(!Array.isArray(latest.drives[g]))return;
+            latest.drives[g].forEach((v,i)=>{if(v&&!fresh.drives[g][i])fresh.drives[g][i]=v;});
           });
         }
       }
-      const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(state)});
-      if(r.ok){lastRemoteJson=JSON.stringify(state);pulse();}
+      const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(fresh)});
+      if(r.ok){lastRemoteJson=JSON.stringify(fresh);pulse();}
       else{console.warn('Save failed',r.status);}
     }catch(e){console.warn('Push failed',e);}
     finally{_pushInFlight=false;}
   };
   if(immediate)await doIt();
-  else saveTimer=setTimeout(doIt,1200);
+  else saveTimer=setTimeout(doIt,500);
 }
 
 function saveLocal(state){
@@ -1987,7 +1995,7 @@ async function init(){
   buildMastersLB();fetchMastersScores();
 
   // Poll for updates every 10 seconds
-  setInterval(pollRemote,10000);
+  setInterval(pollRemote,6000);
 
   // Request notification permission (needed for Web Push on iOS 16.4+ PWA)
   if('Notification' in window && Notification.permission==='default'){
@@ -2552,15 +2560,11 @@ async function pollRemote(){
     if(!alertsReady){alertsReady=true;}
     else{runAlertChecks(_snapBefore,_wagersBefore,_statsBefore);}
   }
-  // Push presence after fetch completes (piggyback, no extra fetch-merge)
-  if(presenceDirty)saveLocal(getState());
+  // Always refresh presence dots (time-based active/inactive can change without remote data changing)
+  updatePresenceDots();
+  // Push presence via proper merge path (no raw PUT that could clobber data)
   if(presenceDirty&&!_pushInFlight){
-    _pushInFlight=true;
-    try{
-      const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(getState())});
-      if(r.ok){lastRemoteJson=JSON.stringify(getState());pulse();}
-    }catch(e){}
-    finally{_pushInFlight=false;}
+    pushRemote(getState(),true);
   }
 }
 
@@ -6073,7 +6077,7 @@ function setPropPlayer(k){propSt.player=k;propSt.side=null;propSt.customLine=nul
 function setPropMatch(mi){propSt.matchIdx=mi;propSt.side=null;
   document.querySelectorAll('#ps-matches .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.mi===String(mi)));
   updateProposeUI();}
-function adjOULine(delta){if(propSt.customLine==null)return;propSt.customLine=Math.round((propSt.customLine+delta)*2)/2;propSt.side=null;updateProposeUI();}
+function adjOULine(delta){if(propSt.customLine==null)return;propSt.customLine=propSt.customLine+delta;propSt.side=null;updateProposeUI();}
 function setPropSide(s){propSt.side=s;
   document.querySelectorAll('#ps-sides .ps-opt').forEach(el=>el.classList.toggle('sel',el.dataset.side===s));
   updateProposeUI();}
@@ -6759,9 +6763,9 @@ function submitAccept(){
       </div>
       <div class="ps-line-box" id="ps-line-box" style="display:none">
         <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
-          <button class="ps-line-adj" onclick="adjOULine(-0.5)">−</button>
+          <button class="ps-line-adj" onclick="adjOULine(-1)">−</button>
           <div><div class="ps-line-num" id="ps-line-num">—</div><div class="ps-line-info" id="ps-line-info">Expected gross · Course handicap line</div></div>
-          <button class="ps-line-adj" onclick="adjOULine(0.5)">+</button>
+          <button class="ps-line-adj" onclick="adjOULine(1)">+</button>
         </div>
       </div>
       <div class="ps-step" id="ps-side-step" style="display:none">
