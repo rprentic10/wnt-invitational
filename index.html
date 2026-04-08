@@ -5214,7 +5214,9 @@ function d3MatchWinner(mi){
 function settleBets(){
   let changed=false;
   bets.forEach(b=>{
-    if(b.status!=='active')return;
+    // House props stay 'open' (uncapped) but can still settle once round completes
+    if(b.status==='open'&&b.type==='house-prop'&&b.buyins&&b.buyins.length>0){/* settle allowed */}
+    else if(b.status!=='active')return;
     // ── Pool-mode bets (KP + multi-player pools) ──
     if(b.participants){
       if(b.type==='kp'){
@@ -5731,7 +5733,7 @@ function houseCardHTML(bet,myName){
   <div class="hp-stat-row"><span class="hp-stat-dir ${buyerCls}">${buyerSide}</span><span class="hp-stat-val">${bet.line}</span><span style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-left:2px">${meta.unit||''}</span></div>
   <div class="hp-house-row">🏠 ${bet.houseName} backs ${dirLabel} · Odds <span class="hp-odds">${oddsStr}</span></div>
   <div class="hp-buyins">${buyinChips}</div>
-  ${bet.exposureCap>0?`<div class="hp-cap-bar-wrap"><div class="hp-cap-label">${capFull?`<span style="color:#e8a456">Cap reached</span> · $${bet.exposureCap} fully exposed`:`Exposure: $${houseExp} of $${bet.exposureCap} cap`}</div><div class="hp-cap-bar"><div class="hp-cap-fill" style="width:${capPct}%;${capFull?'background:#e8a456':''}"></div></div></div>`:''}
+  ${bet.exposureCap>0?`<div class="hp-cap-bar-wrap"><div class="hp-cap-label">${capFull?`<span style="color:#e8a456">Cap reached</span> · $${bet.exposureCap} fully exposed`:`Exposure: $${houseExp} of $${bet.exposureCap} cap`}</div><div class="hp-cap-bar"><div class="hp-cap-fill" style="width:${capPct}%;${capFull?'background:#e8a456':''}"></div></div></div>`:`<div style="font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(218,240,218,.35);margin-bottom:6px">${totalIn>0?`$${totalIn} in action · No cap`:'No cap set · unlimited buy-ins'}</div>`}
   ${resultHtml}
   ${canBuyIn?`<button class="hp-buyin-btn" onclick="openAcceptSheet('${bet.id}')">Take the ${buyerSide} · ${oddsStr} odds →</button>`:''}
   ${!isSettled&&capFull&&!iAmHouse?`<div style="text-align:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#e8a456;padding:8px 0 2px">Book closed — cap reached</div>`:''}
@@ -6533,7 +6535,7 @@ function _openHouseBuyIn(bet){
     <div style="font-size:16px;font-weight:700;margin-bottom:6px">${playerName} · ${meta.label||bet.statType} ${dirLabel} ${bet.line}</div>
     <div style="font-size:12px;color:rgba(218,240,218,.55);margin-bottom:4px">You're buying against <strong style="color:var(--mw)">${bet.houseName}</strong> (house)</div>
     <div style="font-size:12px;color:rgba(254,254,86,.75);margin-bottom:${bet.exposureCap>0?'8':'12'}px">Odds: ${oddsStr} — you profit that ratio on your buy-in</div>
-    ${(()=>{if(bet.exposureCap>0){const hExp=bet.buyins.reduce((s,b)=>s+Math.round(b.amount*bet.oddsNum/bet.oddsDen),0);const rem=Math.max(0,bet.exposureCap-hExp);const pct=Math.min(100,Math.round(hExp/bet.exposureCap*100));return`<div style="margin-bottom:12px"><div style="font-size:10px;color:rgba(218,240,218,.35);margin-bottom:4px">House cap: $${hExp} of $${bet.exposureCap} exposed · <span style="color:#7ddba4">$${rem} remaining</span></div><div class="hp-cap-bar"><div class="hp-cap-fill" style="width:${pct}%"></div></div></div>`;}return'';})()}
+    ${(()=>{if(bet.exposureCap>0){const hExp=bet.buyins.reduce((s,b)=>s+Math.round(b.amount*bet.oddsNum/bet.oddsDen),0);const rem=Math.max(0,bet.exposureCap-hExp);const pct=Math.min(100,Math.round(hExp/bet.exposureCap*100));return`<div style="margin-bottom:12px"><div style="font-size:10px;color:rgba(218,240,218,.35);margin-bottom:4px">House cap: $${hExp} of $${bet.exposureCap} exposed · <span style="color:#7ddba4">$${rem} remaining</span></div><div class="hp-cap-bar"><div class="hp-cap-fill" style="width:${pct}%"></div></div></div>`;}return`<div style="margin-bottom:12px;font-size:10px;color:rgba(218,240,218,.35)">No cap · unlimited buy-ins</div>`;})()}
     <div class="ps-label">Buy-In Amount ($)</div>
     <input class="ps-amount-inp" type="number" id="ac-buyin-amt" min="1" placeholder="e.g. 10" inputmode="numeric" style="margin-top:6px">`;
   if(!chatAuthor){closeAcceptSheet();showNameOverlay();return;}
@@ -6586,10 +6588,10 @@ function submitAccept(){
     const amt=parseFloat(document.getElementById('ac-buyin-amt')?.value)||0;if(!amt)return;
     if(bet.status!=='open')return;
     bet.buyins.push({name,amount:amt,ts:Date.now()});
-    // Check if cap is now reached
+    // Check if cap is now reached — only close if capped and full
     const houseExp=bet.buyins.reduce((s,b)=>s+Math.round(b.amount*bet.oddsNum/bet.oddsDen),0);
     if(bet.exposureCap>0&&houseExp>=bet.exposureCap)bet.status='active';
-    else bet.status='active'; // active once first buy-in
+    // else stays 'open' — more buyers can pile on
     pushRemote(getState(),true);updateBetsBadge();closeAcceptSheet();buildWagers();return;
   }
   if(acceptMode==='pool-approve'){
