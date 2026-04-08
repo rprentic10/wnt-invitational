@@ -1,6 +1,6 @@
 WE NEEDED THIS INVITATIONAL — PROJECT CONTEXT FOR COWORK
 ==========================================================
-Last updated: April 2026
+Last updated: April 6, 2026
 
 
 OVERVIEW
@@ -11,31 +11,17 @@ The app is a real-time scoring tracker, live leaderboard, group chat, wager plat
 and notification hub for 8 players across 3 rounds at 3 different courses.
 
 Primary files:
-  golf-trip.html  — the working source file
-  index.html      — always a direct copy of golf-trip.html (served at the live domain)
+  index.html      — the working source file (all edits go here FIRST)
+  golf-trip.html  — always a direct copy of index.html (cp index.html golf-trip.html)
 
 The app is live and password-gated at: www.weneededthis.com
-Password: amasterslovestory (SHA-256 hashed client-side, stored in localStorage)
+Password: scottsdale (SHA-256 hashed client-side, stored in localStorage)
 
 The file is fully self-contained — one HTML file with embedded CSS, JavaScript,
 and all images base64-encoded inline. No framework, no build step, no server-side
 code. Only external dependency is Google Fonts.
 
 File size: ~2.1 MB (due to base64-embedded logo and app icon images)
-
-
-BRANDING
---------
-- Name: We Needed This Invitational (abbrev: WNT)
-- Aesthetic: Masters Tournament (Augusta National) inspired
-  - Deep Augusta green background (#1a3a1a)
-  - Masters yellow/gold typography (#fefe56 for UI chrome, #f5d66e for headings)
-  - Playfair Display italic serif for headings
-  - Lora serif for body text
-  - DM Mono for scorecard data
-- Logo: WNT.png (embedded as base64 in the header)
-- App icon / favicon: also base64-embedded in <link rel="apple-touch-icon"> and <link rel="icon">
-- Tagline: Est. April 2026
 
 
 THE 8 PLAYERS
@@ -55,8 +41,15 @@ Day 1 handicaps are full course handicaps.
 Days 2 & 3 use reduced "strokes given" handicaps (from the tournament sheet).
 Otero plays scratch net on Days 2 & 3 (receives 0 strokes).
 
-Each player has a unique avatar color (PLAYER_COLORS constant) for display in
-the chat, avatars, and presence indicators.
+Player avatar colors (PLAYER_COLORS constant):
+  Prentice: #b8860b (dark goldenrod)
+  Cromer:   #2471a3 (steel blue)
+  Buzz:     #1e8449 (forest green)
+  Reese:    #c0392b (crimson red)
+  Otero:    #7d3c98 (amethyst purple)
+  Ryder:    #148f77 (teal)
+  Simon:    #d35400 (burnt orange)
+  Pat:      #5d6d7e (slate grey)
 
 
 THE THREE ROUNDS
@@ -103,10 +96,11 @@ COURSE DATA (from actual scorecards)
 
 WE-KO-PA CHOLLA (Day 1) — Par 72, Purple Tees
   Hole:  1   2   3   4   5   6   7   8   9  |  10  11  12  13  14  15  16  17  18
-  Par:   4   5   3   4   3   4   4   5   4  |   4   5   3   4   4   3   4   5   4
+  Par:   4   5   3   4   3   4   4   5   4  |   5   3   4   4   3   4   4   5   4
   HCP:  13   3  17   9  15   7  11   1   5  |   4  16  10  12  18  14   6   2   8
   Yds: 332 574 164 419 190 371 323 587 429  | 538 208 361 395 159 299 433 551 407
   Out: 3389 yards / In: 3351 yards / Total: 6740 yards
+  Front 9: Par 36 / Back 9: Par 36
 
 TROON NORTH PINNACLE (Day 2) — Par 71, Gold Tees
   Hole:  1   2   3   4   5   6   7   8   9  |  10  11  12  13  14  15  16  17  18
@@ -114,6 +108,7 @@ TROON NORTH PINNACLE (Day 2) — Par 71, Gold Tees
   HCP:   9   7   3  11   5  17   1  15  13  |  10   8  12  16   2  14  18   4   6
   Yds: 378 388 430 399 500 190 416 176 383  | 385 528 409 170 565 363 132 409 414
   Out: 3260 yards / In: 3375 yards / Total: 6635 yards
+  Front 9: Par 35 / Back 9: Par 36
 
 GRAYHAWK TALON (Day 3) — Par 72, Palo Verde Tees
   Hole:  1   2   3   4   5   6   7   8   9  |  10  11  12  13  14  15  16  17  18
@@ -121,6 +116,7 @@ GRAYHAWK TALON (Day 3) — Par 72, Palo Verde Tees
   HCP:   9  13   5   7  17   1  11  15   3  |   4  16   2  14  10   8  12  18   6
   Yds: 385 309 465 402 133 422 366 189 507  | 422 161 405 277 519 419 383 114 552
   Out: 3178 yards / In: 3252 yards / Total: 6430 yards
+  Front 9: Par 36 / Back 9: Par 36
 
 
 HANDICAP STROKE CALCULATION
@@ -166,12 +162,12 @@ Five tabs in the bottom navigation bar:
 
   Scores       — Day selector (Thu / Fri / Sat) with full scorecard per day
   Leaderboard  — Win tally + individual scores table + day result chips
-  Bets         — Full wager platform (Bets tab + Ledger tab)
+  Wagers       — Full wager platform (Wagers tab + Ledger tab)
   Chat         — Group chat room for all 8 players
   Me           — Personal profile: avatar, your scores, your stats, your bets
 
 The header shows the WNT logo, a real-time sync status dot, and a notification
-bell (🔔) with a red numbered badge for unread alerts.
+bell with a red numbered badge for unread alerts.
 
 
 LEADERBOARD
@@ -193,11 +189,11 @@ Three sections:
    - Day 3: Both members of winning match play pair each get 1 win
    - Ties / halves award 0.5 wins
    - Sorted by total wins descending
-   - Leader gets a 🏆 trophy
-   - Shows W / ½ / — per day per player
+   - Leader gets a trophy
+   - Shows W / 1/2 / — per day per player
 
 3. INDIVIDUAL SCORES TABLE
-   - Day 1: Gross score vs par (e.g. +4, −2, E)
+   - Day 1: Gross score vs par (e.g. +4, -2, E)
    - Day 2: Net score vs par
    - Day 3: Net score vs par
    - Sorted by scores once rounds are played
@@ -206,33 +202,40 @@ Three sections:
 
 REAL-TIME SYNC
 --------------
-- Remote state store: JSONbin Pro (bin ID: 69c6bfa3c3097a1dd568bcda)
-- All devices poll for remote updates every 10 seconds (setInterval pollRemote, 10000)
+- Remote state store: JSONbin Pro
+  - PROD bin: 69d00c0136566621a8782afb
+  - DEV bin:  69c6bfa3c3097a1dd568bcda
+  - Master key: $2a$10$u8H4aaQDmmwyV6A6ieyFDeUhVJBxFvFU4PeBUJxtg.1mMUkrys7e.
+  - ENV='prod' (current)
+- Poll interval: 6 seconds (setInterval pollRemote, 6000)
+- Debounce on pushRemote: 500ms
+- pushRemote uses fresh getState() at push time (not stale state param)
+- pushRemote merges ALL data types from remote before PUT:
+    chat, scores, stats, mastersPicks, bets, gameWagers (timestamp-wins),
+    presence, avatars, drives
 - On each poll, the app diffs SC / STATS / wagers before and after applyRemoteState()
   so it can fire alerts only for genuinely new data arriving from other devices
 - localStorage used as a fallback if JSONbin is unavailable (offline mode)
-- localStorage key: 'wni-data-2026'
-- Last-write-wins for concurrent edits (acceptable given 8 players, each entering
-  only their own scores)
+- localStorage key: 'wni-data-2026-v3'
+- REQUIRED_WIPE_AT: 1775502505000 — any data with ts < this is dropped
 - A small green dot in the header pulses when a remote score update is received
-- Presence dots show which players have been active in the last 90 seconds
-- Data epoch / wipe mechanism: REQUIRED_WIPE_AT timestamp constant —
-  any wager, bet, or chat message with ts < REQUIRED_WIPE_AT is silently dropped
-  on load, apply, and push. Bump this constant to wipe stale data across all devices.
+- Presence dots show which players have been active in the last 3 minutes (180000ms)
+- updatePresenceDots() runs unconditionally on every poll cycle (not gated by data changes)
 
 State object shape (getState()):
   {
-    scores:     SC[day][key][holeIndex] = gross score (int or null)
-    stats:      STATS[day][key][holeIndex] = { fh, gir, putts, penalty }
-    chat:       { messages: [...] }
-    avatars:    { [key]: base64DataUrl }
-    teamNames:  { [teamKey]: string }
-    bets:       [...]
-    drives:     { g1: [...], g2: [...] }  — D1 shamble drive tracker
-    gameWagers: { [key]: {...} }
-    presence:   { [key]: timestamp }
-    wipeAt:     REQUIRED_WIPE_AT
-    v:          1
+    scores:       SC[day][key][holeIndex] = gross score (int or null)
+    stats:        STATS[day][key][holeIndex] = { fh, gir, putts, penalty }
+    chat:         { messages: [...] }
+    avatars:      { [key]: base64DataUrl }
+    teamNames:    { [teamKey]: string }
+    bets:         [...]
+    drives:       { g1: [...], g2: [...] }  — D1 shamble drive tracker
+    gameWagers:   { [key]: {...} }
+    presence:     { [key]: timestamp }
+    mastersPicks: { [key]: [...golferNames] }
+    wipeAt:       REQUIRED_WIPE_AT
+    v:            1
   }
 
 
@@ -249,88 +252,61 @@ Alert checks run after every remote poll (comparing prev vs current state) and
 after every local score entry. The alertedEvents Set prevents duplicate firing.
 
 Score-based alerts (per player, per hole, per day):
-  Albatross (−3 or better)    🦅  "Albatross!!"
-  Eagle (−2)                  🦅  "Eagle!"
-  Back-to-back eagles         🦅  "Back-to-back eagles!!"
-  Eagle + birdie adjacent     🦅  "Eagle-birdie"
-  Back-to-back birdies        🔥  "Back-to-back birdies"
-  First birdie of the round   🐦  "First birdie · [name]"
-  Bounce-back birdie          💪  "Bounced back · [name]" (birdie after bogey)
-  Regular birdie              🐦  "Birdie · [name]"
-  Double bogey                😬  "Double bogey · [name]"
-  Rough stretch               😬  "Rough stretch · [name]" (double after bogey, or bogey after double)
-  Back-to-back bogeys         😤  "Back-to-back bogeys · [name]"
-  Triple bogey                💀  "Triple bogey · [name]"
-  Snowman (quad +4)           ⛄  "Snowman · [name]"
+  Albatross (-3 or better)     — "Albatross!!"
+  Eagle (-2)                   — "Eagle!"
+  Back-to-back eagles          — "Back-to-back eagles!!"
+  Eagle + birdie adjacent      — "Eagle-birdie"
+  Back-to-back birdies         — "Back-to-back birdies"
+  First birdie of the round    — "First birdie"
+  Bounce-back birdie           — "Bounced back" (birdie after bogey)
+  Regular birdie               — "Birdie"
+  Double bogey                 — "Double bogey"
+  Rough stretch                — "Rough stretch" (double after bogey, or bogey after double)
+  Back-to-back bogeys          — "Back-to-back bogeys"
+  Triple bogey                 — "Triple bogey"
+  Snowman (quad +4)            — "Snowman"
 
 Situational alerts (milestone checks every score entry):
-  Hot start                   🔥  Under par through first 3 holes
-  Beating handicap at turn    🏌️  Net under par after front 9
-  Back 9 surge                📈  Under par on back 9 through first 3 holes of it
-  Bogey-free front 9          👏  No bogeys or worse through 9
-  Par streak (3+)             🎯  Three/Four/Five+ pars in a row
+  Hot start                    — Under par through first 3 holes
+  Beating handicap at turn     — Net under par after front 9
+  Back 9 surge                 — Under par on back 9 through first 3 holes
+  Bogey-free front 9           — No bogeys or worse through 9
+  Par streak (3+)              — Three/Four/Five+ pars in a row
 
 Leaderboard / momentum alerts (per poll):
-  Lead change (all days)      🏆  "[Team] takes the lead / leads the board"
-  Match play swing (D3)       🏆  "[Player] X up · Match N"
-  Comeback (all days)         📈  "[Team] comeback" — was down 3+, now within 1
+  Lead change (all days)       — "[Team] takes the lead"
+  Match play swing (D3)        — "[Player] X up"
+  Comeback (all days)          — "[Team] comeback" (was down 3+, now within 1)
 
 Stats-based alerts (secondary stats tracking):
-  3-putt (or worse)           😬  "[N]-putt · [name]"
-  Fairway streak (3+)         🏌️  "Three/Four/Five fairways in a row · [name]"
-  GIR streak (3+)             🟢  "Three/Four/Five GIRs in a row · [name]"
+  3-putt (or worse)            — "[N]-putt"
+  Fairway streak (3+)          — "Three/Four/Five fairways in a row"
+  GIR streak (3+)              — "Three/Four/Five GIRs in a row"
 
 Wager alerts:
-  Bet goes live               💸  "Bet is live · [Day]" (when game wager becomes active)
+  Bet goes live                — "Bet is live · [Day]"
 
-Each alert type has a quip pool of 5 random sub-text phrases (the _QUIPS object)
-for personality (e.g. birdie quips, bounce-back quips, rough stretch quips, etc.).
-
-
-TEE TIME REMINDERS
-------------------
-The app fires a tee time alert 10 minutes before each group's tee time on the
-correct date. Personalized: if you are in the group it says "Your tee time in 10",
-otherwise it announces the group wave time. Uses setInterval every 30 seconds to
-check. The _teeReminderFired Set prevents duplicate firing.
-
-Tee time schedule:
-  D1 (Apr 9)   We-Ko-Pa    Group 1: 3:00 PM  (prentice, cromer, buzz, reese)
-  D1 (Apr 9)   We-Ko-Pa    Group 2: 3:20 PM  (otero, ryder, simon, pat)
-  D2 (Apr 10)  Troon North First wave: 8:55 AM  (otero, simon, pat, prentice)
-  D2 (Apr 10)  Troon North Second wave: 9:35 AM  (ryder, buzz, reese, cromer)
-  D3 (Apr 11)  Grayhawk    First wave: 9:12 AM  (otero, cromer, ryder, prentice)
-  D3 (Apr 11)  Grayhawk    Second wave: 9:21 AM  (reese, pat, buzz, simon)
+Each alert type has a quip pool of 5 random sub-text phrases for personality.
 
 
-CHAT
-----
-Full group chat room accessible via the Chat tab.
-- All 8 players share one room; messages sync in real time via JSONbin
-- Players pick their name from a dropdown on first launch (saved to localStorage)
-- Messages support text, emoji reactions (per-message emoji picker), and photo
-  attachments (photos uploaded as base64 and stored in state)
-- Tapping another player's avatar shows their profile
-- The "Me" tab bottom nav button dynamically shows your avatar initial/photo
-- Unread message badge on the Chat tab button
-- Native push notification fires for new chat messages when app is in background
-
-
-AVATARS & PLAYER PROFILES
---------------------------
-- Each player has a color-coded initial avatar by default (PLAYER_COLORS constant)
-- Players can upload a photo from their camera roll — stored as base64 in state
-  and synced across all devices
-- The "Me" tab shows your own profile card with large avatar, your round scores
-  and stats, and your open/settled bets
-- Presence dots (green circle) on avatars show who's been active in the last 90 sec
+THE MASTERS POOL
+-----------------
+A special side wager for the 2025 Masters Tournament (runs concurrently with the trip).
+- Each player picks 6 golfers from tiered lists
+- Uses "Best 4 of 6" scoring — best 4 golfer scores count
+- $20 buy-in, winner take all ($160 pot)
+- Picks stored in mastersPicks[playerKey] = [golferName, ...]
+- Masters Pool wager chip on the Wagers tab shows:
+    - Player pick confirmation chips (illuminated = confirmed, dim/dashed = pending)
+    - No checkmarks on confirmation chips — color/opacity only
+    - Edit Picks button for users who haven't locked in
+- Masters Pool Leaderboard chip shows golfer scores (fetched live during tournament)
 
 
 WAGER / BETTING SYSTEM
 -----------------------
-Accessible via the Bets tab. Two sub-tabs: Bets and Ledger.
-
-There are two categories of bets: Game Wagers and Player Bets.
+Accessible via the Wagers tab. Two sub-tabs: Wagers and Ledger.
+Section headers: "Pools", "P2P Bets", "House Props" (yellow text)
 
 GAME WAGERS (gameWagers object)
   Pre-defined group bets on match outcomes. Each requires mutual acceptance
@@ -344,7 +320,7 @@ GAME WAGERS (gameWagers object)
     d3_m0         — Day 3 Match 1 winner
     d3_m1         — Day 3 Match 2 winner
     d3_side       — Day 3 overall side (total holes won across both matches)
-  Each game wager has status: 'proposed' → 'active' → 'settled'
+  Each game wager has status: 'proposed' -> 'active' -> 'settled'
   Auto-settle when round results are known.
   Alert fires when a wager transitions to 'active'.
 
@@ -353,6 +329,8 @@ PLAYER BETS (bets array)
 
   Bet types:
     ou          — Stroke over/under (vs computed line based on hcp/slope/rating)
+                  Customizable line with +/- buttons (steps by whole numbers to
+                  preserve the .5 no-push nature of O/U lines)
     birdie-ou   — Birdie count over/under
     lowgross    — Lowest gross score in the group
     lownet      — Lowest net score in the group
@@ -362,25 +340,21 @@ PLAYER BETS (bets array)
     lastplace   — Player finishes last net
     house-prop  — House (one proposer) vs buyers; stat-based prop with odds
                   (stats: birdies, putts, fairways_hit, gir, eagles, penalties)
+                  Odds example copy: "e.g. $10 bet pays $8 — you collect $10 if right"
     pool        — Group pool (everyone contributes buy-in):
-                  poolType: 'birdies' (most birdies), 'lownet' (low net),
-                             'eagle_pool', 'cleancard_pool'
+                  poolType: lownet, lastplace, birdies, cleancard
+    kp          — Closest to Pin (par-3 hole-specific pool)
 
-  Bet lifecycle: proposed → (accepted / rejected) → settled
+  Bet lifecycle: proposed -> (accepted / rejected) -> settled
   Settled bets track who won and amount owed.
 
-SUGGESTED BETS
-  After any completed round, the app auto-generates 8–10 suggested bets for the
-  next day based on prior performance data:
-    - Hot hand birdie over
-    - Cold player clean card
-    - H2H net (best vs worst net)
-    - Last place for cold player
-    - Stroke O/U for cold player
-    - Low net for best net player
-    - House props (birdies, putts) if stat data exists
-    - Most Birdies pool
-    - Low Net pool
+  Wager chip confirmation: Participant chips show 3-letter name abbreviations.
+  Confirmed = illuminated (green bg, green text). Pending = dim dashed border.
+  NO checkmarks — confirmation is indicated purely by color/brightness.
+
+FLOATING ACTION BUTTON (FAB)
+  Yellow circle with "+" in bottom-left corner of Wagers tab.
+  Opens the propose sheet (bottom drawer) for creating new bets.
 
 LEDGER
   The Ledger tab shows net cash owed between all players after all bets settle.
@@ -396,7 +370,6 @@ Team keys:
   d2_m1a, d2_m1b, d2_m2a, d2_m2b      — Day 2 pairs
   d3_sA, d3_sB                         — Day 3 sides (overall)
   d3_m0a, d3_m0b, d3_m1a, d3_m1b      — Day 3 match pairs
-  (used in wager cards, leaderboard chips, and alert messages)
 
 
 "ME" TAB
@@ -404,110 +377,432 @@ Team keys:
 Personal hub for the logged-in player. Two sub-tabs: Round and Stats.
 
 ROUND sub-tab:
-- Hole-by-hole score stepper (+ / −) for the logged-in player
+- Hole-by-hole score stepper (+ / -) for the logged-in player
 - Front 9 / Back 9 toggle
 - Per-hole secondary stats entry: Fairway Hit, GIR, Putts, Penalty Strokes
   (shown in expandable detail row per hole)
-- Score color-coded by relation to par (eagle=green, birdie=light green, etc.)
+- Score color-coded by relation to par
 - Net badge per hole on Days 2 & 3
 - Running 9-hole total with score vs par shown below the list
 - Day selector (Thu / Fri / Sat) at top
 
 STATS sub-tab:
 Filterable by day (Thu / Fri / Sat) or all cumulative. Sections:
-
-  Score — per-day scorecard strip showing gross, score vs par, net (Days 2-3), thru count
-
-  Scoring:
-    - Birdies (or Eagles + Birdies if any eagle exists)
-    - Pars
-    - Bogeys
-    - Doubles+
-
-  Ball Striking (shown only if stats logged):
-    - Fairways Hit % (with fraction, e.g. 9/14)
-    - Greens in Regulation % (with fraction)
-
-  Putting & Around the Green (shown only if stats logged):
-    - Avg Putts per hole
-    - 3-Putts count
-    - Putts / GIR (avg putts on holes where GIR was hit)
-    - Scrambling % (up-and-downs from missed GIR)
-
-  Discipline:
-    - Total to Par (color-coded)
-    - Penalty Strokes (color-coded orange/red if high)
-
-  Strokes Gained (shown only after 9+ holes played):
-    - SG: Putting (vs scratch baseline — GIR holes: 1.80 baseline, non-GIR: 2.08)
-    - SG: Tee-to-Green (implied: SG:Total − SG:Putting; requires 9+ putts logged)
-    - SG: Total (score vs par)
-
-  My Wagers:
-    - Net dollar position for the selected day (P2P bets + game wagers combined)
-    - List of all the player's bets for that day (type, opponent, status, amount)
+  Score — per-day scorecard strip
+  Scoring — Birdies, Pars, Bogeys, Doubles+
+  Ball Striking — Fairways Hit %, GIR %
+  Putting — Avg Putts, 3-Putts, Putts/GIR, Scrambling %
+  Discipline — Total to Par, Penalty Strokes
+  Strokes Gained — SG: Putting, SG: Tee-to-Green, SG: Total
+  My Wagers — Net dollar position + bet list for the day
 
 
 PASSWORD GATE
 -------------
-A full-screen overlay is shown before init() is called if the user hasn't
-authenticated. Implemented client-side only:
-- Overlay shows the WNT logo, a password input with eye-toggle, and a Submit button
+Full-screen overlay shown before init(). Client-side only.
 - Password: scottsdale
-- Stored as SHA-256 hash: 19422146f941a4a55ee5d5c634c0fcdb32f46a6c2777420e3919c5561a160d87
-- Uses crypto.subtle.digest('SHA-256') — no password ever sent over the wire
-- Correct password → fade out → init()
-- Wrong password → shake animation, error message, cleared input
-- Authentication stored in localStorage key 'wni-auth-2026' so you only enter
-  it once per browser
+- SHA-256 hash: 19422146f941a4a55ee5d5c634c0fcdb32f46a6c2777420e3919c5561a160d87
+- Auth stored in localStorage key 'wni-auth-2026'
 
 
 PWA (PROGRESSIVE WEB APP)
 --------------------------
-- Installable on iOS and Android home screen via "Add to Home Screen"
-- apple-touch-icon and favicon are base64-embedded inline (no external files needed)
-- meta viewport and apple-mobile-web-app-capable tags set for full-screen mode
-- env(safe-area-inset-top) used throughout to handle iPhone notch/Dynamic Island
-- Web Notifications API used for native alerts (iOS 16.4+ PWA required)
-- Notification permission is requested once after onboarding
+- Installable on iOS and Android home screen
+- apple-touch-icon and favicon are base64-embedded inline
+- Viewport: width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-visual
+- env(safe-area-inset-top) used throughout for iPhone notch/Dynamic Island
+- env(safe-area-inset-bottom) used for bottom nav and bottom sheets
+- Web Notifications API for native alerts (iOS 16.4+ PWA required)
 
 
-SIMULATION MODE
----------------
-A hidden developer tool (not visible in production UI) that populates all 3
-days with realistic randomized scores, pre-set team names, and sample wagers.
-Used for testing and demos. runSim() uses a seeded PRNG for reproducibility.
-clearSim() resets all state to empty and pushes clean state to JSONbin.
-The sim banner shows at the top when simulation is active.
-
-Sim data is automatically filtered out by the REQUIRED_WIPE_AT epoch guard —
-bumping that constant clears sim data from all connected devices.
-
-
-ONBOARDING
-----------
+ONBOARDING & TOUR
+------------------
 On first launch (after password gate), a modal onboarding flow appears:
 - Welcomes the player to the WNT app
 - Prompts them to pick their name from the 8 player options
 - Optionally prompts for web notification permission
 - Marked complete via localStorage; only shown once per device
 
+A guided tour (spotlight system) walks new users through key UI elements.
+Tour uses clip-path polygon on a dark overlay to cut a spotlight hole around
+the target element. NO z-index manipulation on target elements.
+Tour tooltip with arrow, step dots, back/next/skip controls.
+
+
+SIMULATION MODE
+---------------
+Hidden developer tool. runSim() populates all 3 days with randomized scores,
+team names, and sample wagers. clearSim() resets and pushes clean state.
+Sim data filtered by REQUIRED_WIPE_AT epoch guard.
+
+
+GITHUB / DEPLOYMENT WORKFLOW
+------------------------------
+The file is ~2.1 MB (base64 images), which GitHub renders as blank in the web UI.
+This is normal — the file works correctly when served.
+
+Update workflow:
+  1. Edit index.html in the working folder
+  2. cp index.html golf-trip.html (they must stay in sync)
+  3. User opens GitHub Desktop -> commits -> pushes
+  4. Live site at www.weneededthis.com updates automatically (GitHub Pages, master branch)
+
+Do NOT use "git add -A" — only stage index.html and golf-trip.html.
+
+
+THINGS DECIDED AGAINST
+------------------------
+- Firebase — JSONbin was sufficient and required no account
+- Team-level aggregate points tracking — teams change daily
+- Net scoring on Day 1 — evenly matched teams play gross shamble
+- Editable player names/pairings in the UI — hardcoded from tournament sheet
+- Checkmarks on wager confirmation chips — too wide, causes wrapping; color-only
+
+
+================================================================================
+STYLE GUIDE
+================================================================================
+
+COLOR SYSTEM
+-------------
+
+Core Palette (CSS custom properties on :root):
+  --mg:   #005a30        Augusta green (primary brand green)
+  --mg2:  #004a28        Darker green variant
+  --mg3:  #006838        Lighter green variant
+  --my:   #fefe56        Masters yellow (primary accent, headlines, highlights)
+  --my2:  #fefe56        Masters yellow alias
+  --my3:  #d4d400        Darker yellow (CTAs, active states, pressed buttons)
+  --mw:   #daf0da        Warm white-green (primary text color throughout app)
+  --mc:   #f5f0e4        Cream
+  --ms:   #e0d5bc        Sand
+  --dim:  rgba(218,240,218,0.42)   Dim text opacity
+  --mid:  rgba(218,240,218,0.65)   Mid text opacity
+  --red:  #c0392b        Error / negative (darker)
+  --red-lt: #e05a4a      Error / negative (lighter, primary for UI)
+  --blue: #1a5276        Info (darker)
+  --blue-lt: #5dade2     Info (lighter, notification prompts)
+  --green: #39a865       Positive / success
+
+Background Colors:
+  Page body:             #001a0e (very deep green-black)
+  Scorecard header:      #005a30 (--mg)
+  Bottom nav:            #003d20
+  Chat panel:            var(--mg) (#005a30)
+  Bottom sheets:         #0f2810 (propose sheet) / #162e16 (name sheet)
+  Tour/notification:     #0d2610 / #0f2b0f
+  Wager cards:           rgba(16,36,16,.9)
+
+Semantic Colors:
+  Positive / under par:  #6ab46a (text), #7ddba4 (chips/badges, brighter)
+  Negative / over par:   #e05a4a (text, same as --red-lt)
+  Even par:              var(--mw) #daf0da
+  Error / loss:          #e05a4a / #e87060 (match play side B)
+  Win / side A:          #7ddba4 (match play side A)
+  Yellow accent:         #fefe56 (--my) for highlights, selected states
+  Dark yellow:           #d4d400 (--my3) for CTA buttons, active borders
+
+Score Cell Colors (scorecard and Me tab):
+  Eagle or better:       #27ae60 (text), with glow: text-shadow 0 0 14px rgba(39,174,96,.45)
+  Birdie:                #6ab46a
+  Par:                   var(--mw) #daf0da (no highlight)
+  Bogey:                 #e8a456 (amber/orange)
+  Double bogey+:         #e05a4a (red)
+
+  Scorecard cell backgrounds (table):
+    Eagle:    rgba(0,90,48,.45) with border rgba(100,200,120,.25)
+    Birdie:   rgba(0,90,48,.22)
+    Par:      transparent
+    Bogey:    rgba(160,40,28,.12)
+    Double+:  rgba(160,40,28,.25)
+
+Net Badge Colors (.nb-* classes):
+  Good (under par):      bg rgba(106,180,106,.18), text #7ddba4
+  Bad (over par):        bg rgba(224,90,74,.18), text #e05a4a
+  Even:                  bg rgba(218,240,218,.08), text rgba(218,240,218,.5)
+
+Stat Toggle Colors:
+  Active (hit):          bg rgba(106,180,106,.18), border rgba(106,180,106,.45), text #7ddba4
+  Miss:                  bg rgba(224,90,74,.15), border rgba(224,90,74,.4), text #e05a4a
+
+Chip/Badge Confirmation Colors:
+  Confirmed:             bg rgba(0,90,48,.25), border rgba(100,200,120,.25), text #7ddba4
+  Pending:               bg rgba(218,240,218,.05), border 1px dashed rgba(218,240,218,.2), text rgba(218,240,218,.35)
+
+
+TYPOGRAPHY
+----------
+
+Font Stack (loaded via Google Fonts):
+  1. Forum (serif)              — Display / headings / hero numbers
+  2. Old Standard TT (serif)    — App logo, password gate, body fallback
+  3. DM Sans (sans-serif)       — UI labels, buttons, data, chips, chat
+  4. DM Mono (monospace)        — Scorecard data cells
+
+Usage by Context:
+
+  APP HEADER / LOGO
+    Font: 'Old Standard TT', serif (actually rendered as inline SVG/image)
+    Style: italic, 900 weight
+    Color: var(--my) #fefe56
+
+  PAGE TITLES / HERO HEADINGS (course name, "Gentlemen Wagers", profile name)
+    Font: 'Forum', serif
+    Size: min(32px, 8.5vw) — responsive, caps at 32px
+    Weight: normal (400)
+    Style: normal (NOT italic)
+    Color: var(--mw) #daf0da
+    Line-height: 1.1
+
+  SECTION CATEGORY LABELS ("Pools", "P2P Bets", "House Props")
+    Font: 'Forum', serif
+    Size: 15px
+    Weight: normal
+    Color: var(--my) #fefe56
+    Style: normal
+    Letter-spacing: .02em
+
+  SCORECARD COLUMN HEADERS (Hole, Par, player names)
+    Font: 'Forum', serif
+    Size: 13px
+    Weight: normal
+    Color: var(--my2) #fefe56
+
+  HERO STAT NUMBERS (balance, total score)
+    Font: 'Forum', serif
+    Size: 38-40px (my-balance-amt: 38px, mr-total-score: 40px)
+    Weight: normal
+    Color: var(--my) or var(--mw)
+    Line-height: 1
+
+  MEDIUM STAT NUMBERS (stat values, line numbers)
+    Font: 'Forum', serif or 'DM Sans', sans-serif
+    Size: 24-32px
+    Weight: normal (Forum) or 900 (DM Sans)
+
+  WAGER CARD TITLES
+    Font: 'DM Sans', sans-serif
+    Size: 15px
+    Weight: 900
+    Color: var(--mw) #daf0da
+    Text-transform: uppercase
+    Letter-spacing: .02em
+    Line-height: 1.2
+
+  GAME WAGER TITLES
+    Font: 'DM Sans', sans-serif
+    Size: 15px
+    Weight: 900
+    Letter-spacing: .02em
+    Text-transform: uppercase
+    Color: var(--mw)
+
+  UI LABELS / MICRO LABELS
+    Font: 'DM Sans', sans-serif
+    Size: 9-10px
+    Weight: 700
+    Letter-spacing: .1em to .14em
+    Text-transform: uppercase
+    Color: rgba(218,240,218, .28 to .45)
+
+  BODY TEXT / DESCRIPTIONS
+    Font: 'DM Sans', sans-serif
+    Size: 13-15px
+    Weight: 500-600
+    Color: var(--mw) or rgba(218,240,218, .55-.75)
+    Line-height: 1.4-1.6
+
+  BUTTON TEXT
+    Font: 'DM Sans', sans-serif
+    Size: 11-13px
+    Weight: 600-700
+    Letter-spacing: .07em to .1em
+    Text-transform: uppercase
+
+  CHAT BUBBLES
+    Font: 'DM Sans', sans-serif
+    Size: 16px (input), 14px (messages)
+    Color: var(--mw)
+
+  BOTTOM NAV LABELS
+    Font: 'DM Sans', sans-serif
+    Size: 9px
+    Weight: 700
+    Letter-spacing: .07em
+    Text-transform: uppercase
+
+  SCORECARD CELLS
+    Font: 'DM Mono', monospace (via the table styling)
+    Size: ~14px
+    Weight: varies by score type
+
+
+SPACING & LAYOUT
+-----------------
+
+Safe Areas:
+  Top: env(safe-area-inset-top) — for iPhone notch/Dynamic Island
+  Bottom: env(safe-area-inset-bottom) — for home bar
+
+Bottom Nav:
+  Fixed, bottom: 0
+  Height: ~60px + env(safe-area-inset-bottom)
+  Background: #003d20
+  Border-top: 1px solid rgba(254,254,86,.2)
+  z-index: 100
+
+Content Panels:
+  Padding: 16px horizontal standard
+  Scorecard area padded to clear bottom nav (padding-bottom: 72px + safe area)
+
+Wager Cards:
+  Padding: 12px 14px
+  Margin-bottom: 8px
+  Border-radius: 10px
+
+Bottom Sheets (propose, accept, name picker):
+  Border-radius: 16px 16px 0 0
+  Border-top: 2px solid rgba(254,254,86,.3)
+  Padding: 20px 18px calc(24px + env(safe-area-inset-bottom))
+  Max-height: 88vh
+  Max-width: 480px
+
+
+BORDER & SURFACE PATTERNS
+---------------------------
+
+Card Surfaces:
+  Background: rgba(16,36,16,.9)
+  Border: 1px solid rgba(254,254,86,.15)
+  Border-radius: 10px
+
+Active/Pulsing Cards (open wagers):
+  Border-color: rgba(254,254,86,.45)
+  Animation: wcPulse 2.5s ease-in-out infinite (subtle border glow)
+
+Settled Win Cards:
+  Border-color: rgba(100,200,120,.45)
+
+Settled Loss Cards:
+  Border-color: rgba(218,240,218,.1)
+
+Input Fields:
+  Background: rgba(255,255,255,.06) to rgba(218,240,218,.07)
+  Border: 1px solid rgba(254,254,86,.22)
+  Border-radius: 8px
+  Focus border: var(--my3) #d4d400
+
+Buttons (primary CTA):
+  Background: var(--my3) #d4d400
+  Color: #0d1f0d (dark green text on yellow)
+  Border-radius: 10px
+
+Buttons (secondary / ghost):
+  Background: rgba(254,254,86,.08-.1)
+  Border: 1px solid rgba(254,254,86,.3-.4)
+  Color: #fefe56
+  Border-radius: 8px
+
+Confirmation Chips:
+  Confirmed: bg rgba(0,90,48,.25), border 1px solid rgba(100,200,120,.25), text #7ddba4
+  Pending: bg rgba(218,240,218,.05), border 1px dashed rgba(218,240,218,.2), text rgba(218,240,218,.35)
+  No checkmarks — state conveyed by color alone.
+
+Separator Lines:
+  Typically: 1px solid rgba(218,240,218,.05-.08) (very subtle)
+  Scorecard headers: 2px solid rgba(254,254,86,.22)
+
+Horizontal Rules / Section Dividers:
+  border-top: 1px solid rgba(218,240,218,.07)
+
+
+ICONOGRAPHY
+-----------
+- No icon library — emojis used for all icons
+- Notification bell: Custom inline SVG (Tabler Icons style), stroke: #fefe56
+- FAB (Floating Action Button): "+" character, DM Sans 34px weight 300
+- Score indicators use scorecard cell shapes:
+    Eagle: circle with double-ring border
+    Birdie: circle with single border
+    Par: no decoration
+    Bogey: rounded square border
+    Double+: square border
+- Stat toggles: checkmark character for hit/miss toggle
+
+
+MOTION & ANIMATION
+-------------------
+- Transitions: 0.12s-0.25s standard (buttons, toggles, opacity changes)
+- Touch feedback: transform scale(.88-.97) on :active
+- wager card pulse: @keyframes wcPulse — subtle border-color glow cycle
+- Toast (avatar upload, copy URL): opacity fade in/out
+- Bottom sheets: transform translateY(100%) -> 0 with cubic-bezier(.32,1,.4,1)
+- Notification drawer: same slide-up with backdrop-filter blur(3px)
+- Tour tooltip: opacity + translateY(8px) -> 0
+- Sync dot: pulse animation on successful remote update
+
+
+TOUCH TARGETS
+--------------
+- Minimum touch target: 44x44px (step buttons, stat toggles)
+- Score stepper buttons: 44x44px with 10px border-radius
+- FAB: 72x72px circle
+- Bottom nav tabs: full-width flex items, ~60px tall
+- All interactive elements use: touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+
+
+RESPONSIVE BEHAVIOR
+--------------------
+- Mobile-first design, max-width ~480px for sheets/modals
+- Font sizes use min() for responsive scaling: min(32px, 8.5vw)
+- Scorecard uses horizontal scroll (overflow-x: auto) for 18 holes
+- Front 9 / Back 9 toggle hides half the scorecard on mobile
+- No media queries — layout scales naturally via flexible units
+
+
+DARK THEME (Default & Only)
+-----------------------------
+The entire app is dark-themed. There is no light mode.
+All surfaces use low-opacity overlays on the deep green-black base.
+Text is always light (--mw green-white variants) on dark backgrounds.
+Transparency layers create depth:
+  - Cards: rgba(16,36,16,.9)
+  - Inputs: rgba(255,255,255,.06)
+  - Overlays: rgba(0,0,0,.55-.82)
+  - Dimmed text: rgba(218,240,218, .22 to .75) at various opacities
+
+
+Z-INDEX STACK
+--------------
+  1:        Scorecard sticky headers
+  50:       Chat panel
+  99:       FAB (wager propose button)
+  100:      Bottom navigation
+  300:      Avatar toast
+  400:      Room/password overlay
+  800-899:  Bottom sheet overlays and sheets
+  9000:     Notification log overlay
+  9998:     Tour overlay
+  9999:     Tour full-card overlays
+  10000:    Tour tooltips
+
 
 KEY TECHNICAL CONSTANTS
 ------------------------
-  const P = { ... }                  — Player data (name, handicaps, groups)
-  const PKEYS = Object.keys(P)       — Cached player key array (replaces all Object.keys(P) calls)
-  const D1 = [ ... ]                 — Day 1 group / side config
-  const D2 = [ ... ]                 — Day 2 pair config
-  const D3 = [ ... ]                 — Day 3 match config
-  const COURSES = { d1, d2, d3 }     — Course par / yardage / difficulty / rating / slope
-  const JSONBIN_ID = '69c6bfa3c3097a1dd568bcda'
-  const LS_DATA = 'wni-data-2026'    — localStorage key
-  const REQUIRED_WIPE_AT = 1774975508573  — Data epoch; bump to force global reset
-  const _PW_HASH = '19422146...'     — SHA-256 of 'scottsdale'
-  const _PW_KEY = 'wni-auth-2026'    — localStorage auth key
+  const ENV = 'prod'
+  const JSONBIN_ID = ENV==='prod' ? '69d00c0136566621a8782afb' : '69c6bfa3c3097a1dd568bcda'
+  const JSONBIN_KEY = '$2a$10$u8H4aaQDmmwyV6A6ieyFDeUhVJBxFvFU4PeBUJxtg.1mMUkrys7e.'
+  const LS_DATA = 'wni-data-2026-v3'
+  const REQUIRED_WIPE_AT = 1775502505000
+  const _PW_HASH = '19422146f941a4a55ee5d5c634c0fcdb32f46a6c2777420e3919c5561a160d87'
+  const _PW_KEY = 'wni-auth-2026'
+  Poll interval: 6000ms
+  Push debounce: 500ms
+  Presence threshold: 180000ms (3 minutes)
+  PLAYER_COLORS = { prentice:'#b8860b', cromer:'#2471a3', buzz:'#1e8449',
+    reese:'#c0392b', otero:'#7d3c98', ryder:'#148f77', simon:'#d35400', pat:'#5d6d7e' }
 
-Key state variables (all in-memory, persisted via getState()/applyRemoteState()):
+Key state variables:
   SC[day][key][holeIndex]            — Gross scores
   STATS[day][key][holeIndex]         — Secondary stats { fh, gir, putts, penalty }
   chatMessages[]                     — All chat messages
@@ -517,31 +812,6 @@ Key state variables (all in-memory, persisted via getState()/applyRemoteState())
   gameWagers{}                       — Game wagers
   drives{ g1, g2 }                   — D1 shamble drive tracker
   presenceData{}                     — Last-seen timestamps per player
+  mastersPicks{}                     — Masters Pool golfer picks per player
   alertedEvents (Set)                — Prevents duplicate alert firing
   chatAuthor                         — Current user's name (from localStorage)
-
-
-GITHUB / DEPLOYMENT WORKFLOW
-------------------------------
-The file is ~2.1 MB due to base64-embedded images, which GitHub renders as blank
-in the web UI (it shows the file as "binary-like" when over ~1MB). This is normal —
-the file is still valid and functions correctly when downloaded and opened locally
-or served via the live domain.
-
-Recommended update workflow:
-  1. Claude edits golf-trip.html in the working folder
-  2. Claude copies golf-trip.html to index.html (they must stay in sync)
-  3. User opens GitHub Desktop → sees the diff → commits → pushes
-  4. The live site at www.weneededthis.com updates automatically
-
-Do NOT use "git add -A" for this repo — only stage golf-trip.html and index.html.
-Assets/ folder (logos, etc.) is intentionally untracked; all assets are embedded.
-
-
-THINGS DECIDED AGAINST
-------------------------
-- Firebase real-time database — JSONbin was sufficient and required no account
-- Team-level aggregate points tracking — removed because teams change daily
-- Net scoring on Day 1 — evenly matched teams play gross shamble
-- Editable player names/pairings in the UI — hardcoded from tournament sheet
-- Empty initGameBlocks() function — removed (was dead code placeholder)
