@@ -2025,6 +2025,34 @@ const TEE_TIMES=[
 ];
 const _teeReminderFired=new Set();
 
+// Earliest tee time per day (wager cutoff — all non-KP bets must be active by then)
+const WAGER_CUTOFF={
+  d1:new Date(2026,3,9,15,0),   // Thu Apr 9, 3:00 PM
+  d2:new Date(2026,3,10,8,55),  // Fri Apr 10, 8:55 AM
+  d3:new Date(2026,3,11,9,12),  // Sat Apr 11, 9:12 AM
+};
+function isDayPastTee(day){return WAGER_CUTOFF[day]&&new Date()>=WAGER_CUTOFF[day];}
+
+// Auto-close unconfirmed wagers once the round starts (runs each poll cycle)
+function _autoCloseWagers(){
+  let changed=false;
+  bets.forEach(b=>{
+    if(b.status==='settled'||b.status==='void')return;
+    if(!isDayPastTee(b.day))return;
+    // KPs are exempt — they happen during the round
+    if(b.type==='kp')return;
+    // House props with buy-ins: lock to 'active' (no more buy-ins, but bet is live)
+    if(b.type==='house-prop'&&b.status==='open'&&b.buyins&&b.buyins.length>0){b.status='active';changed=true;return;}
+    // P2P bets still 'open' (no opponent) → void
+    if(b.status==='open'&&b.type!=='house-prop'){b.status='void';changed=true;return;}
+    // House props with zero buy-ins → void
+    if(b.status==='open'&&b.type==='house-prop'&&(!b.buyins||b.buyins.length===0)){b.status='void';changed=true;return;}
+    // Pools still in 'voting' without enough approvals → void
+    if(b.status==='voting'){b.status='void';changed=true;return;}
+  });
+  if(changed){pushRemote(getState(),true);if(currentTab==='bets')buildWagers();updateBetsBadge();}
+}
+
 function _fmtTeeTime(time24){
   const [h,m]=time24.split(':').map(Number);
   const ampm=h>=12?'PM':'AM';
@@ -2583,6 +2611,8 @@ async function pollRemote(){
     if(!alertsReady){alertsReady=true;}
     else{runAlertChecks(_snapBefore,_wagersBefore,_statsBefore);}
   }
+  // Auto-close unconfirmed wagers past tee time
+  _autoCloseWagers();
   // Always refresh presence dots (time-based active/inactive can change without remote data changing)
   updatePresenceDots();
   // Push presence via proper merge path (no raw PUT that could clobber data)
@@ -3836,11 +3866,13 @@ async function fetchMastersScores(){
       try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data}));}catch(e){}
       applyMastersDelayed();
       return;
-    }
-  }catch(e){}
+    }else{console.warn('[Masters] fetch failed:',resp.status);}
+  }catch(e){console.warn('[Masters] fetch error:',e.message||e);}
   // Fallback: try to load from cache
   applyMastersDelayed();
 }
+// Recurring Masters poll — every 5 minutes during tournament week
+setInterval(fetchMastersScores,300000);
 
 function applyMastersDelayed(){
   try{
@@ -3875,7 +3907,7 @@ function applyMastersDelayed(){
       buildMastersLB();
       if(currentTab==='bets')buildWagers();
     }
-  }catch(e){}
+  }catch(e){console.warn('[Masters] parse error:',e.message||e);}
 }
 
 function maybeShowOnboarding(){
@@ -6448,6 +6480,10 @@ function isDuplicateBet(newBet){
 // ── Submit ────────────────────────────────────────
 function submitPropose(){
   const name=chatAuthor;if(!name)return;
+  // Block new wagers past tee time (KPs exempt)
+  const propDay=propCategory==='house'?houseSt.day:propCategory==='pool'?poolSt.day:propSt.day;
+  const propType=propCategory==='house'?'house-prop':propCategory==='pool'?'pool':propSt.type;
+  if(propType!=='kp'&&isDayPastTee(propDay)){alert('Wagers for this day are locked — the round has started.');return;}
   if(propCategory==='house'){
     const {day,player,statType,line,propSide,oddsPreset,exposureCap}=houseSt;
     if(!day||!player||!statType||line==null||!propSide||!oddsPreset)return;
@@ -6584,6 +6620,8 @@ function cancelBet(betId){
 function submitAccept(){
   const name=chatAuthor;if(!name||!acceptBetId)return;
   const bet=bets.find(b=>b.id===acceptBetId);if(!bet)return;
+  // Block accepting wagers past tee time (KPs exempt)
+  if(bet.type!=='kp'&&isDayPastTee(bet.day)){alert('Wagers for this day are locked — the round has started.');closeAcceptSheet();return;}
   if(acceptMode==='house-buyin'){
     const amt=parseFloat(document.getElementById('ac-buyin-amt')?.value)||0;if(!amt)return;
     if(bet.status!=='open')return;
