@@ -2315,6 +2315,28 @@ function _checkScoreAlerts(prev){
   });
 }
 
+function _d1GroupState(snap){
+  const sc=snap||SC;const par=cPar('d1');
+  function grp(keys){let tot=0,holes=0,parTot=0,thru=0;
+    for(let h=0;h<18;h++){let best=null;keys.forEach(k=>{const g=sc.d1[k][h];if(g!=null){const v=parseInt(g);if(best==null||v<best)best=v;}});if(best!=null){tot+=best;parTot+=par[h];holes++;thru=h+1;}}
+    return{diff:holes>0?tot-parTot:null,thru};}
+  return{g1:grp(D1[0].keys),g2:grp(D1[1].keys)};
+}
+function _d2TeamState(snap){
+  const sc=snap||SC;const par=cPar('d2');
+  const teams=[{keys:D2[0].sA,key:'d2_m1a'},{keys:D2[0].sB,key:'d2_m1b'},{keys:D2[1].sA,key:'d2_m2a'},{keys:D2[1].sB,key:'d2_m2b'}];
+  return teams.map(t=>{let tot=0,holes=0,parTot=0,thru=0;
+    for(let h=0;h<18;h++){let best=null;t.keys.forEach(k=>{const g=sc.d2[k][h];if(g!=null){const n=net(parseInt(g),phcp(k,'d2'),h,'d2');if(best==null||n<best)best=n;}});if(best!=null){tot+=best;parTot+=par[h];holes++;thru=h+1;}}
+    return{key:t.key,diff:holes>0?tot-parTot:null,thru};});
+}
+function _d3MatchState(snap){
+  const sc=snap||SC;
+  return D3.map(pair=>{let diff=0,thru=0;
+    for(let h=0;h<18;h++){let nA=null,nB=null;pair.sA.forEach(k=>{const g=sc.d3[k][h];if(g!=null){const n=net(parseInt(g),phcp(k,'d3'),h,'d3');if(nA==null||n<nA)nA=n;}});pair.sB.forEach(k=>{const g=sc.d3[k][h];if(g!=null){const n=net(parseInt(g),phcp(k,'d3'),h,'d3');if(nB==null||n<nB)nB=n;}});if(nA!=null&&nB!=null){if(nA<nB)diff++;else if(nB<nA)diff--;thru=h+1;}}
+    const aN=teamName(D3.indexOf(pair)===0?'d3_m0a':'d3_m1a');
+    const bN=teamName(D3.indexOf(pair)===0?'d3_m0b':'d3_m1b');
+    return{diff,thru,aN,bN};});
+}
 function _checkLeaderAlerts(prevSnap){
   // ── D1: Group best gross ──────────────────────────
   const cD1=_d1GroupState(null),pD1=_d1GroupState(prevSnap);
