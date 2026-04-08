@@ -1574,6 +1574,15 @@ function applyRemoteState(state){
     // Drop pre-wipe sim bets
     state.bets.forEach(b=>{if((b.ts||0)<REQUIRED_WIPE_AT)return;if(!merged[b.id]||(rank[b.status]||0)>=(rank[merged[b.id].status]||0))merged[b.id]=b;});
     bets=Object.values(merged).filter(b=>(b.ts||0)>=REQUIRED_WIPE_AT).sort((a,b)=>a.ts-b.ts);
+    // Fix house props that were incorrectly set to 'active' before the uncapped buy-in fix.
+    // A house prop should be 'open' if: not settled/void, round hasn't started, and cap isn't full.
+    bets.forEach(b=>{
+      if(b.type!=='house-prop'||b.status!=='active')return;
+      if(typeof isDayPastTee==='function'&&isDayPastTee(b.day))return; // round started, stay active
+      const hExp=(b.buyins||[]).reduce((s,bi)=>s+Math.round(bi.amount*(b.oddsNum||1)/(b.oddsDen||1)),0);
+      if(b.exposureCap>0&&hExp>=b.exposureCap)return; // cap hit, stay active
+      b.status='open';
+    });
     settleBets();
     if(currentTab==='bets')buildWagers();
     updateBetsBadge();
