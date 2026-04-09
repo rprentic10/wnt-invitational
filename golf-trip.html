@@ -1383,7 +1383,7 @@ const openHoles=new Set(); // UI state: which hole detail rows are expanded
 const MASTERS_LOCK = new Date('2026-04-09T07:30:00-04:00').getTime(); // 30min before Thu first tee (8:00 AM ET)
 const MASTERS_BUYIN = 20;
 const MASTERS_CUT_SCORE = 80; // score assigned to cut golfers for R3/R4
-const MASTERS_DELAY_MS = 3 * 60 * 60 * 1000; // 3 hours
+const MASTERS_DELAY_MS = 5 * 60 * 1000; // 5 minutes (only show completed rounds anyway, no spoiler risk)
 const MASTERS_TIERS = [
   { tier:1, label:'Tier 1 — Elite', players:[
     {id:'scheffler',first:'Scottie',last:'Scheffler'},
@@ -3865,9 +3865,9 @@ function buildMastersLB(){
     html+='</div>';
   });
   if(!hasScores){
-    html+='<div class="masters-delayed-note">Live scores appear once the tournament begins (3-hour delay)</div>';
+    html+='<div class="masters-delayed-note">Completed round scores only · Updates every 5 min</div>';
   }else{
-    html+='<div class="masters-delayed-note">Scores delayed 3 hours to avoid TV spoilers</div>';
+    html+='<div class="masters-delayed-note">Completed 18-hole rounds only · Updates every 5 min</div>';
   }
   html+='</div></div>';
   cont.innerHTML=html;
@@ -3923,27 +3923,39 @@ async function fetchMastersScores(){
   // Throttle: fetch every 10 minutes
   if(now-mastersLastFetch<600000)return;
   mastersLastFetch=now;
-  // Try masters.com first, then ESPN as fallback
-  let fetched=false;
-  try{
-    const resp=await fetch('https://www.masters.com/en_US/scores/feeds/2026/scores.json',{cache:'no-store'});
-    if(resp.ok){
-      const data=await resp.json();
-      try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data,src:'masters'}));}catch(e){}
-      fetched=true;
-    }else{console.warn('[Masters] masters.com feed:',resp.status);}
-  }catch(e){console.warn('[Masters] masters.com error:',e.message||e);}
-  // ESPN fallback
-  if(!fetched){
-    try{
-      const resp2=await fetch('https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard?event=401811941',{cache:'no-store'});
-      if(resp2.ok){
-        const data=await resp2.json();
-        try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data,src:'espn'}));}catch(e){}
-        fetched=true;
-      }else{console.warn('[Masters] ESPN feed:',resp2.status);}
-    }catch(e){console.warn('[Masters] ESPN error:',e.message||e);}
+  // Try ESPN first (more reliable), then masters.com as fallback
+  // Use CORS proxies to bypass browser CORS restrictions
+  const PROXIES=['https://corsproxy.io/?','https://api.allorigins.win/raw?url='];
+  async function proxyFetch(url){
+    for(const px of PROXIES){
+      try{
+        const resp=await fetch(px+encodeURIComponent(url),{cache:'no-store'});
+        if(resp.ok)return await resp.json();
+        console.warn('[Masters] proxy',px,'status:',resp.status);
+      }catch(e){console.warn('[Masters] proxy',px,'error:',e.message||e);}
+    }
+    // Last resort: direct fetch (works if no CORS restriction)
+    try{const resp=await fetch(url,{cache:'no-store'});if(resp.ok)return await resp.json();}catch(e){}
+    return null;
   }
+  let fetched=false;
+  // ESPN
+  const espnData=await proxyFetch('https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard?event=401811941');
+  if(espnData){
+    console.log('[Masters] ESPN feed OK, players:',espnData.events?.[0]?.competitions?.[0]?.competitors?.length||0);
+    try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data:espnData,src:'espn'}));}catch(e){}
+    fetched=true;
+  }
+  // masters.com fallback
+  if(!fetched){
+    const mastersData=await proxyFetch('https://www.masters.com/en_US/scores/feeds/2026/scores.json');
+    if(mastersData){
+      console.log('[Masters] masters.com feed OK');
+      try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data:mastersData,src:'masters'}));}catch(e){}
+      fetched=true;
+    }
+  }
+  if(!fetched){console.warn('[Masters] All feeds failed — scores will not update');}
   applyMastersDelayed();
 }
 // Recurring Masters poll — every 5 minutes during tournament week
