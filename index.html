@@ -1383,7 +1383,7 @@ const openHoles=new Set(); // UI state: which hole detail rows are expanded
 const MASTERS_LOCK = new Date('2026-04-09T07:30:00-04:00').getTime(); // 30min before Thu first tee (8:00 AM ET)
 const MASTERS_BUYIN = 20;
 const MASTERS_CUT_SCORE = 80; // score assigned to cut golfers for R3/R4
-const MASTERS_DELAY_MS = 5 * 60 * 1000; // 5 minutes (only show completed rounds anyway, no spoiler risk)
+const MASTERS_DELAY_MS = 0; // no delay — we only show completed 18-hole rounds anyway
 const MASTERS_TIERS = [
   { tier:1, label:'Tier 1 — Elite', players:[
     {id:'scheffler',first:'Scottie',last:'Scheffler'},
