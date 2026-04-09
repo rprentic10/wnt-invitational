@@ -3751,13 +3751,20 @@ function autoFillMasters(){
 }
 
 function mastersPlayerScore(pid){
-  // Returns total score for a Masters golfer (4-round total, cut=80 for R3/R4)
+  // Returns total score for a Masters golfer — only counts COMPLETED 18-hole rounds
+  // In-progress rounds are excluded; cut players get penalty score for R3/R4
   const s=mastersScores[pid];
   if(!s)return null;
+  const currentRound=s.currentRound||1;
+  const thru=parseInt(s.thru)||0;
   let total=0;let rounds=0;
   [s.r1,s.r2,s.r3,s.r4].forEach((r,i)=>{
-    if(r!=null){total+=r;rounds++;}
-    else if(i>=2&&s.cut){total+=MASTERS_CUT_SCORE;rounds++;}
+    const roundNum=i+1;
+    if(r!=null){
+      // Only count this round if it's a prior completed round, or if it's the current round and thru=18/F
+      const isComplete=roundNum<currentRound||(roundNum===currentRound&&(thru>=18||s.thru==='F'));
+      if(isComplete){total+=r;rounds++;}
+    }else if(i>=2&&s.cut){total+=MASTERS_CUT_SCORE;rounds++;}
   });
   return rounds>0?total:null;
 }
@@ -3816,10 +3823,12 @@ function buildMastersLB(){
       const dropped=sc!=null&&!counting&&s.best4Indices.size>=4;
       const cls=counting?'masters-lb-grow counting':dropped?'masters-lb-grow dropped':'masters-lb-grow';
       const ms=mastersScores[pid];
-      const r1=ms&&ms.r1!=null?ms.r1:'—';
-      const r2=ms&&ms.r2!=null?ms.r2:'—';
-      const r3=ms&&ms.r3!=null?ms.r3:(ms&&ms.cut?MASTERS_CUT_SCORE:'—');
-      const r4=ms&&ms.r4!=null?ms.r4:(ms&&ms.cut?MASTERS_CUT_SCORE:'—');
+      const _cr=ms?.currentRound||1;const _th=parseInt(ms?.thru)||0;const _isF=ms?.thru==='F';
+      function _rd(r,rn){if(r==null)return'—';const done=rn<_cr||(rn===_cr&&(_th>=18||_isF));return done?r:'—';}
+      const r1=ms?_rd(ms.r1,1):'—';
+      const r2=ms?_rd(ms.r2,2):'—';
+      const r3=ms&&ms.r3!=null?_rd(ms.r3,3):(ms&&ms.cut?MASTERS_CUT_SCORE:'—');
+      const r4=ms&&ms.r4!=null?_rd(ms.r4,4):(ms&&ms.cut?MASTERS_CUT_SCORE:'—');
       const tot=sc!=null?sc:'—';
       const cutTag=ms&&ms.cut?'<span class="masters-lb-cut">MC</span>':'';
       html+=`<div class="${cls}"><div class="masters-lb-gn">${mp.last}${cutTag}</div><div class="masters-lb-rd">${r1}</div><div class="masters-lb-rd">${r2}</div><div class="masters-lb-rd">${r3}</div><div class="masters-lb-rd">${r4}</div><div class="masters-lb-gt">${tot}</div></div>`;
@@ -3885,18 +3894,27 @@ async function fetchMastersScores(){
   // Throttle: fetch every 10 minutes
   if(now-mastersLastFetch<600000)return;
   mastersLastFetch=now;
+  // Try masters.com first, then ESPN as fallback
+  let fetched=false;
   try{
-    // Try masters.com scores feed (expected pattern based on prior years)
     const resp=await fetch('https://www.masters.com/en_US/scores/feeds/2026/scores.json',{cache:'no-store'});
     if(resp.ok){
       const data=await resp.json();
-      // Store raw data with timestamp for 3-hour delay
-      try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data}));}catch(e){}
-      applyMastersDelayed();
-      return;
-    }else{console.warn('[Masters] fetch failed:',resp.status);}
-  }catch(e){console.warn('[Masters] fetch error:',e.message||e);}
-  // Fallback: try to load from cache
+      try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data,src:'masters'}));}catch(e){}
+      fetched=true;
+    }else{console.warn('[Masters] masters.com feed:',resp.status);}
+  }catch(e){console.warn('[Masters] masters.com error:',e.message||e);}
+  // ESPN fallback
+  if(!fetched){
+    try{
+      const resp2=await fetch('https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard?event=401811941',{cache:'no-store'});
+      if(resp2.ok){
+        const data=await resp2.json();
+        try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data,src:'espn'}));}catch(e){}
+        fetched=true;
+      }else{console.warn('[Masters] ESPN feed:',resp2.status);}
+    }catch(e){console.warn('[Masters] ESPN error:',e.message||e);}
+  }
   applyMastersDelayed();
 }
 // Recurring Masters poll — every 5 minutes during tournament week
@@ -3906,30 +3924,55 @@ function applyMastersDelayed(){
   try{
     const raw=JSON.parse(localStorage.getItem('wni-masters-raw')||'null');
     if(!raw||!raw.data)return;
-    // Only apply data that's at least 3 hours old
     const now=Date.now();
     if(now-raw.ts<MASTERS_DELAY_MS)return;
-    // Parse masters.com format (we'll adapt once we see the actual schema)
-    // Expected: data.data.player[] with round scores
-    const players=raw.data.data?.player||raw.data.players||[];
     const newScores={};
-    players.forEach(p=>{
-      // Match by last name to our tier list
-      const match=Object.values(MASTERS_PLAYERS).find(mp=>
-        p.last_name?.toLowerCase()===mp.last.toLowerCase()||
-        p.display_name?.toLowerCase().includes(mp.last.toLowerCase())
-      );
-      if(!match)return;
-      newScores[match.id]={
-        r1:p.round1!=null?parseInt(p.round1):null,
-        r2:p.round2!=null?parseInt(p.round2):null,
-        r3:p.round3!=null?parseInt(p.round3):null,
-        r4:p.round4!=null?parseInt(p.round4):null,
-        total:p.topar!=null?parseInt(p.topar):null,
-        thru:p.thru||'',
-        cut:p.status==='C'||p.status==='cut',
-      };
-    });
+    if(raw.src==='espn'){
+      // ESPN format: data.events[0].competitions[0].competitors[]
+      const comp=(raw.data.events?.[0]?.competitions?.[0]?.competitors)||[];
+      comp.forEach(c=>{
+        const lastName=c.athlete?.lastName||c.athlete?.displayName?.split(' ').pop()||'';
+        const match=Object.values(MASTERS_PLAYERS).find(mp=>mp.last.toLowerCase()===lastName.toLowerCase());
+        if(!match)return;
+        const rounds=(c.linescores||[]).map(ls=>ls.value!=null?parseInt(ls.value):null);
+        const isCut=c.status?.type?.name==='cut'||c.status?.type?.description==='Cut';
+        // Only count completed rounds (18 holes)
+        const thru=parseInt(c.status?.thru)||0;
+        const currentRound=parseInt(c.status?.period)||1;
+        newScores[match.id]={
+          r1:rounds[0]!=null?rounds[0]:null,
+          r2:rounds[1]!=null?rounds[1]:null,
+          r3:rounds[2]!=null?rounds[2]:null,
+          r4:rounds[3]!=null?rounds[3]:null,
+          total:c.score!=null?parseInt(c.score):null,
+          thru:String(thru),
+          cut:isCut,
+          currentRound,
+        };
+      });
+    }else{
+      // masters.com format: data.data.player[] or data.players[]
+      const players=raw.data.data?.player||raw.data.players||[];
+      players.forEach(p=>{
+        const match=Object.values(MASTERS_PLAYERS).find(mp=>
+          p.last_name?.toLowerCase()===mp.last.toLowerCase()||
+          p.display_name?.toLowerCase().includes(mp.last.toLowerCase())
+        );
+        if(!match)return;
+        const thru=p.thru||'';
+        const isCut=p.status==='C'||p.status==='cut';
+        newScores[match.id]={
+          r1:p.round1!=null?parseInt(p.round1):null,
+          r2:p.round2!=null?parseInt(p.round2):null,
+          r3:p.round3!=null?parseInt(p.round3):null,
+          r4:p.round4!=null?parseInt(p.round4):null,
+          total:p.topar!=null?parseInt(p.topar):null,
+          thru,
+          cut:isCut,
+          currentRound:parseInt(p.current_round)||1,
+        };
+      });
+    }
     if(Object.keys(newScores).length>0){
       mastersScores=newScores;
       buildMastersLB();
