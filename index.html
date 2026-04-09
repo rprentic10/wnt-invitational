@@ -1368,6 +1368,10 @@ let gwInputOpen=null,gwAcceptOpen=null,gwVoteOpen=null,gwInputState={};
 let propSt={type:'ou',day:'d1',player:null,matchIdx:null,side:null,hole:null,participants:[],poolMode:false,customLine:null};
 let acceptBetId=null;
 Object.keys(P).forEach(k=>{SC.d1[k]={};SC.d2[k]={};SC.d3[k]={};});
+// Dirty-tracking for scores: tracks holes edited locally since last successful push
+// Format: { "d1|prentice|3": true } means hole 3 of d1 for prentice was edited locally
+const _scoreDirty={};
+const _statsDirty={};
 // Per-hole secondary stats: fh (fairway hit), gir, putts, penalty
 const STATS={d1:{},d2:{},d3:{}};
 Object.keys(P).forEach(k=>{STATS.d1[k]={};STATS.d2[k]={};STATS.d3[k]={};});
@@ -1506,11 +1510,13 @@ function applyRemoteState(state){
         const remote=state.scores[day][k];
         const local=SC[day][k];
         for(let h=0;h<18;h++){
+          const dk=day+'|'+k+'|'+h;
           const rVal=remote[h]!=null?parseInt(remote[h]):null;
-          const lVal=local[h]!=null?parseInt(local[h]):null;
-          // If local has a value, keep it (local-wins on conflict).
-          // If local is empty and remote has a value, accept the remote value.
-          if(lVal==null&&rVal!=null) local[h]=rVal;
+          // If this hole was edited locally (dirty), keep local value — it hasn't pushed yet
+          if(_scoreDirty[dk]) continue;
+          // Otherwise, remote is truth (allows corrections from any device to propagate)
+          if(rVal!=null) local[h]=rVal;
+          else if(local[h]!=null && rVal==null){/* keep local if remote is null — don't delete scores */}
         }
       }
     }));
@@ -1521,11 +1527,12 @@ function applyRemoteState(state){
         const remoteSt=state.stats[day][k];
         const localSt=STATS[day][k];
         for(let h=0;h<18;h++){
-          const rh=remoteSt[h],lh=localSt[h];
-          // If local hole has any stat data, keep it entirely (local-wins).
-          // If local is empty/undefined and remote has data, accept remote.
-          const localHasData=lh&&(lh.fh!=null||lh.gir!=null||lh.putts!=null||lh.penalty!=null);
-          if(!localHasData&&rh){localSt[h]=Object.assign(localSt[h]||{},rh);}
+          const dk=day+'|'+k+'|'+h;
+          // If this hole's stats were edited locally, keep local
+          if(_statsDirty[dk]) continue;
+          const rh=remoteSt[h];
+          // Otherwise remote wins (allows corrections to propagate)
+          if(rh){localSt[h]=Object.assign(localSt[h]||{},rh);}
         }
       }
     }));
@@ -1696,30 +1703,32 @@ async function pushRemote(state,immediate){
           const validRemote=latest.chat.messages.filter(m=>(m.ts||0)>=REQUIRED_WIPE_AT);
           fresh.chat.messages=dedupeMessages([...validRemote,...fresh.chat.messages]);
         }
-        // ── Merge scores: hole-by-hole, local-wins on conflict ──
+        // ── Merge scores: remote-wins unless locally dirty ──
         if(latest.scores){
           ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
             if(latest.scores[day]&&latest.scores[day][k]&&fresh.scores[day]&&fresh.scores[day][k]){
               const remote=latest.scores[day][k];
               const local=fresh.scores[day][k];
               for(let h=0;h<18;h++){
+                const dk=day+'|'+k+'|'+h;
+                if(_scoreDirty[dk]) continue; // local edit not yet pushed — keep it
                 const rVal=remote[h]!=null?parseInt(remote[h]):null;
-                const lVal=local[h]!=null?parseInt(local[h]):null;
-                if(lVal==null&&rVal!=null) local[h]=rVal;
+                if(rVal!=null) local[h]=rVal; // remote wins
               }
             }
           }));
         }
-        // ── Merge stats: hole-by-hole, local-wins on conflict ──
+        // ── Merge stats: remote-wins unless locally dirty ──
         if(latest.stats){
           ['d1','d2','d3'].forEach(day=>Object.keys(P).forEach(k=>{
             if(latest.stats[day]&&latest.stats[day][k]&&fresh.stats[day]&&fresh.stats[day][k]){
               const remoteSt=latest.stats[day][k];
               const localSt=fresh.stats[day][k];
               for(let h=0;h<18;h++){
-                const rh=remoteSt[h],lh=localSt[h];
-                const localHasData=lh&&(lh.fh!=null||lh.gir!=null||lh.putts!=null||lh.penalty!=null);
-                if(!localHasData&&rh){localSt[h]=Object.assign(localSt[h]||{},rh);}
+                const dk=day+'|'+k+'|'+h;
+                if(_statsDirty[dk]) continue;
+                const rh=remoteSt[h];
+                if(rh){localSt[h]=Object.assign(localSt[h]||{},rh);}
               }
             }
           }));
@@ -1789,7 +1798,12 @@ async function pushRemote(state,immediate){
         }
       }
       const r=await fetch(`${JSONBIN}/${JSONBIN_ID}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},body:JSON.stringify(fresh)});
-      if(r.ok){lastRemoteJson=JSON.stringify(fresh);pulse();}
+      if(r.ok){
+        lastRemoteJson=JSON.stringify(fresh);pulse();
+        // Clear dirty flags — our local edits are now in the bin
+        Object.keys(_scoreDirty).forEach(k=>delete _scoreDirty[k]);
+        Object.keys(_statsDirty).forEach(k=>delete _statsDirty[k]);
+      }
       else{console.warn('Save failed',r.status);}
     }catch(e){console.warn('Push failed',e);}
     finally{_pushInFlight=false;}
@@ -2668,6 +2682,7 @@ async function pollRemote(){
 function onScore(day,key,h,val){
   const v=parseInt(val);
   SC[day][key][h]=(isNaN(v)||v<1)?null:v;
+  _scoreDirty[day+'|'+key+'|'+h]=true;
   if(day==='d1')buildD1();else if(day==='d2')buildD2();else buildD3();
   updateLB();
   pushRemote(getState(),false);
@@ -4450,6 +4465,7 @@ function setHoleStat(day,key,h,stat,val){
   if(!STATS[day][key][h])STATS[day][key][h]={};
   if(val===null||val===undefined)delete STATS[day][key][h][stat];
   else STATS[day][key][h][stat]=val;
+  _statsDirty[day+'|'+key+'|'+h]=true;
   pushRemote(getState(),false);
   buildMyRound(day);
 }
