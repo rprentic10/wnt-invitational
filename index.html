@@ -1557,13 +1557,17 @@ function applyRemoteState(state){
     Object.keys(state.teamNames).forEach(k=>{if(state.teamNames[k])teamNames[k]=state.teamNames[k];});
   }
   // Masters picks: merge BEFORE bets/gameWagers so buildWagers has picks ready
+  // KEY RULE: you can only write YOUR OWN picks. Other players' picks always come from remote.
   if(state.mastersPicks&&typeof state.mastersPicks==='object'){
+    const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
     Object.keys(state.mastersPicks).forEach(k=>{
       const remote=state.mastersPicks[k];
-      if(!mastersPicks[k]||!mastersPicks[k].length){
-        mastersPicks[k]=remote;
-      }else if(remote&&remote.length>mastersPicks[k].length){
-        mastersPicks[k]=remote;
+      if(k===meKey){
+        // My own picks: local wins if I have them (I submitted them)
+        if(!mastersPicks[k]||!mastersPicks[k].length){mastersPicks[k]=remote;}
+      }else{
+        // Other players' picks: ALWAYS take remote (they own their picks, not me)
+        if(remote&&remote.length){mastersPicks[k]=remote;}
       }
     });
   }
@@ -1721,13 +1725,22 @@ async function pushRemote(state,immediate){
           }));
         }
         // ── Merge mastersPicks ──
+        // KEY RULE: only push YOUR OWN picks from local. All other players' picks come from remote.
         if(latest.mastersPicks&&typeof latest.mastersPicks==='object'){
           if(!fresh.mastersPicks)fresh.mastersPicks={};
+          const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
+          // First: take ALL remote picks as baseline (other people own their picks)
           Object.keys(latest.mastersPicks).forEach(k=>{
             const remote=latest.mastersPicks[k];
-            const local=fresh.mastersPicks[k];
-            if(!local||!local.length){fresh.mastersPicks[k]=remote;}
-            else if(remote&&remote.length>local.length){fresh.mastersPicks[k]=remote;}
+            if(k===meKey){
+              // My own picks: local wins if I have them
+              if(!fresh.mastersPicks[k]||!fresh.mastersPicks[k].length){
+                fresh.mastersPicks[k]=remote;
+              }
+            }else{
+              // Other players' picks: ALWAYS use remote (never overwrite with my stale copy)
+              if(remote&&remote.length){fresh.mastersPicks[k]=remote;}
+            }
           });
         }
         // ── Merge bets: combine by ID, local-wins on conflict ──
@@ -3729,25 +3742,25 @@ function submitMastersPicks(){
   buildMastersLB();
 }
 function autoFillMasters(){
-  // At lock time, auto-fill any missing picks with random selections
+  // At lock time, auto-fill ONLY MY missing picks with random selections
+  // NEVER touch other players' picks — they own their own picks
   if(!mastersLocked())return;
+  const me=chatAuthor;if(!me)return;
+  const myKey=Object.keys(P).find(k=>P[k].name===me);if(!myKey)return;
+  if(!mastersPicks[myKey])mastersPicks[myKey]=[];
+  const picks=mastersPicks[myKey];
   let changed=false;
-  Object.keys(P).forEach(k=>{
-    if(!mastersPicks[k])mastersPicks[k]=[];
-    const picks=mastersPicks[k];
-    MASTERS_TIERS.forEach((t,i)=>{
-      if(!picks[i]){
-        // Pick a random player from this tier not already picked by anyone
-        const taken=new Set();
-        Object.values(mastersPicks).forEach(pp=>{if(pp[i])taken.add(pp[i]);});
-        const avail=t.players.filter(p=>!taken.has(p.id));
-        const pick=avail.length?avail[Math.floor(Math.random()*avail.length)]:t.players[Math.floor(Math.random()*t.players.length)];
-        picks[i]=pick.id;
-        changed=true;
-      }
-    });
+  MASTERS_TIERS.forEach((t,i)=>{
+    if(!picks[i]){
+      const taken=new Set();
+      Object.values(mastersPicks).forEach(pp=>{if(pp[i])taken.add(pp[i]);});
+      const avail=t.players.filter(p=>!taken.has(p.id));
+      const pick=avail.length?avail[Math.floor(Math.random()*avail.length)]:t.players[Math.floor(Math.random()*t.players.length)];
+      picks[i]=pick.id;
+      changed=true;
+    }
   });
-  if(changed)pushRemote(getState(),false);
+  if(changed)pushRemote(getState(),true);
 }
 
 function mastersPlayerScore(pid){
