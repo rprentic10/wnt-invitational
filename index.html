@@ -1572,7 +1572,17 @@ function applyRemoteState(state){
     const merged={};
     bets.forEach(b=>merged[b.id]=b);
     // Drop pre-wipe sim bets
-    state.bets.forEach(b=>{if((b.ts||0)<REQUIRED_WIPE_AT)return;if(!merged[b.id]||(rank[b.status]||0)>=(rank[merged[b.id].status]||0))merged[b.id]=b;});
+    state.bets.forEach(b=>{if((b.ts||0)<REQUIRED_WIPE_AT)return;
+      if(!merged[b.id]){merged[b.id]=b;return;}
+      const local=merged[b.id];
+      // House props: merge buyins arrays (combine unique entries by name+ts) before picking winner
+      if(b.type==='house-prop'&&local.type==='house-prop'&&b.buyins&&local.buyins){
+        const seen=new Set(local.buyins.map(bi=>bi.name+'|'+bi.ts));
+        b.buyins.forEach(bi=>{const k=bi.name+'|'+bi.ts;if(!seen.has(k)){local.buyins.push(bi);seen.add(k);}});
+        b.buyins=local.buyins;
+      }
+      if((rank[b.status]||0)>=(rank[local.status]||0))merged[b.id]=b;
+    });
     bets=Object.values(merged).filter(b=>(b.ts||0)>=REQUIRED_WIPE_AT).sort((a,b)=>a.ts-b.ts);
     // Fix house props that were incorrectly set to 'active' before the uncapped buy-in fix.
     // A house prop should be 'open' if: not settled/void, round hasn't started, and cap isn't full.
@@ -1724,7 +1734,14 @@ async function pushRemote(state,immediate){
         if(Array.isArray(latest.bets)){
           const merged={};
           latest.bets.filter(b=>(b.ts||0)>=REQUIRED_WIPE_AT).forEach(b=>merged[b.id]=b);
-          (fresh.bets||[]).forEach(b=>merged[b.id]=b);
+          (fresh.bets||[]).forEach(b=>{
+            // House props: merge buyins from remote before local overwrites
+            if(b.type==='house-prop'&&merged[b.id]&&merged[b.id].buyins&&b.buyins){
+              const seen=new Set(b.buyins.map(bi=>bi.name+'|'+bi.ts));
+              merged[b.id].buyins.forEach(bi=>{const k=bi.name+'|'+bi.ts;if(!seen.has(k)){b.buyins.push(bi);seen.add(k);}});
+            }
+            merged[b.id]=b;
+          });
           fresh.bets=Object.values(merged);
         }
         // ── Merge gameWagers: timestamp-wins (matches applyRemoteState) ──
