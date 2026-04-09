@@ -3844,7 +3844,8 @@ function buildMastersLB(){
       const r4=ms&&ms.r4!=null?_rd(ms.r4,4):(ms&&ms.cut?MASTERS_CUT_SCORE:'—');
       const tot=sc!=null?sc:'—';
       const cutTag=ms&&ms.cut?'<span class="masters-lb-cut">MC</span>':'';
-      html+=`<div class="${cls}"><div class="masters-lb-gn">${mp.last}${cutTag}</div><div class="masters-lb-rd">${r1}</div><div class="masters-lb-rd">${r2}</div><div class="masters-lb-rd">${r3}</div><div class="masters-lb-rd">${r4}</div><div class="masters-lb-gt">${tot}</div></div>`;
+      const dispName=mp.last==='Hojgaard'?mp.first.charAt(0)+'. '+mp.last:mp.last;
+      html+=`<div class="${cls}"><div class="masters-lb-gn">${dispName}${cutTag}</div><div class="masters-lb-rd">${r1}</div><div class="masters-lb-rd">${r2}</div><div class="masters-lb-rd">${r3}</div><div class="masters-lb-rd">${r4}</div><div class="masters-lb-gt">${tot}</div></div>`;
     });
     html+='</div>';
   });
