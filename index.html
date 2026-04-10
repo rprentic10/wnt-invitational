@@ -1465,7 +1465,9 @@ function mDisp(p){return p.first.charAt(0)+'. '+p.last;}
 
 // Masters state
 let mastersPicks = {}; // { prentice:['scheffler','hovland',...], cromer:[...], ... }
-let mastersPicksLocked = {}; // Immutable copy — old code can't touch this field, new code always restores from it
+let mastersPicksLocked = {}; // Immutable copy — persisted to localStorage as backup against old-code bin wipes
+try{const _mpl=JSON.parse(localStorage.getItem('wni-masters-locked')||'{}');if(_mpl&&typeof _mpl==='object')mastersPicksLocked=_mpl;}catch(e){}
+function _saveLocked(){try{localStorage.setItem('wni-masters-locked',JSON.stringify(mastersPicksLocked));}catch(e){}}
 let mastersScores = {}; // from live feed: { scheffler:{r1:68,r2:70,r3:null,r4:null,total:-8,thru:'F',cut:false}, ... }
 let mastersLastFetch = 0;
 let mastersTempPicks = {}; // temp state while pick sheet is open: {1:'scheffler', 2:'hovland', ...}
@@ -1565,17 +1567,19 @@ function applyRemoteState(state){
     Object.keys(state.teamNames).forEach(k=>{if(state.teamNames[k])teamNames[k]=state.teamNames[k];});
   }
   // Masters picks: mastersPicksLocked is the source of truth — immune to old-code overwrites
-  // Merge mastersPicksLocked from remote (NEVER bootstrap from mastersPicks — that's corruptible)
+  // mastersPicksLocked is persisted to localStorage so it survives even if old code nukes the bin field
   if(state.mastersPicksLocked&&typeof state.mastersPicksLocked==='object'){
     const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
+    let _lockChanged=false;
     Object.keys(state.mastersPicksLocked).forEach(k=>{
       const remote=state.mastersPicksLocked[k];
       if(k===meKey){
-        if(!mastersPicksLocked[k]||!mastersPicksLocked[k].length){mastersPicksLocked[k]=remote;}
+        if(!mastersPicksLocked[k]||!mastersPicksLocked[k].length){mastersPicksLocked[k]=remote;_lockChanged=true;}
       }else{
-        if(remote&&remote.length){mastersPicksLocked[k]=remote;}
+        if(remote&&remote.length){mastersPicksLocked[k]=remote;_lockChanged=true;}
       }
     });
+    if(_lockChanged)_saveLocked();
   }
   // ALWAYS restore mastersPicks from mastersPicksLocked (repairs old-code damage)
   // If mastersPicksLocked doesn't have a player yet, fall back to mastersPicks from remote
@@ -3772,6 +3776,7 @@ function submitMastersPicks(){
   for(let i=1;i<=6;i++)picks.push(mastersTempPicks[i]||null);
   mastersPicks[myKey]=picks;
   mastersPicksLocked[myKey]=picks.slice();
+  _saveLocked();
   closeMastersPicks();
   pushRemote(getState(),true);
   if(currentTab==='bets')buildWagers();
@@ -3798,6 +3803,7 @@ function autoFillMasters(){
   });
   if(changed){
     mastersPicksLocked[myKey]=picks.slice();
+    _saveLocked();
     pushRemote(getState(),true);
   }
 }
