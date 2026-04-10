@@ -3977,18 +3977,20 @@ function applyMastersDelayed(){
         if(!match)return;
         const rounds=(c.linescores||[]).map(ls=>ls.value!=null?parseInt(ls.value):null);
         const isCut=c.status?.type?.name==='cut'||c.status?.type?.description==='Cut';
-        // Only count completed rounds (18 holes)
-        const thru=parseInt(c.status?.thru)||0;
-        const currentRound=parseInt(c.status?.period)||1;
+        // Figure out how many rounds are completed based on actual linescore data
+        // If a round has a score, it's done. Don't rely on status.thru/period — ESPN is inconsistent.
+        let completedRounds=0;
+        rounds.forEach(r=>{if(r!=null)completedRounds++;});
         newScores[match.id]={
           r1:rounds[0]!=null?rounds[0]:null,
           r2:rounds[1]!=null?rounds[1]:null,
           r3:rounds[2]!=null?rounds[2]:null,
           r4:rounds[3]!=null?rounds[3]:null,
           total:c.score!=null?parseInt(c.score):null,
-          thru:String(thru),
+          thru:'F',
           cut:isCut,
-          currentRound,
+          // Set currentRound to completedRounds so all scored rounds show as complete
+          currentRound:completedRounds,
         };
       });
     }else{
