@@ -1383,7 +1383,7 @@ const openHoles=new Set(); // UI state: which hole detail rows are expanded
 const MASTERS_LOCK = new Date('2026-04-09T07:30:00-04:00').getTime(); // 30min before Thu first tee (8:00 AM ET)
 const MASTERS_BUYIN = 20;
 const MASTERS_CUT_SCORE = 80; // score assigned to cut golfers for R3/R4
-const MASTERS_DELAY_MS = 0; // no delay — we only show completed 18-hole rounds anyway
+const MASTERS_DELAY_MS = 3 * 60 * 60 * 1000; // 3-hour spoiler delay per round
 const MASTERS_TIERS = [
   { tier:1, label:'Tier 1 — Elite', players:[
     {id:'scheffler',first:'Scottie',last:'Scheffler'},
@@ -3779,20 +3779,14 @@ function autoFillMasters(){
 }
 
 function mastersPlayerScore(pid){
-  // Returns total score for a Masters golfer — only counts COMPLETED 18-hole rounds
-  // In-progress rounds are excluded; cut players get penalty score for R3/R4
+  // Returns total score for a Masters golfer — only counts rounds that have cleared the delay
+  // Delayed rounds show as null in mastersScores, so just sum non-null rounds
   const s=mastersScores[pid];
   if(!s)return null;
-  const currentRound=s.currentRound||1;
-  const thru=parseInt(s.thru)||0;
   let total=0;let rounds=0;
   [s.r1,s.r2,s.r3,s.r4].forEach((r,i)=>{
-    const roundNum=i+1;
-    if(r!=null){
-      // Only count this round if it's a prior completed round, or if it's the current round and thru=18/F
-      const isComplete=roundNum<currentRound||(roundNum===currentRound&&(thru>=18||s.thru==='F'));
-      if(isComplete){total+=r;rounds++;}
-    }else if(i>=2&&s.cut){total+=MASTERS_CUT_SCORE;rounds++;}
+    if(r!=null){total+=r;rounds++;}
+    else if(i>=2&&s.cut){total+=MASTERS_CUT_SCORE;rounds++;}
   });
   return rounds>0?total:null;
 }
@@ -3865,9 +3859,9 @@ function buildMastersLB(){
     html+='</div>';
   });
   if(!hasScores){
-    html+='<div class="masters-delayed-note">Completed round scores only · Updates every 5 min</div>';
+    html+='<div class="masters-delayed-note">Completed 18-hole rounds · 3-hour delay</div>';
   }else{
-    html+='<div class="masters-delayed-note">Completed 18-hole rounds only · Updates every 5 min</div>';
+    html+='<div class="masters-delayed-note">Completed 18-hole rounds · 3-hour delay to avoid spoilers</div>';
   }
   html+='</div></div>';
   cont.innerHTML=html;
@@ -3943,7 +3937,7 @@ async function fetchMastersScores(){
   const espnData=await proxyFetch('https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard?event=401811941');
   if(espnData){
     console.log('[Masters] ESPN feed OK, players:',espnData.events?.[0]?.competitions?.[0]?.competitors?.length||0);
-    try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data:espnData,src:'espn'}));}catch(e){}
+    try{localStorage.setItem('wni-masters-raw',JSON.stringify({data:espnData,src:'espn'}));}catch(e){}
     fetched=true;
   }
   // masters.com fallback
@@ -3951,7 +3945,7 @@ async function fetchMastersScores(){
     const mastersData=await proxyFetch('https://www.masters.com/en_US/scores/feeds/2026/scores.json');
     if(mastersData){
       console.log('[Masters] masters.com feed OK');
-      try{localStorage.setItem('wni-masters-raw',JSON.stringify({ts:now,data:mastersData,src:'masters'}));}catch(e){}
+      try{localStorage.setItem('wni-masters-raw',JSON.stringify({data:mastersData,src:'masters'}));}catch(e){}
       fetched=true;
     }
   }
@@ -3961,66 +3955,71 @@ async function fetchMastersScores(){
 // Recurring Masters poll — every 5 minutes during tournament week
 setInterval(fetchMastersScores,300000);
 
+function _parseMastersRaw(raw){
+  // Parse feed data into per-player score objects (all rounds, no delay filtering)
+  const scores={};
+  if(raw.src==='espn'){
+    const comp=(raw.data.events?.[0]?.competitions?.[0]?.competitors)||[];
+    comp.forEach(c=>{
+      const lastName=c.athlete?.lastName||c.athlete?.displayName?.split(' ').pop()||'';
+      const match=Object.values(MASTERS_PLAYERS).find(mp=>mp.last.toLowerCase()===lastName.toLowerCase());
+      if(!match)return;
+      const rounds=(c.linescores||[]).map(ls=>ls.value!=null?parseInt(ls.value):null);
+      const isCut=c.status?.type?.name==='cut'||c.status?.type?.description==='Cut';
+      scores[match.id]={r1:rounds[0]??null,r2:rounds[1]??null,r3:rounds[2]??null,r4:rounds[3]??null,cut:isCut};
+    });
+  }else{
+    const players=raw.data.data?.player||raw.data.players||[];
+    players.forEach(p=>{
+      const match=Object.values(MASTERS_PLAYERS).find(mp=>
+        p.last_name?.toLowerCase()===mp.last.toLowerCase()||
+        p.display_name?.toLowerCase().includes(mp.last.toLowerCase())
+      );
+      if(!match)return;
+      const isCut=p.status==='C'||p.status==='cut';
+      scores[match.id]={r1:p.round1!=null?parseInt(p.round1):null,r2:p.round2!=null?parseInt(p.round2):null,r3:p.round3!=null?parseInt(p.round3):null,r4:p.round4!=null?parseInt(p.round4):null,cut:isCut};
+    });
+  }
+  return scores;
+}
+
 function applyMastersDelayed(){
   try{
     const raw=JSON.parse(localStorage.getItem('wni-masters-raw')||'null');
     if(!raw||!raw.data)return;
     const now=Date.now();
-    if(now-raw.ts<MASTERS_DELAY_MS)return;
+    const allScores=_parseMastersRaw(raw);
+    if(!Object.keys(allScores).length)return;
+
+    // Per-round first-seen timestamps: { "scheffler|r1": 1775800000000, ... }
+    // When we first see a round score for a player, record the time. Only show it after 3h.
+    let firstSeen={};
+    try{firstSeen=JSON.parse(localStorage.getItem('wni-masters-seen')||'{}');}catch(e){}
+    let seenChanged=false;
+
     const newScores={};
-    if(raw.src==='espn'){
-      // ESPN format: data.events[0].competitions[0].competitors[]
-      const comp=(raw.data.events?.[0]?.competitions?.[0]?.competitors)||[];
-      comp.forEach(c=>{
-        const lastName=c.athlete?.lastName||c.athlete?.displayName?.split(' ').pop()||'';
-        const match=Object.values(MASTERS_PLAYERS).find(mp=>mp.last.toLowerCase()===lastName.toLowerCase());
-        if(!match)return;
-        const rounds=(c.linescores||[]).map(ls=>ls.value!=null?parseInt(ls.value):null);
-        const isCut=c.status?.type?.name==='cut'||c.status?.type?.description==='Cut';
-        // Figure out how many rounds are completed based on actual linescore data
-        // If a round has a score, it's done. Don't rely on status.thru/period — ESPN is inconsistent.
-        let completedRounds=0;
-        rounds.forEach(r=>{if(r!=null)completedRounds++;});
-        newScores[match.id]={
-          r1:rounds[0]!=null?rounds[0]:null,
-          r2:rounds[1]!=null?rounds[1]:null,
-          r3:rounds[2]!=null?rounds[2]:null,
-          r4:rounds[3]!=null?rounds[3]:null,
-          total:c.score!=null?parseInt(c.score):null,
-          thru:'F',
-          cut:isCut,
-          // Set currentRound to completedRounds so all scored rounds show as complete
-          currentRound:completedRounds,
-        };
+    Object.entries(allScores).forEach(([pid,s])=>{
+      const entry={r1:null,r2:null,r3:null,r4:null,thru:'F',cut:s.cut,currentRound:0};
+      ['r1','r2','r3','r4'].forEach((rk,i)=>{
+        if(s[rk]==null)return;
+        const seenKey=pid+'|'+rk;
+        // Record first time we saw this round's score
+        if(!firstSeen[seenKey]){firstSeen[seenKey]=now;seenChanged=true;}
+        // Only show if 3 hours have passed since first seen
+        if(now-firstSeen[seenKey]>=MASTERS_DELAY_MS){
+          entry[rk]=s[rk];
+          entry.currentRound=i+1;
+        }
       });
-    }else{
-      // masters.com format: data.data.player[] or data.players[]
-      const players=raw.data.data?.player||raw.data.players||[];
-      players.forEach(p=>{
-        const match=Object.values(MASTERS_PLAYERS).find(mp=>
-          p.last_name?.toLowerCase()===mp.last.toLowerCase()||
-          p.display_name?.toLowerCase().includes(mp.last.toLowerCase())
-        );
-        if(!match)return;
-        const thru=p.thru||'';
-        const isCut=p.status==='C'||p.status==='cut';
-        newScores[match.id]={
-          r1:p.round1!=null?parseInt(p.round1):null,
-          r2:p.round2!=null?parseInt(p.round2):null,
-          r3:p.round3!=null?parseInt(p.round3):null,
-          r4:p.round4!=null?parseInt(p.round4):null,
-          total:p.topar!=null?parseInt(p.topar):null,
-          thru,
-          cut:isCut,
-          currentRound:parseInt(p.current_round)||1,
-        };
-      });
+      newScores[pid]=entry;
+    });
+
+    if(seenChanged){
+      try{localStorage.setItem('wni-masters-seen',JSON.stringify(firstSeen));}catch(e){}
     }
-    if(Object.keys(newScores).length>0){
-      mastersScores=newScores;
-      buildMastersLB();
-      if(currentTab==='bets')buildWagers();
-    }
+    mastersScores=newScores;
+    buildMastersLB();
+    if(currentTab==='bets')buildWagers();
   }catch(e){console.warn('[Masters] parse error:',e.message||e);}
 }
 
