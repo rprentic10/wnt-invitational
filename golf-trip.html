@@ -1565,7 +1565,7 @@ function applyRemoteState(state){
     Object.keys(state.teamNames).forEach(k=>{if(state.teamNames[k])teamNames[k]=state.teamNames[k];});
   }
   // Masters picks: mastersPicksLocked is the source of truth — immune to old-code overwrites
-  // Step 1: merge mastersPicksLocked from remote (this field is ONLY written by new code)
+  // Merge mastersPicksLocked from remote (NEVER bootstrap from mastersPicks — that's corruptible)
   if(state.mastersPicksLocked&&typeof state.mastersPicksLocked==='object'){
     const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
     Object.keys(state.mastersPicksLocked).forEach(k=>{
@@ -1577,16 +1577,18 @@ function applyRemoteState(state){
       }
     });
   }
-  // Step 2: bootstrap mastersPicksLocked from mastersPicks if locked doesn't exist yet
+  // ALWAYS restore mastersPicks from mastersPicksLocked (repairs old-code damage)
+  // If mastersPicksLocked doesn't have a player yet, fall back to mastersPicks from remote
   if(state.mastersPicks&&typeof state.mastersPicks==='object'){
     Object.keys(state.mastersPicks).forEach(k=>{
-      if(!mastersPicksLocked[k]||!mastersPicksLocked[k].length){
+      if(mastersPicksLocked[k]&&mastersPicksLocked[k].length){
+        mastersPicks[k]=mastersPicksLocked[k].slice();
+      }else{
         const remote=state.mastersPicks[k];
-        if(remote&&remote.length){mastersPicksLocked[k]=remote;}
+        if(remote&&remote.length){mastersPicks[k]=remote;}
       }
     });
   }
-  // Step 3: ALWAYS restore mastersPicks from mastersPicksLocked (repairs old-code damage)
   Object.keys(mastersPicksLocked).forEach(k=>{
     if(mastersPicksLocked[k]&&mastersPicksLocked[k].length){
       mastersPicks[k]=mastersPicksLocked[k].slice();
@@ -1748,6 +1750,7 @@ async function pushRemote(state,immediate){
           }));
         }
         // ── Merge mastersPicksLocked (source of truth, old code can't touch it) ──
+        // ── Merge mastersPicksLocked (NEVER bootstrap from mastersPicks) ──
         if(!fresh.mastersPicksLocked)fresh.mastersPicksLocked={};
         const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
         if(latest.mastersPicksLocked&&typeof latest.mastersPicksLocked==='object'){
@@ -1762,17 +1765,7 @@ async function pushRemote(state,immediate){
             }
           });
         }
-        // Bootstrap locked from mastersPicks if locked doesn't exist for a player yet
-        if(latest.mastersPicks&&typeof latest.mastersPicks==='object'){
-          Object.keys(latest.mastersPicks).forEach(k=>{
-            if(!fresh.mastersPicksLocked[k]||!fresh.mastersPicksLocked[k].length){
-              const remote=latest.mastersPicks[k];
-              if(remote&&remote.length){fresh.mastersPicksLocked[k]=remote;}
-            }
-          });
-        }
         // ALWAYS overwrite mastersPicks from mastersPicksLocked before pushing
-        // This repairs any damage done by old-code clients
         if(!fresh.mastersPicks)fresh.mastersPicks={};
         Object.keys(fresh.mastersPicksLocked).forEach(k=>{
           if(fresh.mastersPicksLocked[k]&&fresh.mastersPicksLocked[k].length){
