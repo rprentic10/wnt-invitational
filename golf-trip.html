@@ -1465,6 +1465,7 @@ function mDisp(p){return p.first.charAt(0)+'. '+p.last;}
 
 // Masters state
 let mastersPicks = {}; // { prentice:['scheffler','hovland',...], cromer:[...], ... }
+let mastersPicksLocked = {}; // Immutable copy — old code can't touch this field, new code always restores from it
 let mastersScores = {}; // from live feed: { scheffler:{r1:68,r2:70,r3:null,r4:null,total:-8,thru:'F',cut:false}, ... }
 let mastersLastFetch = 0;
 let mastersTempPicks = {}; // temp state while pick sheet is open: {1:'scheffler', 2:'hovland', ...}
@@ -1497,7 +1498,7 @@ let offlineMode=false;
 let saveTimer=null;
 
 function getState(){
-  return{scores:JSON.parse(JSON.stringify(SC)),stats:JSON.parse(JSON.stringify(STATS)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},teamNames:{...teamNames},bets:bets.slice(),drives:{g1:drives.g1.slice(),g2:drives.g2.slice()},gameWagers:{...gameWagers},presence:{...presenceData},mastersPicks:JSON.parse(JSON.stringify(mastersPicks)),wipeAt:REQUIRED_WIPE_AT,v:1};
+  return{scores:JSON.parse(JSON.stringify(SC)),stats:JSON.parse(JSON.stringify(STATS)),chat:{messages:chatMessages.slice()},avatars:{...playerAvatars},teamNames:{...teamNames},bets:bets.slice(),drives:{g1:drives.g1.slice(),g2:drives.g2.slice()},gameWagers:{...gameWagers},presence:{...presenceData},mastersPicks:JSON.parse(JSON.stringify(mastersPicks)),mastersPicksLocked:JSON.parse(JSON.stringify(mastersPicksLocked)),wipeAt:REQUIRED_WIPE_AT,v:1};
 }
 
 function applyRemoteState(state){
@@ -1563,21 +1564,34 @@ function applyRemoteState(state){
   if(state.teamNames&&typeof state.teamNames==='object'){
     Object.keys(state.teamNames).forEach(k=>{if(state.teamNames[k])teamNames[k]=state.teamNames[k];});
   }
-  // Masters picks: merge BEFORE bets/gameWagers so buildWagers has picks ready
-  // KEY RULE: you can only write YOUR OWN picks. Other players' picks always come from remote.
-  if(state.mastersPicks&&typeof state.mastersPicks==='object'){
+  // Masters picks: mastersPicksLocked is the source of truth — immune to old-code overwrites
+  // Step 1: merge mastersPicksLocked from remote (this field is ONLY written by new code)
+  if(state.mastersPicksLocked&&typeof state.mastersPicksLocked==='object'){
     const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
-    Object.keys(state.mastersPicks).forEach(k=>{
-      const remote=state.mastersPicks[k];
+    Object.keys(state.mastersPicksLocked).forEach(k=>{
+      const remote=state.mastersPicksLocked[k];
       if(k===meKey){
-        // My own picks: local wins if I have them (I submitted them)
-        if(!mastersPicks[k]||!mastersPicks[k].length){mastersPicks[k]=remote;}
+        if(!mastersPicksLocked[k]||!mastersPicksLocked[k].length){mastersPicksLocked[k]=remote;}
       }else{
-        // Other players' picks: ALWAYS take remote (they own their picks, not me)
-        if(remote&&remote.length){mastersPicks[k]=remote;}
+        if(remote&&remote.length){mastersPicksLocked[k]=remote;}
       }
     });
   }
+  // Step 2: bootstrap mastersPicksLocked from mastersPicks if locked doesn't exist yet
+  if(state.mastersPicks&&typeof state.mastersPicks==='object'){
+    Object.keys(state.mastersPicks).forEach(k=>{
+      if(!mastersPicksLocked[k]||!mastersPicksLocked[k].length){
+        const remote=state.mastersPicks[k];
+        if(remote&&remote.length){mastersPicksLocked[k]=remote;}
+      }
+    });
+  }
+  // Step 3: ALWAYS restore mastersPicks from mastersPicksLocked (repairs old-code damage)
+  Object.keys(mastersPicksLocked).forEach(k=>{
+    if(mastersPicksLocked[k]&&mastersPicksLocked[k].length){
+      mastersPicks[k]=mastersPicksLocked[k].slice();
+    }
+  });
   if(Array.isArray(state.bets)){
     const rank={open:0,voting:0,active:1,settled:2,void:3};
     const merged={};
@@ -1733,25 +1747,38 @@ async function pushRemote(state,immediate){
             }
           }));
         }
-        // ── Merge mastersPicks ──
-        // KEY RULE: only push YOUR OWN picks from local. All other players' picks come from remote.
-        if(latest.mastersPicks&&typeof latest.mastersPicks==='object'){
-          if(!fresh.mastersPicks)fresh.mastersPicks={};
-          const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
-          // First: take ALL remote picks as baseline (other people own their picks)
-          Object.keys(latest.mastersPicks).forEach(k=>{
-            const remote=latest.mastersPicks[k];
+        // ── Merge mastersPicksLocked (source of truth, old code can't touch it) ──
+        if(!fresh.mastersPicksLocked)fresh.mastersPicksLocked={};
+        const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
+        if(latest.mastersPicksLocked&&typeof latest.mastersPicksLocked==='object'){
+          Object.keys(latest.mastersPicksLocked).forEach(k=>{
+            const remote=latest.mastersPicksLocked[k];
             if(k===meKey){
-              // My own picks: local wins if I have them
-              if(!fresh.mastersPicks[k]||!fresh.mastersPicks[k].length){
-                fresh.mastersPicks[k]=remote;
+              if(!fresh.mastersPicksLocked[k]||!fresh.mastersPicksLocked[k].length){
+                fresh.mastersPicksLocked[k]=remote;
               }
             }else{
-              // Other players' picks: ALWAYS use remote (never overwrite with my stale copy)
-              if(remote&&remote.length){fresh.mastersPicks[k]=remote;}
+              if(remote&&remote.length){fresh.mastersPicksLocked[k]=remote;}
             }
           });
         }
+        // Bootstrap locked from mastersPicks if locked doesn't exist for a player yet
+        if(latest.mastersPicks&&typeof latest.mastersPicks==='object'){
+          Object.keys(latest.mastersPicks).forEach(k=>{
+            if(!fresh.mastersPicksLocked[k]||!fresh.mastersPicksLocked[k].length){
+              const remote=latest.mastersPicks[k];
+              if(remote&&remote.length){fresh.mastersPicksLocked[k]=remote;}
+            }
+          });
+        }
+        // ALWAYS overwrite mastersPicks from mastersPicksLocked before pushing
+        // This repairs any damage done by old-code clients
+        if(!fresh.mastersPicks)fresh.mastersPicks={};
+        Object.keys(fresh.mastersPicksLocked).forEach(k=>{
+          if(fresh.mastersPicksLocked[k]&&fresh.mastersPicksLocked[k].length){
+            fresh.mastersPicks[k]=fresh.mastersPicksLocked[k].slice();
+          }
+        });
         // ── Merge bets: combine by ID, local-wins on conflict ──
         if(Array.isArray(latest.bets)){
           const merged={};
@@ -1977,7 +2004,7 @@ async function clearSim(){
   // 3. Blank every in-memory store
   Object.keys(P).forEach(k=>{['d1','d2','d3'].forEach(day=>{SC[day][k]=Array(18).fill(null);STATS[day][k]={};});});
   drives={g1:Array(18).fill(null),g2:Array(18).fill(null)};
-  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};mastersPicks={};presenceData={};
+  gameWagers={};bets=[];chatMessages=[];playerAvatars={};teamNames={};mastersPicks={};mastersPicksLocked={};presenceData={};
   // 4. Build a minimal empty state with the new wipe epoch
   const emptyState={scores:JSON.parse(JSON.stringify(SC)),stats:JSON.parse(JSON.stringify(STATS)),chat:{messages:[]},avatars:{},teamNames:{},bets:[],drives:{g1:Array(18).fill(null),g2:Array(18).fill(null)},gameWagers:{},presence:{},mastersPicks:{},wipeAt:newWipeAt,v:1};
   // 5. Nuke local cache
@@ -2048,7 +2075,7 @@ async function init(){
   const hasAnyData=bets.length>0||Object.keys(gameWagers).length>0||Object.keys(SC).some(day=>Object.keys(P).some(k=>SC[day][k].some(v=>v!=null)));
   if(hasAnyData)initHardsetWagers();
   initSyncDone=true; // only count messages as unread after this point
-  buildMastersLB();fetchMastersScores();
+  applyMastersDelayed();buildMastersLB();fetchMastersScores();
 
   // Poll for updates every 10 seconds
   setInterval(pollRemote,6000);
@@ -3385,7 +3412,7 @@ function obFinish(){
   document.body.style.backgroundColor='#005a30';
   try{document.getElementById('notif-prompt').classList.add('hidden');}catch(e){}
   updateBottomNavAvatar();
-  buildD1();buildD2();buildD3();renderChat();buildMastersLB();fetchMastersScores();
+  buildD1();buildD2();buildD3();renderChat();applyMastersDelayed();buildMastersLB();fetchMastersScores();
   showMeTab('round');
   // Auto-start app tour for first-time users
   try{if(!localStorage.getItem('wni-toured')){setTimeout(tourStart,600);}}catch(e){}
@@ -3751,6 +3778,7 @@ function submitMastersPicks(){
   const picks=[];
   for(let i=1;i<=6;i++)picks.push(mastersTempPicks[i]||null);
   mastersPicks[myKey]=picks;
+  mastersPicksLocked[myKey]=picks.slice();
   closeMastersPicks();
   pushRemote(getState(),true);
   if(currentTab==='bets')buildWagers();
@@ -3775,7 +3803,10 @@ function autoFillMasters(){
       changed=true;
     }
   });
-  if(changed)pushRemote(getState(),true);
+  if(changed){
+    mastersPicksLocked[myKey]=picks.slice();
+    pushRemote(getState(),true);
+  }
 }
 
 function mastersPlayerScore(pid){
