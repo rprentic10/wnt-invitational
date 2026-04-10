@@ -3991,38 +3991,24 @@ function applyMastersDelayed(){
     const allScores=_parseMastersRaw(raw);
     if(!Object.keys(allScores).length)return;
 
-    // Per-round first-seen timestamps: { "scheffler|r1": 1775800000000, ... }
-    // When we first see a round score for a player, record the time. Only show it after 3h.
-    // Known round end times (approx) — rounds that finished before these times get backdated
-    // so new users don't have to wait 3h for already-old scores.
-    const ROUND_END_APPROX={
-      r1:new Date('2026-04-10T19:00:00-04:00').getTime(), // R1 Thu evening
-      r2:new Date('2026-04-11T19:00:00-04:00').getTime(), // R2 Fri evening
-      r3:new Date('2026-04-12T18:00:00-04:00').getTime(), // R3 Sat evening
-      r4:new Date('2026-04-13T18:00:00-04:00').getTime(), // R4 Sun evening
+    // Simple approach: each round has a known approximate end time.
+    // A round's scores are only shown 3 hours AFTER that round ended.
+    // No localStorage tracking needed — purely based on real-world time.
+    // Last group typically finishes around these times (ET):
+    const ROUND_VISIBLE_AFTER={
+      r1:new Date('2026-04-10T22:00:00-04:00').getTime(), // R1 Thu ~7pm ET + 3h = 10pm
+      r2:new Date('2026-04-11T22:00:00-04:00').getTime(), // R2 Fri ~7pm ET + 3h = 10pm
+      r3:new Date('2026-04-12T21:00:00-04:00').getTime(), // R3 Sat ~6pm ET + 3h = 9pm
+      r4:new Date('2026-04-13T21:00:00-04:00').getTime(), // R4 Sun ~6pm ET + 3h = 9pm
     };
-    let firstSeen={};
-    try{firstSeen=JSON.parse(localStorage.getItem('wni-masters-seen')||'{}');}catch(e){}
-    let seenChanged=false;
 
     const newScores={};
     Object.entries(allScores).forEach(([pid,s])=>{
       const entry={r1:null,r2:null,r3:null,r4:null,thru:'F',cut:s.cut,currentRound:0};
       ['r1','r2','r3','r4'].forEach((rk,i)=>{
         if(s[rk]==null)return;
-        const seenKey=pid+'|'+rk;
-        if(!firstSeen[seenKey]){
-          // If this round ended long ago, backdate to when it ended so delay is already satisfied
-          const endTime=ROUND_END_APPROX[rk]||0;
-          if(endTime&&now>endTime+MASTERS_DELAY_MS){
-            firstSeen[seenKey]=endTime;
-          }else{
-            firstSeen[seenKey]=now;
-          }
-          seenChanged=true;
-        }
-        // Only show if 3 hours have passed since first seen
-        if(now-firstSeen[seenKey]>=MASTERS_DELAY_MS){
+        // Only show this round if we're past the visibility time
+        if(now>=ROUND_VISIBLE_AFTER[rk]){
           entry[rk]=s[rk];
           entry.currentRound=i+1;
         }
@@ -4030,9 +4016,6 @@ function applyMastersDelayed(){
       newScores[pid]=entry;
     });
 
-    if(seenChanged){
-      try{localStorage.setItem('wni-masters-seen',JSON.stringify(firstSeen));}catch(e){}
-    }
     mastersScores=newScores;
     buildMastersLB();
     if(currentTab==='bets')buildWagers();
