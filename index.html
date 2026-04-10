@@ -3993,6 +3993,14 @@ function applyMastersDelayed(){
 
     // Per-round first-seen timestamps: { "scheffler|r1": 1775800000000, ... }
     // When we first see a round score for a player, record the time. Only show it after 3h.
+    // Known round end times (approx) — rounds that finished before these times get backdated
+    // so new users don't have to wait 3h for already-old scores.
+    const ROUND_END_APPROX={
+      r1:new Date('2026-04-10T19:00:00-04:00').getTime(), // R1 Thu evening
+      r2:new Date('2026-04-11T19:00:00-04:00').getTime(), // R2 Fri evening
+      r3:new Date('2026-04-12T18:00:00-04:00').getTime(), // R3 Sat evening
+      r4:new Date('2026-04-13T18:00:00-04:00').getTime(), // R4 Sun evening
+    };
     let firstSeen={};
     try{firstSeen=JSON.parse(localStorage.getItem('wni-masters-seen')||'{}');}catch(e){}
     let seenChanged=false;
@@ -4003,8 +4011,16 @@ function applyMastersDelayed(){
       ['r1','r2','r3','r4'].forEach((rk,i)=>{
         if(s[rk]==null)return;
         const seenKey=pid+'|'+rk;
-        // Record first time we saw this round's score
-        if(!firstSeen[seenKey]){firstSeen[seenKey]=now;seenChanged=true;}
+        if(!firstSeen[seenKey]){
+          // If this round ended long ago, backdate to when it ended so delay is already satisfied
+          const endTime=ROUND_END_APPROX[rk]||0;
+          if(endTime&&now>endTime+MASTERS_DELAY_MS){
+            firstSeen[seenKey]=endTime;
+          }else{
+            firstSeen[seenKey]=now;
+          }
+          seenChanged=true;
+        }
         // Only show if 3 hours have passed since first seen
         if(now-firstSeen[seenKey]>=MASTERS_DELAY_MS){
           entry[rk]=s[rk];
