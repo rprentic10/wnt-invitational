@@ -1468,6 +1468,29 @@ let mastersPicks = {}; // { prentice:['scheffler','hovland',...], cromer:[...], 
 let mastersPicksLocked = {}; // Immutable copy — persisted to localStorage as backup against old-code bin wipes
 try{const _mpl=JSON.parse(localStorage.getItem('wni-masters-locked')||'{}');if(_mpl&&typeof _mpl==='object')mastersPicksLocked=_mpl;}catch(e){}
 function _saveLocked(){try{localStorage.setItem('wni-masters-locked',JSON.stringify(mastersPicksLocked));}catch(e){}}
+
+// ═══ HARDCODED PICKS — NUCLEAR OPTION ═══
+// These are the FINAL confirmed picks. No merge logic, no bin data, no localStorage
+// can ever override these. Applied on every page load and every merge cycle.
+const MASTERS_PICKS_FINAL = {
+  buzz:    ['scheffler','rose','lowry','woodland','spaun','harman'],
+  simon:   ['fleetwood','rose','day','smith','bradley','n_hojgaard'],
+  reese:   ['scheffler','matsuyama','lee','burns','spaun','mckibbin'],
+  ryder:   ['aberg','rose','lowry','straka','spaun','n_hojgaard'],
+  otero:   ['aberg','rose','lowry','straka','bradley','r_hojgaard'],
+  cromer:  ['scheffler','koepka','cantlay','scott','bradley','r_hojgaard'],
+  pat:     ['fleetwood','thomas','lee','scott','bridgeman','mckibbin'],
+  prentice:['rahm','gotterup','conners','straka','bridgeman','n_hojgaard']
+};
+// Apply hardcoded picks immediately
+function _applyHardcodedPicks(){
+  Object.keys(MASTERS_PICKS_FINAL).forEach(k=>{
+    mastersPicks[k]=MASTERS_PICKS_FINAL[k].slice();
+    mastersPicksLocked[k]=MASTERS_PICKS_FINAL[k].slice();
+  });
+  _saveLocked();
+}
+_applyHardcodedPicks();
 let mastersScores = {}; // from live feed: { scheffler:{r1:68,r2:70,r3:null,r4:null,total:-8,thru:'F',cut:false}, ... }
 let mastersLastFetch = 0;
 let mastersTempPicks = {}; // temp state while pick sheet is open: {1:'scheffler', 2:'hovland', ...}
@@ -1566,38 +1589,8 @@ function applyRemoteState(state){
   if(state.teamNames&&typeof state.teamNames==='object'){
     Object.keys(state.teamNames).forEach(k=>{if(state.teamNames[k])teamNames[k]=state.teamNames[k];});
   }
-  // Masters picks: mastersPicksLocked is the source of truth — immune to old-code overwrites
-  // mastersPicksLocked is persisted to localStorage so it survives even if old code nukes the bin field
-  if(state.mastersPicksLocked&&typeof state.mastersPicksLocked==='object'){
-    const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
-    let _lockChanged=false;
-    Object.keys(state.mastersPicksLocked).forEach(k=>{
-      const remote=state.mastersPicksLocked[k];
-      if(k===meKey){
-        if(!mastersPicksLocked[k]||!mastersPicksLocked[k].length){mastersPicksLocked[k]=remote;_lockChanged=true;}
-      }else{
-        if(remote&&remote.length){mastersPicksLocked[k]=remote;_lockChanged=true;}
-      }
-    });
-    if(_lockChanged)_saveLocked();
-  }
-  // ALWAYS restore mastersPicks from mastersPicksLocked (repairs old-code damage)
-  // If mastersPicksLocked doesn't have a player yet, fall back to mastersPicks from remote
-  if(state.mastersPicks&&typeof state.mastersPicks==='object'){
-    Object.keys(state.mastersPicks).forEach(k=>{
-      if(mastersPicksLocked[k]&&mastersPicksLocked[k].length){
-        mastersPicks[k]=mastersPicksLocked[k].slice();
-      }else{
-        const remote=state.mastersPicks[k];
-        if(remote&&remote.length){mastersPicks[k]=remote;}
-      }
-    });
-  }
-  Object.keys(mastersPicksLocked).forEach(k=>{
-    if(mastersPicksLocked[k]&&mastersPicksLocked[k].length){
-      mastersPicks[k]=mastersPicksLocked[k].slice();
-    }
-  });
+  // ═══ HARDCODED PICKS OVERRIDE — ignore all remote picks data ═══
+  _applyHardcodedPicks();
   if(Array.isArray(state.bets)){
     const rank={open:0,voting:0,active:1,settled:2,void:3};
     const merged={};
@@ -1753,29 +1746,9 @@ async function pushRemote(state,immediate){
             }
           }));
         }
-        // ── Merge mastersPicksLocked (source of truth, old code can't touch it) ──
-        // ── Merge mastersPicksLocked (NEVER bootstrap from mastersPicks) ──
-        if(!fresh.mastersPicksLocked)fresh.mastersPicksLocked={};
-        const meKey=chatAuthor?Object.keys(P).find(k=>P[k].name===chatAuthor):null;
-        if(latest.mastersPicksLocked&&typeof latest.mastersPicksLocked==='object'){
-          Object.keys(latest.mastersPicksLocked).forEach(k=>{
-            const remote=latest.mastersPicksLocked[k];
-            if(k===meKey){
-              if(!fresh.mastersPicksLocked[k]||!fresh.mastersPicksLocked[k].length){
-                fresh.mastersPicksLocked[k]=remote;
-              }
-            }else{
-              if(remote&&remote.length){fresh.mastersPicksLocked[k]=remote;}
-            }
-          });
-        }
-        // ALWAYS overwrite mastersPicks from mastersPicksLocked before pushing
-        if(!fresh.mastersPicks)fresh.mastersPicks={};
-        Object.keys(fresh.mastersPicksLocked).forEach(k=>{
-          if(fresh.mastersPicksLocked[k]&&fresh.mastersPicksLocked[k].length){
-            fresh.mastersPicks[k]=fresh.mastersPicksLocked[k].slice();
-          }
-        });
+        // ═══ HARDCODED PICKS OVERRIDE — stamp hardcoded picks into outbound push ═══
+        fresh.mastersPicks=JSON.parse(JSON.stringify(MASTERS_PICKS_FINAL));
+        fresh.mastersPicksLocked=JSON.parse(JSON.stringify(MASTERS_PICKS_FINAL));
         // ── Merge bets: combine by ID, local-wins on conflict ──
         if(Array.isArray(latest.bets)){
           const merged={};
@@ -3768,44 +3741,13 @@ function pickMasters(tier,playerId){
   renderMastersTiers();
 }
 function submitMastersPicks(){
-  if(mastersLocked())return;
-  const me=chatAuthor;if(!me)return;
-  const myKey=Object.keys(P).find(k=>P[k].name===me);if(!myKey)return;
-  if(Object.keys(mastersTempPicks).length<6)return;
-  const picks=[];
-  for(let i=1;i<=6;i++)picks.push(mastersTempPicks[i]||null);
-  mastersPicks[myKey]=picks;
-  mastersPicksLocked[myKey]=picks.slice();
-  _saveLocked();
+  // Picks are hardcoded — submission disabled
   closeMastersPicks();
-  pushRemote(getState(),true);
-  if(currentTab==='bets')buildWagers();
-  buildMastersLB();
+  return;
 }
 function autoFillMasters(){
-  // At lock time, auto-fill ONLY MY missing picks with random selections
-  // NEVER touch other players' picks — they own their own picks
-  if(!mastersLocked())return;
-  const me=chatAuthor;if(!me)return;
-  const myKey=Object.keys(P).find(k=>P[k].name===me);if(!myKey)return;
-  if(!mastersPicks[myKey])mastersPicks[myKey]=[];
-  const picks=mastersPicks[myKey];
-  let changed=false;
-  MASTERS_TIERS.forEach((t,i)=>{
-    if(!picks[i]){
-      const taken=new Set();
-      Object.values(mastersPicks).forEach(pp=>{if(pp[i])taken.add(pp[i]);});
-      const avail=t.players.filter(p=>!taken.has(p.id));
-      const pick=avail.length?avail[Math.floor(Math.random()*avail.length)]:t.players[Math.floor(Math.random()*t.players.length)];
-      picks[i]=pick.id;
-      changed=true;
-    }
-  });
-  if(changed){
-    mastersPicksLocked[myKey]=picks.slice();
-    _saveLocked();
-    pushRemote(getState(),true);
-  }
+  // All picks are hardcoded — no auto-fill needed
+  _applyHardcodedPicks();
 }
 
 function mastersPlayerScore(pid){
