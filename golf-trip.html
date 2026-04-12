@@ -3936,8 +3936,9 @@ function _parseMastersRaw(raw){
       const lastName=c.athlete?.lastName||c.athlete?.displayName?.split(' ').pop()||'';
       const match=Object.values(MASTERS_PLAYERS).find(mp=>mp.last.toLowerCase()===lastName.toLowerCase());
       if(!match)return;
-      const rounds=(c.linescores||[]).map(ls=>ls.value!=null?parseInt(ls.value):null);
-      const isCut=c.status?.type?.name==='cut'||c.status?.type?.description==='Cut';
+      const rounds=(c.linescores||[]).map(ls=>{const v=ls.value!=null?parseInt(ls.value):null;return(v!=null&&v>0)?v:null;});
+      const sType=(c.status?.type?.name||'').toLowerCase();const sDesc=(c.status?.type?.description||'').toLowerCase();
+      const isCut=sType==='cut'||sDesc==='cut'||sType==='wd'||sType==='dq'||(rounds[0]!=null&&rounds[1]!=null&&rounds[2]==null&&sType!=='active');
       scores[match.id]={r1:rounds[0]??null,r2:rounds[1]??null,r3:rounds[2]??null,r4:rounds[3]??null,cut:isCut};
     });
   }else{
@@ -3948,8 +3949,9 @@ function _parseMastersRaw(raw){
         p.display_name?.toLowerCase().includes(mp.last.toLowerCase())
       );
       if(!match)return;
-      const isCut=p.status==='C'||p.status==='cut';
-      scores[match.id]={r1:p.round1!=null?parseInt(p.round1):null,r2:p.round2!=null?parseInt(p.round2):null,r3:p.round3!=null?parseInt(p.round3):null,r4:p.round4!=null?parseInt(p.round4):null,cut:isCut};
+      const isCut=p.status==='C'||p.status==='cut'||p.status==='WD'||p.status==='DQ';
+      function _rv(v){const n=v!=null?parseInt(v):null;return(n!=null&&n>0)?n:null;}
+      scores[match.id]={r1:_rv(p.round1),r2:_rv(p.round2),r3:_rv(p.round3),r4:_rv(p.round4),cut:isCut};
     });
   }
   return scores;
