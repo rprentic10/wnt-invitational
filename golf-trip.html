@@ -3979,6 +3979,8 @@ function applyMastersDelayed(){
       const entry={r1:null,r2:null,r3:null,r4:null,thru:'F',cut:s.cut,currentRound:0};
       ['r1','r2','r3','r4'].forEach((rk,i)=>{
         if(s[rk]==null)return;
+        // Cut players don't play R3/R4 — ESPN returns 0, we want null so display uses MASTERS_CUT_SCORE (80)
+        if(s.cut&&i>=2)return;
         // Only show this round if we're past the visibility time
         if(now>=ROUND_VISIBLE_AFTER[rk]){
           entry[rk]=s[rk];
