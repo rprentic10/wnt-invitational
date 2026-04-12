@@ -5420,6 +5420,11 @@ function settleBets(){
       for(let h=0;h<18;h++){const sA=SC[b.day][b.player][h];if(sA!=null){gA+=parseInt(sA);hA++;}const sB=SC[b.day][b.playerB][h];if(sB!=null){gB+=parseInt(sB);hB++;}}
       if(hA===18&&hB===18)outcome=gA<gB?'a':gA>gB?'b':'push';
     } else if(b.type==='house-prop'){
+      // ═══ HARDCODED: Pat's Penalties prop — house loses (Pat had >2 penalties) ═══
+      const _patKey=Object.keys(P).find(k=>P[k].name==='Pat');
+      if(b.player===_patKey&&b.statType==='penalty'&&b.status!=='settled'){
+        b.status='settled';b.result='buyers';changed=true;return;
+      }
       let holes=0;for(let h=0;h<18;h++){if(SC[b.day]?.[b.player]?.[h]!=null)holes++;}
       if(holes<18)return;
       const hpVal=computeStatValue(b.player,b.day,b.statType);
