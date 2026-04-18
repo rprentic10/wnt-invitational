@@ -1382,6 +1382,7 @@ const openHoles=new Set(); // UI state: which hole detail rows are expanded
 // ═══════════════════════════════════════════════════
 const MASTERS_LOCK = new Date('2026-04-09T07:30:00-04:00').getTime(); // 30min before Thu first tee (8:00 AM ET)
 const MASTERS_BUYIN = 20;
+const MASTERS_POOL_WINNER = 'Cromer'; // Hardcoded — Cromer won the Masters Pool
 const MASTERS_CUT_SCORE = 80; // score assigned to cut golfers for R3/R4
 const MASTERS_DELAY_MS = 3 * 60 * 60 * 1000; // 3-hour spoiler delay per round
 const MASTERS_TIERS = [
@@ -1491,6 +1492,17 @@ function _applyHardcodedPicks(){
   _saveLocked();
 }
 _applyHardcodedPicks();
+
+// ═══ HARDCODED: Pat's Saturday penalties (3 strokes, spread across holes 4, 9, 14) ═══
+function _applyPatPenalties(){
+  if(!STATS.d3.pat)STATS.d3.pat={};
+  [3,8,13].forEach(h=>{
+    if(!STATS.d3.pat[h])STATS.d3.pat[h]={};
+    STATS.d3.pat[h].penalty=1;
+  });
+}
+_applyPatPenalties();
+
 let mastersScores = {}; // from live feed: { scheffler:{r1:68,r2:70,r3:null,r4:null,total:-8,thru:'F',cut:false}, ... }
 let mastersLastFetch = 0;
 let mastersTempPicks = {}; // temp state while pick sheet is open: {1:'scheffler', 2:'hovland', ...}
@@ -1563,6 +1575,8 @@ function applyRemoteState(state){
       }
     }));
   }
+  // ═══ HARDCODED: Pat had 3 penalty strokes on Saturday (not entered in shot data) ═══
+  _applyPatPenalties();
   if(state.chat&&Array.isArray(state.chat.messages)){
     const oldCount=chatMessages.length;
     // Drop any messages created before the data wipe epoch (sim/test data)
@@ -5594,6 +5608,15 @@ function netLedger(){
     wKeys.forEach(k=>{if(net[P[k].name]!==undefined)net[P[k].name]+=gw.amount;});
     lKeys.forEach(k=>{if(net[P[k].name]!==undefined)net[P[k].name]-=gw.amount;});
   });
+  // ═══ Masters Pool: winner takes all ($20 buy-in × 8 players) ═══
+  if(MASTERS_POOL_WINNER){
+    const n=Object.keys(P).length;
+    Object.values(P).forEach(p=>{
+      if(net[p.name]===undefined)return;
+      if(p.name===MASTERS_POOL_WINNER)net[p.name]+=(n-1)*MASTERS_BUYIN;
+      else net[p.name]-=MASTERS_BUYIN;
+    });
+  }
   return net;
 }
 
@@ -6023,6 +6046,13 @@ function buildLedger(){
     bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-day">${meta.day}</div><div class="lbr-name">${meta.name}</div></div><span class="lbr-status ${statusCls}">${statusTxt}</span><div class="lbr-amt">${amtTxt}</div></div>`;
   });
   bkHtml+='</div>';
+  // Masters Pool
+  if(MASTERS_POOL_WINNER){
+    bkHtml+='<div style="background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.2);border-radius:10px;overflow:hidden;margin-bottom:14px;">';
+    bkHtml+='<div style="padding:8px 12px;font-family:\'DM Sans\',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.5);border-bottom:1px solid rgba(254,254,86,.12);">Masters Pool</div>';
+    bkHtml+=`<div class="ledger-bk-row"><div class="lbr-left"><div class="lbr-name">⛳ The Masters Pool</div><div class="lbr-parties"><span class="lbr-day-chip">MASTERS</span> Winner: ${MASTERS_POOL_WINNER} · <span class="lbr-result">${MASTERS_POOL_WINNER} wins $${(Object.keys(P).length-1)*MASTERS_BUYIN}</span></div></div><span class="lbr-status lbr-settled">Settled</span><div class="lbr-amt">$${MASTERS_BUYIN}/ea</div></div>`;
+    bkHtml+='</div>';
+  }
   // Props / side bets
   const relevantBets=bets.filter(b=>b.status!=='void');
   if(relevantBets.length){
