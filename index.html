@@ -5349,8 +5349,8 @@ function settleBets(){
   // ═══ HARDCODED: Pat's Penalties prop — house loses ═══
   const _patKey=Object.keys(P).find(k=>P[k].name==='Pat');
   bets.forEach(b=>{
-    if(b.type==='house-prop'&&b.player===_patKey&&b.statType==='penalty'&&b.status!=='settled'){
-      b.status='settled';b.result='buyers';changed=true;
+    if(b.type==='house-prop'&&b.player===_patKey&&b.statType==='penalty'){
+      if(b.status!=='settled'||b.result!=='buyers'){b.status='settled';b.result='buyers';changed=true;}
     }
   });
   bets.forEach(b=>{
