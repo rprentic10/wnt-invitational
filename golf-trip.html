@@ -1622,6 +1622,9 @@ function applyRemoteState(state){
       if((rank[b.status]||0)>=(rank[local.status]||0))merged[b.id]=b;
     });
     bets=Object.values(merged).filter(b=>(b.ts||0)>=REQUIRED_WIPE_AT).sort((a,b)=>a.ts-b.ts);
+    // ═══ HARDCODED OVERRIDE: Pat's Penalties prop → buyers win ═══
+    const _pkPat=Object.keys(P).find(k=>P[k].name==='Pat');
+    bets.forEach(b=>{if(b.type==='house-prop'&&b.player===_pkPat&&b.statType==='penalty'){b.status='settled';b.result='buyers';}});
     // Fix house props that were incorrectly set to 'active' before the uncapped buy-in fix.
     // A house prop should be 'open' if: not settled/void, round hasn't started, and cap isn't full.
     bets.forEach(b=>{
@@ -1776,6 +1779,9 @@ async function pushRemote(state,immediate){
             merged[b.id]=b;
           });
           fresh.bets=Object.values(merged);
+          // ═══ HARDCODED OVERRIDE: Pat's Penalties → buyers win (in outbound push) ═══
+          const _pkPatPush=Object.keys(P).find(k=>P[k].name==='Pat');
+          fresh.bets.forEach(b=>{if(b.type==='house-prop'&&b.player===_pkPatPush&&b.statType==='penalty'){b.status='settled';b.result='buyers';}});
         }
         // ── Merge gameWagers: timestamp-wins (matches applyRemoteState) ──
         if(latest.gameWagers&&typeof latest.gameWagers==='object'){
