@@ -4449,11 +4449,8 @@ async function _submitPw(){
 
 // ── Line calculation ─────────────────────────────
 function calcLine(playerKey,day){
-  const idx=P[playerKey].d1; // d1 holds the actual handicap index
-  const {slope,rating}=COURSES[day];
   const par=cTot(day);
-  const cHcp=Math.round(idx*(slope/113)+(rating-par));
-  return par+cHcp+2.5;
+  return par+phcp(playerKey,day)+2.5; // course handicap already derived from index via slope/rating
 }
 
 // ── Live trend for active OU bet ─────────────────
@@ -4474,7 +4471,7 @@ function betTrend(bet){
 }
 
 // ── New bet type helpers ─────────────────────────
-function calcBirdiesLine(k,day){return P[k].d1<=8?1.5:0.5;}
+function calcBirdiesLine(k,day){return P[k].idx<=8?1.5:0.5;}
 
 // ── House Prop stat helpers ───────────────────────
 const STAT_META={
@@ -5679,7 +5676,7 @@ function updateProposeUI(){
     }else if(isBirdieOU){
       const line=calcBirdiesLine(propSt.player,propSt.day);
       document.getElementById('ps-line-num').textContent=line+' birdies';
-      document.getElementById('ps-line-info').textContent=`${P[propSt.player].name} · Hcp ${P[propSt.player][propSt.day]} · Expected ${line}`;
+      document.getElementById('ps-line-info').textContent=`${P[propSt.player].name} · Index ${P[propSt.player].idx} · Course Hcp ${P[propSt.player][propSt.day]} · Expected ${line}`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div><div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div>`;
       if(sideStep)sideStep.style.display='';
     }else if(isMatch){
