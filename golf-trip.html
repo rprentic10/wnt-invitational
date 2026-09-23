@@ -595,6 +595,7 @@ table.sc tr.rB2 td.tl .presence-dot{box-shadow:0 0 0 2px #f5cfc5;}
 .wager-card.wc-settled-win{border-color:rgba(100,200,120,.45);}
 .wager-card.wc-settled-loss{border-color:rgba(218,240,218,.1);}
 .wager-card.wc-settled-push{border-color:rgba(218,240,218,.18);}
+.wager-card.wc-locked::after{content:'';position:absolute;right:10px;bottom:8px;width:13px;height:13px;opacity:.7;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fefe56' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E") center/contain no-repeat;pointer-events:none;}
 .wc-day{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(254,254,86,.8);background:rgba(254,254,86,.09);border:1px solid rgba(254,254,86,.2);border-radius:3px;padding:2px 6px;display:inline-block;vertical-align:middle;margin-right:6px;line-height:1.4;}
 .main-game-card .wc-day{display:inline-block;}
 .wc-title-row{display:flex;align-items:center;margin-bottom:5px;gap:6px;}
@@ -5035,7 +5036,7 @@ function wagerCardHTML(bet,myName){
   const acceptBtn=canAccept?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Take the Other Side →</button>`:'';
   const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
 
-  return `<div class="wager-card ${cardCls}">
+  return `<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${cancelBtn}
   <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${desc}</div><div class="wc-amount">$${bet.amount}</div></div>
   <div class="wc-line">${lineInfo}</div>
@@ -5083,7 +5084,7 @@ function poolModeCardHTML(bet,myName){
   }
   const canCancel=isOpen&&bet.propName===myName;
   const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
-  return`<div class="wager-card ${cardCls}">
+  return`<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${cancelBtn}
   <div class="wc-title-row"><div class="wc-day">${dayLbl}</div><div class="wc-desc">${typeIcon[bet.type]?typeIcon[bet.type]+' ':''}${typeLabel[bet.type]||bet.type}${holeInfo?' · '+holeInfo:''}</div><div class="wc-amount">$${bet.amount}</div></div>
   <div class="wc-line">$${pot} pot · ${n} players</div>
@@ -5145,7 +5146,7 @@ function nassauCardHTML(bet,myName){
   const acceptBtn=canAccept?`<button class="wc-accept-btn" onclick="openAcceptSheet('${bet.id}')">Take the Other Side →</button>`:'';
   const cancelBtn=canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:'';
 
-  return`<div class="wager-card ${cardCls}">
+  return`<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${cancelBtn}
   <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">Nassau · Match ${bet.matchIdx+1}</div></div>
   <div class="wc-line">${aN} vs ${bN}</div>
@@ -5189,7 +5190,7 @@ function houseCardHTML(bet,myName){
   }
   const canBuyIn=isOpen&&!capFull&&!iAmHouse&&!iHaveBought&&myName;
   const canCancel=(isOpen||bet.status==='active')&&iAmHouse&&bet.buyins.length===0;
-  return`<div class="wager-card ${cardCls}">
+  return`<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:''}
   <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${playerName} · ${meta.label||bet.statType}</div></div>
   <div class="hp-stat-row"><span class="hp-stat-dir ${buyerCls}">${buyerSide}</span><span class="hp-stat-val">${bet.line}</span><span style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-left:2px">${meta.unit||''}</span></div>
@@ -5220,7 +5221,7 @@ function poolCardHTML(bet,myName){
   if(isSettled){resultHtml=bet.result==='push'?'<div class="wc-result res-push">Tied — no winner</div>':`<div class="pool-winner-row">🏆 ${bet.winnerName} wins $${prize}</div>`;}
   const canApprove=isVoting&&!iApproved&&myName;
   const canCancel=isVoting&&bet.proposerName===myName&&bet.approvals.length<=1;
-  return`<div class="wager-card ${cardCls}">
+  return`<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:''}
   <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${label}</div></div>
   <div class="pool-ante-row">$${bet.buyIn} · all-in pot</div>
