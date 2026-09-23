@@ -1,3 +1,38 @@
+================================================================
+PINEHURST 2026 — CURRENT TRIP (Sept 24–26, 2026)   [added 2026-09-22]
+================================================================
+The app has been repurposed from the WNT Invitational (Scottsdale, Apr 2026).
+Everything below this block describes the OLD trip and is kept for reference.
+
+Live URL:       www.weneededthis.com (index.html on master, GitHub Pages)
+Password:       nipples
+JSONbin bin:    6ab3631bffd5d160532563b6 (new bin; old WNT bin is untouched)
+localStorage:   keys prefixed ph26-  (ph26-auth, ph26-author, ph26-data-v2 …)
+Data epoch:     REQUIRED_WIPE_AT in source — bump it to wipe all data.
+
+Players (index): Rob 7.0, Steve 10.8, Hardy 8.9, Sheila 12.4, Matt 12.9,
+                 John A 26, Peter 26, John P 13.5
+
+Format: every scored round = two foursomes, each nine is its own 2v2 net
+best-ball match; teams change every nine. 1 pt/hole, ½ halve, +1 match
+winner (½ each if halved). Points race decides the champion.
+Handicaps: WHS course handicap per course; full allowance off the low
+course handicap in each match (matchStrokesHcp).
+
+Rounds (DAYS d1..d4; The Cradle Fri PM is casual, no scoring):
+  d1 Thu AM  No. 4  Blue      7:40 / 7:50
+  d2 Thu PM  No. 8  Blue      1:40 / 1:50
+  d3 Fri AM  No. 2  Blue      8:50 / 9:00
+  --  Fri PM  The Cradle      3:10 / 3:20  (casual)
+  d4 Sat AM  No. 10 Blue/Wht  10:12 / 10:24  (fixed teams both nines)
+Pairings live in ROUNDS in the source. Score entry for d2/d3/d4 unlocks
+Thu 11am / Thu 8pm / Fri 8pm; tap a locked tab 4x to override.
+
+Removed/dormant: shamble, best-ball pot, team match play, drives, game
+wagers, team names. Masters Pool code kept but MASTERS_ENABLED=false.
+Side bets (O/U, net H2H, low net pools, KP, house props) unchanged.
+Testing: load ?sim=1 for fake scores (writes to bin — bump epoch after).
+
 WE NEEDED THIS INVITATIONAL — PROJECT CONTEXT FOR COWORK
 ==========================================================
 Last updated: April 6, 2026
