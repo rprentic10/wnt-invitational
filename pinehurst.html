@@ -414,12 +414,12 @@ tr.drive-row td.tl{text-align:left;padding-left:10px;font-family:'DM Sans',sans-
 /* ── MATCH SCORES (Day 3) ────────────────────────── */
 .match-scores{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
 .ms-card{flex:1;min-width:145px;background:rgba(16,36,16,.9);border:1px solid rgba(254,254,86,.15);border-radius:8px;padding:10px 12px;}
-.ms-label{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;text-transform:uppercase;letter-spacing:.14em;color:rgba(218,240,218,.45);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.ms-label{font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;color:rgba(218,240,218,.45);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
 .ms-versus{display:flex;align-items:center;gap:0;}
-.ms-side{flex:1 1 0;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;line-height:1.5;min-width:0;}
+.ms-side{flex:1 1 0;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:900;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em;line-height:1.5;min-width:0;}
 .ms-side.ms-a{color:#7ddba4;text-align:left;}
 .ms-side.ms-b{color:#e87060;text-align:right;}
-.ms-middle{width:54px;flex-shrink:0;display:flex;justify-content:center;align-items:center;overflow:visible;}
+.ms-middle{width:46px;flex-shrink:0;display:flex;justify-content:center;align-items:center;overflow:visible;}
 .ms-score{font-family:'DM Sans',sans-serif;font-size:24px;font-weight:900;line-height:1;display:inline-block;transition:transform .35s ease;}
 .ms-score.mA{color:#7ddba4;}.ms-score.mB{color:#e87060;}.ms-score.ev{color:var(--mw);}
 .ms-thru{font-family:'DM Sans',sans-serif;font-size:9px;color:rgba(218,240,218,.3);letter-spacing:.08em;text-transform:uppercase;}
@@ -1327,14 +1327,14 @@ const HCP_ALLOWANCE=1.0;
 
 // Players — GHIN index. Course handicaps per day are computed below (P[k].d1 … P[k].d4).
 const P = {
-  rob:    {name:'Rob',    full:'Rob Prentice',    idx:7.0},
-  steve:  {name:'Steve',  full:'Steve Mowe',      idx:10.8},
-  hardy:  {name:'Hardy',  full:'Hardy Mowe',      idx:8.9},
-  sheila: {name:'Sheila', full:'Sheila Nipowski', idx:12.4},
-  matt:   {name:'Matt',   full:'Matt Perry',      idx:12.9},
-  johna:  {name:'John A', full:'John Ahrens',     idx:26.0},
-  petera: {name:'Peter A',full:'Peter Ahrens',    idx:26.0},
-  johnp:  {name:'John P', full:'John Pigott',     idx:13.5},
+  rob:    {name:'Rob',    full:'Rob Prentice',    ini:'RP',idx:7.0},
+  steve:  {name:'Steve',  full:'Steve Mowe',      ini:'SM',idx:10.8},
+  hardy:  {name:'Hardy',  full:'Hardy Mowe',      ini:'HM',idx:8.9},
+  sheila: {name:'Sheila', full:'Sheila Nipowski', ini:'SN',idx:12.4},
+  matt:   {name:'Matt',   full:'Matt Perry',      ini:'MP',idx:12.9},
+  johna:  {name:'John A', full:'John Ahrens',     ini:'JA',idx:26.0},
+  petera: {name:'Peter A',full:'Peter Ahrens',    ini:'PA',idx:26.0},
+  johnp:  {name:'John P', full:'John Pigott',     ini:'JP',idx:13.5},
 };
 const PLAYER_NAMES=Object.keys(P).map(k=>P[k].name);
 function keyOf(name){return Object.keys(P).find(k=>P[k].name===name)||null;}
@@ -2818,8 +2818,7 @@ function _scViewBanner(day){
 // Live match cards for a day
 function matchCardHTML(day,m,opts={}){
   const st=matchState(day,m);
-  const _nb=k=>P[k].name.replace(/ /g,'&nbsp;');
-  const aN=m.sA.map(_nb).join('<br>'),bN=m.sB.map(_nb).join('<br>');
+  const aN=m.sA.map(k=>P[k].ini).join('<br>'),bN=m.sB.map(k=>P[k].ini).join('<br>');
   let scoreStr,scoreClass,leadTxt;
   if(!st.thru){scoreStr='—';scoreClass='ev';leadTxt='No scores yet';}
   else if(st.diff===0){scoreStr=st.done?'½':'AS';scoreClass='ev';leadTxt=st.done?'Halved':'All Square';}
@@ -2828,7 +2827,7 @@ function matchCardHTML(day,m,opts={}){
   const thruStr=!st.thru?'—':st.done?'Final':`Thru ${st.played}`;
   const _aFl=scoreClass==='mA'?0.4:scoreClass==='mB'?1.6:1;const _bFl=scoreClass==='mB'?0.4:scoreClass==='mA'?1.6:1;
   const pts=st.thru?`<div style="display:flex;justify-content:space-between;margin-top:6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:rgba(218,240,218,.55)"><span>${fmt(st.ptsA)} pts</span><span>${fmt(st.ptsB)} pts</span></div>`:'';
-  const title=opts.title||`${m.tee} · ${m.label}`;
+  const title=opts.title||`${m.tee.replace(/ (AM|PM)$/,'')} · ${m.label.replace('Front 9','F9').replace('Back 9','B9')}`;
   return`<div class="ms-card"><div class="ms-label">${title}<span>${thruStr}</span></div><div class="ms-versus"><div class="ms-side ms-a" style="flex:${_aFl} 1 0">${aN}</div><div class="ms-middle"><span class="ms-score ${scoreClass}">${scoreStr}</span></div><div class="ms-side ms-b" style="flex:${_bFl} 1 0">${bN}</div></div>${pts}</div>`;
 }
 function updateDayMatches(day){
@@ -2858,7 +2857,7 @@ function updateLB(){
     const el=document.getElementById('lb-chips-'+day);if(!el)return;
     el.innerHTML=dayMatches(day).map(m=>{
       const st=matchState(day,m);
-      return matchCardHTML(day,m,{title:`${m.tee} · ${m.label}`});
+      return matchCardHTML(day,m);
     }).join('');
   });
   // Individual gross / net (course handicap) per day
