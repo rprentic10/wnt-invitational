@@ -2818,10 +2818,11 @@ function _scViewBanner(day){
 // Live match cards for a day
 function matchCardHTML(day,m,opts={}){
   const st=matchState(day,m);
-  const aN=m.sA.map(k=>P[k].name).join('<br>'),bN=m.sB.map(k=>P[k].name).join('<br>');
+  const _nb=k=>P[k].name.replace(/ /g,'&nbsp;');
+  const aN=m.sA.map(_nb).join('<br>'),bN=m.sB.map(_nb).join('<br>');
   let scoreStr,scoreClass,leadTxt;
   if(!st.thru){scoreStr='—';scoreClass='ev';leadTxt='No scores yet';}
-  else if(st.diff===0){scoreStr='AS';scoreClass='ev';leadTxt=st.done?'Halved':'All Square';}
+  else if(st.diff===0){scoreStr=st.done?'½':'AS';scoreClass='ev';leadTxt=st.done?'Halved':'All Square';}
   else if(st.diff>0){scoreStr=`+${fmt(st.diff)}`;scoreClass='mA';leadTxt=teamShort(m.sA);}
   else{scoreStr=`+${fmt(Math.abs(st.diff))}`;scoreClass='mB';leadTxt=teamShort(m.sB);}
   const thruStr=!st.thru?'—':st.done?'Final':`Thru ${st.played}`;
