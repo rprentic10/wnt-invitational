@@ -4531,7 +4531,7 @@ function calcStatLine(playerKey,day,statType){
       priorValues.push(scaled);
     }
   }
-  const hcp=P[playerKey]?.d1||18;
+  const hcp=P[playerKey]?.idx||18;
   // USGA-benchmarked handicap estimates — lower hcp always gets better line
   // GIR:  scratch~12, 5hcp~10, 10hcp~8, 15hcp~6, 20hcp~4   (slope -0.40)
   // FWY:  scratch~9.5, 5hcp~8.5, 10hcp~7.5, 15hcp~6.5, 20hcp~5.5 (slope -0.20)
@@ -5667,10 +5667,10 @@ function updateProposeUI(){
       const baseLine=calcLine(propSt.player,propSt.day);
       if(propSt.customLine==null)propSt.customLine=baseLine;
       const line=propSt.customLine;
-      const p=P[propSt.player];const idx=p.d1;const {slope,rating}=COURSES[propSt.day];const par=cTot(propSt.day);const cHcp=Math.round(idx*(slope/113)+(rating-par));
+      const p=P[propSt.player];const idx=p.idx;const par=cTot(propSt.day);const cHcp=phcp(propSt.player,propSt.day);
       document.getElementById('ps-line-num').textContent=line;
       const diff=line-baseLine;const diffStr=diff===0?'default':diff>0?'+'+diff:String(diff);
-      document.getElementById('ps-line-info').textContent=`${p.name} · Hcp ${idx} → Course hcp ${cHcp} · Par ${par} (${diffStr})`;
+      document.getElementById('ps-line-info').textContent=`${p.name} · Index ${idx} → Course hcp ${cHcp} · Par ${par} (${diffStr})`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div><div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div>`;
       if(sideStep)sideStep.style.display='';
     }else if(isBirdieOU){
