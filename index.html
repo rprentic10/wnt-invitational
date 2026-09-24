@@ -1376,28 +1376,28 @@ const ROUNDS={
             {label:'Back 9',holes:[9,17],teams:[['sheila','johnp'],['matt','petera']]}]},
   ]},
   d2:{groups:[
-    {tee:'1:40 PM',keys:['rob','sheila','matt','johna'],
-     nines:[{label:'Front 9',holes:[0,8],teams:[['rob','sheila'],['matt','johna']]},
-            {label:'Back 9',holes:[9,17],teams:[['rob','matt'],['sheila','johna']]}]},
-    {tee:'1:50 PM',keys:['steve','hardy','petera','johnp'],
-     nines:[{label:'Front 9',holes:[0,8],teams:[['steve','petera'],['hardy','johnp']]},
-            {label:'Back 9',holes:[9,17],teams:[['steve','johnp'],['hardy','petera']]}]},
+    {tee:'1:40 PM',keys:['rob','sheila','johna','johnp'],
+     nines:[{label:'Front 9',holes:[0,8],teams:[['rob','sheila'],['johna','johnp']]},
+            {label:'Back 9',holes:[9,17],teams:[['rob','johnp'],['sheila','johna']]}]},
+    {tee:'1:50 PM',keys:['steve','matt','hardy','petera'],
+     nines:[{label:'Front 9',holes:[0,8],teams:[['steve','matt'],['hardy','petera']]},
+            {label:'Back 9',holes:[9,17],teams:[['steve','petera'],['hardy','matt']]}]},
   ]},
   d3:{groups:[
-    {tee:'8:50 AM',keys:['rob','johna','petera','johnp'],
-     nines:[{label:'Front 9',holes:[0,8],teams:[['rob','johna'],['petera','johnp']]},
-            {label:'Back 9',holes:[9,17],teams:[['rob','petera'],['johna','johnp']]}]},
-    {tee:'9:00 AM',keys:['steve','hardy','sheila','matt'],
-     nines:[{label:'Front 9',holes:[0,8],teams:[['steve','hardy'],['sheila','matt']]},
-            {label:'Back 9',holes:[9,17],teams:[['steve','sheila'],['hardy','matt']]}]},
+    {tee:'8:50 AM',keys:['rob','johna','matt','petera'],
+     nines:[{label:'Front 9',holes:[0,8],teams:[['rob','johna'],['matt','petera']]},
+            {label:'Back 9',holes:[9,17],teams:[['rob','petera'],['matt','johna']]}]},
+    {tee:'9:00 AM',keys:['steve','hardy','sheila','johnp'],
+     nines:[{label:'Front 9',holes:[0,8],teams:[['steve','hardy'],['sheila','johnp']]},
+            {label:'Back 9',holes:[9,17],teams:[['steve','sheila'],['hardy','johnp']]}]},
   ]},
   d4:{groups:[
-    {tee:'10:12 AM',keys:['johna','petera','hardy','sheila'],
-     nines:[{label:'Front 9',holes:[0,8],teams:[['johna','petera'],['hardy','sheila']]},
-            {label:'Back 9',holes:[9,17],teams:[['johna','petera'],['hardy','sheila']]}]},
-    {tee:'10:24 AM',keys:['steve','matt','rob','johnp'],
-     nines:[{label:'Front 9',holes:[0,8],teams:[['steve','matt'],['rob','johnp']]},
-            {label:'Back 9',holes:[9,17],teams:[['steve','matt'],['rob','johnp']]}]},
+    {tee:'10:12 AM',keys:['hardy','sheila','johna','petera'],
+     nines:[{label:'Front 9',holes:[0,8],teams:[['hardy','sheila'],['johna','petera']]},
+            {label:'Back 9',holes:[9,17],teams:[['hardy','sheila'],['johna','petera']]}]},
+    {tee:'10:24 AM',keys:['rob','matt','steve','johnp'],
+     nines:[{label:'Front 9',holes:[0,8],teams:[['rob','matt'],['steve','johnp']]},
+            {label:'Back 9',holes:[9,17],teams:[['rob','matt'],['steve','johnp']]}]},
   ]},
 };
 const CRADLE_GROUPS=[{tee:'3:10 PM',keys:['rob','steve','hardy','johna']},{tee:'3:20 PM',keys:['sheila','matt','petera','johnp']}];
@@ -2001,14 +2001,14 @@ async function init(){
 const TEE_TIMES=[
   {date:'2026-09-24',day:'d1',course:'Pinehurst No. 4',wave:'Group 1',time24:'07:40',keys:['rob','steve','hardy','johna']},
   {date:'2026-09-24',day:'d1',course:'Pinehurst No. 4',wave:'Group 2',time24:'07:50',keys:['sheila','matt','petera','johnp']},
-  {date:'2026-09-24',day:'d2',course:'Pinehurst No. 8',wave:'Group 1',time24:'13:40',keys:['rob','sheila','matt','johna']},
-  {date:'2026-09-24',day:'d2',course:'Pinehurst No. 8',wave:'Group 2',time24:'13:50',keys:['steve','hardy','petera','johnp']},
-  {date:'2026-09-25',day:'d3',course:'Pinehurst No. 2',wave:'Group 1',time24:'08:50',keys:['rob','johna','petera','johnp']},
-  {date:'2026-09-25',day:'d3',course:'Pinehurst No. 2',wave:'Group 2',time24:'09:00',keys:['steve','hardy','sheila','matt']},
+  {date:'2026-09-24',day:'d2',course:'Pinehurst No. 8',wave:'Group 1',time24:'13:40',keys:['rob','sheila','johna','johnp']},
+  {date:'2026-09-24',day:'d2',course:'Pinehurst No. 8',wave:'Group 2',time24:'13:50',keys:['steve','matt','hardy','petera']},
+  {date:'2026-09-25',day:'d3',course:'Pinehurst No. 2',wave:'Group 1',time24:'08:50',keys:['rob','johna','matt','petera']},
+  {date:'2026-09-25',day:'d3',course:'Pinehurst No. 2',wave:'Group 2',time24:'09:00',keys:['steve','hardy','sheila','johnp']},
   {date:'2026-09-25',day:null,course:'The Cradle',wave:'Group 1',time24:'15:10',keys:['rob','steve','hardy','johna']},
   {date:'2026-09-25',day:null,course:'The Cradle',wave:'Group 2',time24:'15:20',keys:['sheila','matt','petera','johnp']},
-  {date:'2026-09-26',day:'d4',course:'Pinehurst No. 10',wave:'Group 1',time24:'10:12',keys:['johna','petera','hardy','sheila']},
-  {date:'2026-09-26',day:'d4',course:'Pinehurst No. 10',wave:'Group 2',time24:'10:24',keys:['steve','matt','rob','johnp']},
+  {date:'2026-09-26',day:'d4',course:'Pinehurst No. 10',wave:'Group 1',time24:'10:12',keys:['hardy','sheila','johna','petera']},
+  {date:'2026-09-26',day:'d4',course:'Pinehurst No. 10',wave:'Group 2',time24:'10:24',keys:['rob','matt','steve','johnp']},
 ];
 const _teeReminderFired=new Set();
 
@@ -3805,7 +3805,7 @@ function buildMyWagers(){
   const active=filtered.filter(b=>b.status==='active');
   const settled=filtered.filter(b=>b.status==='settled');
   function renderBet(b){
-    const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[b.day]||'';
+    const dayLbl=DAY_META[b.day]?.short||'';
     const statusCls=b.status==='settled'?'lbr-settled':b.status==='active'?'lbr-active':'lbr-open';
     const statusTxt=b.status==='settled'?'Settled':b.status==='active'?'Active':'Open';
     let emoji='🤝',title='',detail='',amt='$'+(b.amount||0);
@@ -3818,29 +3818,30 @@ function buildMyWagers(){
       const side=b.propSide==='under'?'Under':'Over';
       const mySide=isProp?side:(side==='Over'?'Under':'Over');
       title=`${subj} — Score ${mySide} ${b.line}`;
-      detail=`You take the ${mySide} · vs ${oppStr}`;
+      detail=`Your side: ${mySide} ${b.line} · vs ${oppStr}`;
     }else if(b.type==='birdie-ou'){
       const subj=playerName(b.player);
       const side=b.propSide==='over'?'Over':'Under';
       const mySide=isProp?side:(side==='Over'?'Under':'Over');
       title=`${subj} — Birdies ${mySide} ${b.line}`;
-      detail=`You take the ${mySide} · vs ${oppStr}`;
+      detail=`Your side: ${mySide} ${b.line} · vs ${oppStr}`;
     }else if(b.type==='h2h'||b.type==='h2h-gross'){
       const lbl=b.type==='h2h-gross'?'Gross':'Net';
       const pA=playerName(b.player),pB=playerName(b.playerB);
-      const myPick=isProp?pA:pB;
+      const propPick=b.propSide==='b'?pB:pA;
+      const myPick=isProp?propPick:(propPick===pA?pB:pA);
       title=`${pA} vs ${pB} — ${lbl} H2H`;
-      detail=`You picked ${myPick} · vs ${oppStr}`;
+      detail=`Your side: ${myPick} · vs ${oppStr}`;
     }else if(b.type==='cleancard'){
       const subj=playerName(b.player);
       const mySide=isProp?'Yes':'No';
       title=`${subj} — Clean Card?`;
-      detail=`You say ${mySide} · vs ${oppStr}`;
+      detail=`Your side: ${mySide} · vs ${oppStr}`;
     }else if(b.type==='lastplace'){
       const subj=playerName(b.player);
       const mySide=isProp?'Yes':'No';
       title=`${subj} — Last Place Net?`;
-      detail=`You say ${mySide} · vs ${oppStr}`;
+      detail=`Your side: ${mySide} · vs ${oppStr}`;
     }else if(b.type==='lownet'){
       if(b.participants&&b.participants.length>2){
         emoji='🎱';
@@ -3853,7 +3854,7 @@ function buildMyWagers(){
         const subj=playerName(b.player);
         const mySide=isProp?'Yes':'No';
         title=`${subj} — Lowest Net?`;
-        detail=`You say ${mySide} · vs ${oppStr}`;
+        detail=`Your side: ${mySide} · vs ${oppStr}`;
       }
     }else if(b.type==='lowgross'){
       if(b.participants&&b.participants.length>2){
@@ -3867,8 +3868,13 @@ function buildMyWagers(){
         const subj=playerName(b.player);
         const mySide=isProp?'Yes':'No';
         title=`${subj} — Lowest Gross?`;
-        detail=`You say ${mySide} · vs ${oppStr}`;
+        detail=`Your side: ${mySide} · vs ${oppStr}`;
       }
+    }else if(b.type==='match'){
+      const m=dayMatches(b.day)[b.matchIdx];
+      const mine=betDescMatch(b,isProp),theirs=betDescMatch(b,!isProp);
+      title=m?`${m.tee} ${m.label} — ${teamLabel(m.sA)} v ${teamLabel(m.sB)}`:'Match';
+      detail=`Your side: ${mine||'?'} · vs ${oppStr}`;
     }else if(b.type==='nassau'){
       title='Nassau';
       detail=`vs ${oppStr}`;
@@ -3899,7 +3905,7 @@ function buildMyWagers(){
       emoji='⛳';
       const n=(b.participants||[]).length;
       const opted=(b.optedIn||[]).length;
-      title=`Closest to Pin — Hole ${(b.hole??0)+1}`;
+      title=`Closest to Pin — Hole ${(b.hole??0)+1} · ${COURSES[b.day]?.short||''} (Par ${COURSES[b.day]?.par[b.hole??0]??'?'})`;
       detail=`${opted}/${n} joined · $${b.amount}/person`;
       amt='$'+b.amount;
     }else{
@@ -4954,7 +4960,7 @@ function wagerCardHTML(bet,myName){
     lineInfo=`Line: ${bet.line} (par + course handicap)`;
   } else if(bet.type==='lowgross'||bet.type==='lownet'){
     const p=P[bet.player];
-    const dayLbl={d1:'Thu · Day 1',d2:'Fri · Day 2',d3:'Sat · Day 3'}[bet.day]||bet.day;
+    const dayLbl=DAY_META[bet.day]?.long||bet.day;
     desc=`${p.name} Low ${bet.type==='lowgross'?'Gross':'Net'}`;
     lineInfo=`Lowest ${bet.type==='lowgross'?'gross':'net'} score · ${dayLbl} · vs all 8 players`;
   } else if(bet.type==='birdie-ou'){
@@ -5038,7 +5044,7 @@ function wagerCardHTML(bet,myName){
 
   return `<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${cancelBtn}
-  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${desc}</div><div class="wc-amount">$${bet.amount}</div></div>
+  <div class="wc-title-row"><div class="wc-day">${DAY_META[bet.day]?.short||bet.day}</div><div class="wc-desc">${desc}</div><div class="wc-amount">$${bet.amount}</div></div>
   <div class="wc-line">${lineInfo}</div>
   ${trendHtml}
   <div class="wc-row">
@@ -5057,7 +5063,7 @@ function poolModeCardHTML(bet,myName){
   const isActive=bet.status==='active';
   const isSettled=bet.status==='settled';
   const cardCls=isOpen?'wc-open':isSettled?'wc-settled-win':'';
-  const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day;
+  const dayLbl=DAY_META[bet.day]?.short||bet.day;
   const typeIcon={kp:'',lownet:'',lowgross:'',lastplace:'💀',cleancard:'✅'};
   const typeLabel={kp:'Closest to Pin',lownet:'Low Net Pool',lowgross:'Low Gross Pool',lastplace:'Last Place Pool',cleancard:'Clean Card Pool'};
   const holeInfo=bet.hole!=null?`Hole ${bet.hole+1}`:'';
@@ -5098,7 +5104,7 @@ function openAwardKP(betId){
   _awardKPBetId=betId;
   const bet=bets.find(b=>b.id===betId);if(!bet)return;
   const holeInfo=bet.hole!=null?`Hole ${bet.hole+1}`:'';
-  const dayLbl={d1:'Thursday',d2:'Friday',d3:'Saturday'}[bet.day]||bet.day;
+  const dayLbl=DAY_META[bet.day]?.long||bet.day;
   const participantBtns=(bet.participants||[]).map(p=>`<button class="ps-submit" style="margin-bottom:8px;background:rgba(16,36,16,.85)" onclick="confirmAwardKP('${betId}','${p}')">${p}</button>`).join('');
   document.getElementById('ac-detail').innerHTML=`
     <div style="margin-bottom:6px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(218,240,218,.38)">⛳ ${holeInfo} · ${dayLbl}</div>
@@ -5148,7 +5154,7 @@ function nassauCardHTML(bet,myName){
 
   return`<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${cancelBtn}
-  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">Nassau · Match ${bet.matchIdx+1}</div></div>
+  <div class="wc-title-row"><div class="wc-day">${DAY_META[bet.day]?.short||bet.day}</div><div class="wc-desc">Nassau · Match ${bet.matchIdx+1}</div></div>
   <div class="wc-line">${aN} vs ${bN}</div>
   <div class="nassau-note">$${bet.amount} per leg · up to $${bet.amount*3} total</div>
   <div class="wc-row">
@@ -5192,7 +5198,7 @@ function houseCardHTML(bet,myName){
   const canCancel=(isOpen||bet.status==='active')&&iAmHouse&&bet.buyins.length===0;
   return`<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:''}
-  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${playerName} · ${meta.label||bet.statType}</div></div>
+  <div class="wc-title-row"><div class="wc-day">${DAY_META[bet.day]?.short||bet.day}</div><div class="wc-desc">${playerName} · ${meta.label||bet.statType}</div></div>
   <div class="hp-stat-row"><span class="hp-stat-dir ${buyerCls}">${buyerSide}</span><span class="hp-stat-val">${bet.line}</span><span style="font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(218,240,218,.4);margin-left:2px">${meta.unit||''}</span></div>
   <div class="hp-house-row">🏠 ${bet.houseName} backs ${dirLabel} · Odds <span class="hp-odds">${oddsStr}</span></div>
   <div class="hp-buyins">${buyinChips}</div>
@@ -5223,7 +5229,7 @@ function poolCardHTML(bet,myName){
   const canCancel=isVoting&&bet.proposerName===myName&&bet.approvals.length<=1;
   return`<div class="wager-card ${cardCls}${bet.status==='active'?' wc-locked':''}">
   ${canCancel?`<button class="wc-cancel-btn" onclick="cancelBet('${bet.id}')">✕</button>`:''}
-  <div class="wc-title-row"><div class="wc-day">${{d1:'THU',d2:'FRI',d3:'SAT'}[bet.day]||bet.day}</div><div class="wc-desc">${label}</div></div>
+  <div class="wc-title-row"><div class="wc-day">${DAY_META[bet.day]?.short||bet.day}</div><div class="wc-desc">${label}</div></div>
   <div class="pool-ante-row">$${bet.buyIn} · all-in pot</div>
   <div class="pool-prize">$${prize} to winner · ${isVoting?`${(bet.approvals||[]).length}/5 approvals to lock`:(bet.status==='active'?'In progress':'Settled')}</div>
   <div class="pool-approval-chips">${chips}</div>
@@ -5344,7 +5350,7 @@ function buildLedger(){
       let statusCls='lbr-open',statusTxt='Open',desc='',emoji='🤝';
       if(b.status==='active'){statusCls='lbr-active';statusTxt='Active';}
       if(b.status==='settled'){statusCls='lbr-settled';statusTxt='Settled';}
-      const dayLbl={d1:'THU',d2:'FRI',d3:'SAT'}[b.day]||b.day;
+      const dayLbl=DAY_META[b.day]?.short||b.day;
       // Emoji by category
       if(b.type==='house-prop')emoji='🏠';
       else if(b.type==='pool')emoji='🎱';
@@ -5521,11 +5527,11 @@ const PS_TYPE_DESC={
   'birdie-ou': 'How many birdies will a player make? The line is set by handicap. Over or under — your call.',
   'h2h':       'Two players go head-to-head on net score for the day. Strokes given, best net wins.',
   'h2h-gross': 'Two players go head-to-head on raw gross score — no strokes. Best ball-striker wins.',
-  'lownet':    'Bet a player posts the lowest net score of all 8 guys on the day. Risky, but juicy.',
+  'lownet':    'Bet a player posts the lowest net score of all 8 players on the day. Risky, but juicy.',
   'cleancard': 'Will a player make it 18 holes without a double bogey or worse? A perfect card.',
-  'lastplace': 'Bet a player finishes dead last in net score across all 8. Only available Day 2+.',
+  'lastplace': 'Bet a player finishes dead last in net score across all 8.',
   'match':     "Pick a side in one of the day's scheduled match-play matchups.",
-  'nassau':    'Three separate $X bets on a Day 3 match: front 9, back 9, and overall 18. Up to 3x the action.',
+  'nassau':    'Three separate $X bets on a Saturday match: front 9, back 9, and overall 18. Up to 3x the action.',
   'kp':        'Closest to the pin on a par 3. Everyone throws in, nearest to the flag takes the pot.',
 };
 function setPropType(t){propSt.type=t;propSt.player=null;propSt.playerB=null;propSt.matchIdx=null;propSt.side=null;propSt.hole=null;propSt.participants=[];propSt.poolMode=(t==='kp'||t==='lownet');
@@ -5977,7 +5983,7 @@ function _openHouseBuyIn(bet){
 }
 function _openPoolOptIn(bet){
   acceptMode='pool-optin';
-  const dayLbl={d1:'THU · Day 1',d2:'FRI · Day 2',d3:'SAT · Day 3'}[bet.day]||bet.day;
+  const dayLbl=DAY_META[bet.day]?.long||bet.day;
   const typeLabels={kp:'Closest to Pin',lownet:'Low Net Pool',lowgross:'Low Gross Pool',lastplace:'Last Place Pool',cleancard:'Clean Card Pool'};
   const holeInfo=bet.hole!=null?` · Hole ${bet.hole+1}`:'';
   const n=bet.participants.length;
