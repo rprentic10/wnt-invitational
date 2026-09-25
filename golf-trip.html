@@ -1328,7 +1328,7 @@ const HCP_ALLOWANCE=1.0;
 
 // Players — GHIN index. Course handicaps per day are computed below (P[k].d1 … P[k].d4).
 const P = {
-  rob:    {name:'Rob',    full:'Rob Prentice',    ini:'RP',idx:7.0},
+  rob:    {name:'Rob',    full:'Rob Prentice',    ini:'RP',idx:7.4,idxByDay:{d1:7.0,d2:7.0}},
   steve:  {name:'Steve',  full:'Steve Mowe',      ini:'SM',idx:10.8},
   hardy:  {name:'Hardy',  full:'Hardy Mowe',      ini:'HM',idx:8.9},
   sheila: {name:'Sheila', full:'Sheila Nipowski', ini:'SN',idx:12.4},
@@ -1356,12 +1356,12 @@ const COURSES={
   d2:{name:'Pinehurst No. 8',short:'No. 8',tees:'Blue',rating:72.0,slope:135,
       par:[4,5,4,4,3,5,4,3,4,4,5,4,3,4,3,4,5,4],diff:[15,9,11,5,17,1,13,7,3,6,4,18,12,8,16,10,14,2],
       yds:[334,532,374,437,138,585,346,204,416,416,573,353,181,363,165,368,489,420]},
-  d3:{name:'Pinehurst No. 2',short:'No. 2',tees:'Blue',rating:75.4,slope:143,
+  d3:{name:'Pinehurst No. 2',short:'No. 2',tees:'White',rating:72.0,slope:139,
       par:[4,4,4,4,5,3,4,5,3,5,4,4,4,4,3,5,3,4],diff:[11,3,9,1,15,5,7,17,13,18,8,10,6,2,12,16,14,4],
-      yds:[393,439,350,474,508,203,393,469,174,580,455,419,375,433,183,513,185,415]},
-  d4:{name:'Pinehurst No. 10',short:'No. 10',tees:'Blue/White',rating:72.7,slope:139,
+      yds:[376,411,330,434,462,178,385,440,148,455,375,360,358,419,170,478,162,366]},
+  d4:{name:'Pinehurst No. 10',short:'No. 10',tees:'White',rating:71.5,slope:137,
       par:[4,3,5,4,4,4,3,4,4,5,3,5,4,3,4,4,3,4],diff:[5,13,11,15,9,1,17,7,3,6,14,16,2,10,12,4,18,8],
-      yds:[400,182,532,342,400,437,150,385,439,585,170,544,483,224,385,443,175,433]},
+      yds:[400,163,532,308,374,437,122,357,439,585,170,494,483,224,361,443,142,405]},
 };
 const CRADLE={name:'The Cradle',short:'Cradle',tees:'The Cradle',par:[3,3,3,3,3,3,3,3,3],yds:[113,85,66,127,56,58,92,80,112]};
 
@@ -1433,7 +1433,9 @@ function yIn(d){return COURSES[d].yds.slice(9).reduce((a,b)=>a+b,0);}
 function yTot(d){return yOut(d)+yIn(d);}
 
 // WHS course handicap: round(index × slope/113 + (rating − par))
-function courseHcp(k,day){const c=COURSES[day];return Math.round(P[k].idx*c.slope/113+(c.rating-cTot(day)));}
+// idxByDay lets an index revision apply only to rounds not yet played (Thursday stays as scored)
+function pIdx(k,day){return P[k].idxByDay?.[day]??P[k].idx;}
+function courseHcp(k,day){const c=COURSES[day];return Math.round(pIdx(k,day)*c.slope/113+(c.rating-cTot(day)));}
 Object.keys(P).forEach(k=>DAYS.forEach(d=>{P[k][d]=courseHcp(k,d);}));
 
 // ═══════════════════════════════════════════════════
@@ -5706,7 +5708,7 @@ function updateProposeUI(){
       const baseLine=calcLine(propSt.player,propSt.day);
       if(propSt.customLine==null)propSt.customLine=baseLine;
       const line=propSt.customLine;
-      const p=P[propSt.player];const idx=p.idx;const par=cTot(propSt.day);const cHcp=phcp(propSt.player,propSt.day);
+      const p=P[propSt.player];const idx=pIdx(propSt.player,propSt.day);const par=cTot(propSt.day);const cHcp=phcp(propSt.player,propSt.day);
       document.getElementById('ps-line-num').textContent=line;
       const diff=line-baseLine;const diffStr=diff===0?'default':diff>0?'+'+diff:String(diff);
       document.getElementById('ps-line-info').textContent=`${p.name} · Index ${idx} → Course hcp ${cHcp} · Par ${par} (${diffStr})`;
@@ -5715,7 +5717,7 @@ function updateProposeUI(){
     }else if(isBirdieOU){
       const line=calcBirdiesLine(propSt.player,propSt.day);
       document.getElementById('ps-line-num').textContent=line+' birdies';
-      document.getElementById('ps-line-info').textContent=`${P[propSt.player].name} · Index ${P[propSt.player].idx} · Course Hcp ${P[propSt.player][propSt.day]} · Expected ${line}`;
+      document.getElementById('ps-line-info').textContent=`${P[propSt.player].name} · Index ${pIdx(propSt.player,propSt.day)} · Course Hcp ${P[propSt.player][propSt.day]} · Expected ${line}`;
       sides.innerHTML=`<div class="ps-opt${propSt.side==='over'?' sel':''}" data-side="over" onclick="setPropSide('over')">↑ Over ${line}</div><div class="ps-opt${propSt.side==='under'?' sel':''}" data-side="under" onclick="setPropSide('under')">↓ Under ${line}</div>`;
       if(sideStep)sideStep.style.display='';
     }else if(isMatch){
