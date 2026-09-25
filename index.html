@@ -1451,6 +1451,17 @@ let acceptBetId=null;
 Object.keys(P).forEach(k=>{DAYS.forEach(d=>{SC[d][k]={};});});
 // Dirty-tracking for scores: tracks holes edited locally since last successful push
 const _scoreDirty={};
+const _myEntered={}; // holes entered on THIS device this session — used to self-heal lost writes
+function _needsRepush(remote){
+  if(!remote||!remote.scores)return false;
+  for(const dk in _myEntered){
+    const [day,k,h]=dk.split('|');
+    const lv=SC[day]?.[k]?.[h];
+    const rv=remote.scores[day]?.[k]?.[h];
+    if(lv!=null&&(rv==null||parseInt(rv)!==lv))return true;
+  }
+  return false;
+}
 const _statsDirty={};
 // Per-hole secondary stats: fh (fairway hit), gir, putts, penalty
 const STATS={};DAYS.forEach(d=>{STATS[d]={};});
@@ -1723,21 +1734,36 @@ function dedupeMessages(msgs){
   return[...map.values()].sort((a,b)=>a.ts-b.ts).slice(-150);
 }
 
+let _fetchFails=0;
+function _setOffline(on){
+  if(offlineMode===on)return;
+  offlineMode=on;
+  const b=document.getElementById('offline-banner');if(b)b.classList.toggle('show',on);
+}
 async function fetchRemote(){
-  if(offlineMode)return null;
+  // Never give up: always try. Offline mode is just a banner + a hint, not a lock.
   try{
-    const r=await fetch(`${JSONBIN}/${JSONBIN_ID}/latest`,{headers:{'X-Bin-Meta':'false','X-Master-Key':JSONBIN_KEY}});
+    const r=await fetch(`${JSONBIN}/${JSONBIN_ID}/latest`,{cache:'no-store',headers:{'X-Bin-Meta':'false','X-Master-Key':JSONBIN_KEY}});
     if(!r.ok)throw new Error(r.status);
-    return await r.json();
-  }catch(e){return null;}
+    const j=await r.json();
+    _fetchFails=0;_setOffline(false);
+    return j;
+  }catch(e){
+    _fetchFails++;
+    if(_fetchFails>=2)_setOffline(true);
+    return null;
+  }
 }
 
-let _pushInFlight=false;
+let _pushInFlight=false,_pushAgain=false;
 async function pushRemote(state,immediate){
   if(simActive)return;
   clearTimeout(saveTimer);
   saveLocal(state);
   const doIt=async()=>{
+    // Never run two pushes from this device at once — the second would fetch a
+    // pre-PUT snapshot and overwrite the first. Queue it instead.
+    if(_pushInFlight){_pushAgain=true;return;}
     // Always use FRESH state at push time (not the stale snapshot from call time)
     const fresh=getState();
     _pushInFlight=true;
@@ -1819,7 +1845,7 @@ async function pushRemote(state,immediate){
       }
       else{console.warn('Save failed',r.status);}
     }catch(e){console.warn('Push failed',e);}
-    finally{_pushInFlight=false;}
+    finally{_pushInFlight=false;if(_pushAgain){_pushAgain=false;setTimeout(doIt,50);}}
   };
   if(immediate)await doIt();
   else saveTimer=setTimeout(doIt,500);
@@ -1975,14 +2001,16 @@ async function init(){
       lastRemoteJson=JSON.stringify(data);
       if(!_simRanThisBoot){try{buildAllDays();updateLB();updateBetsBadge();buildWagers();renderChat();}catch(e){}}
     }else{
-      offlineMode=true;
-      document.getElementById('offline-banner').classList.add('show');
+      _setOffline(true); // transient — pollRemote keeps retrying and clears it on the next good fetch
     }
   }catch(e){console.warn('remote sync err',e);}
   initSyncDone=true; // only count messages as unread after this point
 
-  // Poll for updates every 10 seconds
+  // Poll for updates every 6 seconds, and immediately when the app returns to the foreground
   setInterval(pollRemote,6000);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')pollRemote();});
+  window.addEventListener('pageshow',()=>pollRemote());
+  window.addEventListener('online',()=>pollRemote());
 
   // Request notification permission (needed for Web Push on iOS 16.4+ PWA)
   if('Notification' in window && Notification.permission==='default'){
@@ -2493,7 +2521,7 @@ function closeNotifLog(e){
 }
 
 async function pollRemote(){
-  if(offlineMode||_pushInFlight)return;
+  if(_pushInFlight)return;
   // Presence heartbeat: update own timestamp every ~20s
   let presenceDirty=false;
   if(chatAuthor){
@@ -2520,6 +2548,9 @@ async function pollRemote(){
     if(!alertsReady){alertsReady=true;}
     else{runAlertChecks(_snapBefore,_wagersBefore,_statsBefore);}
   }
+  // Self-heal: if a score I entered on this device is missing from the bin
+  // (clobbered by a concurrent push from another phone), re-push it now.
+  if(!_pushInFlight&&_needsRepush(data)){pushRemote(getState(),true);return;}
   // Auto-close unconfirmed wagers past tee time
   _autoCloseWagers();
   // Always refresh presence dots (time-based active/inactive can change without remote data changing)
@@ -2537,6 +2568,7 @@ function onScore(day,key,h,val){
   const v=parseInt(val);
   SC[day][key][h]=(isNaN(v)||v<1)?null:v;
   _scoreDirty[day+'|'+key+'|'+h]=true;
+  _myEntered[day+'|'+key+'|'+h]=true;
   buildDay(day);
   updateLB();
   pushRemote(getState(),false);
